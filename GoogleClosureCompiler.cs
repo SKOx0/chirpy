@@ -25,7 +25,7 @@ namespace Zippy.Chirp
         /// <returns>A compressed version of the specified JavaScript file.</returns>
         public static string Compress(string fileName, ClosureCompilerCompressMode compressMode)
         {
-            if (!File.Exists(fileName)) throw new Exception("File does not exist: " + fileName);
+            if (!File.Exists(fileName)) throw new FileNotFoundException("File does not exist: " + fileName);
 
             string js = File.ReadAllText(fileName);
 

@@ -72,6 +72,30 @@ namespace Zippy.Chirp.Tests
             x_css = TextFromFile(x_css_path);
         }
 
+        #region "test Javascript"
+        /// <summary>
+        /// Test file is not found throw filenotfoundexception
+        /// </summary>
+        [TestMethod()]
+        public void TestJSFileNotFound()
+        {
+            try
+            {
+                GoogleClosureCompiler.Compress("w:\test.js", ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
+            }
+            catch (FileNotFoundException eError)
+            { 
+                
+            }
+            catch(Exception eError)
+            {
+                Assert.Fail("Wrong exception throw " + eError.GetType().ToString());
+            }
+        }
+
+        /// <summary>
+        /// Test GoogleClosureCompiler too large
+        /// </summary>
         [TestMethod()]
         public void TestJsFileA()
         {
@@ -81,14 +105,20 @@ namespace Zippy.Chirp.Tests
             Assert.IsTrue(a_min_js.Contains(min));
         }
 
+        /// <summary>
+        /// Test GoogleClosureCompiler mode WHITESPACE_ONLY
+        /// </summary>
         [TestMethod()]
         public void TestJsFileB()
         {
             string file =FilePath(b_whitespace_js_path);
-            string min = GoogleClosureCompiler.Compress(file, "WHITESPACE_ONLY");
+            string min = GoogleClosureCompiler.Compress(file,ClosureCompilerCompressMode.WHITESPACE_ONLY);
             Assert.AreEqual(min, b_min_js);
         }
 
+        /// <summary>
+        /// Test YUI compress
+        /// </summary>
         [TestMethod()]
         public void TestJsFileC()
         {
@@ -96,11 +126,14 @@ namespace Zippy.Chirp.Tests
             Assert.AreEqual(min, c_min_js);
         }
 
+        /// <summary>
+        /// Test GoogleClosureCompiler mode SIMPLE_OPTIMIZATIONS
+        /// </summary>
         [TestMethod()]
         public void TestJsFileD()
         {
             string file =FilePath(d_simple_js_path);
-            string min = GoogleClosureCompiler.Compress(file, "SIMPLE_OPTIMIZATIONS");
+            string min = GoogleClosureCompiler.Compress(file,ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS );
             Assert.AreEqual(d_min_js, min);
         }
 
@@ -122,6 +155,11 @@ namespace Zippy.Chirp.Tests
             Assert.IsTrue(z_js.Contains(d_min_js), "d");
         }
 
+
+
+        #endregion
+
+        #region "test CSS"
         [TestMethod()]
         public void TestCssFileA()
         {
@@ -142,6 +180,9 @@ namespace Zippy.Chirp.Tests
             Assert.IsTrue(x_css.Contains(a_min_css), "a");
             Assert.IsTrue(x_css.Contains(b_min_css), "b");
         }
+        #endregion
+
+        #region "test less"
 
         private static string LessToCss(string css, string fileName)
         {
@@ -161,6 +202,8 @@ namespace Zippy.Chirp.Tests
             Directory.SetCurrentDirectory(current);
             return cssText;
         }
+
+        #endregion
 
         private static string FilePath(string relFileName)
         {
