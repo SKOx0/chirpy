@@ -1,0 +1,6 @@
+﻿<root>
+  <FileGroup Name="x.css">
+    <File Path="a.min.css" Minify="false"/>
+    <Folder Path="/" Type="*.chirp.less" />
+  </FileGroup>
+</root>

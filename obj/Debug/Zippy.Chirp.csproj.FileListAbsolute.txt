@@ -1,0 +1,29 @@
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\dotless.Core.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Yahoo.Yui.Compressor.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\EcmaScript.NET.modified.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\dotless.Core.pdb
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\Zippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\EcmaScript.NET.modified.dll

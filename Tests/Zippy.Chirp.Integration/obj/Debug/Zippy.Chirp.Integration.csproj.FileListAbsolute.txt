@@ -1,0 +1,16 @@
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.pdb
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.pdb
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\dotless.Core.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\Yahoo.Yui.Compressor.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\Zippy.dll
+C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.Integration\bin\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.pdb
