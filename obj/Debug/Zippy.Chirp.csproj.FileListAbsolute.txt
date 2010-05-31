@@ -27,3 +27,9 @@ C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.dll
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.pdb
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\EcmaScript.NET.modified.dll
+C:\projects\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\projects\Chirpy\obj\Debug\Zippy.pdb
+C:\projects\Chirpy\bin\Zippy.dll
+C:\projects\Chirpy\bin\Zippy.pdb
+C:\projects\Chirpy\obj\Debug\Zippy.dll

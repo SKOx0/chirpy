@@ -11,40 +11,77 @@ namespace Zippy.Chirp
     public class GoogleClosureCompiler
     {
 
-        private const string PostData = "js_code={0}&output_format=xml&output_info=compiled_code&compilation_level={1}";
+        private const string PostData = "js_code={0}&output_format=xml&output_info=errors&output_info=compiled_code&compilation_level={1}";
         private const string ApiEndpoint = "http://closure-compiler.appspot.com/compile";
 
         /// <summary>
         /// Compresses the specified file using Google's Closure Compiler algorithm.
         /// <remarks>
-        /// The file to compress must be smaller than 200 kilobytes.
+        /// The file to compress must be smaller than 200,000 bytes.
         /// </remarks>
         /// </summary>
         /// <param name="js">javascript to compiler.</param>
         /// <param name="compressMode">SIMPLE_OPTIMIZATIONS,WHITESPACE_ONLY,ADVANCED_OPTIMIZATIONS</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
-        public static string Compress(string fileName,  string compressMode)
+        public static string Compress(string fileName, ClosureCompilerCompressMode compressMode)
         {
             if (!File.Exists(fileName)) throw new Exception("File does not exist: " + fileName);
 
             string js = File.ReadAllText(fileName);
-            if (string.IsNullOrEmpty(js)) return string.Empty;
 
+           
+            if (string.IsNullOrEmpty(js)) return string.Empty;
+            
             try
             {
                 long size = new FileInfo(fileName).Length;
-                if (size < 160000)
+                if (size < 200000)
                 {
-                    if (string.IsNullOrEmpty(compressMode)) compressMode = "SIMPLE_OPTIMIZATIONS";
-
+                    
                     //string source = File.ReadAllText(file);
-                    XmlDocument xml = CallApi(js, compressMode);
+                   XmlDocument xml = CallApi(js, compressMode.ToString());
 
+
+                    //valid have server error
+                    XmlNodeList NodeServerError = xml.SelectNodes("//serverErrors");
+                    if (NodeServerError.Count > 0)
+                    {
+                        string ErrorText = string.Empty;
+                        foreach (XmlNode node in NodeServerError)
+                        {
+                            if (!string.IsNullOrEmpty(ErrorText))
+                                ErrorText += System.Environment.NewLine;
+                            ErrorText += node.InnerText;
+                        }
+                        throw new Exception(ErrorText);
+                    }
+
+                    //valid have Javascript error
+                    XmlNodeList NodeError = xml.SelectNodes("//errors");
+                    if (NodeError.Count > 0)
+                    {
+                        string ErrorText = string.Empty;
+                        foreach (XmlNode node in NodeError)
+                        {
+                            if (!string.IsNullOrEmpty(ErrorText))
+                                ErrorText += System.Environment.NewLine;
+
+                            if (node.Attributes["lineno"] == null && node.Attributes["charno"] == null)
+                                ErrorText += node.InnerText;
+                            else
+                                ErrorText += string.Format("type: {0} Line : {1} Char : {2} Error : {3}",
+                                    node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
+                                    node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,
+                                    node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty,
+                                    node.InnerText);
+                        }
+                        throw new Exception(ErrorText);
+                    }
                     return xml.SelectSingleNode("//compiledCode").InnerText;
                 }
                 else
                 {
-                    //file too large
+                    //file too large (use YUI compressor)
                     string exceptionMessage = "//file size too large for Google: " + size.ToString("#,#") + Environment.NewLine;
                     return exceptionMessage + JavaScriptCompressor.Compress(js);
                 }

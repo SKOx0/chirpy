@@ -82,11 +82,14 @@ namespace Zippy.Chirp.Manager
             }
 
             // Remove unused items
-            foreach (ProjectItem item in _projectItem.ProjectItems)
+            if (_projectItem.ProjectItems != null)
             {
-                if (!_filesAdded.ContainsKey(item.get_FileNames(0)))
+                foreach (ProjectItem item in _projectItem.ProjectItems)
                 {
-                    item.Delete();
+                    if (!_filesAdded.ContainsKey(item.get_FileNames(0)))
+                    {
+                        item.Delete();
+                    }
                 }
             }
 
@@ -106,24 +109,52 @@ namespace Zippy.Chirp.Manager
                 else
                 {
                     // File exists - find out if it is added to the projectItem
-
-                    if (ContainsItem(_projectItem.ProjectItems, fullFileName))
+                    if (_projectItem.ProjectItems != null)
                     {
-                        // File is already added to the projectItem
-                        _filesCreated.Add(fullFileName);
-
-                        if (File.ReadAllText(fullFileName) != file.Value)
+                        if (ContainsItem(_projectItem.ProjectItems, fullFileName))
                         {
-                            // Content was different
-                            CheckoutFileIfRequired(fullFileName);
-                            File.WriteAllText(fullFileName, file.Value);
+                            // File is already added to the projectItem
+                            _filesCreated.Add(fullFileName);
+
+                            if (File.ReadAllText(fullFileName) != file.Value)
+                            {
+                                // Content was different
+                                CheckoutFileIfRequired(fullFileName);
+                                File.WriteAllText(fullFileName, file.Value);
+                            }
+                        }
+                        else
+                        {
+                            // File exists but is not added to the projectItem
+                            // For a security reason dont overwrite - instead let the user know
+                            MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");
                         }
                     }
                     else
                     {
-                        // File exists but is not added to the projectItem
-                        // For a security reason dont overwrite - instead let the user know
-                        MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");
+                        //visual studio 2010
+                        for (short i = 0; i <= _projectItem.FileCount; i++)
+                        {
+
+                            fullFileName = _projectItem.FileNames[i];
+                            // File is already added to the projectItem
+                            _filesCreated.Add(fullFileName);
+
+                            if (File.ReadAllText(fullFileName) != file.Value)
+                            {
+                                // Content was different
+                                CheckoutFileIfRequired(fullFileName);
+                                //File.WriteAllText(fullFileName, file.Value);
+                                File.WriteAllText(file.Key, file.Value);
+                            }
+
+                            else
+                            {
+                                // File exists but is not added to the projectItem
+                                // For a security reason dont overwrite - instead let the user know
+                                MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");
+                            }
+                        }
                     }
                 }
             }
@@ -210,8 +241,8 @@ namespace Zippy.Chirp.Manager
 
             // Er det et problem den tilføjer hvis den allerede er tilføjet ? 
             // Tjek om allerede tilføjet inden ? if (!ContainsItem(x)) .... ?
-
-            projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
+            if(projectItem.ProjectItems !=null)
+                projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
         }
         internal static void AddItems(ProjectItem projectItem, IEnumerable<String> filesToAdd)
         {
