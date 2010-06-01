@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ClosureCompilerCompressMode.cs" />
+    <Compile Include="GoogleClosureCompilerErrorException.cs" />
     <Compile Include="GoogleClosureCompiler.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
     <Compile Include="Xml\FileGroupXml.cs" />

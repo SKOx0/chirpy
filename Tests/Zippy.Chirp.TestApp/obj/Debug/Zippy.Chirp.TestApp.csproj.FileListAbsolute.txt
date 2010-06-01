@@ -3,3 +3,8 @@ C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zi
 C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.TestApp\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.dll
 C:\Users\Weirdlover\documents\visual studio 2010\Projects\Zippy.Chirp.TestApp\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.pdb
+C:\projects\Chirpy\Tests\Zippy.Chirp.TestApp\bin\Debug\Zippy.Chirp.TestApp.dll
+C:\projects\Chirpy\Tests\Zippy.Chirp.TestApp\bin\Debug\Zippy.Chirp.TestApp.pdb
+C:\projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.dll
+C:\projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.pdb

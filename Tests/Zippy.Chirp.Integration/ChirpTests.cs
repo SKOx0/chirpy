@@ -33,7 +33,9 @@ namespace Zippy.Chirp.Tests
         static string b_min_css;
         static string x_css; //config
 
+        
         //File Paths
+        const string Error_chirp_js_path = @"scripts\error.chirp.js";
         const string a_chirp_js_path = @"scripts\a.chirp.js";
         const string a_min_js_path = @"scripts\a.min.js";
         const string b_whitespace_js_path = @"scripts\b.whitespace.js";
@@ -88,6 +90,24 @@ namespace Zippy.Chirp.Tests
                 
             }
             catch(Exception eError)
+            {
+                Assert.Fail("Wrong exception throw " + eError.GetType().ToString());
+            }
+        }
+
+        [TestMethod()]
+        public void TestJSThrowGoogleErrorJS()
+        {
+            try
+            {
+              string min=  GoogleClosureCompiler.Compress(FilePath(Error_chirp_js_path), ClosureCompilerCompressMode.WHITESPACE_ONLY);
+               
+            }
+            catch (GoogleClosureCompilerErrorException  eError)
+            {
+
+            }
+            catch (Exception eError)
             {
                 Assert.Fail("Wrong exception throw " + eError.GetType().ToString());
             }

@@ -58,6 +58,7 @@
       <DependentUpon>d.simple.js</DependentUpon>
     </Content>
     <Content Include="Scripts\d.simple.js" />
+    <Content Include="Scripts\error.chirp.js" />
     <Content Include="Scripts\jquery-1.3.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.3.2.js" />
     <Content Include="Scripts\jquery-1.3.2.min-vsdoc.js" />
