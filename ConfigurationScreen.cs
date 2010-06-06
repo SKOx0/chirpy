@@ -33,6 +33,9 @@ namespace Zippy.Chirp
             txtChirpSimpleJsFile.Text = Settings.ChirpSimpleJsFile;
             txtChirpWhiteSpaceJsFile.Text = Settings.ChirpWhiteSpaceJsFile;
             txtChirpYUIJsFile.Text = Settings.ChirpYUIJsFile;
+            chkT4RunOnBuild.Checked = Settings.T4RunAsBuild;
+            txtT4RunAsBuildTemplate.Enabled = chkT4RunOnBuild.Checked;
+            txtT4RunAsBuildTemplate.Text=Settings.T4RunAsBuildTemplate;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()
@@ -54,8 +57,17 @@ namespace Zippy.Chirp
             Settings.ChirpSimpleJsFile=txtChirpSimpleJsFile.Text;
             Settings.ChirpWhiteSpaceJsFile=txtChirpWhiteSpaceJsFile.Text;
             Settings.ChirpYUIJsFile=txtChirpYUIJsFile.Text;
+            Settings.T4RunAsBuild=chkT4RunOnBuild.Checked;
+            Settings.T4RunAsBuildTemplate = txtT4RunAsBuildTemplate.Text;
             Settings.Save();
         }
         #endregion
+
+        private void chkT4RunOnBuild_CheckedChanged(object sender, EventArgs e)
+        {
+            txtT4RunAsBuildTemplate.Enabled = chkT4RunOnBuild.Checked;
+        }
+
+       
     }
 }

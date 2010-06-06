@@ -43,7 +43,8 @@ namespace Zippy.Chirp
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpConfigFile = ".chirp.config";
 
-
+        public static bool  T4RunAsBuild = false;
+        public static string T4RunAsBuildTemplate = string.Empty ;
         #endregion
 
         #region Public Methods
@@ -67,7 +68,11 @@ namespace Zippy.Chirp
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
 
+                    Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
+                    Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
+
                 }
+                
             }
             catch (Exception ex)
             {
@@ -79,6 +84,7 @@ namespace Zippy.Chirp
                     regKey.Close();
             }
         }
+
 
         /// <summary>
         /// Saves options page settings to registry.
@@ -99,6 +105,9 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
                 regKey.SetValue("ChirpconfigFile", Settings.ChirpConfigFile);
+
+                regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
+                regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
             }
             catch (Exception ex)
             {
