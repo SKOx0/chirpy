@@ -1,4 +1,5 @@
 body .imported { background-color: Red; }
+#bChirpCssTest { background-color: Green; }
 .ui-helper-hidden, .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
 .ui-helper-hidden-accessible {
   position: absolute;

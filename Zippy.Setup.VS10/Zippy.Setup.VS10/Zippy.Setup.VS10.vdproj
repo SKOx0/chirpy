@@ -15,8 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_01C9C29BD37F10B66D35F0D24D8DB21B"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "MsmKey" = "8:_0F26D67D8ECDDC4A6F81D0FF1214287B"
+        "OwnerKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -28,55 +28,37 @@
         "Entry"
         {
         "MsmKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "OwnerKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "MsmKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_395D7731570F68C48E5A035F3BDD3951"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "MsmKey" = "8:_6C63029285DD49322A58845F11E610A1"
+        "OwnerKey" = "8:_91450231F2CF7F802A1B09930F724B04"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3D5056A7CD2F452789DAF7C495F3CF58"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5927821E12AE4BDEA43934575EE8D60B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78A0F7D7891FC5A581F1B96F5970B3DC"
-        "OwnerKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78A0F7D7891FC5A581F1B96F5970B3DC"
-        "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_840991FF53CB42CF93BD99EF7803CE10"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_6C63029285DD49322A58845F11E610A1"
+        "OwnerKey" = "8:_0F26D67D8ECDDC4A6F81D0FF1214287B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_8AD6A3268E027E0E93A8DA36C4DF115F"
         "OwnerKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_91450231F2CF7F802A1B09930F724B04"
+        "OwnerKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,31 +70,25 @@
         "Entry"
         {
         "MsmKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "OwnerKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EA4C389929CE1E34A24110837E053E3A"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3D5056A7CD2F452789DAF7C495F3CF58"
+        "MsmKey" = "8:_F0BA3724B1AC41E6B66F3EE244936829"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_32CDC6EE66A6450F8BC74E5809BBD795"
+        "OwnerKey" = "8:_6C63029285DD49322A58845F11E610A1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EA4C389929CE1E34A24110837E053E3A"
+        "OwnerKey" = "8:_32F15CCB7C6445ADAAC109A7A9F93FB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,25 +106,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_78A0F7D7891FC5A581F1B96F5970B3DC"
+        "OwnerKey" = "8:_0F26D67D8ECDDC4A6F81D0FF1214287B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_01C9C29BD37F10B66D35F0D24D8DB21B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_395D7731570F68C48E5A035F3BDD3951"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5927821E12AE4BDEA43934575EE8D60B"
+        "OwnerKey" = "8:_91450231F2CF7F802A1B09930F724B04"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -256,14 +220,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_01C9C29BD37F10B66D35F0D24D8DB21B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0F26D67D8ECDDC4A6F81D0FF1214287B"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Yahoo.Yui.Compressor, Version=1.4.1.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_01C9C29BD37F10B66D35F0D24D8DB21B"
+                    "_0F26D67D8ECDDC4A6F81D0FF1214287B"
                     {
                     "Name" = "8:Yahoo.Yui.Compressor.DLL"
                     "Attributes" = "3:512"
@@ -314,24 +278,24 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_32CDC6EE66A6450F8BC74E5809BBD795"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_32F15CCB7C6445ADAAC109A7A9F93FB5"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Zippy, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Zippy, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_32CDC6EE66A6450F8BC74E5809BBD795"
+                    "_32F15CCB7C6445ADAAC109A7A9F93FB5"
                     {
                     "Name" = "8:Zippy.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\Zippy.dll"
+            "SourcePath" = "8:..\\..\\bin\\Zippy.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
@@ -349,14 +313,65 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_395D7731570F68C48E5A035F3BDD3951"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6C63029285DD49322A58845F11E610A1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_6C63029285DD49322A58845F11E610A1"
+                    {
+                    "Name" = "8:EcmaScript.NET.modified.DLL"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EcmaScript.NET.modified.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AD6A3268E027E0E93A8DA36C4DF115F"
+            {
+            "SourcePath" = "8:dte80a.olb"
+            "TargetName" = "8:dte80a.olb"
+            "Tag" = "8:"
+            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_91450231F2CF7F802A1B09930F724B04"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:dotless.Core, Version=1.0.0.5, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_395D7731570F68C48E5A035F3BDD3951"
+                    "_91450231F2CF7F802A1B09930F724B04"
                     {
                     "Name" = "8:dotless.Core.DLL"
                     "Attributes" = "3:512"
@@ -380,139 +395,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3D5056A7CD2F452789DAF7C495F3CF58"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:dotless.Core, Version=1.0.0.5, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_3D5056A7CD2F452789DAF7C495F3CF58"
-                    {
-                    "Name" = "8:dotless.Core.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\dotless.Core.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5927821E12AE4BDEA43934575EE8D60B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Yahoo.Yui.Compressor, Version=1.4.1.0, Culture=neutral, PublicKeyToken=f8b4b81ec75097e2, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_5927821E12AE4BDEA43934575EE8D60B"
-                    {
-                    "Name" = "8:Yahoo.Yui.Compressor.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Yahoo.Yui.Compressor.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78A0F7D7891FC5A581F1B96F5970B3DC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_78A0F7D7891FC5A581F1B96F5970B3DC"
-                    {
-                    "Name" = "8:stdole.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:stdole.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_840991FF53CB42CF93BD99EF7803CE10"
-            {
-            "SourcePath" = "8:..\\Zippy.Chirp.AddIn"
-            "TargetName" = "8:Zippy.Chirp.AddIn"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AD6A3268E027E0E93A8DA36C4DF115F"
-            {
-            "SourcePath" = "8:dte80a.olb"
-            "TargetName" = "8:dte80a.olb"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BCBBA6EA8A8BF83588D6F97848C75385"
             {
             "SourcePath" = "8:dte80.olb"
@@ -529,7 +411,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -560,25 +442,14 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EA4C389929CE1E34A24110837E053E3A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F0BA3724B1AC41E6B66F3EE244936829"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_EA4C389929CE1E34A24110837E053E3A"
-                    {
-                    "Name" = "8:Extensibility.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Extensibility.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\..\\bin\\Zippy.Chirp.AddIn"
+            "TargetName" = "8:Zippy.Chirp.AddIn"
             "Tag" = "8:"
             "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
             "Condition" = "8:"
@@ -591,8 +462,8 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
