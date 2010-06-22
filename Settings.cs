@@ -45,6 +45,7 @@ namespace Zippy.Chirp
 
         public static bool  T4RunAsBuild = false;
         public static string T4RunAsBuildTemplate = string.Empty ;
+        public static bool SmartRunT4MVC = false;
         #endregion
 
         #region Public Methods
@@ -70,6 +71,7 @@ namespace Zippy.Chirp
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
+                    Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
 
                 }
                 
@@ -108,6 +110,9 @@ namespace Zippy.Chirp
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
+
+                regKey.SetValue("SmartRunT4MVC", Settings.SmartRunT4MVC.ToString());
+
             }
             catch (Exception ex)
             {

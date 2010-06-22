@@ -36,6 +36,7 @@ namespace Zippy.Chirp
             chkT4RunOnBuild.Checked = Settings.T4RunAsBuild;
             txtT4RunAsBuildTemplate.Enabled = chkT4RunOnBuild.Checked;
             txtT4RunAsBuildTemplate.Text=Settings.T4RunAsBuildTemplate;
+            chkSmartRunT4MVC.Checked = Settings.SmartRunT4MVC;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()
@@ -59,6 +60,7 @@ namespace Zippy.Chirp
             Settings.ChirpYUIJsFile=txtChirpYUIJsFile.Text;
             Settings.T4RunAsBuild=chkT4RunOnBuild.Checked;
             Settings.T4RunAsBuildTemplate = txtT4RunAsBuildTemplate.Text;
+            Settings.SmartRunT4MVC = chkSmartRunT4MVC.Checked;
             Settings.Save();
         }
         #endregion

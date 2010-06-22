@@ -43,9 +43,10 @@
             this.txtChirpConfigFile = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkT4RunOnBuild = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.chkSmartRunT4MVC = new System.Windows.Forms.CheckBox();
             this.txtT4RunAsBuildTemplate = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.chkT4RunOnBuild = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -171,15 +172,44 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkSmartRunT4MVC);
             this.groupBox1.Controls.Add(this.txtT4RunAsBuildTemplate);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.chkT4RunOnBuild);
             this.groupBox1.Location = new System.Drawing.Point(0, 197);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(312, 104);
+            this.groupBox1.Size = new System.Drawing.Size(315, 106);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "T4 template";
+            // 
+            // chkSmartRunT4MVC
+            // 
+            this.chkSmartRunT4MVC.AutoSize = true;
+            this.chkSmartRunT4MVC.Location = new System.Drawing.Point(105, 28);
+            this.chkSmartRunT4MVC.Name = "chkSmartRunT4MVC";
+            this.chkSmartRunT4MVC.Size = new System.Drawing.Size(110, 17);
+            this.chkSmartRunT4MVC.TabIndex = 3;
+            this.chkSmartRunT4MVC.Text = "Smart run T4MVC";
+            this.chkSmartRunT4MVC.UseVisualStyleBackColor = true;
+            // 
+            // txtT4RunAsBuildTemplate
+            // 
+            this.txtT4RunAsBuildTemplate.Location = new System.Drawing.Point(74, 57);
+            this.txtT4RunAsBuildTemplate.Multiline = true;
+            this.txtT4RunAsBuildTemplate.Name = "txtT4RunAsBuildTemplate";
+            this.txtT4RunAsBuildTemplate.Size = new System.Drawing.Size(232, 41);
+            this.txtT4RunAsBuildTemplate.TabIndex = 2;
+            this.txtT4RunAsBuildTemplate.Text = "T4MVC.tt,NHibernateMapping.tt";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(11, 57);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Template :";
             // 
             // chkT4RunOnBuild
             // 
@@ -192,28 +222,11 @@
             this.chkT4RunOnBuild.UseVisualStyleBackColor = true;
             this.chkT4RunOnBuild.CheckedChanged += new System.EventHandler(this.chkT4RunOnBuild_CheckedChanged);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(11, 57);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Template :";
-            // 
-            // txtT4RunAsBuildTemplate
-            // 
-            this.txtT4RunAsBuildTemplate.Location = new System.Drawing.Point(74, 57);
-            this.txtT4RunAsBuildTemplate.Multiline = true;
-            this.txtT4RunAsBuildTemplate.Name = "txtT4RunAsBuildTemplate";
-            this.txtT4RunAsBuildTemplate.Size = new System.Drawing.Size(232, 41);
-            this.txtT4RunAsBuildTemplate.TabIndex = 2;
-            this.txtT4RunAsBuildTemplate.Text = "T4MVC.tt,NHibernateMapping.tt";
-            // 
             // ConfigurationScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtChirpConfigFile);
             this.Controls.Add(this.label7);
@@ -230,7 +243,7 @@
             this.Controls.Add(this.txtChirpJsFile);
             this.Controls.Add(this.label1);
             this.Name = "ConfigurationScreen";
-            this.Size = new System.Drawing.Size(315, 318);
+            this.Size = new System.Drawing.Size(315, 308);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -258,6 +271,7 @@
         private System.Windows.Forms.CheckBox chkT4RunOnBuild;
         private System.Windows.Forms.TextBox txtT4RunAsBuildTemplate;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkSmartRunT4MVC;
 
     }
 }
