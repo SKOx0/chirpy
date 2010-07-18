@@ -29,3 +29,9 @@ C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chir
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.Integration\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.dll
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.Chirp.Integration.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\bin\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.Integration\obj\Debug\Zippy.Chirp.Integration.pdb

@@ -34,12 +34,13 @@ namespace Zippy.Chirp
 
         #region Properties
 
-
         public static string ChirpJsFile = ".chirp.js";
         public static string ChirpSimpleJsFile = ".simple.js";
         public static string ChirpWhiteSpaceJsFile = ".whitespace.js";
         public static string ChirpYUIJsFile = ".yui.js";
+        public static string ChirpGctJsFile = ".gct.js";
         public static string ChirpLessFile = ".chirp.less";
+        public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpConfigFile = ".chirp.config";
 
@@ -65,16 +66,16 @@ namespace Zippy.Chirp
                     Settings.ChirpSimpleJsFile = Convert.ToString(regKey.GetValue("ChirpSimpleJsFile", ".simple.js"));
                     Settings.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
                     Settings.ChirpYUIJsFile = Convert.ToString(regKey.GetValue("ChirpYUIJsFile", ".yui.js"));
+                    Settings.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
                     Settings.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
+                    Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
                     Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
-
                 }
-                
             }
             catch (Exception ex)
             {
@@ -83,7 +84,9 @@ namespace Zippy.Chirp
             finally
             {
                 if (regKey != null)
+                {
                     regKey.Close();
+                }
             }
         }
 
@@ -98,14 +101,18 @@ namespace Zippy.Chirp
             {
                 regKey = Registry.CurrentUser.OpenSubKey(_regWDS, true);
                 if (regKey == null)
+                {
                     regKey = Registry.CurrentUser.CreateSubKey(_regWDS);
+                }
 
                 regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
                 regKey.SetValue("ChirpJsFile", Settings.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", Settings.ChirpLessFile);
+                regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
                 regKey.SetValue("ChirpSimpleJsFile", Settings.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
+                regKey.SetValue("ChirpGctJsFile", Settings.ChirpGctJsFile);
                 regKey.SetValue("ChirpconfigFile", Settings.ChirpConfigFile);
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
@@ -121,10 +128,11 @@ namespace Zippy.Chirp
             finally
             {
                 if (regKey != null)
+                {
                     regKey.Close();
+                }
             }
         }
-
         #endregion
     }
 }

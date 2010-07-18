@@ -43,15 +43,19 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dotless.Core, Version=1.0.0.5, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+    <Reference Include="dotless.Core, Version=1.1.0.2, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ZipCssLessDemo\ZipCssLessDemo\bin\dotless.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Downloads\dotless-v1.1.0.2-26-gd3370bd\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -87,10 +91,13 @@
     <Compile Include="ConfigurationScreen.Designer.cs">
       <DependentUpon>ConfigurationScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="EcmaScriptErrorReporter.cs" />
     <Compile Include="GoogleClosureCompilerErrorException.cs" />
     <Compile Include="GoogleClosureCompiler.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TaskList.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Xml\FileGroupXml.cs" />
     <Compile Include="Xml\FileXml.cs" />
     <Compile Include="Xml\FolderXml.cs" />

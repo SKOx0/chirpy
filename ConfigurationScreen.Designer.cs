@@ -65,8 +65,8 @@
             this.txtChirpJsFile.Name = "txtChirpJsFile";
             this.txtChirpJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpJsFile.TabIndex = 1;
-            this.txtChirpJsFile.Tag = "ChipJsFile";
-            this.txtChirpJsFile.Text = ".chirp.js";
+            this.txtChirpJsFile.Tag = "ChipJsGctFile";
+            this.txtChirpJsFile.Text = ".gct.js";
             // 
             // txtChirpSimpleJsFile
             // 

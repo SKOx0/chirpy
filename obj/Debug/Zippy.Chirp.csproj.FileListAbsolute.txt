@@ -42,3 +42,14 @@ C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\bin\TempZippy.dl
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\bin\TempZippy.pdb
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\TempZippy.dll
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\TempZippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\TempZippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\TempZippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\TempZippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\TempZippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\dotless.Core.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\dotless.Core.pdb

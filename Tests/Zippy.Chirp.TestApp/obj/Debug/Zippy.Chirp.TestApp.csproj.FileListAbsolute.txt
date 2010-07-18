@@ -13,3 +13,8 @@ C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chir
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.TestApp\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.dll
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.TestApp\bin\Debug\Zippy.Chirp.TestApp.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.TestApp\bin\Debug\Zippy.Chirp.TestApp.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\Zippy.Chirp.TestApp\obj\Debug\Zippy.Chirp.TestApp.pdb

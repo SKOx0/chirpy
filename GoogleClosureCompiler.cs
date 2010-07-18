@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Web;
-using System.Xml;
 using System.IO;
 using System.Net;
-using System.Windows.Forms;
+using System.Web;
+using System.Xml;
 using Yahoo.Yui.Compressor;
+using System.Windows.Forms;
 
 namespace Zippy.Chirp
 {
@@ -23,23 +23,19 @@ namespace Zippy.Chirp
         /// <param name="js">javascript to compiler.</param>
         /// <param name="compressMode">SIMPLE_OPTIMIZATIONS,WHITESPACE_ONLY,ADVANCED_OPTIMIZATIONS</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
-        public static string Compress(string fileName, ClosureCompilerCompressMode compressMode)
+        public static string Compress(string fileName, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError)
         {
             if (!File.Exists(fileName)) throw new FileNotFoundException("File does not exist: " + fileName);
 
             string js = File.ReadAllText(fileName);
 
-
             if (string.IsNullOrEmpty(js)) return string.Empty;
-
 
             long size = new FileInfo(fileName).Length;
             if (size < 200000)
             {
-
                 //string source = File.ReadAllText(file);
                 XmlDocument xml = CallApi(js, compressMode.ToString());
-
 
                 //valid have server error
                 XmlNodeList NodeServerError = xml.SelectNodes("//serverErrors");
@@ -51,6 +47,7 @@ namespace Zippy.Chirp
                         if (!string.IsNullOrEmpty(ErrorText))
                             ErrorText += System.Environment.NewLine;
                         ErrorText += node.InnerText;
+                        onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, node.InnerText, 1, 1);
                     }
                     throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
@@ -73,6 +70,11 @@ namespace Zippy.Chirp
                                 node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,
                                 node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty,
                                 node.InnerText);
+
+                        onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+                             node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
+                             (node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty).ToInt(1),
+                             (node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty).ToInt(1));
                     }
                     throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
@@ -81,11 +83,12 @@ namespace Zippy.Chirp
             else
             {
                 //file too large (use YUI compressor)
-                string exceptionMessage = "//file size too large for Google: " + size.ToString("#,#") + Environment.NewLine;
-                return exceptionMessage + JavaScriptCompressor.Compress(js);
+                string exceptionMessage = "file size too large for Google: " + size.ToString("#,#");
+                onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, exceptionMessage, 1, 1);
+                return "//" + exceptionMessage + Environment.NewLine + JavaScriptCompressor.Compress(js);
             }
         }
-           
+
 
 
 
