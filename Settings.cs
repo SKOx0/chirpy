@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace Zippy.Chirp
-{
+namespace Zippy.Chirp {
 
 
     /// <summary>
     /// Used by WDS add-in to save and retrieve its options from the registry.
     /// </summary>
-    public class Settings
-    {
+    public class Settings {
         #region Private Fields
 
         private const string _regWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
@@ -21,12 +17,10 @@ namespace Zippy.Chirp
 
         #region Constructors
 
-        private Settings()
-        {
+        private Settings() {
         }
 
-        static Settings()
-        {
+        static Settings() {
 
         }
 
@@ -39,13 +33,15 @@ namespace Zippy.Chirp
         public static string ChirpWhiteSpaceJsFile = ".whitespace.js";
         public static string ChirpYUIJsFile = ".yui.js";
         public static string ChirpGctJsFile = ".gct.js";
+        public static string ChirpPartialViewFile = ".chirp.ascx";
+        public static string ChirpViewFile = ".chirp.aspx";
         public static string ChirpLessFile = ".chirp.less";
         public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpConfigFile = ".chirp.config";
 
-        public static bool  T4RunAsBuild = false;
-        public static string T4RunAsBuildTemplate = string.Empty ;
+        public static bool T4RunAsBuild = false;
+        public static string T4RunAsBuildTemplate = string.Empty;
         public static bool SmartRunT4MVC = false;
         #endregion
 
@@ -54,14 +50,11 @@ namespace Zippy.Chirp
         /// <summary>
         /// Loads options page settings from registry.
         /// </summary>
-        public static void Load()
-        {
+        public static void Load() {
             RegistryKey regKey = null;
-            try
-            {
+            try {
                 regKey = Registry.CurrentUser.OpenSubKey(_regWDS, false);
-                if (regKey != null)
-                {
+                if (regKey != null) {
                     Settings.ChirpJsFile = Convert.ToString(regKey.GetValue("ChirpJsFile", ".chirp.js"));
                     Settings.ChirpSimpleJsFile = Convert.ToString(regKey.GetValue("ChirpSimpleJsFile", ".simple.js"));
                     Settings.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
@@ -76,15 +69,10 @@ namespace Zippy.Chirp
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
                     Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
-            }
-            finally
-            {
-                if (regKey != null)
-                {
+            } finally {
+                if (regKey != null) {
                     regKey.Close();
                 }
             }
@@ -94,14 +82,11 @@ namespace Zippy.Chirp
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
-        public static void Save()
-        {
+        public static void Save() {
             RegistryKey regKey = null;
-            try
-            {
+            try {
                 regKey = Registry.CurrentUser.OpenSubKey(_regWDS, true);
-                if (regKey == null)
-                {
+                if (regKey == null) {
                     regKey = Registry.CurrentUser.CreateSubKey(_regWDS);
                 }
 
@@ -120,15 +105,10 @@ namespace Zippy.Chirp
 
                 regKey.SetValue("SmartRunT4MVC", Settings.SmartRunT4MVC.ToString());
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Debug.WriteLine("Chirp - failed to save: " + ex.Message);
-            }
-            finally
-            {
-                if (regKey != null)
-                {
+            } finally {
+                if (regKey != null) {
                     regKey.Close();
                 }
             }
