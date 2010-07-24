@@ -98,7 +98,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
                 regKey.SetValue("ChirpGctJsFile", Settings.ChirpGctJsFile);
-                regKey.SetValue("ChirpconfigFile", Settings.ChirpConfigFile);
+                regKey.SetValue("ChirpConfigFile", Settings.ChirpConfigFile);
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
