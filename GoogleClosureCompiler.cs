@@ -4,7 +4,6 @@ using System.Net;
 using System.Web;
 using System.Xml;
 using Yahoo.Yui.Compressor;
-using System.Windows.Forms;
 
 namespace Zippy.Chirp
 {
@@ -47,7 +46,7 @@ namespace Zippy.Chirp
                         if (!string.IsNullOrEmpty(ErrorText))
                             ErrorText += System.Environment.NewLine;
                         ErrorText += node.InnerText;
-                        onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, node.InnerText, 1, 1);
+                        onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,"Server error : " + node.InnerText, 1, 1);
                     }
                     throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
@@ -70,9 +69,13 @@ namespace Zippy.Chirp
                                 node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,
                                 node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty,
                                 node.InnerText);
+                        
+                        string TaskErrorText =string.Format("Type: {0} Error : {1}",
+                            node.Attributes["type"] != null ? node.Attributes["type"].ToString() : "General",
+                            node.InnerText);
 
                         onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
-                             node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
+                            TaskErrorText,
                              (node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty).ToInt(1),
                              (node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty).ToInt(1));
                     }

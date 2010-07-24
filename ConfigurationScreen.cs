@@ -28,6 +28,8 @@ namespace Zippy.Chirp
             Settings.Load();
             txtChirpConfigFile.Text = Settings.ChirpConfigFile;
             txtChirpCssFile.Text = Settings.ChirpCssFile;
+            txtMichaelAshCssFile.Text = Settings.ChirpMichaelAshCssFile;
+            txtHybridCssFile.Text = Settings.ChirpHybridCssFile;
             txtChirpJsFile.Text = Settings.ChirpJsFile;
             txtChirpLessFile.Text = Settings.ChirpLessFile;
             txtChirpSimpleJsFile.Text = Settings.ChirpSimpleJsFile;
@@ -53,6 +55,8 @@ namespace Zippy.Chirp
         {
             Settings.ChirpConfigFile=txtChirpConfigFile.Text;
             Settings.ChirpCssFile=txtChirpCssFile.Text;
+            Settings.ChirpMichaelAshCssFile=txtMichaelAshCssFile.Text;
+            Settings.ChirpHybridCssFile = txtHybridCssFile.Text;
             Settings.ChirpJsFile=txtChirpJsFile.Text;
             Settings.ChirpLessFile=txtChirpLessFile.Text;
             Settings.ChirpSimpleJsFile=txtChirpSimpleJsFile.Text;

@@ -47,13 +47,23 @@
             this.txtT4RunAsBuildTemplate = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.chkT4RunOnBuild = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtHybridCssFile = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 18);
+            this.label1.Location = new System.Drawing.Point(6, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(149, 13);
             this.label1.TabIndex = 0;
@@ -61,7 +71,7 @@
             // 
             // txtChirpJsFile
             // 
-            this.txtChirpJsFile.Location = new System.Drawing.Point(184, 15);
+            this.txtChirpJsFile.Location = new System.Drawing.Point(187, 22);
             this.txtChirpJsFile.Name = "txtChirpJsFile";
             this.txtChirpJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpJsFile.TabIndex = 1;
@@ -70,7 +80,7 @@
             // 
             // txtChirpSimpleJsFile
             // 
-            this.txtChirpSimpleJsFile.Location = new System.Drawing.Point(184, 41);
+            this.txtChirpSimpleJsFile.Location = new System.Drawing.Point(187, 48);
             this.txtChirpSimpleJsFile.Name = "txtChirpSimpleJsFile";
             this.txtChirpSimpleJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpSimpleJsFile.TabIndex = 3;
@@ -79,7 +89,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 44);
+            this.label2.Location = new System.Drawing.Point(6, 51);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 13);
             this.label2.TabIndex = 2;
@@ -87,7 +97,7 @@
             // 
             // txtChirpWhiteSpaceJsFile
             // 
-            this.txtChirpWhiteSpaceJsFile.Location = new System.Drawing.Point(184, 67);
+            this.txtChirpWhiteSpaceJsFile.Location = new System.Drawing.Point(187, 74);
             this.txtChirpWhiteSpaceJsFile.Name = "txtChirpWhiteSpaceJsFile";
             this.txtChirpWhiteSpaceJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpWhiteSpaceJsFile.TabIndex = 5;
@@ -96,7 +106,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 70);
+            this.label3.Location = new System.Drawing.Point(6, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(179, 13);
             this.label3.TabIndex = 4;
@@ -104,7 +114,7 @@
             // 
             // txtChirpYUIJsFile
             // 
-            this.txtChirpYUIJsFile.Location = new System.Drawing.Point(184, 93);
+            this.txtChirpYUIJsFile.Location = new System.Drawing.Point(187, 100);
             this.txtChirpYUIJsFile.Name = "txtChirpYUIJsFile";
             this.txtChirpYUIJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpYUIJsFile.TabIndex = 7;
@@ -113,7 +123,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 96);
+            this.label4.Location = new System.Drawing.Point(6, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 13);
             this.label4.TabIndex = 6;
@@ -121,7 +131,7 @@
             // 
             // txtChirpLessFile
             // 
-            this.txtChirpLessFile.Location = new System.Drawing.Point(184, 119);
+            this.txtChirpLessFile.Location = new System.Drawing.Point(184, 25);
             this.txtChirpLessFile.Name = "txtChirpLessFile";
             this.txtChirpLessFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpLessFile.TabIndex = 9;
@@ -130,7 +140,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 122);
+            this.label5.Location = new System.Drawing.Point(6, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 8;
@@ -138,7 +148,7 @@
             // 
             // txtChirpCssFile
             // 
-            this.txtChirpCssFile.Location = new System.Drawing.Point(184, 145);
+            this.txtChirpCssFile.Location = new System.Drawing.Point(184, 51);
             this.txtChirpCssFile.Name = "txtChirpCssFile";
             this.txtChirpCssFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpCssFile.TabIndex = 11;
@@ -147,15 +157,15 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 148);
+            this.label6.Location = new System.Drawing.Point(6, 54);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 10;
-            this.label6.Text = "CSS :";
+            this.label6.Text = "YUI Compressor :";
             // 
             // txtChirpConfigFile
             // 
-            this.txtChirpConfigFile.Location = new System.Drawing.Point(184, 171);
+            this.txtChirpConfigFile.Location = new System.Drawing.Point(195, 12);
             this.txtChirpConfigFile.Name = "txtChirpConfigFile";
             this.txtChirpConfigFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpConfigFile.TabIndex = 13;
@@ -164,7 +174,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 174);
+            this.label7.Location = new System.Drawing.Point(14, 15);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(43, 13);
             this.label7.TabIndex = 12;
@@ -176,9 +186,9 @@
             this.groupBox1.Controls.Add(this.txtT4RunAsBuildTemplate);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.chkT4RunOnBuild);
-            this.groupBox1.Location = new System.Drawing.Point(0, 197);
+            this.groupBox1.Location = new System.Drawing.Point(11, 316);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(315, 106);
+            this.groupBox1.Size = new System.Drawing.Size(320, 106);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "T4 template";
@@ -198,7 +208,7 @@
             this.txtT4RunAsBuildTemplate.Location = new System.Drawing.Point(74, 57);
             this.txtT4RunAsBuildTemplate.Multiline = true;
             this.txtT4RunAsBuildTemplate.Name = "txtT4RunAsBuildTemplate";
-            this.txtT4RunAsBuildTemplate.Size = new System.Drawing.Size(232, 41);
+            this.txtT4RunAsBuildTemplate.Size = new System.Drawing.Size(238, 41);
             this.txtT4RunAsBuildTemplate.TabIndex = 2;
             this.txtT4RunAsBuildTemplate.Text = "T4MVC.tt,NHibernateMapping.tt";
             // 
@@ -222,32 +232,106 @@
             this.chkT4RunOnBuild.UseVisualStyleBackColor = true;
             this.chkT4RunOnBuild.CheckedChanged += new System.EventHandler(this.chkT4RunOnBuild_CheckedChanged);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.txtChirpJsFile);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.txtChirpSimpleJsFile);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.txtChirpWhiteSpaceJsFile);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.txtChirpYUIJsFile);
+            this.groupBox2.Location = new System.Drawing.Point(11, 38);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(320, 126);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Javascript";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.txtHybridCssFile);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtMichaelAshCssFile);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.txtChirpLessFile);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.txtChirpCssFile);
+            this.groupBox3.Location = new System.Drawing.Point(11, 170);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(320, 140);
+            this.groupBox3.TabIndex = 16;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "CSS";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 106);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(43, 13);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "Hybrid :";
+            // 
+            // txtHybridCssFile
+            // 
+            this.txtHybridCssFile.Location = new System.Drawing.Point(184, 103);
+            this.txtHybridCssFile.Name = "txtHybridCssFile";
+            this.txtHybridCssFile.Size = new System.Drawing.Size(128, 20);
+            this.txtHybridCssFile.TabIndex = 15;
+            this.txtHybridCssFile.Text = ".chirp.css";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 80);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(170, 13);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "MichaelAshRegexEnhancements :";
+            // 
+            // txtMichaelAshCssFile
+            // 
+            this.txtMichaelAshCssFile.Location = new System.Drawing.Point(184, 77);
+            this.txtMichaelAshCssFile.Name = "txtMichaelAshCssFile";
+            this.txtMichaelAshCssFile.Size = new System.Drawing.Size(128, 20);
+            this.txtMichaelAshCssFile.TabIndex = 13;
+            this.txtMichaelAshCssFile.Text = ".chirp.css";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.groupBox3);
+            this.panel1.Controls.Add(this.txtChirpConfigFile);
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(365, 318);
+            this.panel1.TabIndex = 17;
+            // 
             // ConfigurationScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.txtChirpConfigFile);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtChirpCssFile);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.txtChirpLessFile);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtChirpYUIJsFile);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtChirpWhiteSpaceJsFile);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtChirpSimpleJsFile);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtChirpJsFile);
-            this.Controls.Add(this.label1);
+            this.AutoSize = true;
+            this.Controls.Add(this.panel1);
             this.Name = "ConfigurationScreen";
-            this.Size = new System.Drawing.Size(315, 308);
+            this.Size = new System.Drawing.Size(365, 318);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -272,6 +356,13 @@
         private System.Windows.Forms.TextBox txtT4RunAsBuildTemplate;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox chkSmartRunT4MVC;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtHybridCssFile;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtMichaelAshCssFile;
+        private System.Windows.Forms.Panel panel1;
 
     }
 }

@@ -38,6 +38,9 @@ namespace Zippy.Chirp {
         public static string ChirpLessFile = ".chirp.less";
         public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
+        public static string ChirpHybridCssFile = ".hybird.css";
+        public static string ChirpMichaelAshCssFile = ".michaelash.css";
+        
         public static string ChirpConfigFile = ".chirp.config";
 
         public static bool T4RunAsBuild = false;
@@ -63,6 +66,8 @@ namespace Zippy.Chirp {
                     Settings.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
                     Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
+                    Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybird.css"));
+                    Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
@@ -91,6 +96,8 @@ namespace Zippy.Chirp {
                 }
 
                 regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
+                regKey.SetValue("ChirpHybridCssFile", Settings.ChirpHybridCssFile);
+                regKey.SetValue("ChirpMichaelAshCssFile", Settings.ChirpMichaelAshCssFile);
                 regKey.SetValue("ChirpJsFile", Settings.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", Settings.ChirpLessFile);
                 regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
