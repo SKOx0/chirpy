@@ -43,6 +43,9 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\..\Program Files\Microsoft\Microsoft Ajax Minifier 4\AjaxMin.dll</HintPath>
+    </Reference>
     <Reference Include="dotless.Core, Version=1.1.0.2, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\dotless-v1.1.0.2-26-gd3370bd\dotless.Core.dll</HintPath>
@@ -85,11 +88,35 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ClosureCompilerCompressMode.cs" />
-    <Compile Include="ConfigurationScreen.cs">
+    <Compile Include="ConfigurationScreen\Css.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConfigurationScreen.Designer.cs">
-      <DependentUpon>ConfigurationScreen.cs</DependentUpon>
+    <Compile Include="ConfigurationScreen\Css.Designer.cs">
+      <DependentUpon>Css.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\General.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\General.Designer.cs">
+      <DependentUpon>General.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\Javascript.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\Javascript.Designer.cs">
+      <DependentUpon>Javascript.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\Less.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\Less.Designer.cs">
+      <DependentUpon>Less.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\T4Template.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\T4Template.Designer.cs">
+      <DependentUpon>T4Template.cs</DependentUpon>
     </Compile>
     <Compile Include="EcmaScriptErrorReporter.cs" />
     <Compile Include="GoogleClosureCompilerErrorException.cs" />
@@ -153,15 +180,27 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConfigurationScreen.resx">
-      <DependentUpon>ConfigurationScreen.cs</DependentUpon>
+    <EmbeddedResource Include="ConfigurationScreen\Css.resx">
+      <DependentUpon>Css.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\General.resx">
+      <DependentUpon>General.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\Javascript.resx">
+      <DependentUpon>Javascript.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\Less.resx">
+      <DependentUpon>Less.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\T4Template.resx">
+      <DependentUpon>T4Template.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Zippy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll"</PostBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Zippy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

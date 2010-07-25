@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
-using System.IO;
-using System.Windows.Forms;
-using System.Threading;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Zippy.Chirp.Manager
 {

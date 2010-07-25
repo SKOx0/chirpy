@@ -33,11 +33,13 @@ namespace Zippy.Chirp {
         public static string ChirpWhiteSpaceJsFile = ".whitespace.js";
         public static string ChirpYUIJsFile = ".yui.js";
         public static string ChirpGctJsFile = ".gct.js";
+        public static string ChirpMSAjaxJsFile = ".msajax.js";
         public static string ChirpPartialViewFile = ".chirp.ascx";
         public static string ChirpViewFile = ".chirp.aspx";
         public static string ChirpLessFile = ".chirp.less";
         public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
+        public static string ChirpMSAjaxCssFile = ".msajax.css";
         public static string ChirpHybridCssFile = ".hybird.css";
         public static string ChirpMichaelAshCssFile = ".michaelash.css";
         
@@ -63,11 +65,13 @@ namespace Zippy.Chirp {
                     Settings.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
                     Settings.ChirpYUIJsFile = Convert.ToString(regKey.GetValue("ChirpYUIJsFile", ".yui.js"));
                     Settings.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
+                    Settings.ChirpMSAjaxJsFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxJsFile", ".msajax.js"));
                     Settings.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
                     Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybird.css"));
                     Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
+                    Settings.ChirpMSAjaxCssFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCssFile", ".msajax.css"));
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
@@ -98,6 +102,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
                 regKey.SetValue("ChirpHybridCssFile", Settings.ChirpHybridCssFile);
                 regKey.SetValue("ChirpMichaelAshCssFile", Settings.ChirpMichaelAshCssFile);
+                regKey.SetValue("ChirpMSAjaxCssFile", Settings.ChirpMSAjaxCssFile);
                 regKey.SetValue("ChirpJsFile", Settings.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", Settings.ChirpLessFile);
                 regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
@@ -105,6 +110,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
                 regKey.SetValue("ChirpGctJsFile", Settings.ChirpGctJsFile);
+                regKey.SetValue("ChirpMSAjaxJsFile", Settings.ChirpMSAjaxJsFile);
                 regKey.SetValue("ChirpConfigFile", Settings.ChirpConfigFile);
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());

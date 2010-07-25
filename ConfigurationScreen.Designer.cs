@@ -40,8 +40,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtChirpConfigFile = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkSmartRunT4MVC = new System.Windows.Forms.CheckBox();
             this.txtT4RunAsBuildTemplate = new System.Windows.Forms.TextBox();
@@ -162,23 +160,6 @@
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "YUI Compressor :";
-            // 
-            // txtChirpConfigFile
-            // 
-            this.txtChirpConfigFile.Location = new System.Drawing.Point(195, 12);
-            this.txtChirpConfigFile.Name = "txtChirpConfigFile";
-            this.txtChirpConfigFile.Size = new System.Drawing.Size(128, 20);
-            this.txtChirpConfigFile.TabIndex = 13;
-            this.txtChirpConfigFile.Text = ".chirp.config";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 15);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Config :";
             // 
             // groupBox1
             // 
@@ -303,15 +284,13 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Controls.Add(this.txtChirpConfigFile);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(365, 318);
+            this.panel1.Size = new System.Drawing.Size(574, 507);
             this.panel1.TabIndex = 17;
             // 
             // ConfigurationScreen
@@ -322,7 +301,7 @@
             this.AutoSize = true;
             this.Controls.Add(this.panel1);
             this.Name = "ConfigurationScreen";
-            this.Size = new System.Drawing.Size(365, 318);
+            this.Size = new System.Drawing.Size(574, 507);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -330,7 +309,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -349,8 +327,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtChirpCssFile;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtChirpConfigFile;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkT4RunOnBuild;
         private System.Windows.Forms.TextBox txtT4RunAsBuildTemplate;

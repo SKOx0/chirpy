@@ -55,9 +55,14 @@ C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\dotless.Cor
 C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\dotless.Core.pdb
 C:\projets\Chirpy\bin\TempZippy.dll
 C:\projets\Chirpy\bin\TempZippy.pdb
+C:\projets\Chirpy\bin\AjaxMin.dll
 C:\projets\Chirpy\obj\Debug\ResolveAssemblyReference.cache
 C:\projets\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
-C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Css.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.General.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Javascript.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Less.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.T4Template.resources
 C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
 C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
 C:\projets\Chirpy\obj\Debug\TempZippy.dll
