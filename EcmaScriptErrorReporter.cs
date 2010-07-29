@@ -1,23 +1,21 @@
-﻿using EnvDTE;
+﻿
+using System.Collections.Generic;
+using Zippy.Chirp.Engines;
 
 namespace Zippy.Chirp
 {
     class EcmaScriptErrorReporter : EcmaScript.NET.ErrorReporter
     {
-        TaskList tasks;
-        Project project;
-        string file;
-
-        public EcmaScriptErrorReporter(TaskList tasks, Project project, string file)
-        {
-            this.tasks = tasks;
-            this.project = project;
-            this.file = file;
-        }
+        public List<ErrorResult> Errors = new List<ErrorResult>();
 
         public void Error(string message, string sourceName, int line, string lineSource, int lineOffset)
         {
-            tasks.Add(project, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, file, line, lineOffset, message);
+            Errors.Add(new ErrorResult(message, line, lineOffset));
+        }
+
+        public void Warning(string message, string sourceName, int line, string lineSource, int lineOffset)
+        {
+            // _Result.Warnings.Add(new Result.Error { Description = message, Line = line, Column = lineOffset });
         }
 
         public EcmaScript.NET.EcmaScriptRuntimeException RuntimeError(string message, string sourceName, int line, string lineSource, int lineOffset)
@@ -25,9 +23,5 @@ namespace Zippy.Chirp
             return new EcmaScript.NET.EcmaScriptRuntimeException(message, sourceName, line, lineSource, lineOffset);
         }
 
-        public void Warning(string message, string sourceName, int line, string lineSource, int lineOffset)
-        {
-            //tasks.Add(project, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, file, line, lineOffset, message);
-        }
     }
 }

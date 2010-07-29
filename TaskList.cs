@@ -11,11 +11,13 @@ namespace Zippy.Chirp
 {
     class TaskList : IDisposable
     {
+        static TaskList instance;
         ErrorListProvider listProvider;
         ServiceProvider serviceProvider;
 
         public TaskList(object application)
         {
+            instance = this;
 
             serviceProvider = new ServiceProvider(application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
 
@@ -23,6 +25,11 @@ namespace Zippy.Chirp
             listProvider.ProviderName = this.GetType().Assembly.FullName;
             listProvider.ProviderGuid = new Guid("F1415C4C-5D67-401F-A81C-71F0721BB6F0");
             listProvider.Show();
+        }
+
+        public static TaskList Instance
+        {
+            get { return instance; }
         }
 
         Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();

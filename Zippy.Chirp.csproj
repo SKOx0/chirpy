@@ -119,6 +119,18 @@
       <DependentUpon>T4Template.cs</DependentUpon>
     </Compile>
     <Compile Include="EcmaScriptErrorReporter.cs" />
+    <Compile Include="Engines\ClosureCompilerEngine.cs" />
+    <Compile Include="Engines\ConfigEngine.cs" />
+    <Compile Include="Engines\MsCssEngine.cs" />
+    <Compile Include="Engines\MsJsEngine.cs" />
+    <Compile Include="Engines\YuiCssEngine.cs" />
+    <Compile Include="Engines\Engine.cs" />
+    <Compile Include="Engines\Item.cs" />
+    <Compile Include="Engines\LessEngine.cs" />
+    <Compile Include="Engines\Result.cs" />
+    <Compile Include="Engines\T4Engine.cs" />
+    <Compile Include="Engines\ViewEngine.cs" />
+    <Compile Include="Engines\YuiJsEngine.cs" />
     <Compile Include="GoogleClosureCompilerErrorException.cs" />
     <Compile Include="GoogleClosureCompiler.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />

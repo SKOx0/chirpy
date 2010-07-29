@@ -67,3 +67,16 @@ C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
 C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
 C:\projets\Chirpy\obj\Debug\TempZippy.dll
 C:\projets\Chirpy\obj\Debug\TempZippy.pdb
+E:\Codeplex\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Css.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.General.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Javascript.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Less.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.T4Template.resources
+E:\Codeplex\Chirpy\obj\Debug\ResGen.read.1.tlog
+E:\Codeplex\Chirpy\obj\Debug\ResGen.write.1.tlog
+E:\Codeplex\Chirpy\obj\Debug\TempZippy.dll
+E:\Codeplex\Chirpy\bin\TempZippy.dll
+E:\Codeplex\Chirpy\bin\TempZippy.pdb
+E:\Codeplex\Chirpy\obj\Debug\TempZippy.pdb
