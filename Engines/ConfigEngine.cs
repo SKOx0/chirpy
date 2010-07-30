@@ -7,31 +7,25 @@ using System.Xml.Linq;
 using EnvDTE;
 using Zippy.Chirp.Xml;
 
-namespace Zippy.Chirp.Engines
-{
-    class ConfigEngine : Engine<ConfigEngine>
-    {
+namespace Zippy.Chirp.Engines {
+    class ConfigEngine : Engine<ConfigEngine> {
         const string regularCssFile = ".css";
         const string regularJsFile = ".js";
         const string regularLessFile = ".less";
 
-        bool IsLessFile(string fileName)
-        {
+        bool IsLessFile(string fileName) {
             return (fileName.EndsWith(regularLessFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        bool IsCssFile(string fileName)
-        {
+        bool IsCssFile(string fileName) {
             return (fileName.EndsWith(regularCssFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        bool IsJsFile(string fileName)
-        {
+        bool IsJsFile(string fileName) {
             return (fileName.EndsWith(regularJsFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        public override bool IsEngineFor(string filename)
-        {
+        public override bool IsEngineFor(string filename) {
             return filename.EndsWith(Settings.ChirpConfigFile, System.StringComparison.OrdinalIgnoreCase);
         }
 
@@ -45,37 +39,29 @@ namespace Zippy.Chirp.Engines
         /// if a config file changes...this rebuild all of this....
         /// </summary>
         /// <param name="projectItem"></param>
-        internal void ReloadConfigFileDependencies(ProjectItem projectItem)
-        {
+        internal void ReloadConfigFileDependencies(ProjectItem projectItem) {
             string configFileName = projectItem.get_FileNames(1);
 
             //remove all current dependencies for this config file...
-            foreach (string key in dependentFiles.Keys.ToArray())
-            {
+            foreach (string key in dependentFiles.Keys.ToArray()) {
                 List<string> files = dependentFiles[key];
                 if (files.Remove(configFileName) && files.Count == 0)
                     dependentFiles.Remove(key);
             }
 
             var fileGroups = LoadConfigFileGroups(configFileName);
-            foreach (var fileGroup in fileGroups)
-            {
-                foreach (var file in fileGroup.Files)
-                {
-                    if (!dependentFiles.ContainsKey(file.Path))
-                    {
+            foreach (var fileGroup in fileGroups) {
+                foreach (var file in fileGroup.Files) {
+                    if (!dependentFiles.ContainsKey(file.Path)) {
                         dependentFiles.Add(file.Path, new List<string> { configFileName });
-                    }
-                    else
-                    {
+                    } else {
                         dependentFiles[file.Path].Add(configFileName);
                     }
                 }
             }
         }
 
-        IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
-        {
+        IList<FileGroupXml> LoadConfigFileGroups(string configFileName) {
             XDocument doc = XDocument.Load(configFileName);
 
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
@@ -84,47 +70,36 @@ namespace Zippy.Chirp.Engines
                 .ToList();
         }
 
-        public override IEnumerable<IResult> Transform(EnvDTE80.DTE2 app, ProjectItem item)
-        {
-            string fullFileName = item.get_FileNames(1);
-            var fileGroups = LoadConfigFileGroups(fullFileName);
-            string directory = Path.GetDirectoryName(fullFileName);
+        public override IEnumerable<IResult> Transform(Item item) {
+            var fileGroups = LoadConfigFileGroups(item.FileName);
+            string directory = Path.GetDirectoryName(item.FileName);
 
-            foreach (var fileGroup in fileGroups)
-            {
+            foreach (var fileGroup in fileGroups) {
                 var allFileText = new StringBuilder();
-                foreach (var file in fileGroup.Files)
-                {
+                foreach (var file in fileGroup.Files) {
                     IEnumerable<IResult> subresult = null;
                     var path = file.Path;
-                    var text = System.IO.File.ReadAllText(path);
+                    //var text = System.IO.File.ReadAllText(path);
+                    var subitem = new Item(path);
 
+                    if (IsLessFile(path)) {
+                        subresult = LessEngine.Instance.BasicTransform(subitem);
 
-                    if (IsLessFile(path))
-                    {
-                        subresult = LessEngine.Instance.Transform(path, text);
+                    } else if (file.Minify) {
+                        if (IsCssFile(path)) {
+                            subresult = YuiCssEngine.Instance.BasicTransform(subitem);
 
-                    }
-                    else if (file.Minify)
-                    {
-                        if (IsCssFile(path))
-                        {
-                            subresult = YuiCssEngine.Instance.Transform(path, text);
-
-                        }
-                        else if (IsJsFile(path))
-                        {
-                            subresult = YuiJsEngine.Instance.Transform(path, text);
+                        } else if (IsJsFile(path)) {
+                            subresult = YuiJsEngine.Instance.BasicTransform(subitem);
                         }
                     }
 
-                    if (subresult != null)
-                    {
-                        text = subresult.OfType<FileResult>().Where(x => x.Minified == file.Minify).Select(x => x.Text).FirstOrDefault();
+                    if (subresult != null) {
+                        subitem.Text = subresult.OfType<FileResult>().Where(x => x.Minified == file.Minify).Select(x => x.Text).FirstOrDefault();
                         foreach (var err in subresult.OfType<ErrorResult>()) yield return err;
                     }
 
-                    allFileText.Append(text);
+                    allFileText.Append(subitem.Text);
                     allFileText.Append(Environment.NewLine);
                 }
 
@@ -133,7 +108,7 @@ namespace Zippy.Chirp.Engines
                 yield return new FileResult(fullPath, allFileText.ToString(), true);
             }
 
-            ReloadConfigFileDependencies(item);
+            ReloadConfigFileDependencies(item.ProjectItem);
         }
 
     }
