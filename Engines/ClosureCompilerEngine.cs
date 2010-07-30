@@ -10,7 +10,7 @@ namespace Zippy.Chirp.Engines {
                 : item.FileName.EndsWith(Settings.ChirpSimpleJsFile, System.StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
                 : ClosureCompilerCompressMode.WHITESPACE_ONLY;
 
-            var reporter = new EcmaScriptErrorReporter();
+            var reporter = new EcmaScriptErrorReporter(item.FileName);
 
             string returnedCode = null;
 

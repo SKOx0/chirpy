@@ -8,7 +8,7 @@ namespace Zippy.Chirp.Engines {
         public YuiJsEngine() : base(new[] { Settings.ChirpYUIJsFile, Settings.ChirpJsFile }, new[] { ".min.js" }) { }
 
         public override IEnumerable<IResult> BasicTransform(Item item) {
-            var reporter = new EcmaScriptErrorReporter();
+            var reporter = new EcmaScriptErrorReporter(item.FileName);
 
             string text = null;
             try {

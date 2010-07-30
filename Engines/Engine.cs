@@ -11,12 +11,15 @@ namespace Zippy.Chirp.Engines {
 
         public static Engine[] All {
             get {
-                if (_All == null)
-                    _All = typeof(Engine).Assembly.GetTypes()
-                     .Where(x => typeof(Engine).IsAssignableFrom(x) && !x.IsAbstract)
-                     .Select(x => (Engine)Activator.CreateInstance(x)).ToArray();
+                if (_All == null) Initialize();
                 return _All;
             }
+        }
+
+        protected static void Initialize() {
+            _All = typeof(Engine).Assembly.GetTypes()
+                          .Where(x => typeof(Engine).IsAssignableFrom(x) && !x.IsAbstract)
+                          .Select(x => (Engine)Activator.CreateInstance(x)).ToArray();
         }
 
         public static bool IsHandled(string filename) {
@@ -25,24 +28,32 @@ namespace Zippy.Chirp.Engines {
 
         public static void RunTransformations(DTE2 app, ProjectItem projectItem) {
             var item = new Item(app, projectItem);
-            using (var manager = new VSProjectItemManager(app, projectItem)) {
-                var results = All.Where(x => x.IsEngineFor(item.FileName))
-                    .SelectMany(x => x.Transform(item)).OrderBy(x => x.Priority);
 
-                if (results != null && results.Any()) {
-                    foreach (var result in results) {
-                        result.Process(app, projectItem, manager);
+            TaskList.Instance.Remove(item.FileName);
+            using (new EnvironmentDirectory(item.FileName)) {
+                try {
+                    using (var manager = new VSProjectItemManager(app, projectItem)) {
+                        var results = All.Where(x => x.IsEngineFor(item.FileName))
+                            .SelectMany(x => x.Transform(item)).OrderBy(x => x.Priority);
+
+                        if (results != null && results.Any()) {
+                            foreach (var result in results) {
+                                result.Process(app, projectItem, manager);
+                            }
+                        }
                     }
+
+                } catch (Exception e) {
+                    TaskList.Instance.Add(projectItem.ContainingProject, e, item.FileName);
                 }
             }
-
         }
 
         public abstract bool IsEngineFor(string filename);
         public abstract IEnumerable<IResult> Transform(Item item);
 
         private static readonly string[] _DefaultExtensions = new[] { ".chirp.js", ".simple.js", ".whitespace.js", ".yui.js", ".gct.js", ".chirp.ascx", ".chirp.aspx", ".chirp.less", ".chirp.less.css", ".chirp.css", ".chirp.config" };
-        protected string GetBaseFileName(string fullFileName, params string[] extensions) {
+        internal static string GetBaseFileName(string fullFileName, params string[] extensions) {
             extensions = (extensions ?? new string[0]).Union(_DefaultExtensions).ToArray();
 
             var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
@@ -58,15 +69,13 @@ namespace Zippy.Chirp.Engines {
 
     abstract class Engine<T> : Engine where T : Engine<T> {
         public Engine() {
-            if (_Instance == null)
-                _Instance = (T)this;
+            if (_Instance == null) _Instance = (T)this;
         }
 
-        private static T _Instance;
+        private static T _Instance = null;
         public static T Instance {
             get {
-                if (_Instance == null)
-                    Console.WriteLine("Engines Found: {0}", All.Length);
+                if (_Instance == null) Initialize();
                 return _Instance;
             }
         }
@@ -79,26 +88,16 @@ namespace Zippy.Chirp.Engines {
         }
 
         public sealed override IEnumerable<IResult> Transform(Item item) {
-            string currentDir = Environment.CurrentDirectory;
 
-            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(item.FileName);
-            TaskList.Instance.Remove(item.FileName);
+            IEnumerable<IResult> results = new IResult[0];
 
-            try {
-                IEnumerable<IResult> results = new IResult[0];
-
-                if (!string.IsNullOrEmpty(item.Text)) {
-                    item.BaseFileName = GetBaseFileName(item.FileName, Extensions);
-                    results = BasicTransform(item).ToArray(); // ensures the results are executed while within this try block
-                }
-                CheckForConfigRefresh(item.App, item.ProjectItem);
-                return results;
-
-            } catch (Exception) {
-                throw;
-            } finally {
-                Environment.CurrentDirectory = currentDir;
+            if (!string.IsNullOrEmpty(item.Text)) {
+                item.BaseFileName = GetBaseFileName(item.FileName, Extensions);
+                results = BasicTransform(item);
             }
+
+            CheckForConfigRefresh(item.App, item.ProjectItem);
+            return results;
         }
 
         private void CheckForConfigRefresh(DTE2 app, ProjectItem projectItem) {

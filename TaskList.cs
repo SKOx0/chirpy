@@ -7,16 +7,13 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 // http://www.mztools.com/articles/2008/MZ2008022.aspx
 
-namespace Zippy.Chirp
-{
-    class TaskList : IDisposable
-    {
+namespace Zippy.Chirp {
+    class TaskList : IDisposable {
         static TaskList instance;
         ErrorListProvider listProvider;
         ServiceProvider serviceProvider;
 
-        public TaskList(object application)
-        {
+        public TaskList(object application) {
             instance = this;
 
             serviceProvider = new ServiceProvider(application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
@@ -27,17 +24,14 @@ namespace Zippy.Chirp
             listProvider.Show();
         }
 
-        public static TaskList Instance
-        {
+        public static TaskList Instance {
             get { return instance; }
         }
 
         Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();
 
-        public void Add(Project project, TaskErrorCategory category, string file, int line, int column, string description)
-        {
-            var task = new ErrorTask
-            {
+        public void Add(Project project, TaskErrorCategory category, string file, int line, int column, string description) {
+            var task = new ErrorTask {
                 ErrorCategory = category,
                 Document = file,
                 Line = Math.Max(line - 1, 0),
@@ -47,20 +41,15 @@ namespace Zippy.Chirp
             Add(project, task);
         }
 
-        public void Add(Project project, Exception ex)
-        {
-            var task = new ErrorTask(ex);
-            Add(project, task);
+        public void Add(Project project, Exception ex, string filename) {
+            Add(project, TaskErrorCategory.Error, filename, 0, 0, ex.ToString());
         }
 
-        private void Add(Project project, ErrorTask task)
-        {
+        private void Add(Project project, ErrorTask task) {
             IVsHierarchy hierarchy = null;
-            if (project != null)
-            {
+            if (project != null) {
                 var solution = serviceProvider.GetService(typeof(IVsSolution)) as IVsSolution;
-                if (solution != null)
-                {
+                if (solution != null) {
                     solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
                 }
             }
@@ -69,17 +58,14 @@ namespace Zippy.Chirp
             task.Navigate += new EventHandler(task_Navigate);
             listProvider.Tasks.Add(task);
 
-            if (project != null)
-            {
-                lock (taskProjects)
-                {
+            if (project != null) {
+                lock (taskProjects) {
                     taskProjects.Add(task, project);
                 }
             }
         }
 
-        void task_Navigate(object sender, EventArgs e)
-        {
+        void task_Navigate(object sender, EventArgs e) {
             var task = sender as ErrorTask;
 
             task.Line++;
@@ -87,47 +73,37 @@ namespace Zippy.Chirp
             task.Line--;
         }
 
-        public void Remove(string file)
-        {
+        public void Remove(string file) {
             var tasks = listProvider.Tasks.Cast<ErrorTask>().Where(x => file.Is(x.Document)).ToArray();
-            foreach (var task in tasks)
-            {
+            foreach (var task in tasks) {
                 Remove(task);
             }
         }
 
-        public void Remove(Project project)
-        {
-            lock (taskProjects)
-            {
+        public void Remove(Project project) {
+            lock (taskProjects) {
                 var tasks = taskProjects.Where(x => x.Value == project).Select(x => x.Key).ToArray();
-                foreach (var task in tasks)
-                {
+                foreach (var task in tasks) {
                     Remove(task);
                 }
             }
         }
 
-        public void RemoveAll()
-        {
+        public void RemoveAll() {
             listProvider.Tasks.Clear();
             taskProjects.Clear();
         }
 
-        private void Remove(ErrorTask task)
-        {
+        private void Remove(ErrorTask task) {
             listProvider.Tasks.Remove(task);
-            lock (taskProjects)
-            {
-                if (taskProjects.ContainsKey(task))
-                {
+            lock (taskProjects) {
+                if (taskProjects.ContainsKey(task)) {
                     taskProjects.Remove(task);
                 }
             }
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             if (listProvider != null) listProvider.Dispose();
             if (serviceProvider != null) serviceProvider.Dispose();
         }

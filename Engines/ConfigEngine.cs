@@ -76,27 +76,33 @@ namespace Zippy.Chirp.Engines {
 
             foreach (var fileGroup in fileGroups) {
                 var allFileText = new StringBuilder();
+                bool isjs = false;
+
                 foreach (var file in fileGroup.Files) {
                     IEnumerable<IResult> subresult = null;
                     var path = file.Path;
-                    //var text = System.IO.File.ReadAllText(path);
                     var subitem = new Item(path);
+                    using (new EnvironmentDirectory(path)) {
+                        isjs = IsJsFile(path);
+                        TaskList.Instance.Remove(path);
 
-                    if (IsLessFile(path)) {
-                        subresult = LessEngine.Instance.BasicTransform(subitem);
+                        if (IsLessFile(path)) {
+                            subresult = LessEngine.Instance.BasicTransform(subitem);
 
-                    } else if (file.Minify) {
-                        if (IsCssFile(path)) {
-                            subresult = YuiCssEngine.Instance.BasicTransform(subitem);
+                        } else if (file.Minify == true) {
+                            if (IsCssFile(path)) {
+                                subresult = YuiCssEngine.Instance.BasicTransform(subitem);
 
-                        } else if (IsJsFile(path)) {
-                            subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                            } else if (IsJsFile(path)) {
+                                subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                            }
                         }
-                    }
 
-                    if (subresult != null) {
-                        subitem.Text = subresult.OfType<FileResult>().Where(x => x.Minified == file.Minify).Select(x => x.Text).FirstOrDefault();
-                        foreach (var err in subresult.OfType<ErrorResult>()) yield return err;
+                        if (subresult != null) {
+                            subresult = subresult.ToArray(); //compile the results, otherwise weirdness happens
+                            subitem.Text = subresult.OfType<FileResult>().Where(x => x.Minified == file.Minify).Select(x => x.Text).FirstOrDefault();
+                            foreach (var err in subresult.OfType<ErrorResult>()) yield return err;
+                        }
                     }
 
                     allFileText.Append(subitem.Text);
@@ -104,8 +110,16 @@ namespace Zippy.Chirp.Engines {
                 }
 
                 string fullPath = directory + @"\" + fileGroup.Name;
+                string output = allFileText.ToString();
 
-                yield return new FileResult(fullPath, allFileText.ToString(), true);
+                yield return new FileResult(fullPath, output, true);
+
+                if (fileGroup.Minify == FileGroupXml.MinifyMode.Both) {
+                    var subitem = new Item(item, output);
+                    subitem.BaseFileName = Engine.GetBaseFileName(fullPath);
+                    var subresults = isjs ? YuiJsEngine.Instance.BasicTransform(subitem) : YuiCssEngine.Instance.BasicTransform(subitem);
+                    foreach (var subresult in subresults) yield return subresult;
+                }
             }
 
             ReloadConfigFileDependencies(item.ProjectItem);

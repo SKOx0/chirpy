@@ -6,8 +6,8 @@ namespace Zippy.Chirp.Engines {
     class LessEngine : BasicEngine<LessEngine> {
         public LessEngine() : base(new[] { Settings.ChirpLessFile, Settings.ChirpLessCssFile }, new[] { ".min.css", ".css" }) { }
 
-        static Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
-        static Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
+        Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
+        Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
 
         dotless.Core.Parser.Parser lazyLessParser;
         dotless.Core.Parser.Parser lessParser {
@@ -36,7 +36,7 @@ namespace Zippy.Chirp.Engines {
                     column = match.Groups[1].Length + 1;
                 }
 
-                err = new ErrorResult(description, line, column);
+                err = new ErrorResult(item.FileName, description, line, column);
             }
 
             if (err != null) {

@@ -11,7 +11,7 @@ namespace Zippy.Chirp.Engines {
             yield return new FileResult(item, ".min.css", miniCss, true);
 
             foreach (var err in minifier.Errors) {
-                yield return new ErrorResult(err, 1, 1);
+                yield return new ErrorResult(item.FileName, err, 1, 1);
             }
         }
     }
