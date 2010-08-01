@@ -209,6 +209,15 @@
       <DependentUpon>T4Template.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Xml\Chirpy.Config.xsc">
+      <DependentUpon>Chirpy.Config.xsd</DependentUpon>
+    </None>
+    <None Include="Xml\Chirpy.Config.xsd" />
+    <None Include="Xml\Chirpy.Config.xss">
+      <DependentUpon>Chirpy.Config.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>
