@@ -16,7 +16,8 @@ namespace Zippy.Chirp.Engines {
             return (fileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool IsMichaelAshChirpCssFile(string fileName) {
+        private bool IsChirpMichaelAshCssFile(string fileName)
+        {
             return (fileName.EndsWith(Settings.ChirpMichaelAshCssFile, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -25,7 +26,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override IEnumerable<IResult> BasicTransform(Item item) {
-            var mode = IsMichaelAshChirpCssFile(item.FileName) ? CssCompressionType.MichaelAshRegexEnhancements
+            var mode = IsChirpMichaelAshCssFile(item.FileName) ? CssCompressionType.MichaelAshRegexEnhancements
                 : IsChirpHybridCssFile(item.FileName) ? CssCompressionType.Hybrid
                 : CssCompressionType.StockYuiCompressor;
 

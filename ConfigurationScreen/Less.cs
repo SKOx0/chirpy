@@ -19,6 +19,9 @@ namespace Zippy.Chirp.ConfigurationScreen
         {
             Settings.Load();
             txtChirpLessFile.Text = Settings.ChirpLessFile;
+            txtMichaelAshLessFile.Text = Settings.ChirpMichaelAshLessFile;
+            txtHybridLessFile.Text = Settings.ChirpHybridLessFile;
+            txtMSAjaxLessFile.Text = Settings.ChirpMSAjaxLessFile;
            
         }
 
@@ -34,7 +37,11 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         void EnvDTE.IDTToolsOptionsPage.OnOK()
         {
-             Settings.ChirpLessFile = txtChirpLessFile.Text;
+            Settings.ChirpLessFile = txtChirpLessFile.Text;
+            Settings.ChirpMichaelAshLessFile = txtMichaelAshLessFile.Text;
+            Settings.ChirpHybridLessFile = txtHybridLessFile.Text;
+            Settings.ChirpMSAjaxLessFile = txtMSAjaxLessFile.Text;
+           
             Settings.Save();
         }
     }

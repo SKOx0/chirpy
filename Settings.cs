@@ -37,7 +37,11 @@ namespace Zippy.Chirp {
         public static string ChirpPartialViewFile = ".chirp.ascx";
         public static string ChirpViewFile = ".chirp.aspx";
         public static string ChirpLessFile = ".chirp.less";
-        public static string ChirpLessCssFile = ".chirp.less.css";
+        public static string ChirpMSAjaxLessFile = ".msajax.less";
+        public static string ChirpHybridLessFile = ".hybird.less";
+        public static string ChirpMichaelAshLessFile = ".michaelash.less";
+        
+        //public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpMSAjaxCssFile = ".msajax.css";
         public static string ChirpHybridCssFile = ".hybird.css";
@@ -67,7 +71,11 @@ namespace Zippy.Chirp {
                     Settings.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
                     Settings.ChirpMSAjaxJsFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxJsFile", ".msajax.js"));
                     Settings.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
-                    Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
+                    Settings.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybird.less"));
+                    Settings.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
+                    Settings.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
+                   
+                    //Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybird.css"));
                     Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
@@ -105,7 +113,10 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpMSAjaxCssFile", Settings.ChirpMSAjaxCssFile);
                 regKey.SetValue("ChirpJsFile", Settings.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", Settings.ChirpLessFile);
-                regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
+                regKey.SetValue("ChirpHybridLessFile", Settings.ChirpHybridLessFile);
+                regKey.SetValue("ChirpMichaelAshLessFile", Settings.ChirpMichaelAshLessFile);
+                regKey.SetValue("ChirpMSAjaxLessFile", Settings.ChirpMSAjaxLessFile);
+               // regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
                 regKey.SetValue("ChirpSimpleJsFile", Settings.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
