@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Yahoo.Yui.Compressor;
 using Microsoft.Ajax.Utilities;
+using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
     class LessEngine : BasicEngine<LessEngine> {
@@ -43,6 +44,23 @@ namespace Zippy.Chirp.Engines {
 
         public override IEnumerable<IResult> BasicTransform(Item item)
         {
+            MinifyType mode = MinifyType.yui;
+            if (IsChirpMichaelAshLessFile(item.FileName) || IsChirpHybridLessFile(item.FileName) || IsChirpLessFile(item.FileName))
+            {
+                mode = IsChirpMichaelAshLessFile(item.FileName) ? MinifyType.yuiMARE
+               : IsChirpHybridLessFile(item.FileName) ? MinifyType.yuiHybird
+               : MinifyType.yui;
+
+            }
+            if (IsChirpMSAjaxLessFile(item.FileName))
+            {
+                mode = MinifyType.msAjax;
+            }
+         return    BasicTransform(item, mode);
+        }
+
+        public IEnumerable<IResult> BasicTransform(Item item,MinifyType mode)
+        {
             string css = null;
             ErrorResult err = null;
             try
@@ -74,22 +92,25 @@ namespace Zippy.Chirp.Engines {
             else if (css != null)
             {
                 yield return new FileResult(item, ".css", css, false);
-
-                //Yui compressor
-                if (IsChirpMichaelAshLessFile(item.FileName) || IsChirpHybridLessFile(item.FileName) || IsChirpLessFile(item.FileName))
+                switch (mode)
                 {
-                    var mode = IsChirpMichaelAshLessFile(item.FileName) ? CssCompressionType.MichaelAshRegexEnhancements
-                   : IsChirpHybridLessFile(item.FileName) ? CssCompressionType.Hybrid
-                   : CssCompressionType.StockYuiCompressor;
-                    yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, mode), true);
-                }
-                if (IsChirpMSAjaxLessFile(item.FileName))
-                {
-                    Minifier minifier = new Minifier();
-                    string miniCss = minifier.MinifyStyleSheet(css);
-
-                    yield return new FileResult(item, ".min.css", miniCss, true);
-
+                    case MinifyType.yui:
+                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css,CssCompressionType.StockYuiCompressor), true);
+                        break;
+                    case MinifyType.yuiMARE:
+                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.MichaelAshRegexEnhancements), true);
+                        break;
+                    case MinifyType.yuiHybird:
+                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.Hybrid), true);
+                        break;
+                    case MinifyType.msAjax:
+                        Minifier minifier = new Minifier();
+                        string miniCss = minifier.MinifyStyleSheet(css);
+                        yield return new FileResult(item, ".min.css", miniCss, true);
+                        break;
+                    default:
+                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.StockYuiCompressor), true);
+                        break;
                 }
             }
         }

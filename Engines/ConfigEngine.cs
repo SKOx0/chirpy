@@ -99,7 +99,7 @@ namespace Zippy.Chirp.Engines {
                         if (IsLessFile(path))
                         {
 
-                            subresult = LessEngine.Instance.BasicTransform(subitem);
+                            subresult = LessEngine.Instance.BasicTransform(subitem,file.MinifyWith);
 
 
                         }
