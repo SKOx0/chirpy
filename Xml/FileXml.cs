@@ -5,6 +5,7 @@ namespace Zippy.Chirp.Xml {
     public class FileXml {
         public string Path { get; set; }
         public bool? Minify { get; set; }
+        public MinifyType MinifyWith { get; set; }
 
         public FileXml() { }
         public FileXml(XElement xElement) : this(xElement, string.Empty) { }
@@ -19,6 +20,9 @@ namespace Zippy.Chirp.Xml {
 
             Path = System.IO.Path.Combine(basePath, path.Value);
             Minify = (minify == null) ? (bool?)null : bool.Parse(minify.Value);
+            MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.None);
+            if (MinifyWith != MinifyType.None)
+                Minify = true;
         }
     }
 }

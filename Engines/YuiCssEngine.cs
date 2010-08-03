@@ -30,6 +30,11 @@ namespace Zippy.Chirp.Engines {
                 : IsChirpHybridCssFile(item.FileName) ? CssCompressionType.Hybrid
                 : CssCompressionType.StockYuiCompressor;
 
+           return BasicTransform(item, mode);
+        }
+
+        public IEnumerable<IResult> BasicTransform(Item item,CssCompressionType mode)
+        {
             yield return new FileResult(item, ".min.css", Compress(item.Text, mode), true);
         }
     }

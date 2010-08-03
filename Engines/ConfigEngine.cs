@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using EnvDTE;
+using Yahoo.Yui.Compressor;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
@@ -61,13 +62,22 @@ namespace Zippy.Chirp.Engines {
             }
         }
 
-        IList<FileGroupXml> LoadConfigFileGroups(string configFileName) {
+        IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
+        {
             XDocument doc = XDocument.Load(configFileName);
 
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
-            return doc.Descendants("FileGroup")
+
+            IList<FileGroupXml> ReturnList = doc.Descendants("FileGroup")
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
+
+            if (ReturnList.Count == 0)
+                ReturnList = doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig"))
+                     .Select(n => new FileGroupXml(n, appRoot))
+                .ToList();
+
+            return ReturnList;
         }
 
         public override IEnumerable<IResult> Transform(Item item) {
@@ -86,15 +96,67 @@ namespace Zippy.Chirp.Engines {
                         isjs = IsJsFile(path);
                         TaskList.Instance.Remove(path);
 
-                        if (IsLessFile(path)) {
+                        if (IsLessFile(path))
+                        {
+
                             subresult = LessEngine.Instance.BasicTransform(subitem);
 
-                        } else if (file.Minify == true) {
-                            if (IsCssFile(path)) {
-                                subresult = YuiCssEngine.Instance.BasicTransform(subitem);
 
-                            } else if (IsJsFile(path)) {
-                                subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                        }
+                        else if (file.Minify == true)
+                        {
+                            if (IsCssFile(path))
+                            {
+                                switch (file.MinifyWith)
+                                {
+                                    case MinifyType.yui:
+                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    case MinifyType.yuiMARE:
+                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem, CssCompressionType.MichaelAshRegexEnhancements);
+                                        break;
+                                    case MinifyType.yuiHybird:
+                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem, CssCompressionType.Hybrid);
+                                        break;
+                                    case MinifyType.msAjax:
+                                        subresult = MsCssEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    default:
+                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                }
+
+                            }
+                            else if (IsJsFile(path))
+                            {
+                                switch (file.MinifyWith)
+                                {
+                                    case MinifyType.yui:
+                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    case MinifyType.yuiMARE:
+                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    case MinifyType.yuiHybird:
+                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    case MinifyType.gctAdvanced:
+                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
+                                        break;
+                                    case MinifyType.gctSimple:
+                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
+                                        break;
+                                    case MinifyType.gstWhiteSpaceOnly:
+                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.WHITESPACE_ONLY);
+                                        break;
+                                    case MinifyType.msAjax:
+                                        subresult = MsJsEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                    default:
+                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                                        break;
+                                }
+
                             }
                         }
 

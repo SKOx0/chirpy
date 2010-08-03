@@ -24,13 +24,20 @@ namespace Zippy.Chirp.Xml {
 
             Name = name.Value;
             Path = System.IO.Path.Combine(basePath, Name);
+            
 
             var files = xElement.Descendants("File")
+                .Select(n => new FileXml(n, basePath));
+            if(files.Count()==0)
+                files = xElement.Descendants(XName.Get("File", "urn:ChirpyConfig"))
                 .Select(n => new FileXml(n, basePath));
 
             var folderFiles = xElement.Descendants("Folder")
                 .Select(n => new FolderXml(n, basePath))
                 .SelectMany(n => n.FileXmlList);
+            if (folderFiles.Count() == 0)
+                folderFiles = xElement.Descendants(XName.Get("Folder", "urn:ChirpyConfig"))
+                .Select(n => new FileXml(n, basePath));
 
             Files = files.Union(folderFiles).ToList();
 

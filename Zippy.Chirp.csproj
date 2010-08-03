@@ -141,6 +141,7 @@
     <Compile Include="Xml\FileGroupXml.cs" />
     <Compile Include="Xml\FileXml.cs" />
     <Compile Include="Xml\FolderXml.cs" />
+    <Compile Include="Xml\MinifyType.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">

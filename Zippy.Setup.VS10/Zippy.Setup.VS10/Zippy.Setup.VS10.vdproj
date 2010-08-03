@@ -998,7 +998,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Chirpy VS10"
         "ProductCode" = "8:{8396B4F3-04B6-42BE-88EC-28653BD665DB}"
-        "PackageCode" = "8:{26E303B1-8C86-47A2-B74D-419DA06CA51B}"
+        "PackageCode" = "8:{74C653A6-8135-48EF-BAB1-C715A649A042}"
         "UpgradeCode" = "8:{B5E3C873-DDBC-4198-8643-B13E821E3A2E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
