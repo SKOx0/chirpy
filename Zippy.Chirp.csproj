@@ -94,11 +94,11 @@
     <Compile Include="ConfigurationScreen\Css.Designer.cs">
       <DependentUpon>Css.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigurationScreen\General.cs">
+    <Compile Include="ConfigurationScreen\Config.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConfigurationScreen\General.Designer.cs">
-      <DependentUpon>General.cs</DependentUpon>
+    <Compile Include="ConfigurationScreen\Config.Designer.cs">
+      <DependentUpon>Config.cs</DependentUpon>
     </Compile>
     <Compile Include="ConfigurationScreen\Javascript.cs">
       <SubType>UserControl</SubType>
@@ -197,8 +197,8 @@
     <EmbeddedResource Include="ConfigurationScreen\Css.resx">
       <DependentUpon>Css.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigurationScreen\General.resx">
-      <DependentUpon>General.cs</DependentUpon>
+    <EmbeddedResource Include="ConfigurationScreen\Config.resx">
+      <DependentUpon>Config.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\Javascript.resx">
       <DependentUpon>Javascript.cs</DependentUpon>

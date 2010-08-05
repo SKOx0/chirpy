@@ -1,6 +1,6 @@
 ﻿namespace Zippy.Chirp.ConfigurationScreen
 {
-    partial class General
+    partial class Config
     {
         /// <summary> 
         /// Required designer variable.

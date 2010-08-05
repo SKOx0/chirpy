@@ -32,12 +32,13 @@ namespace Zippy.Chirp.Engines {
             TaskList.Instance.Remove(item.FileName);
             using (new EnvironmentDirectory(item.FileName)) {
                 try {
+                    
                     using (var manager = new VSProjectItemManager(app, projectItem)) {
                         var results = All.Where(x => x.IsEngineFor(item.FileName))
                             .SelectMany(x => x.Transform(item)).OrderBy(x => x.Priority);
 
                         if (results != null && results.Any()) {
-                            foreach (var result in results) {
+                           foreach (var result in results) {
                                 result.Process(app, projectItem, manager);
                             }
                         }
@@ -101,7 +102,10 @@ namespace Zippy.Chirp.Engines {
         }
 
         private void CheckForConfigRefresh(DTE2 app, ProjectItem projectItem) {
+            
             string fullFileName = projectItem.get_FileNames(1);
+            System.Windows.Forms.MessageBox.Show("CheckForConfigRefresh fullFileName=" + fullFileName);
+
             var dependentFiles = ConfigEngine.Instance.dependentFiles;
 
             if (dependentFiles.ContainsKey(fullFileName)) {

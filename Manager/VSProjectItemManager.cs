@@ -129,7 +129,7 @@ namespace Zippy.Chirp.Manager
                     }
                     else
                     {
-                        //visual studio 2010
+                        //visual studio 2010 (web site projet)
                         for (short i = 0; i <= _projectItem.FileCount; i++)
                         {
 
@@ -196,6 +196,12 @@ namespace Zippy.Chirp.Manager
                     return true;
                 }
             }
+            //valid is same folder
+            string CurringItemDir = new FileInfo(((ProjectItem)items.Parent).get_FileNames(0)).DirectoryName;
+           if (CurringItemDir != new FileInfo(fullFileNameOfItemContained).DirectoryName)
+            {
+                return true;
+            }
             return false;
         }
         internal static ProjectItem GetItemByFullFileName(ProjectItems items, String fullFileNameOfItemToGet)
@@ -238,8 +244,14 @@ namespace Zippy.Chirp.Manager
 
             // Er det et problem den tilføjer hvis den allerede er tilføjet ? 
             // Tjek om allerede tilføjet inden ? if (!ContainsItem(x)) .... ?
-            if(projectItem.ProjectItems !=null)
-                projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
+            if (projectItem.ProjectItems != null)
+            {
+                string CurringItemDir = projectItem.get_FileNames(0);
+                CurringItemDir = new FileInfo(CurringItemDir).DirectoryName;
+                if (CurringItemDir == new FileInfo(fullFileNameToAdd).DirectoryName)
+                    projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
+                
+            }
         }
         internal static void AddItems(ProjectItem projectItem, IEnumerable<String> filesToAdd)
         {

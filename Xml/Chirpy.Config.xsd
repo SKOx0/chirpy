@@ -25,7 +25,8 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
-            <xs:attribute name="Name" use="required" type="xs:string" />
+            <xs:attribute name="Name" type="xs:string" />
+            <xs:attribute name="Path" type="xs:string" />
             <xs:attribute name="Minify" type="MinifyMode" />
           </xs:complexType>
         </xs:element>

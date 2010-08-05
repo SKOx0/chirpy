@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class General : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class Config : UserControl, EnvDTE.IDTToolsOptionsPage
     {
-        public General()
+        public Config()
         {
             InitializeComponent();
         }

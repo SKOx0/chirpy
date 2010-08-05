@@ -172,6 +172,9 @@ namespace Zippy.Chirp.Engines {
                 }
 
                 string fullPath = directory + @"\" + fileGroup.Name;
+                if (!string.IsNullOrEmpty(fileGroup.Path))
+                    fullPath = fileGroup.Path;
+
                 string output = allFileText.ToString();
 
                 yield return new FileResult(fullPath, output, true);
