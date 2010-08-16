@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Yahoo.Yui.Compressor;
-using Microsoft.Ajax.Utilities;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-    class LessEngine : BasicEngine<LessEngine> {
-        public LessEngine() : base(new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile,Settings.ChirpHybridLessFile,Settings.ChirpMSAjaxLessFile }, new[] { ".min.css", ".css" }) { }
+    class LessEngine : TransformEngine {
+        public LessEngine() {
+            Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
+            OutputExtension = ".css";
+        }
 
-        Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
-        Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
+        static Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
+        static Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
 
-        dotless.Core.Parser.Parser lazyLessParser;
-        dotless.Core.Parser.Parser lessParser {
+        static dotless.Core.Parser.Parser lazyLessParser;
+        static dotless.Core.Parser.Parser lessParser {
             get {
                 if (lazyLessParser == null) {
                     lazyLessParser = new dotless.Core.Parser.Parser();
@@ -22,97 +22,69 @@ namespace Zippy.Chirp.Engines {
             }
         }
 
-        bool IsChirpLessFile(string fileName)
-        {
+        private bool IsChirpLessFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpLessFile, StringComparison.OrdinalIgnoreCase));
         }
-        private bool IsChirpHybridLessFile(string fileName)
-        {
+        private bool IsChirpHybridLessFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpHybridLessFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool IsChirpMichaelAshLessFile(string fileName)
-        {
+        private bool IsChirpMichaelAshLessFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpMichaelAshLessFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool IsChirpMSAjaxLessFile(string fileName)
-        {
+        private bool IsChirpMSAjaxLessFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpMSAjaxLessFile, StringComparison.OrdinalIgnoreCase));
         }
 
-
-        public override IEnumerable<IResult> BasicTransform(Item item)
-        {
-            MinifyType mode = MinifyType.yui;
-            if (IsChirpMichaelAshLessFile(item.FileName) || IsChirpHybridLessFile(item.FileName) || IsChirpLessFile(item.FileName))
-            {
-                mode = IsChirpMichaelAshLessFile(item.FileName) ? MinifyType.yuiMARE
-               : IsChirpHybridLessFile(item.FileName) ? MinifyType.yuiHybird
-               : MinifyType.yui;
-
-            }
-            if (IsChirpMSAjaxLessFile(item.FileName))
-            {
-                mode = MinifyType.msAjax;
-            }
-         return    BasicTransform(item, mode);
-        }
-
-        public IEnumerable<IResult> BasicTransform(Item item,MinifyType mode)
-        {
+        public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             string css = null;
-            ErrorResult err = null;
-            try
-            {
-                css = lessParser.Parse(item.Text, item.FileName).ToCSS();
-            }
-            catch (Exception e)
-            {
+
+            try {
+                css = lessParser.Parse(text, fullFileName).ToCSS();
+            } catch (Exception e) {
                 int line = 1, column = 1;
                 var description = e.Message.Trim();
                 Match match;
-                if ((match = rxLineNum.Match(description)).Success)
-                {
+                if ((match = rxLineNum.Match(description)).Success) {
                     line = match.Groups[1].Value.ToInt(1);
                 }
 
-                if ((match = rxColNum.Match(description)).Success)
-                {
+                if ((match = rxColNum.Match(description)).Success) {
                     column = match.Groups[1].Length + 1;
                 }
 
-                err = new ErrorResult(item.FileName, description, line, column);
+                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
             }
 
-            if (err != null)
-            {
-                yield return err;
+            return css;
+        }
+
+        public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
+            return TransformToCss(fullFileName, text, projectItem);
+        }
+
+        public override void Process(Manager.VSProjectItemManager manager, string fullFileName, EnvDTE.ProjectItem projectItem, string baseFileName, string outputText) {
+            base.Process(manager, fullFileName, projectItem, baseFileName, outputText);
+
+            var mode = GetMinifyType(fullFileName);
+            string mini = CssEngine.Minify(fullFileName, outputText, projectItem, mode);
+            manager.AddFileByFileName(baseFileName + ".min.css", mini);
+        }
+
+        public MinifyType GetMinifyType(string fullFileName) {
+            MinifyType mode = MinifyType.yui;
+            if (IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
+                mode = IsChirpMichaelAshLessFile(fullFileName) ? MinifyType.yuiMARE
+               : IsChirpHybridLessFile(fullFileName) ? MinifyType.yuiHybird
+               : MinifyType.yui;
+
             }
-            else if (css != null)
-            {
-                yield return new FileResult(item, ".css", css, false);
-                switch (mode)
-                {
-                    case MinifyType.yui:
-                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css,CssCompressionType.StockYuiCompressor), true);
-                        break;
-                    case MinifyType.yuiMARE:
-                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.MichaelAshRegexEnhancements), true);
-                        break;
-                    case MinifyType.yuiHybird:
-                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.Hybrid), true);
-                        break;
-                    case MinifyType.msAjax:
-                        Minifier minifier = new Minifier();
-                        string miniCss = minifier.MinifyStyleSheet(css);
-                        yield return new FileResult(item, ".min.css", miniCss, true);
-                        break;
-                    default:
-                        yield return new FileResult(item, ".min.css", YuiCssEngine.Instance.Compress(css, CssCompressionType.StockYuiCompressor), true);
-                        break;
-                }
+            if (IsChirpMSAjaxLessFile(fullFileName)) {
+                mode = MinifyType.msAjax;
             }
+
+            return mode;
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
 namespace Zippy.Chirp.Engines {
-    class T4Engine : Engine<T4Engine> {
+    class T4Engine : ActionEngine {
         const string ControllerCSFile = ".cs";
         const string ControllerVBFile = ".vb";
         const string MVCViewFile = ".aspx";
@@ -21,20 +20,13 @@ namespace Zippy.Chirp.Engines {
                                         fileName.Contains("Views")) || fileName.Contains("Scripts") || fileName.Contains("Content");
         }
 
-        public override bool IsEngineFor(string filename) {
+        public override int Handles(string filename) {
             return Settings.SmartRunT4MVC
-                && (IsMVCStandardViewScriptOrContentFile(filename) || IsMVCStandardControllerFile(filename));
+                && (IsMVCStandardViewScriptOrContentFile(filename) || IsMVCStandardControllerFile(filename)) ? 1 : 0;
         }
 
-        public override IEnumerable<IResult> Transform(Item item) {
-            yield return new T4Result();
-        }
-
-        private class T4Result : IResult {
-            public int Priority { get { return 1; } }
-            public void Process(DTE2 app, ProjectItem item, Manager.VSProjectItemManager manager) {
-                RunT4Template(app, MVCT4TemplateName);
-            }
+        public override void Run(string fullFileName, ProjectItem projectItem) {
+            RunT4Template(_app, Settings.T4RunAsBuildTemplate);
         }
 
         public static void RunT4Template(DTE2 app, string t4TemplateList) {

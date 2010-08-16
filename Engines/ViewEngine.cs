@@ -1,50 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+
 namespace Zippy.Chirp.Engines {
-    class ViewEngine : BasicEngine<ViewEngine> {
-        public ViewEngine() : base(new[] { Settings.ChirpViewFile, Settings.ChirpPartialViewFile }, null) { }
+    class ViewEngine : ActionEngine {
+        public override int Handles(string fullFileName) {
+            if (fullFileName.EndsWith(Settings.ChirpViewFile, System.StringComparison.InvariantCultureIgnoreCase)) return 1;
+            else if (fullFileName.EndsWith(Settings.ChirpPartialViewFile, System.StringComparison.InvariantCultureIgnoreCase)) return 1;
+            else return 0;
+        }
         static Regex rxScripts = new Regex(@"\<(style|script)([^>]*)\>(.*?)\</\1\>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        public override IEnumerable<IResult> BasicTransform(Item item) {
-            var tags = rxScripts.Matches(item.Text).Cast<Match>().Reverse();
-
-            var text = item.Text;
+        public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem) {
+            var text = System.IO.File.ReadAllText(fullFileName);
+            var tags = rxScripts.Matches(text).Cast<Match>().Reverse();
 
             foreach (var match in tags) {
                 var tagName = match.Groups[1].Value;
                 var attrs = match.Groups[2].Value;
                 var code = match.Groups[3].Value;
-                var subitem = new Item(item, code);
-                IEnumerable<IResult> subresult = null;
 
                 if (tagName.Is("script")) {
-                    subresult = YuiJsEngine.Instance.BasicTransform(subitem);
+                    code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.None);
 
                 } else if (tagName.Is("style")) {
                     int i = attrs.IndexOf("text/less", StringComparison.InvariantCultureIgnoreCase);
                     if (i > -1) {
                         attrs = attrs.Substring(0, i) + "text/css" + attrs.Substring(i + "text/less".Length);
-                        subresult = LessEngine.Instance.BasicTransform(subitem);
-                    } else {
-                        subresult = YuiCssEngine.Instance.BasicTransform(subitem);
+                        code = Chirp.LessEngine.Transform(fullFileName, code, projectItem);
                     }
-                }
-
-                if (subresult != null) {
-                    code = subresult.OfType<FileResult>().Where(x => x.Minified).Select(x => x.Text).FirstOrDefault();
-                    foreach (var err in subresult.OfType<ErrorResult>()) yield return err;
+                    code = CssEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.None);
                 }
 
                 text = text.Substring(0, match.Index)
                     + '<' + tagName + attrs + '>' + code + "</" + tagName + '>'
                     + text.Substring(match.Index + match.Length);
             }
-
-            var ext = item.FileName.EndsWith(Settings.ChirpViewFile, StringComparison.OrdinalIgnoreCase) ? ".aspx" : ".ascx";
-            yield return new FileResult(item, ext, text, true);
         }
 
     }

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using EnvDTE;
-using Yahoo.Yui.Compressor;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-    class ConfigEngine : Engine<ConfigEngine> {
+    class ConfigEngine : ActionEngine {
         const string regularCssFile = ".css";
         const string regularJsFile = ".js";
         const string regularLessFile = ".less";
@@ -24,10 +23,6 @@ namespace Zippy.Chirp.Engines {
 
         bool IsJsFile(string fileName) {
             return (fileName.EndsWith(regularJsFile, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public override bool IsEngineFor(string filename) {
-            return filename.EndsWith(Settings.ChirpConfigFile, System.StringComparison.OrdinalIgnoreCase);
         }
 
         internal Dictionary<string, List<string>> dependentFiles =
@@ -62,8 +57,7 @@ namespace Zippy.Chirp.Engines {
             }
         }
 
-        IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
-        {
+        IList<FileGroupXml> LoadConfigFileGroups(string configFileName) {
             XDocument doc = XDocument.Load(configFileName);
 
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
@@ -80,95 +74,41 @@ namespace Zippy.Chirp.Engines {
             return ReturnList;
         }
 
-        public override IEnumerable<IResult> Transform(Item item) {
-            var fileGroups = LoadConfigFileGroups(item.FileName);
-            string directory = Path.GetDirectoryName(item.FileName);
+        public override int Handles(string fullFileName) {
+            return fullFileName.EndsWith(Settings.ChirpConfigFile, StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
+        }
+
+        public override void Run(string fullFileName, ProjectItem projectItem) {
+            var fileGroups = LoadConfigFileGroups(fullFileName);
+            string directory = Path.GetDirectoryName(fullFileName);
 
             foreach (var fileGroup in fileGroups) {
                 var allFileText = new StringBuilder();
                 bool isjs = false;
 
                 foreach (var file in fileGroup.Files) {
-                    IEnumerable<IResult> subresult = null;
                     var path = file.Path;
-                    var subitem = new Item(path);
+                    string code = System.IO.File.ReadAllText(path);
+                    isjs = IsJsFile(path);
+                    TaskList.Instance.Remove(path);
+
                     using (new EnvironmentDirectory(path)) {
-                        isjs = IsJsFile(path);
-                        TaskList.Instance.Remove(path);
-
-                        if (IsLessFile(path))
-                        {
-
-                            subresult = LessEngine.Instance.BasicTransform(subitem,file.MinifyWith);
-
-
-                        }
-                        else if (file.Minify == true)
-                        {
-                            if (IsCssFile(path))
-                            {
-                                switch (file.MinifyWith)
-                                {
-                                    case MinifyType.yui:
-                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    case MinifyType.yuiMARE:
-                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem, CssCompressionType.MichaelAshRegexEnhancements);
-                                        break;
-                                    case MinifyType.yuiHybird:
-                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem, CssCompressionType.Hybrid);
-                                        break;
-                                    case MinifyType.msAjax:
-                                        subresult = MsCssEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    default:
-                                        subresult = YuiCssEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                }
-
-                            }
-                            else if (IsJsFile(path))
-                            {
-                                switch (file.MinifyWith)
-                                {
-                                    case MinifyType.yui:
-                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    case MinifyType.yuiMARE:
-                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    case MinifyType.yuiHybird:
-                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    case MinifyType.gctAdvanced:
-                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
-                                        break;
-                                    case MinifyType.gctSimple:
-                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
-                                        break;
-                                    case MinifyType.gstWhiteSpaceOnly:
-                                        subresult = ClosureCompilerEngine.Instance.BasicTransform(subitem, ClosureCompilerCompressMode.WHITESPACE_ONLY);
-                                        break;
-                                    case MinifyType.msAjax:
-                                        subresult = MsJsEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                    default:
-                                        subresult = YuiJsEngine.Instance.BasicTransform(subitem);
-                                        break;
-                                }
-
-                            }
+                        if (IsLessFile(path)) {
+                            code = LessEngine.TransformToCss(path, code, projectItem);
                         }
 
-                        if (subresult != null) {
-                            subresult = subresult.ToArray(); //compile the results, otherwise weirdness happens
-                            subitem.Text = subresult.OfType<FileResult>().Where(x => x.Minified == file.Minify).Select(x => x.Text).FirstOrDefault();
-                            foreach (var err in subresult.OfType<ErrorResult>()) yield return err;
+                        if (file.Minify == true) {
+                            if (IsCssFile(path)) {
+                                code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+
+                            } else if (IsJsFile(path)) {
+                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                isjs = true;
+                            }
                         }
                     }
 
-                    allFileText.Append(subitem.Text);
-                    allFileText.Append(Environment.NewLine);
+                    allFileText.AppendLine(code);
                 }
 
                 string fullPath = directory + @"\" + fileGroup.Name;
@@ -176,19 +116,54 @@ namespace Zippy.Chirp.Engines {
                     fullPath = fileGroup.Path;
 
                 string output = allFileText.ToString();
+                string mini = null;
+                using (var manager = new Manager.VSProjectItemManager(_app, projectItem)) {
+                    if (fileGroup.Minify == true || fileGroup.Minify == null) {
 
-                yield return new FileResult(fullPath, output, true);
+                        mini = isjs ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
+                            : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
 
-                if (fileGroup.Minify == FileGroupXml.MinifyMode.Both) {
-                    var subitem = new Item(item, output);
-                    subitem.BaseFileName = Engine.GetBaseFileName(fullPath);
-                    var subresults = isjs ? YuiJsEngine.Instance.BasicTransform(subitem) : YuiCssEngine.Instance.BasicTransform(subitem);
-                    foreach (var subresult in subresults) yield return subresult;
+                        if (fileGroup.Minify == true)
+                            output = mini;
+                    }
+
+                    manager.AddFileByFileName(fullPath, output);
+                    if (fileGroup.Minify == null) {
+                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + ".min." + (isjs ? "js" : "css"), mini);
+                    }
                 }
             }
 
-            ReloadConfigFileDependencies(item.ProjectItem);
+            ReloadConfigFileDependencies(projectItem);
         }
 
+        public void RefreshAll() {
+            var configs = dependentFiles.SelectMany(x => x.Value).Distinct(StringComparer.InvariantCultureIgnoreCase);
+            foreach (var configFile in configs) {
+                Refresh(configFile);
+            }
+        }
+
+        public void Refresh(string configFile) {
+            ProjectItem configItem = _app.LocateProjectItemForFileName(configFile);
+            if (configItem != null) {
+                Chirp.ConfigEngine.Run(configFile, configItem);
+            }
+        }
+
+        public void CheckForConfigRefresh(ProjectItem projectItem) {
+            string fullFileName = projectItem.get_FileNames(1);
+            var dependentFiles = Chirp.ConfigEngine.dependentFiles;
+
+            if (dependentFiles.ContainsKey(fullFileName)) {
+                foreach (string configFile in dependentFiles[fullFileName]) {
+                    Refresh(configFile);
+                }
+            }
+
+            foreach (ProjectItem projectItemInner in projectItem.ProjectItems) {
+                CheckForConfigRefresh(projectItemInner);
+            }
+        }
     }
 }

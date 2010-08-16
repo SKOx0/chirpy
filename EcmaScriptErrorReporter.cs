@@ -1,17 +1,18 @@
 ﻿
-using System.Collections.Generic;
-using Zippy.Chirp.Engines;
+using EnvDTE;
 
 namespace Zippy.Chirp {
     class EcmaScriptErrorReporter : EcmaScript.NET.ErrorReporter {
-        private string _FileName;
-        public EcmaScriptErrorReporter(string filename) {
-            _FileName = filename;
+        private ProjectItem _ProjectItem;
+        private string _fullFileName;
+        public EcmaScriptErrorReporter(string fullFileName, ProjectItem projectItem) {
+            _fullFileName = fullFileName;
+            _ProjectItem = projectItem;
         }
-        public List<ErrorResult> Errors = new List<ErrorResult>();
 
         public void Error(string message, string sourceName, int line, string lineSource, int lineOffset) {
-            Errors.Add(new ErrorResult(_FileName, message, line, lineOffset));
+            TaskList.Instance.Add(_ProjectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+                _fullFileName, line, lineOffset, message);
         }
 
         public void Warning(string message, string sourceName, int line, string lineSource, int lineOffset) {

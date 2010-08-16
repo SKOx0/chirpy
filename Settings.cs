@@ -9,6 +9,8 @@ namespace Zippy.Chirp {
     /// Used by WDS add-in to save and retrieve its options from the registry.
     /// </summary>
     public class Settings {
+        public static event Action Saved;
+
         #region Private Fields
 
         private const string _regWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
@@ -40,14 +42,16 @@ namespace Zippy.Chirp {
         public static string ChirpMSAjaxLessFile = ".msajax.less";
         public static string ChirpHybridLessFile = ".hybird.less";
         public static string ChirpMichaelAshLessFile = ".michaelash.less";
-        
+
         //public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpMSAjaxCssFile = ".msajax.css";
         public static string ChirpHybridCssFile = ".hybird.css";
         public static string ChirpMichaelAshCssFile = ".michaelash.css";
-        
+
         public static string ChirpConfigFile = ".chirp.config";
+
+        public static string[] AllExtensions;
 
         public static bool T4RunAsBuild = false;
         public static string T4RunAsBuildTemplate = string.Empty;
@@ -74,7 +78,7 @@ namespace Zippy.Chirp {
                     Settings.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybird.less"));
                     Settings.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
                     Settings.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
-                   
+
                     //Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybird.css"));
@@ -85,6 +89,8 @@ namespace Zippy.Chirp {
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
                     Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
+
+                    LoadExtensions();
                 }
             } catch (Exception ex) {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
@@ -95,18 +101,18 @@ namespace Zippy.Chirp {
             }
         }
 
+        private static void LoadExtensions() {
+            AllExtensions = new[]{
+                 Settings.ChirpConfigFile , Settings.ChirpCssFile, Settings.ChirpGctJsFile , Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile , Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile, 
+                 Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile 
+            };
+        }
 
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
         public static void Save() {
-            RegistryKey regKey = null;
-            try {
-                regKey = Registry.CurrentUser.OpenSubKey(_regWDS, true);
-                if (regKey == null) {
-                    regKey = Registry.CurrentUser.CreateSubKey(_regWDS);
-                }
-
+            using (var regKey = Registry.CurrentUser.OpenSubKey(_regWDS, true) ?? Registry.CurrentUser.CreateSubKey(_regWDS)) {
                 regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
                 regKey.SetValue("ChirpHybridCssFile", Settings.ChirpHybridCssFile);
                 regKey.SetValue("ChirpMichaelAshCssFile", Settings.ChirpMichaelAshCssFile);
@@ -116,7 +122,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpHybridLessFile", Settings.ChirpHybridLessFile);
                 regKey.SetValue("ChirpMichaelAshLessFile", Settings.ChirpMichaelAshLessFile);
                 regKey.SetValue("ChirpMSAjaxLessFile", Settings.ChirpMSAjaxLessFile);
-               // regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
+                // regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
                 regKey.SetValue("ChirpSimpleJsFile", Settings.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
@@ -129,12 +135,9 @@ namespace Zippy.Chirp {
 
                 regKey.SetValue("SmartRunT4MVC", Settings.SmartRunT4MVC.ToString());
 
-            } catch (Exception ex) {
-                Debug.WriteLine("Chirp - failed to save: " + ex.Message);
-            } finally {
-                if (regKey != null) {
-                    regKey.Close();
-                }
+                LoadExtensions();
+
+                if (Saved != null) Saved();
             }
         }
         #endregion

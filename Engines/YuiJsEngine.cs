@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using Yahoo.Yui.Compressor;
 
 namespace Zippy.Chirp.Engines {
 
-    class YuiJsEngine : BasicEngine<YuiJsEngine> {
-        public YuiJsEngine() : base(new[] { Settings.ChirpYUIJsFile, Settings.ChirpJsFile }, new[] { ".min.js" }) { }
+    class YuiJsEngine : JsEngine {
+        public YuiJsEngine() {
+            Extensions = new[] { Settings.ChirpYUIJsFile };
+            OutputExtension = ".min.js";
+        }
 
-        public override IEnumerable<IResult> BasicTransform(Item item) {
-            var reporter = new EcmaScriptErrorReporter(item.FileName);
+        public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
+            return Minify(fullFileName, text, projectItem);
+        }
 
-            string text = null;
+        public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
+            var reporter = new EcmaScriptErrorReporter(fullFileName, projectItem);
             try {
-                var compressor = new JavaScriptCompressor(item.Text, true, System.Text.Encoding.Default, System.Globalization.CultureInfo.CurrentCulture, false, reporter);
-                text = compressor.Compress();
-            } catch (System.Exception) { }
-
-            if (reporter.Errors.Any()) foreach (var err in reporter.Errors) yield return err;
-            else yield return new FileResult(item, ".min.js", text, true);
+                var compressor = new JavaScriptCompressor(text, true, System.Text.Encoding.Default, System.Globalization.CultureInfo.CurrentCulture, false, reporter);
+                return compressor.Compress();
+            } catch (System.Exception) {
+                return "/* error */";
+            }
         }
     }
-
 }

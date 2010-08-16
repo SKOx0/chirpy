@@ -2,14 +2,15 @@
 using Microsoft.Ajax.Utilities;
 
 namespace Zippy.Chirp.Engines {
-    class MsCssEngine : BasicEngine<MsCssEngine> {
-        public MsCssEngine() : base(new[] { Settings.ChirpMSAjaxCssFile }, new[] { ".min.css" }) { }
+    class MsCssEngine : CssEngine {
+        public MsCssEngine() {
+            Extensions = new[] { Settings.ChirpMSAjaxCssFile };
+            OutputExtension = ".min.css";
+        }
 
-        public override System.Collections.Generic.IEnumerable<IResult> BasicTransform(Item item) {
+        public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             Minifier minifier = new Minifier();
-            string miniCss = minifier.MinifyStyleSheet(item.Text);
-
-            yield return new FileResult(item, ".min.css", miniCss, true);
+            string miniCss = minifier.MinifyStyleSheet(text);
 
             foreach (var err in minifier.Errors) {
                 int line = 0;
@@ -23,8 +24,16 @@ namespace Zippy.Chirp.Engines {
                 IndexEnd = err.IndexOf("-");
                 int.TryParse(err.Substring(IndexBegin + 1, (IndexEnd - IndexBegin) - 1), out column);
 
-                yield return new ErrorResult(item.FileName, err, line, column);
+                // yield return new ErrorResult(item.FileName, err, line, column);
+                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+                    fullFileName, line, column, err);
             }
+
+            return miniCss;
+        }
+
+        public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
+            return Minify(fullFileName, text, projectItem);
         }
     }
 }

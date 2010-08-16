@@ -1,42 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using Yahoo.Yui.Compressor;
+using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-    class YuiCssEngine : BasicEngine<YuiCssEngine> {
-        public YuiCssEngine()
-            : base(new[] { Settings.ChirpMichaelAshCssFile, Settings.ChirpHybridCssFile, Settings.ChirpCssFile } /*list of extensions it handles*/,
-                new[] { ".min.css" } /*list of extensions to ignore (prevent infinite recursion)*/) { }
-
-
-        bool IsChirpCssFile(string fileName) {
-            return (fileName.EndsWith(Settings.ChirpCssFile, StringComparison.OrdinalIgnoreCase));
-        }
-        private bool IsChirpHybridCssFile(string fileName) {
-            return (fileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.OrdinalIgnoreCase));
+    class YuiCssEngine : CssEngine {
+        public YuiCssEngine() {
+            Extensions = new[] { Settings.ChirpHybridCssFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpCssFile };
+            OutputExtension = ".min.css";
         }
 
-        private bool IsChirpMichaelAshCssFile(string fileName)
-        {
-            return (fileName.EndsWith(Settings.ChirpMichaelAshCssFile, StringComparison.OrdinalIgnoreCase));
+        public static string Minify(string text, MinifyType mode) {
+            var cssmode = mode == MinifyType.yuiHybird ? CssCompressionType.Hybrid
+               : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
+               : CssCompressionType.StockYuiCompressor;
+
+            return CssCompressor.Compress(text, 0, cssmode);
         }
 
-        public string Compress(string text, CssCompressionType mode) {
-            return CssCompressor.Compress(text, 0, mode);
-        }
+        public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
+            var mode = fullFileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiHybird
+                : fullFileName.EndsWith(Settings.ChirpMichaelAshCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiMARE
+                : MinifyType.yui;
 
-        public override IEnumerable<IResult> BasicTransform(Item item) {
-            var mode = IsChirpMichaelAshCssFile(item.FileName) ? CssCompressionType.MichaelAshRegexEnhancements
-                : IsChirpHybridCssFile(item.FileName) ? CssCompressionType.Hybrid
-                : CssCompressionType.StockYuiCompressor;
-
-           return BasicTransform(item, mode);
-        }
-
-        public IEnumerable<IResult> BasicTransform(Item item,CssCompressionType mode)
-        {
-            yield return new FileResult(item, ".min.css", Compress(item.Text, mode), true);
+            return Minify(text, mode);
         }
     }
-
 }

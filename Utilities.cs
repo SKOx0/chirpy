@@ -17,6 +17,13 @@ namespace Zippy.Chirp {
             else return defaultValue;
         }
 
+        public static bool ToBool(this string input, bool defaultValue) {
+            bool result;
+            if (bool.TryParse(input, out result))
+                return result;
+            else return defaultValue;
+        }
+
         public static bool Contains(this string input, string other, StringComparison comparison) {
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
         }
@@ -61,14 +68,24 @@ namespace Zippy.Chirp {
             return parents.FirstOrDefault();
         }
 
-        public static bool IsAnyChirpFile(this ProjectItem projectItem) {
-            return Engines.Engine.IsHandled(projectItem.get_FileNames(1));
-        }
-
         public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible {
             var values = System.Enum.GetValues(typeof(T)).Cast<T>().Where(x => x.ToString().Is(input));
             if (!values.Any()) return defaultValue;
             else return values.First();
         }
+
+        public static string GetBaseFileName(string fullFileName, params string[] extensions) {
+            extensions = extensions == null ? Settings.AllExtensions : extensions.Union(Settings.AllExtensions).ToArray();
+
+            var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
+                ?? System.IO.Path.GetExtension(fullFileName);
+
+            if (!string.IsNullOrEmpty(fileExt)) {
+                fullFileName = fullFileName.Substring(0, fullFileName.Length - fileExt.Length);
+            }
+
+            return fullFileName;
+        }
+
     }
 }

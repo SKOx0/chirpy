@@ -87,7 +87,7 @@
     <Compile Include="Chirp.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClosureCompilerCompressMode.cs" />
+    <Compile Include="Engines\ClosureCompilerCompressMode.cs" />
     <Compile Include="ConfigurationScreen\Css.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,14 +126,12 @@
     <Compile Include="Engines\MsJsEngine.cs" />
     <Compile Include="Engines\YuiCssEngine.cs" />
     <Compile Include="Engines\Engine.cs" />
-    <Compile Include="Engines\Item.cs" />
     <Compile Include="Engines\LessEngine.cs" />
-    <Compile Include="Engines\Result.cs" />
     <Compile Include="Engines\T4Engine.cs" />
     <Compile Include="Engines\ViewEngine.cs" />
     <Compile Include="Engines\YuiJsEngine.cs" />
-    <Compile Include="GoogleClosureCompilerErrorException.cs" />
-    <Compile Include="GoogleClosureCompiler.cs" />
+    <Compile Include="Engines\GoogleClosureCompilerErrorException.cs" />
+    <Compile Include="Engines\GoogleClosureCompiler.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TaskList.cs" />

@@ -10,16 +10,18 @@ namespace Zippy.Chirp.Xml {
         public FileXml() { }
         public FileXml(XElement xElement) : this(xElement, string.Empty) { }
         public FileXml(XElement xElement, string basePath) {
-            var path = xElement.Attribute("Path");
-            var type = xElement.Attribute("Type");
-            var minify = xElement.Attribute("Minify");
+            var path = (string)xElement.Attribute("Path");
+            //var type = (string)xElement.Attribute("Type");
+            var minify = (string)xElement.Attribute("Minify");
 
             if (path == null) {
                 throw new Exception("Path attribute required on File element");
             }
 
-            Path = System.IO.Path.Combine(basePath, path.Value);
-            Minify = (minify == null) ? (bool?)null : bool.Parse(minify.Value);
+            Path = System.IO.Path.Combine(basePath, path);
+            if (minify != null)
+                Minify = minify.ToBool(false);
+
             MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.None);
             if (MinifyWith != MinifyType.None)
                 Minify = true;
