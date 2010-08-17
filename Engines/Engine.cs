@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using EnvDTE;
 using EnvDTE80;
 using Zippy.Chirp.Manager;
@@ -110,7 +111,7 @@ namespace Zippy.Chirp.Engines {
                     ProjectItem projectItem = null;
 
                     try {
-                        if (!_queue.Any()) _are.WaitOne();
+                        if (!_queue.Any()) _are.WaitOne(500);
                         if (!_queue.Any()) continue;
                         projectItem = _queue.Dequeue();
 
@@ -132,7 +133,7 @@ namespace Zippy.Chirp.Engines {
                             _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
                             action.Run(fullFileName, projectItem);
                         }
-
+                    } catch (COMException) { //the projectitem is no longer available
                     } catch (System.Threading.ThreadAbortException) {
                     } catch (Exception ex) {
                         if (projectItem != null)
