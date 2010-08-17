@@ -1,0 +1,5 @@
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\T4MVCTest\bin\T4MVCTest.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\T4MVCTest\bin\T4MVCTest.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\T4MVCTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\T4MVCTest\obj\Debug\T4MVCTest.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Tests\T4MVCTest\obj\Debug\T4MVCTest.pdb

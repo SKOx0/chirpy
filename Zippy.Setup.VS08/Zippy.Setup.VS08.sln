@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Zippy.Setup.VS08", "Zippy.Setup.VS08\Zippy.Setup.VS08.vdproj", "{0F7EA21C-E106-433E-83A7-B3DA5D8F4E23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F7EA21C-E106-433E-83A7-B3DA5D8F4E23}.Debug|Default.ActiveCfg = Debug
+		{0F7EA21C-E106-433E-83A7-B3DA5D8F4E23}.Debug|Default.Build.0 = Debug
+		{0F7EA21C-E106-433E-83A7-B3DA5D8F4E23}.Release|Default.ActiveCfg = Release
+		{0F7EA21C-E106-433E-83A7-B3DA5D8F4E23}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

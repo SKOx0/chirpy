@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="chirpy.f4ef2e6e-e531-48d5-940d-eb955306da9a">
+    <Name>chirpy</Name>
+	<InstalledByMsi>True</InstalledByMsi>
+    <Author></Author>
+    <Version>1.0.0.4</Version>
+    <Description xml:space="preserve">Mashes, minifies, and validates your javascript, stylesheet, and dotless files.</Description>
+    <Locale>1033</Locale>
+    <MoreInfoUrl>http://chirpy.codeplex.com/</MoreInfoUrl>
+    <License>eula.txt</License>
+    <GettingStartedGuide>http://chirpy.codeplex.com/</GettingStartedGuide>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="2.0" MaxVersion="2.0" />
+  </Identifier>
+  <Content>
+    <MefComponent>Zippy.dll</MefComponent>
+  </Content>
+</Vsix>
