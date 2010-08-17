@@ -3,7 +3,7 @@ using Yahoo.Yui.Compressor;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-    class YuiCssEngine : CssEngine {
+    public class YuiCssEngine : CssEngine {
         public YuiCssEngine() {
             Extensions = new[] { Settings.ChirpHybridCssFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpCssFile };
             OutputExtension = ".min.css";

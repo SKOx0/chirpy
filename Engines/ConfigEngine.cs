@@ -156,12 +156,12 @@ namespace Zippy.Chirp.Engines {
             var dependentFiles = Chirp.ConfigEngine.dependentFiles;
 
             if (dependentFiles.ContainsKey(fullFileName)) {
-                foreach (string configFile in dependentFiles[fullFileName]) {
+                foreach (string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                     Refresh(configFile);
                 }
             }
 
-            foreach (ProjectItem projectItemInner in projectItem.ProjectItems) {
+            foreach (ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                 CheckForConfigRefresh(projectItemInner);
             }
         }
