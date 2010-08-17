@@ -8,10 +8,11 @@ using Microsoft.VisualStudio.Shell.Interop;
 // http://www.mztools.com/articles/2008/MZ2008022.aspx
 
 namespace Zippy.Chirp {
-    class TaskList : IDisposable {
+    public class TaskList : IDisposable {
         static TaskList instance;
         ErrorListProvider listProvider;
         ServiceProvider serviceProvider;
+        List<ErrorTask> tasks = new List<ErrorTask>();
 
         public TaskList(object application) {
             instance = this;
@@ -24,8 +25,16 @@ namespace Zippy.Chirp {
             listProvider.Show();
         }
 
+        public TaskList() {
+            instance = this;
+        }
+
         public static TaskList Instance {
             get { return instance; }
+        }
+
+        public IEnumerable<ErrorTask> Errors {
+            get { return tasks; }
         }
 
         Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();
@@ -47,7 +56,7 @@ namespace Zippy.Chirp {
 
         private void Add(Project project, ErrorTask task) {
             IVsHierarchy hierarchy = null;
-            if (project != null) {
+            if (project != null && serviceProvider != null) {
                 var solution = serviceProvider.GetService(typeof(IVsSolution)) as IVsSolution;
                 if (solution != null) {
                     solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
@@ -56,7 +65,8 @@ namespace Zippy.Chirp {
 
             task.HierarchyItem = hierarchy;
             task.Navigate += new EventHandler(task_Navigate);
-            listProvider.Tasks.Add(task);
+            if (listProvider != null) listProvider.Tasks.Add(task);
+            tasks.Add(task);
 
             if (project != null) {
                 lock (taskProjects) {
@@ -74,8 +84,8 @@ namespace Zippy.Chirp {
         }
 
         public void Remove(string file) {
-            var tasks = listProvider.Tasks.Cast<ErrorTask>().Where(x => file.Is(x.Document)).ToArray();
-            foreach (var task in tasks) {
+            // var tasks = listProvider.Tasks.Cast<ErrorTask>().Where(x => file.Is(x.Document)).ToArray();
+            foreach (var task in tasks.Where(x => x.Document.Is(file)).ToArray()) {
                 Remove(task);
             }
         }
@@ -90,12 +100,14 @@ namespace Zippy.Chirp {
         }
 
         public void RemoveAll() {
-            listProvider.Tasks.Clear();
+            if (listProvider != null) listProvider.Tasks.Clear();
+            tasks.Clear();
             taskProjects.Clear();
         }
 
         private void Remove(ErrorTask task) {
-            listProvider.Tasks.Remove(task);
+            if (listProvider != null) listProvider.Tasks.Remove(task);
+            tasks.Remove(task);
             lock (taskProjects) {
                 if (taskProjects.ContainsKey(task)) {
                     taskProjects.Remove(task);
