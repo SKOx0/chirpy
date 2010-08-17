@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-    class LessEngine : TransformEngine {
+    public class LessEngine : TransformEngine {
         public LessEngine() {
             Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
             OutputExtension = ".css";
