@@ -12,7 +12,7 @@ namespace Zippy.Chirp.Engines {
             switch (mode) {
                 case MinifyType.gctAdvanced:
                 case MinifyType.gctSimple:
-                case MinifyType.gstWhiteSpaceOnly:
+                case MinifyType.gctWhiteSpaceOnly:
                     return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, mode);
                 case MinifyType.msAjax:
                     return MsJsEngine.Minify(fullFileName, outputText, projectItem);
