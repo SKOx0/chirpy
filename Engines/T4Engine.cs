@@ -26,7 +26,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Run(string fullFileName, ProjectItem projectItem) {
-            RunT4Template(_app, Settings.T4RunAsBuildTemplate);
+            RunT4Template(_app, MVCT4TemplateName);
         }
 
         public static void RunT4Template(DTE2 app, string t4TemplateList) {

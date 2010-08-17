@@ -37,8 +37,7 @@ namespace Zippy.Chirp {
                         ErrorText += node.InnerText;
                         onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, "Server error : " + node.InnerText, 1, 1);
                     }
-                    // error send to noError
-                    //throw new GoogleClosureCompilerErrorException(ErrorText);
+                    throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
 
                 //valid have Javascript error
@@ -67,8 +66,7 @@ namespace Zippy.Chirp {
                              (node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty).ToInt(1),
                              (node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty).ToInt(1));
                     }
-                    // error send to noError
-                    //throw new GoogleClosureCompilerErrorException(ErrorText);
+                    throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
                 return xml.SelectSingleNode("//compiledCode").InnerText;
             } else {
