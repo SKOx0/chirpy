@@ -13,7 +13,7 @@ namespace Zippy.Chirp.Xml
         yuiHybird,
         gctAdvanced,
         gctSimple,
-        gstWhiteSpaceOnly,
+        gctWhiteSpaceOnly,
         msAjax
     }
 }

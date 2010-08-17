@@ -63,9 +63,10 @@ namespace Zippy.Chirp {
         }
 
         public static ProjectItem GetParent(this ProjectItem projectItem) {
-            var all = projectItem.ContainingProject.ProjectItems.GetAll();
-            var parents = all.Where(x => x.ProjectItems.Cast<ProjectItem>().Contains(projectItem)).ToArray();
-            return parents.FirstOrDefault();
+            return projectItem.Collection.Parent as ProjectItem;
+            //var all = projectItem.ContainingProject.ProjectItems.GetAll();
+            //var parents = all.Where(x => x.ProjectItems.Cast<ProjectItem>().Contains(projectItem)).ToArray();
+            //return parents.FirstOrDefault();
         }
 
         public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible {

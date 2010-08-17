@@ -67,7 +67,7 @@ namespace Zippy.Chirp.Engines {
         public override void Process(Manager.VSProjectItemManager manager, string fullFileName, EnvDTE.ProjectItem projectItem, string baseFileName, string outputText) {
             base.Process(manager, fullFileName, projectItem, baseFileName, outputText);
 
-            MinifyType mode = GetMinifyType(fullFileName);
+            var mode = GetMinifyType(fullFileName);
             string mini = CssEngine.Minify(fullFileName, outputText, projectItem, mode);
             manager.AddFileByFileName(baseFileName + ".min.css", mini);
         }

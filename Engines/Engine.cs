@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using EnvDTE;
 using EnvDTE80;
 using Zippy.Chirp.Manager;
@@ -11,11 +12,9 @@ namespace Zippy.Chirp.Engines {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
             switch (mode) {
                 case MinifyType.gctAdvanced:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
                 case MinifyType.gctSimple:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
-                case MinifyType.gstWhiteSpaceOnly:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem,ClosureCompilerCompressMode.WHITESPACE_ONLY);
+                case MinifyType.gctWhiteSpaceOnly:
+                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, mode);
                 case MinifyType.msAjax:
                     return MsJsEngine.Minify(fullFileName, outputText, projectItem);
                 default:
@@ -33,7 +32,7 @@ namespace Zippy.Chirp.Engines {
                 case MinifyType.yuiMARE:
                 case MinifyType.yuiHybird:
                 default:
-                    return YuiCssEngine.Minify(outputText,mode);
+                    return YuiCssEngine.Minify(outputText, mode);
             }
         }
     }
@@ -112,7 +111,7 @@ namespace Zippy.Chirp.Engines {
                     ProjectItem projectItem = null;
 
                     try {
-                        if (!_queue.Any()) _are.WaitOne();
+                        if (!_queue.Any()) _are.WaitOne(500);
                         if (!_queue.Any()) continue;
                         projectItem = _queue.Dequeue();
 
@@ -134,7 +133,7 @@ namespace Zippy.Chirp.Engines {
                             _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
                             action.Run(fullFileName, projectItem);
                         }
-
+                    } catch (COMException) { //the projectitem is no longer available
                     } catch (System.Threading.ThreadAbortException) {
                     } catch (Exception ex) {
                         if (projectItem != null)
