@@ -83,3 +83,4 @@ E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Config.resources
 E:\Codeplex\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
 E:\Codeplex\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
 E:\Codeplex\Chirpy\bin\dotless.Core.pdb
+C:\projets\Chirpy\bin\dotless.Core.pdb
