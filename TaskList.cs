@@ -17,16 +17,14 @@ namespace Zippy.Chirp {
         public TaskList(object application) {
             instance = this;
 
-            serviceProvider = new ServiceProvider(application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
-
-            listProvider = new ErrorListProvider(serviceProvider);
-            listProvider.ProviderName = this.GetType().Assembly.FullName;
-            listProvider.ProviderGuid = new Guid("F1415C4C-5D67-401F-A81C-71F0721BB6F0");
-            listProvider.Show();
-        }
-
-        public TaskList() {
-            instance = this;
+            var app = application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+            if (app != null) {
+                serviceProvider = new ServiceProvider(app);
+                listProvider = new ErrorListProvider(serviceProvider);
+                listProvider.ProviderName = this.GetType().Assembly.FullName;
+                listProvider.ProviderGuid = new Guid("F1415C4C-5D67-401F-A81C-71F0721BB6F0");
+                listProvider.Show();
+            }
         }
 
         public static TaskList Instance {
