@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Castle.DynamicProxy.Generators;
 using EnvDTE;
+using EnvDTE80;
+using Extensibility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Zippy.Chirp.Tests {
@@ -10,10 +13,36 @@ namespace Zippy.Chirp.Tests {
     /// </summary>
     [TestClass]
     public class UnitTest1 {
-        Zippy.Chirp.TaskList tasks = new TaskList();
+        Zippy.Chirp.Chirp chirp;
+
+        DTE2 app;
 
         public UnitTest1() {
             AttributesToAvoidReplicating.Add<TypeIdentifierAttribute>();
+            chirp = new Chirp();
+
+            app = GetApp();
+
+            Array arr = null;
+            chirp.OnConnection(app, ext_ConnectMode.ext_cm_AfterStartup, QuickMock<AddIn>(), ref  arr);
+        }
+
+        private static DTE2 GetApp() {
+            var mockApp = new Moq.Mock<DTE2>();
+            var mockEvents = new Moq.Mock<Events2>();
+            mockEvents.Setup(x => x.get_DocumentEvents(null)).Returns(QuickMock<DocumentEvents>());
+            mockEvents.Setup(x => x.ProjectItemsEvents).Returns(QuickMock<ProjectItemsEvents>());
+            mockEvents.Setup(x => x.SolutionEvents).Returns(QuickMock<SolutionEvents>());
+            mockEvents.Setup(x => x.BuildEvents).Returns(QuickMock<BuildEvents>());
+            mockEvents.Setup(x => x.get_CommandEvents("{" + Guid.Empty.ToString() + "}", 0)).Returns(QuickMock<CommandEvents>());
+
+            mockApp.Setup(x => x.Events).Returns(() => mockEvents.Object);
+            return mockApp.Object;
+        }
+
+        private static T QuickMock<T>() where T : class {
+            var mock = new Moq.Mock<T>();
+            return mock.Object;
         }
 
         /// <summary>
@@ -58,10 +87,10 @@ namespace Zippy.Chirp.Tests {
             code = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", code);
             Assert.AreEqual(code, "#test {\n  border: solid 1px black;\n}\n");
 
-            tasks.RemoveAll();
+            TaskList.Instance.RemoveAll();
             code = "#test {\r\n\t color/**/  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", code);
-            Assert.AreEqual(tasks.Errors.Count(), 1);
+            Assert.AreEqual(TaskList.Instance.Errors.Count(), 1);
         }
 
         private string TestEngine<T>(string filename, string code) where T : Zippy.Chirp.Engines.TransformEngine, new() {
