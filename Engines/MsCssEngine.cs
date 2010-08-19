@@ -2,7 +2,7 @@
 using Microsoft.Ajax.Utilities;
 
 namespace Zippy.Chirp.Engines {
-    class MsCssEngine : CssEngine {
+    public class MsCssEngine : CssEngine {
         public MsCssEngine() {
             Extensions = new[] { Settings.ChirpMSAjaxCssFile };
             OutputExtension = ".min.css";

@@ -2,7 +2,7 @@
 using System;
 using EnvDTE;
 namespace Zippy.Chirp.Engines {
-    class ClosureCompilerEngine : JsEngine {
+    public class ClosureCompilerEngine : JsEngine {
         public ClosureCompilerEngine() {
             Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile };
             OutputExtension = ".min.js";
