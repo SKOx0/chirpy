@@ -2,7 +2,7 @@ using Yahoo.Yui.Compressor;
 
 namespace Zippy.Chirp.Engines {
 
-    class YuiJsEngine : JsEngine {
+    public class YuiJsEngine : JsEngine {
         public YuiJsEngine() {
             Extensions = new[] { Settings.ChirpYUIJsFile };
             OutputExtension = ".min.js";
