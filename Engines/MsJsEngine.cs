@@ -2,7 +2,7 @@
 
 namespace Zippy.Chirp.Engines {
 
-    class MsJsEngine : JsEngine {
+    public class MsJsEngine : JsEngine {
         public MsJsEngine() {
             Extensions = new[] { Settings.ChirpMSAjaxJsFile };
             OutputExtension = ".min.js";

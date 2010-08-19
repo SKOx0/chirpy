@@ -73,6 +73,7 @@ namespace Zippy.Chirp.Tests {
         //
         #endregion
 
+        #region "Test CSS"
         [TestMethod]
         public void TestYuiCssEngine() {
             string code = "#test {\r\n\t color  : red; }";
@@ -80,6 +81,53 @@ namespace Zippy.Chirp.Tests {
 
             Assert.AreEqual(code, "#test{color:red;}");
         }
+
+
+
+
+        /// <summary>
+        /// Test Microsoft Ajax Minifer (javascript)
+        /// </summary>
+        [TestMethod]
+        public void TestMsCssEngine()
+        {
+            string code = "#test {\r\n\t color  : red; }";
+            code = TestEngine<Zippy.Chirp.Engines.MsCssEngine>("c:\\test.css", code);
+
+            Assert.AreEqual(code, "#test{color:red}");
+        }
+        #endregion
+
+        #region "Test JS"
+         [TestMethod]
+        public void TestMsJsEngine()
+        {
+            string code = "if(test) {\r\n\t alert('test'); }";
+            code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
+
+            Assert.AreEqual(code, "test&&alert(\"test\")");
+         }
+
+         [TestMethod]
+         public void TestYuiJsEngine()
+         {
+             string code = "if(test) {\r\n\t alert('test'); }";
+             code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
+
+             Assert.AreEqual(code, "if(test){alert(\"test\")};");
+         }
+
+         [TestMethod]
+         public void TestClosureCompilerJsEngine()
+         {
+             string code = "if(test) {\r\n\t alert('test'); }";
+             code = TestEngine<Zippy.Chirp.Engines.ClosureCompilerEngine>("c:\\test.js", code);
+
+             Assert.AreEqual(code, "if(test)alert(\"test\");");
+         }
+        #endregion
+
+
 
         [TestMethod]
         public void TestLessEngine() {
