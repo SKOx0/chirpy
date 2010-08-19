@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -13,10 +14,12 @@ namespace Zippy.Chirp {
         ErrorListProvider listProvider;
         ServiceProvider serviceProvider;
         List<ErrorTask> tasks = new List<ErrorTask>();
+        DTE2 _app;
 
         public TaskList(object application) {
             instance = this;
 
+            _app = application as DTE2;
             var app = application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
             if (app != null) {
                 serviceProvider = new ServiceProvider(app);
@@ -71,6 +74,9 @@ namespace Zippy.Chirp {
                     taskProjects.Add(task, project);
                 }
             }
+
+            if (_app != null && _app.ToolWindows != null)
+                _app.ToolWindows.ErrorList.Parent.Activate();
         }
 
         void task_Navigate(object sender, EventArgs e) {
