@@ -4,16 +4,27 @@ using System.Text.RegularExpressions;
 
 
 namespace Zippy.Chirp.Engines {
-    class ViewEngine : ActionEngine {
+    class ViewEngine : TransformEngine {
+        public ViewEngine() {
+            Extensions = new[] { Settings.ChirpViewFile, Settings.ChirpPartialViewFile };
+            OutputExtension = Settings.ChirpViewFile;
+        }
+
+        public override string GetOutputExtension(string fullFileName) {
+            if (fullFileName.EndsWith(Settings.ChirpViewFile, System.StringComparison.InvariantCultureIgnoreCase))
+                return ".aspx";
+            else return ".ascx";
+        }
+
         public override int Handles(string fullFileName) {
             if (fullFileName.EndsWith(Settings.ChirpViewFile, System.StringComparison.InvariantCultureIgnoreCase)) return 1;
             else if (fullFileName.EndsWith(Settings.ChirpPartialViewFile, System.StringComparison.InvariantCultureIgnoreCase)) return 1;
             else return 0;
         }
+
         static Regex rxScripts = new Regex(@"\<(style|script)([^>]*)\>(.*?)\</\1\>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem) {
-            var text = System.IO.File.ReadAllText(fullFileName);
+        public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             var tags = rxScripts.Matches(text).Cast<Match>().Reverse();
 
             foreach (var match in tags) {
@@ -37,7 +48,8 @@ namespace Zippy.Chirp.Engines {
                     + '<' + tagName + attrs + '>' + code + "</" + tagName + '>'
                     + text.Substring(match.Index + match.Length);
             }
-        }
 
+            return text;
+        }
     }
 }
