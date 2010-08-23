@@ -12,7 +12,7 @@ namespace Zippy.Chirp.Engines {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
             switch (mode) {
                 case MinifyType.gctAdvanced:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem,ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
+                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
                 case MinifyType.gctSimple:
                     return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
                 case MinifyType.gctWhiteSpaceOnly:
@@ -59,11 +59,13 @@ namespace Zippy.Chirp.Engines {
     public abstract class TransformEngine : ActionEngine {
         public string OutputExtension { get; set; }
         public string[] Extensions { get; set; }
-
+        public virtual string GetOutputExtension(string fullFileName) {
+            return OutputExtension;
+        }
         public abstract string Transform(string fullFileName, string text, ProjectItem projectItem);
 
         public override int Handles(string fullFileName) {
-            if (fullFileName.EndsWith(OutputExtension, StringComparison.InvariantCultureIgnoreCase)) return 0;
+            if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0;
             var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
                 .FirstOrDefault() ?? string.Empty;
             return match.Length;
@@ -82,7 +84,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText) {
-            manager.AddFileByFileName(baseFileName + OutputExtension, outputText);
+            manager.AddFileByFileName(baseFileName + GetOutputExtension(fullFileName), outputText);
         }
     }
 
