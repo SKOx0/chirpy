@@ -10,6 +10,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public static string Minify(string text, MinifyType mode) {
+            if (string.IsNullOrEmpty(text)) return text;
             var cssmode = mode == MinifyType.yuiHybird ? CssCompressionType.Hybrid
                : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
                : CssCompressionType.StockYuiCompressor;

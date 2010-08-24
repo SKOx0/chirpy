@@ -111,44 +111,52 @@ namespace Zippy.Chirp.Engines {
             _Chirp = chirp;
             _process = new System.Threading.Thread(() => {
                 while (true) {
-                    string fullFileName = null;
-                    ProjectItem projectItem = null;
-
                     try {
-                        if (!_queue.Any()) _are.WaitOne(500);
-                        if (!_queue.Any()) continue;
-                        projectItem = _queue.Dequeue();
+                        string fullFileName = null;
+                        ProjectItem projectItem = null;
 
-                        var parent = projectItem.GetParent();
-                        if (parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) return;
+                        try {
+                            if (!_queue.Any()) _are.WaitOne(500);
+                            if (!_queue.Any()) continue;
+                            projectItem = _queue.Dequeue();
 
-                        fullFileName = projectItem.get_FileNames(1);
-                        TaskList.Instance.Remove(fullFileName);
+                            var parent = projectItem.GetParent();
+                            if (parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) return;
 
-                        var actions = _allactions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
-                            .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
+                            fullFileName = projectItem.get_FileNames(1);
+                            TaskList.Instance.Remove(fullFileName);
 
-                        bool transformed = false;
-                        foreach (var action in actions) {
-                            if (action is TransformEngine) {
-                                if (transformed) continue;
-                                transformed = true;
+                            var actions = _allactions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
+                                .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
+
+                            bool transformed = false;
+                            foreach (var action in actions) {
+                                if (action is TransformEngine) {
+                                    if (transformed) continue;
+                                    transformed = true;
+                                }
+                                _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                                action.Run(fullFileName, projectItem);
                             }
-                            _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
-                            action.Run(fullFileName, projectItem);
+                        } catch (COMException) { //the projectitem is no longer available
+                        } catch (System.Threading.ThreadAbortException) {
+                        } catch (Exception ex) {
+                            if (projectItem != null)
+                                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, 1, 1, ex.ToString());
+                            else _Chirp.outputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
+                        } finally {
+                            if (fullFileName != null)
+                                _queued.Remove(fullFileName);
                         }
-                    } catch (COMException) { //the projectitem is no longer available
-                    } catch (System.Threading.ThreadAbortException) {
-                    } catch (Exception ex) {
-                        if (projectItem != null)
-                            TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, 1, 1, ex.ToString());
-                        else _Chirp.outputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
-                    } finally {
-                        if (fullFileName != null)
-                            _queued.Remove(fullFileName);
+                    } catch (System.Threading.ThreadAbortException) { //happens on dispose
+                    } catch (Exception e) {
+                        //This should never happen... but when it does we need to catch it
+                        System.Windows.Forms.MessageBox.Show(e.ToString(), "Chirpy Exception", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     }
                 }
             });
+
+            _process.Name = "Chirpy ProjectItem Processor";
             _process.Start();
         }
 
