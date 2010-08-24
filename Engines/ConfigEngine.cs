@@ -147,7 +147,7 @@ namespace Zippy.Chirp.Engines {
         public void Refresh(string configFile) {
             ProjectItem configItem = _app.LocateProjectItemForFileName(configFile);
             if (configItem != null) {
-                Chirp.ConfigEngine.Run(configFile, configItem);
+                Chirp.EngineManager.Enqueue(configItem);
             }
         }
 
