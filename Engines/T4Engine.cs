@@ -26,16 +26,16 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Run(string fullFileName, ProjectItem projectItem) {
-            RunT4Template(_app, MVCT4TemplateName);
+            RunT4Template(_Chirp.app, MVCT4TemplateName);
         }
 
         public static void RunT4Template(DTE2 app, string t4TemplateList) {
             string[] T4List = t4TemplateList.Split(new char[] { ',' });
-            foreach (string t4Template in T4List) {
+            foreach(string t4Template in T4List) {
                 ProjectItem projectItem = app.Solution.FindProjectItem(t4Template.Trim());
 
-                if (projectItem != null) {
-                    if (!projectItem.IsOpen)
+                if(projectItem != null) {
+                    if(!projectItem.IsOpen)
                         projectItem.Open();
                     projectItem.Save();
                 }
