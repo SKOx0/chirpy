@@ -12,7 +12,7 @@ namespace Zippy.Chirp.Engines {
             Minifier minifier = new Minifier();
             string mini = minifier.MinifyJavaScript(text);
 
-            foreach (var err in minifier.Errors) {
+            foreach(var err in minifier.Errors) {
                 int line = 0;
                 int column = 0;
                 //todo : use regex

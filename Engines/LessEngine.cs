@@ -15,7 +15,7 @@ namespace Zippy.Chirp.Engines {
         static dotless.Core.Parser.Parser lazyLessParser;
         static dotless.Core.Parser.Parser lessParser {
             get {
-                if (lazyLessParser == null) {
+                if(lazyLessParser == null) {
                     lazyLessParser = new dotless.Core.Parser.Parser();
                 }
                 return lazyLessParser;
@@ -40,22 +40,24 @@ namespace Zippy.Chirp.Engines {
         public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             string css = null;
 
-            try {
-                css = lessParser.Parse(text, fullFileName).ToCSS();
-            } catch (Exception e) {
-                int line = 1, column = 1;
-                var description = e.Message.Trim();
-                Match match;
-                if ((match = rxLineNum.Match(description)).Success) {
-                    line = match.Groups[1].Value.ToInt(1);
-                }
+            lock(lessParser)
+                using(new EnvironmentDirectory(fullFileName))
+                    try {
+                        css = lessParser.Parse(text, fullFileName).ToCSS();
+                    } catch(Exception e) {
+                        int line = 1, column = 1;
+                        var description = e.Message.Trim();
+                        Match match;
+                        if((match = rxLineNum.Match(description)).Success) {
+                            line = match.Groups[1].Value.ToInt(1);
+                        }
 
-                if ((match = rxColNum.Match(description)).Success) {
-                    column = match.Groups[1].Length + 1;
-                }
+                        if((match = rxColNum.Match(description)).Success) {
+                            column = match.Groups[1].Length + 1;
+                        }
 
-                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
-            }
+                        TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
+                    }
 
             return css;
         }
@@ -74,13 +76,13 @@ namespace Zippy.Chirp.Engines {
 
         public MinifyType GetMinifyType(string fullFileName) {
             MinifyType mode = MinifyType.yui;
-            if (IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
+            if(IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
                 mode = IsChirpMichaelAshLessFile(fullFileName) ? MinifyType.yuiMARE
                : IsChirpHybridLessFile(fullFileName) ? MinifyType.yuiHybird
                : MinifyType.yui;
 
             }
-            if (IsChirpMSAjaxLessFile(fullFileName)) {
+            if(IsChirpMSAjaxLessFile(fullFileName)) {
                 mode = MinifyType.msAjax;
             }
 

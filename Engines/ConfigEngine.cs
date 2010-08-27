@@ -39,16 +39,16 @@ namespace Zippy.Chirp.Engines {
             string configFileName = projectItem.get_FileNames(1);
 
             //remove all current dependencies for this config file...
-            foreach (string key in dependentFiles.Keys.ToArray()) {
+            foreach(string key in dependentFiles.Keys.ToArray()) {
                 List<string> files = dependentFiles[key];
-                if (files.Remove(configFileName) && files.Count == 0)
+                if(files.Remove(configFileName) && files.Count == 0)
                     dependentFiles.Remove(key);
             }
 
             var fileGroups = LoadConfigFileGroups(configFileName);
-            foreach (var fileGroup in fileGroups) {
-                foreach (var file in fileGroup.Files) {
-                    if (!dependentFiles.ContainsKey(file.Path)) {
+            foreach(var fileGroup in fileGroups) {
+                foreach(var file in fileGroup.Files) {
+                    if(!dependentFiles.ContainsKey(file.Path)) {
                         dependentFiles.Add(file.Path, new List<string> { configFileName });
                     } else {
                         dependentFiles[file.Path].Add(configFileName);
@@ -66,7 +66,7 @@ namespace Zippy.Chirp.Engines {
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
 
-            if (ReturnList.Count == 0)
+            if(ReturnList.Count == 0)
                 ReturnList = doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig"))
                      .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
@@ -82,30 +82,28 @@ namespace Zippy.Chirp.Engines {
             var fileGroups = LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
 
-            using (var manager = new Manager.VSProjectItemManager(_app, projectItem)) {
-                foreach (var fileGroup in fileGroups) {
+            using(var manager = new Manager.VSProjectItemManager(_Chirp.app, projectItem)) {
+                foreach(var fileGroup in fileGroups) {
                     var allFileText = new StringBuilder();
                     bool isjs = false;
 
-                    foreach (var file in fileGroup.Files) {
+                    foreach(var file in fileGroup.Files) {
                         var path = file.Path;
                         string code = System.IO.File.ReadAllText(path);
                         isjs = IsJsFile(path);
                         TaskList.Instance.Remove(path);
 
-                        using (new EnvironmentDirectory(path)) {
-                            if (IsLessFile(path)) {
-                                code = LessEngine.TransformToCss(path, code, projectItem);
-                            }
+                        if(IsLessFile(path)) {
+                            code = LessEngine.TransformToCss(path, code, projectItem);
+                        }
 
-                            if (file.Minify == true) {
-                                if (IsCssFile(path)) {
-                                    code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+                        if(file.Minify == true) {
+                            if(IsCssFile(path)) {
+                                code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
 
-                                } else if (IsJsFile(path)) {
-                                    code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
-                                    isjs = true;
-                                }
+                            } else if(IsJsFile(path)) {
+                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                isjs = true;
                             }
                         }
 
@@ -113,22 +111,23 @@ namespace Zippy.Chirp.Engines {
                     }
 
                     string fullPath = directory + @"\" + fileGroup.Name;
-                    if (!string.IsNullOrEmpty(fileGroup.Path))
+                    if(!string.IsNullOrEmpty(fileGroup.Path))
                         fullPath = fileGroup.Path;
 
                     string output = allFileText.ToString();
                     string mini = null;
-                    if (fileGroup.Minify == true || fileGroup.Minify == null) {
+                    if(fileGroup.Minify == true || fileGroup.Minify == null) {
+                        TaskList.Instance.Remove(fullPath);
 
                         mini = isjs ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
 
-                        if (fileGroup.Minify == true)
+                        if(fileGroup.Minify == true)
                             output = mini;
                     }
 
                     manager.AddFileByFileName(fullPath, output);
-                    if (fileGroup.Minify == null) {
+                    if(fileGroup.Minify == null) {
                         manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + ".min." + (isjs ? "js" : "css"), mini);
                     }
                 }
@@ -139,29 +138,28 @@ namespace Zippy.Chirp.Engines {
 
         public void RefreshAll() {
             var configs = dependentFiles.SelectMany(x => x.Value).Distinct(StringComparer.InvariantCultureIgnoreCase);
-            foreach (var configFile in configs) {
+            foreach(var configFile in configs) {
                 Refresh(configFile);
             }
         }
 
         public void Refresh(string configFile) {
-            ProjectItem configItem = _app.LocateProjectItemForFileName(configFile);
-            if (configItem != null) {
-                Chirp.EngineManager.Enqueue(configItem);
+            ProjectItem configItem = _Chirp.app.LocateProjectItemForFileName(configFile);
+            if(configItem != null) {
+                _Chirp.EngineManager.Enqueue(configItem);
             }
         }
 
         public void CheckForConfigRefresh(ProjectItem projectItem) {
             string fullFileName = projectItem.get_FileNames(1);
-            var dependentFiles = Chirp.ConfigEngine.dependentFiles;
 
-            if (dependentFiles.ContainsKey(fullFileName)) {
-                foreach (string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
+            if(dependentFiles.ContainsKey(fullFileName)) {
+                foreach(string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                     Refresh(configFile);
                 }
             }
 
-            foreach (ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
+            foreach(ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                 CheckForConfigRefresh(projectItemInner);
             }
         }
