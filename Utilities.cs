@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
 using EnvDTE80;
+using System.Windows.Forms;
 
 namespace Zippy.Chirp {
     public static class Utilities {
@@ -28,35 +29,60 @@ namespace Zippy.Chirp {
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
         }
 
-        public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName) {
-            ProjectItem item = null;
-            foreach (Project project in app.Solution.Projects) {
-                item = project.ProjectItems.ProcessFolderProjectItemsRecursively()
-                    .FirstOrDefault(x => x.get_FileNames(1).Is(fileName));
-                if (item != null) break;
+        public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName)
+        {
+            foreach (Project project in app.Solution.Projects)
+            {
+                foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively())
+                {
+                    if (projectItem.get_FileNames(1) == fileName)
+                        return projectItem;
+                }
+
             }
-            return item;
+            return null;
         }
 
         public static bool IsFolder(this ProjectItem item) {
             return item.Kind == Constants.vsProjectItemKindPhysicalFolder;
         }
 
-        public static IEnumerable<ProjectItem> ProcessFolderProjectItemsRecursively(this  ProjectItems projectItems) {
-            foreach (ProjectItem projectItem in projectItems) {
-                if (projectItem.IsFolder()) {
-                    foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems))
-                        yield return folderProjectItem;
-                }
+        public static bool IsSolutionFolder(this ProjectItem item)
+        {
+            return item.SubProject != null;
+        }
 
-                yield return projectItem;
+        public static IEnumerable<ProjectItem> ProcessFolderProjectItemsRecursively(this ProjectItems projectItems)
+        {
+            foreach (ProjectItem projectItem in projectItems)
+            {
+                if (projectItem.IsFolder())
+                {
+                    foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems))
+                    {
+                        yield return folderProjectItem;
+                    }
+                }
+                else if (projectItem.IsSolutionFolder())
+                {
+                    foreach(ProjectItem solutionProjectItem in ProcessFolderProjectItemsRecursively(projectItem.SubProject.ProjectItems))
+                    {
+                        yield return solutionProjectItem;
+                    }
+                }
+                else
+                {
+                    yield return projectItem;
+                }
             }
         }
 
         public static IEnumerable<ProjectItem> GetAll(this  ProjectItems projectItems) {
             foreach (ProjectItem projectItem in projectItems) {
                 foreach (ProjectItem subItem in GetAll(projectItem.ProjectItems))
+                {
                     yield return subItem;
+                }
 
                 yield return projectItem;
             }

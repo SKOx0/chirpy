@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using EnvDTE;
 using Zippy.Chirp.Xml;
+using System.Windows.Forms;
 
 namespace Zippy.Chirp.Engines {
     class ConfigEngine : ActionEngine {
@@ -36,6 +37,7 @@ namespace Zippy.Chirp.Engines {
         /// </summary>
         /// <param name="projectItem"></param>
         internal void ReloadConfigFileDependencies(ProjectItem projectItem) {
+
             string configFileName = projectItem.get_FileNames(1);
 
             //remove all current dependencies for this config file...
@@ -79,6 +81,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Run(string fullFileName, ProjectItem projectItem) {
+
             var fileGroups = LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
 
@@ -144,13 +147,15 @@ namespace Zippy.Chirp.Engines {
         }
 
         public void Refresh(string configFile) {
-            ProjectItem configItem = _Chirp.app.LocateProjectItemForFileName(configFile);
+            ProjectItem configItem = _Chirp.app.Solution.FindProjectItem(configFile);
+
             if(configItem != null) {
                 _Chirp.EngineManager.Enqueue(configItem);
             }
         }
 
         public void CheckForConfigRefresh(ProjectItem projectItem) {
+            
             string fullFileName = projectItem.get_FileNames(1);
 
             if(dependentFiles.ContainsKey(fullFileName)) {

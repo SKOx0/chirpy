@@ -1,0 +1,13 @@
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\Zippy.Chirp.Tests.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\Zippy.Chirp.Tests.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\Moq.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\dotless.Core.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\Yahoo.Yui.Compressor.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\AjaxMin.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\dotless.Core.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\obj\Debug\Zippy.Chirp.Tests.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\obj\Debug\Zippy.Chirp.Tests.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\TempChirpy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\Zippy.Chirp.Tests\bin\Debug\TempChirpy.pdb
