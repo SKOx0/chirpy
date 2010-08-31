@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using EnvDTE;
 using Zippy.Chirp.Manager;
 using Zippy.Chirp.Xml;
+using System.Windows.Forms;
 
 namespace Zippy.Chirp.Engines {
     public abstract class JsEngine : TransformEngine {
@@ -77,8 +78,7 @@ namespace Zippy.Chirp.Engines {
                 string outputText = Transform(fullFileName, inputText, projectItem);
                 Process(manager, fullFileName, projectItem, baseFileName, outputText);
             }
-
-            _Chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
+            //_Chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
         }
 
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText) {
@@ -146,11 +146,16 @@ namespace Zippy.Chirp.Engines {
 
         public override void Enqueue(ProjectItem projectItem) {
             var parent = projectItem.GetParent();
-            if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) return;
+            if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1)))
+            {
+                return;
+            }
 
             var file = projectItem.get_FileNames(1);
-            if(!Any(i => i.get_FileNames(1).Is(file)))
+            if(!Any(i => i.get_FileNames(1).Is(file))) 
+            {
                 base.Enqueue(projectItem);
+            }
         }
     }
 }

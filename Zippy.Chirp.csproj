@@ -10,7 +10,7 @@
     <StartupObject>
     </StartupObject>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>TempZippy</AssemblyName>
+    <AssemblyName>TempChirpy</AssemblyName>
     <RootNamespace>Zippy.Chirp</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
@@ -40,7 +40,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AjaxMin">
@@ -186,11 +186,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Zippy.Chirp.AddIn">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +216,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Zippy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"</PostBuildEvent>
+    <PreBuildEvent>del "$(ProjectDir)$(OutDir)Chirpy.vsi"</PreBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"
+7z.exe u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
+rename "$(ProjectDir)$(OutDir)Chirpy.zip" "Chirpy.vsi"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
