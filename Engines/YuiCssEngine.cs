@@ -11,7 +11,7 @@ namespace Zippy.Chirp.Engines {
 
         public static string Minify(string text, MinifyType mode) {
             if (string.IsNullOrEmpty(text)) return text;
-            var cssmode = mode == MinifyType.yuiHybird ? CssCompressionType.Hybrid
+            var cssmode = mode == MinifyType.yuiHybrid ? CssCompressionType.Hybrid
                : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
                : CssCompressionType.StockYuiCompressor;
 
@@ -19,7 +19,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
-            var mode = fullFileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiHybird
+            var mode = fullFileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiHybrid
                 : fullFileName.EndsWith(Settings.ChirpMichaelAshCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiMARE
                 : MinifyType.yui;
 

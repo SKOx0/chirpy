@@ -78,7 +78,7 @@ namespace Zippy.Chirp.Engines {
             MinifyType mode = MinifyType.yui;
             if(IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
                 mode = IsChirpMichaelAshLessFile(fullFileName) ? MinifyType.yuiMARE
-               : IsChirpHybridLessFile(fullFileName) ? MinifyType.yuiHybird
+               : IsChirpHybridLessFile(fullFileName) ? MinifyType.yuiHybrid
                : MinifyType.yui;
 
             }
