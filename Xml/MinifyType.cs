@@ -10,7 +10,7 @@ namespace Zippy.Chirp.Xml
         None,
         yui,
         yuiMARE,
-        yuiHybird,
+        yuiHybrid,
         gctAdvanced,
         gctSimple,
         gctWhiteSpaceOnly,

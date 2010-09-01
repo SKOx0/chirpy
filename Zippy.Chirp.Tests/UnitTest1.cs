@@ -102,7 +102,7 @@ namespace Zippy.Chirp.Tests
         public void TestYuiHybridCssEngine()
         {
             string code = "#test {\r\n\t color  : #ffffff; }";
-            string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiHybird);
+            string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiHybrid);
 
             Assert.AreEqual(output, "#test{color:#fff}");
         }

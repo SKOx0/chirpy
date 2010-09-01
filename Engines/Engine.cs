@@ -32,7 +32,7 @@ namespace Zippy.Chirp.Engines {
                     return MsCssEngine.Minify(fullFileName, outputText, projectItem);
                 case MinifyType.yui:
                 case MinifyType.yuiMARE:
-                case MinifyType.yuiHybird:
+                case MinifyType.yuiHybrid:
                 default:
                     return YuiCssEngine.Minify(outputText, mode);
             }
@@ -78,7 +78,6 @@ namespace Zippy.Chirp.Engines {
                 string outputText = Transform(fullFileName, inputText, projectItem);
                 Process(manager, fullFileName, projectItem, baseFileName, outputText);
             }
-            //_Chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
         }
 
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText) {
