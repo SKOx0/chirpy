@@ -164,8 +164,11 @@ namespace Zippy.Chirp.Engines {
                 }
             }
 
+            if (projectItem.ProjectItems != null)
+            { 
             foreach(ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                 CheckForConfigRefresh(projectItemInner);
+            }
             }
         }
     }
