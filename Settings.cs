@@ -56,6 +56,10 @@ namespace Zippy.Chirp {
         public static bool T4RunAsBuild = false;
         public static string T4RunAsBuildTemplate = string.Empty;
         public static bool SmartRunT4MVC = false;
+
+
+        public static bool GoogleClosureOffline = false;
+        public static string GoogleClosureJavaPath = string.Empty;
         #endregion
 
         #region Public Methods
@@ -90,6 +94,9 @@ namespace Zippy.Chirp {
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
                     Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
+
+                    Settings.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
+                    Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
                     LoadExtensions();
                 }
@@ -136,6 +143,9 @@ namespace Zippy.Chirp {
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
 
                 regKey.SetValue("SmartRunT4MVC", Settings.SmartRunT4MVC.ToString());
+
+                regKey.SetValue("GoogleClosureJavaPath", Settings.GoogleClosureJavaPath);
+                regKey.SetValue("GoogleClosureOffline", Settings.GoogleClosureOffline);
 
                 LoadExtensions();
 
