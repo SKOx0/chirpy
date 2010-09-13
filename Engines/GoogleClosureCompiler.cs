@@ -19,8 +19,12 @@ namespace Zippy.Chirp {
         /// <param name="js">javascript to compiler.</param>
         /// <param name="compressMode">SIMPLE_OPTIMIZATIONS,WHITESPACE_ONLY,ADVANCED_OPTIMIZATIONS</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
-        public static string Compress(string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError) {
+        public static string Compress(string fullFileName,string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError) {
             if (string.IsNullOrEmpty(js)) return string.Empty;
+
+            if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath)&& Settings.GoogleClosureOffline )
+                return GoogleClosureOfflineCompiler.Compress(
+                    fullFileName, compressMode, onError);
 
             long size = js.Length;
             if (size < 200000) {

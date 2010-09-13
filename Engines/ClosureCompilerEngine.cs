@@ -19,12 +19,12 @@ namespace Zippy.Chirp.Engines {
         public static string Minify(string fullFileName, string text, ProjectItem projectItem, ClosureCompilerCompressMode mode) {
             string returnedCode = null;
 
-            try {
-                returnedCode = GoogleClosureCompiler.Compress(text, mode, (category, msg, line, col) => {
+
+            returnedCode = GoogleClosureCompiler.Compress(fullFileName,text, mode, (category, msg, line, col) =>
+            {
                     TaskList.Instance.Add(projectItem.ContainingProject, category, fullFileName, line, col, msg);
                 });
-            } catch (System.Exception) { }
-
+           
             return returnedCode;
 
         }
