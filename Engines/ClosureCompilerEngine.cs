@@ -4,7 +4,7 @@ using EnvDTE;
 namespace Zippy.Chirp.Engines {
     public class ClosureCompilerEngine : JsEngine {
         public ClosureCompilerEngine() {
-            Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile };
+            Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile, Settings.ChirpJsFile };
             OutputExtension = ".min.js";
         }
 
