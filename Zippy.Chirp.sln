@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zippy.Chirp.Tests", "Zippy.Chirp.Tests\Zippy.Chirp.Tests.csproj", "{B711613D-0E59-4E5F-8F78-BA0900DE6787}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Zippy.Setup.VS10", "Zippy.Setup.VS10\Zippy.Setup.VS10.vdproj", "{2CFB713F-50B5-4C6A-A8FC-8ADE9D722DF4}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Zippy.Chirp1.vsmdi
@@ -29,6 +31,10 @@ Global
 		{B711613D-0E59-4E5F-8F78-BA0900DE6787}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B711613D-0E59-4E5F-8F78-BA0900DE6787}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B711613D-0E59-4E5F-8F78-BA0900DE6787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CFB713F-50B5-4C6A-A8FC-8ADE9D722DF4}.Debug|Any CPU.ActiveCfg = Debug
+		{2CFB713F-50B5-4C6A-A8FC-8ADE9D722DF4}.Debug|Any CPU.Build.0 = Debug
+		{2CFB713F-50B5-4C6A-A8FC-8ADE9D722DF4}.Release|Any CPU.ActiveCfg = Release
+		{2CFB713F-50B5-4C6A-A8FC-8ADE9D722DF4}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
