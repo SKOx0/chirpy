@@ -25,8 +25,10 @@ namespace Zippy.Chirp.Engines {
                 && (IsMVCStandardViewScriptOrContentFile(filename) || IsMVCStandardControllerFile(filename)) ? 1 : 0;
         }
 
+        System.Threading.Timer tmr;
         public override void Run(string fullFileName, ProjectItem projectItem) {
-            RunT4Template(_Chirp.app, MVCT4TemplateName);
+            if(tmr != null) tmr.Dispose();
+            tmr = new System.Threading.Timer((threadState) => RunT4Template(_Chirp.app, MVCT4TemplateName), null, 1000, System.Threading.Timeout.Infinite);
         }
 
         public static void RunT4Template(DTE2 app, string t4TemplateList) {
@@ -42,4 +44,6 @@ namespace Zippy.Chirp.Engines {
             }
         }
     }
+
+
 }

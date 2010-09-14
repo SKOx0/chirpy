@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using EnvDTE;
 using Zippy.Chirp.Manager;
 using Zippy.Chirp.Xml;
-using System.Windows.Forms;
 
 namespace Zippy.Chirp.Engines {
     public abstract class JsEngine : TransformEngine {
@@ -118,7 +117,12 @@ namespace Zippy.Chirp.Engines {
                 }
                 _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
                 action.Run(fullFileName, projectItem);
+                if(TaskList.Instance.HasErrors(fullFileName))
+                    break;
             }
+
+            _Chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
+
         }
 
         protected override void Error(ProjectItem projectItem, Exception ex) {
@@ -145,14 +149,12 @@ namespace Zippy.Chirp.Engines {
 
         public override void Enqueue(ProjectItem projectItem) {
             var parent = projectItem.GetParent();
-            if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1)))
-            {
+            if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) {
                 return;
             }
 
             var file = projectItem.get_FileNames(1);
-            if(!Any(i => i.get_FileNames(1).Is(file))) 
-            {
+            if(!Any(i => i.get_FileNames(1).Is(file))) {
                 base.Enqueue(projectItem);
             }
         }

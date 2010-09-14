@@ -66,6 +66,8 @@
     <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.VSHost, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -129,6 +131,7 @@
     <Compile Include="Engines\ClosureCompilerEngine.cs" />
     <Compile Include="Engines\ConfigEngine.cs" />
     <Compile Include="Engines\EnvironmentDirectory.cs" />
+    <Compile Include="Engines\GoogleClosureOfflineCompiler.cs" />
     <Compile Include="Engines\MsCssEngine.cs" />
     <Compile Include="Engines\MsJsEngine.cs" />
     <Compile Include="Engines\ServicePool.cs" />
