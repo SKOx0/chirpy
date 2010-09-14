@@ -96,6 +96,12 @@
     <Compile Include="Chirp.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ConfigurationScreen\GoogleClosure.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\GoogleClosure.Designer.cs">
+      <DependentUpon>GoogleClosure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Engines\ClosureCompilerCompressMode.cs" />
     <Compile Include="ConfigurationScreen\Css.cs">
       <SubType>UserControl</SubType>
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\Config.resx">
       <DependentUpon>Config.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\GoogleClosure.resx">
+      <DependentUpon>GoogleClosure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\Javascript.resx">
       <DependentUpon>Javascript.cs</DependentUpon>
