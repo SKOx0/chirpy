@@ -21,7 +21,7 @@ namespace Zippy.Chirp {
 
             _app = application as DTE2;
             var app = application as Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
-            if (app != null) {
+            if(app != null) {
                 serviceProvider = new ServiceProvider(app);
                 listProvider = new ErrorListProvider(serviceProvider);
                 listProvider.ProviderName = this.GetType().Assembly.FullName;
@@ -36,6 +36,10 @@ namespace Zippy.Chirp {
 
         public IEnumerable<ErrorTask> Errors {
             get { return tasks; }
+        }
+
+        public bool HasErrors(string fullFilename) {
+            return tasks.Any(x => x.Document.Is(fullFilename));
         }
 
         Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();
@@ -57,25 +61,25 @@ namespace Zippy.Chirp {
 
         private void Add(Project project, ErrorTask task) {
             IVsHierarchy hierarchy = null;
-            if (project != null && serviceProvider != null) {
+            if(project != null && serviceProvider != null) {
                 var solution = serviceProvider.GetService(typeof(IVsSolution)) as IVsSolution;
-                if (solution != null) {
+                if(solution != null) {
                     solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
                 }
             }
 
             task.HierarchyItem = hierarchy;
             task.Navigate += new EventHandler(task_Navigate);
-            if (listProvider != null) listProvider.Tasks.Add(task);
+            if(listProvider != null) listProvider.Tasks.Add(task);
             tasks.Add(task);
 
-            if (project != null) {
-                lock (taskProjects) {
+            if(project != null) {
+                lock(taskProjects) {
                     taskProjects.Add(task, project);
                 }
             }
 
-            if (_app != null && _app.ToolWindows != null)
+            if(_app != null && _app.ToolWindows != null)
                 _app.ToolWindows.ErrorList.Parent.Activate();
         }
 
@@ -89,39 +93,39 @@ namespace Zippy.Chirp {
 
         public void Remove(string file) {
             // var tasks = listProvider.Tasks.Cast<ErrorTask>().Where(x => file.Is(x.Document)).ToArray();
-            foreach (var task in tasks.Where(x => x.Document.Is(file)).ToArray()) {
+            foreach(var task in tasks.Where(x => x.Document.Is(file)).ToArray()) {
                 Remove(task);
             }
         }
 
         public void Remove(Project project) {
-            lock (taskProjects) {
+            lock(taskProjects) {
                 var tasks = taskProjects.Where(x => x.Value == project).Select(x => x.Key).ToArray();
-                foreach (var task in tasks) {
+                foreach(var task in tasks) {
                     Remove(task);
                 }
             }
         }
 
         public void RemoveAll() {
-            if (listProvider != null) listProvider.Tasks.Clear();
+            if(listProvider != null) listProvider.Tasks.Clear();
             tasks.Clear();
             taskProjects.Clear();
         }
 
         private void Remove(ErrorTask task) {
-            if (listProvider != null) listProvider.Tasks.Remove(task);
+            if(listProvider != null) listProvider.Tasks.Remove(task);
             tasks.Remove(task);
-            lock (taskProjects) {
-                if (taskProjects.ContainsKey(task)) {
+            lock(taskProjects) {
+                if(taskProjects.ContainsKey(task)) {
                     taskProjects.Remove(task);
                 }
             }
         }
 
         public void Dispose() {
-            if (listProvider != null) listProvider.Dispose();
-            if (serviceProvider != null) serviceProvider.Dispose();
+            if(listProvider != null) listProvider.Dispose();
+            if(serviceProvider != null) serviceProvider.Dispose();
         }
     }
 }
