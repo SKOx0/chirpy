@@ -9,7 +9,8 @@ namespace Zippy.Chirp.ConfigurationScreen
         public GoogleClosure()
         {
             InitializeComponent();
-        }
+            
+          }
 
         void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
         {
@@ -21,6 +22,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.Load();
 
             textBoxJavaPath.Text = Settings.GoogleClosureJavaPath;
+            toolTip1.SetToolTip(textBoxJavaPath, textBoxJavaPath.Text);
             chkEnableOfline.Checked=Settings.GoogleClosureOffline;
             //chkEnableOfline.Checked = !string.IsNullOrEmpty(textBoxJavaPath.Text);
         }
@@ -51,25 +53,30 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         private void btnFindJava_Click(object sender, EventArgs e)
         {
-            FindJavaPath();
-            
-            //not found in registry, ask user to find java.exe
-            if (MessageBox.Show(
-                this,
-                string.Format("Java runtime was not found in the registry.{0}Do you wish to try to find java.exe?", Environment.NewLine),
-                "Chirpy needs Java.exe..",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question)
-                == DialogResult.Yes)
+            if (!FindJavaPath())
             {
-                openFileDialog1.Filter = "java.exe";
-                openFileDialog1.ShowDialog(this);
-                GotJavaPath(openFileDialog1.FileName);
+
+                //active textbox if java path is not present in registry
+                textBoxJavaPath.Enabled = true;
+
+                //not found in registry, ask user to find java.exe
+                if (MessageBox.Show(
+                    this,
+                    string.Format("Java runtime was not found in the registry.{0}Do you wish to try to find javaw.exe?", Environment.NewLine),
+                    "Chirpy needs Javaw.exe..",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question)
+                    == DialogResult.Yes)
+                {
+                    openFileDialog1.Filter = "javaw.exe";
+                    openFileDialog1.ShowDialog(this);
+                    GotJavaPath(openFileDialog1.FileName);
+                }
             }
 
         }
 
-        private void FindJavaPath() {
+        private bool FindJavaPath() {
             //Try registry first
             var regKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment")
                 ??
@@ -80,10 +87,11 @@ namespace Zippy.Chirp.ConfigurationScreen
                 var currentVersion = Convert.ToString(regKey.GetValue("CurrentVersion", string.Empty));
                 if (!string.IsNullOrEmpty(currentVersion))
                 {
-                    if (GotJavaPath(Convert.ToString(regKey.OpenSubKey(currentVersion).GetValue("JavaHome", string.Empty)) + @"\bin\java.exe"))
-                        return;
+                    if (GotJavaPath(Convert.ToString(regKey.OpenSubKey(currentVersion).GetValue("JavaHome", string.Empty)) + @"\bin\javaw.exe"))
+                        return true;
                 }
             }
+            return false;
         }
 
         private bool GotJavaPath(string path)

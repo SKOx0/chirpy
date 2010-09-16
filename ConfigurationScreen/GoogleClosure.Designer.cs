@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBoxOffline = new System.Windows.Forms.GroupBox();
             this.btnFindJava = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.chkEnableOfline = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox3.SuspendLayout();
             this.groupBoxOffline.SuspendLayout();
             this.SuspendLayout();
@@ -50,20 +52,22 @@
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(432, 152);
+            this.groupBox3.Size = new System.Drawing.Size(366, 152);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Google Closure";
             // 
             // groupBoxOffline
             // 
+            this.groupBoxOffline.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxOffline.Controls.Add(this.btnFindJava);
             this.groupBoxOffline.Controls.Add(this.textBoxJavaPath);
             this.groupBoxOffline.Controls.Add(this.label1);
             this.groupBoxOffline.Enabled = false;
             this.groupBoxOffline.Location = new System.Drawing.Point(9, 49);
             this.groupBoxOffline.Name = "groupBoxOffline";
-            this.groupBoxOffline.Size = new System.Drawing.Size(417, 90);
+            this.groupBoxOffline.Size = new System.Drawing.Size(351, 90);
             this.groupBoxOffline.TabIndex = 13;
             this.groupBoxOffline.TabStop = false;
             this.groupBoxOffline.Text = "Offline Settings";
@@ -71,7 +75,7 @@
             // btnFindJava
             // 
             this.btnFindJava.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindJava.Location = new System.Drawing.Point(336, 11);
+            this.btnFindJava.Location = new System.Drawing.Point(270, 11);
             this.btnFindJava.Name = "btnFindJava";
             this.btnFindJava.Size = new System.Drawing.Size(75, 23);
             this.btnFindJava.TabIndex = 13;
@@ -86,7 +90,7 @@
             this.textBoxJavaPath.Enabled = false;
             this.textBoxJavaPath.Location = new System.Drawing.Point(108, 13);
             this.textBoxJavaPath.Name = "textBoxJavaPath";
-            this.textBoxJavaPath.Size = new System.Drawing.Size(212, 20);
+            this.textBoxJavaPath.Size = new System.Drawing.Size(146, 20);
             this.textBoxJavaPath.TabIndex = 12;
             // 
             // label1
@@ -127,7 +131,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox3);
             this.Name = "GoogleClosure";
-            this.Size = new System.Drawing.Size(441, 158);
+            this.Size = new System.Drawing.Size(375, 158);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBoxOffline.ResumeLayout(false);
@@ -146,5 +150,6 @@
         private System.Windows.Forms.TextBox textBoxJavaPath;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
