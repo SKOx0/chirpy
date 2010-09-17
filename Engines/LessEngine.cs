@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Linq;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
@@ -64,6 +65,15 @@ namespace Zippy.Chirp.Engines {
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             return TransformToCss(fullFileName, text, projectItem);
+        }
+
+        public override int Handles(string fullFileName)
+        {
+
+            // if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0; --remove for handle less.css workitem=31,34
+            var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault() ?? string.Empty;
+            return match.Length;
         }
 
         public override void Process(Manager.VSProjectItemManager manager, string fullFileName, EnvDTE.ProjectItem projectItem, string baseFileName, string outputText) {
