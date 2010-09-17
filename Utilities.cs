@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
 using EnvDTE80;
-using System.Windows.Forms;
 
 namespace Zippy.Chirp {
     public static class Utilities {
@@ -54,25 +53,28 @@ namespace Zippy.Chirp {
 
         public static IEnumerable<ProjectItem> ProcessFolderProjectItemsRecursively(this ProjectItems projectItems)
         {
-            foreach (ProjectItem projectItem in projectItems)
+            if (projectItems != null)
             {
-                if (projectItem.IsFolder())
+                foreach (ProjectItem projectItem in projectItems)
                 {
-                    foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems))
+                    if (projectItem.IsFolder() && projectItem.ProjectItems != null)
                     {
-                        yield return folderProjectItem;
+                        foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems))
+                        {
+                            yield return folderProjectItem;
+                        }
                     }
-                }
-                else if (projectItem.IsSolutionFolder())
-                {
-                    foreach(ProjectItem solutionProjectItem in ProcessFolderProjectItemsRecursively(projectItem.SubProject.ProjectItems))
+                    else if (projectItem.IsSolutionFolder())
                     {
-                        yield return solutionProjectItem;
+                        foreach (ProjectItem solutionProjectItem in ProcessFolderProjectItemsRecursively(projectItem.SubProject.ProjectItems))
+                        {
+                            yield return solutionProjectItem;
+                        }
                     }
-                }
-                else
-                {
-                    yield return projectItem;
+                    else
+                    {
+                        yield return projectItem;
+                    }
                 }
             }
         }
@@ -89,7 +91,10 @@ namespace Zippy.Chirp {
         }
 
         public static ProjectItem GetParent(this ProjectItem projectItem) {
-            return projectItem.Collection.Parent as ProjectItem;
+            if (projectItem.Collection == null)
+                return null;
+            else
+                return projectItem.Collection.Parent as ProjectItem;
             //var all = projectItem.ContainingProject.ProjectItems.GetAll();
             //var parents = all.Where(x => x.ProjectItems.Cast<ProjectItem>().Contains(projectItem)).ToArray();
             //return parents.FirstOrDefault();
