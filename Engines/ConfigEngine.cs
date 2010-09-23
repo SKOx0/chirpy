@@ -6,10 +6,9 @@ using System.Text;
 using System.Xml.Linq;
 using EnvDTE;
 using Zippy.Chirp.Xml;
-using System.Windows.Forms;
 
 namespace Zippy.Chirp.Engines {
-    class ConfigEngine : ActionEngine {
+   public class ConfigEngine : ActionEngine {
         const string regularCssFile = ".css";
         const string regularJsFile = ".js";
         const string regularLessFile = ".less";
