@@ -3,7 +3,7 @@ using System;
 using EnvDTE;
 using EnvDTE80;
 namespace Zippy.Chirp.Engines {
-    class T4Engine : ActionEngine {
+  public  class T4Engine : ActionEngine {
         const string ControllerCSFile = ".cs";
         const string ControllerVBFile = ".vb";
         const string MVCViewFile = ".aspx";

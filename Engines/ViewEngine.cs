@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 
 namespace Zippy.Chirp.Engines {
-    class ViewEngine : TransformEngine {
+   public class ViewEngine : TransformEngine {
         public ViewEngine() {
             Extensions = new[] { Settings.ChirpViewFile, Settings.ChirpPartialViewFile };
             OutputExtension = Settings.ChirpViewFile;
