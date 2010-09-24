@@ -31,6 +31,11 @@ namespace Zippy.Chirp {
                 //string source = File.ReadAllText(file);
                 XmlDocument xml = CallApi(js, compressMode.ToString());
 
+                //xml is null when computer don't have Internet connection
+                if(xml==null)
+                    return GoogleClosureOfflineCompiler.Compress(
+                    fullFileName, compressMode, onError);
+
                 //valid have server error
                 XmlNodeList NodeServerError = xml.SelectNodes("//serverErrors");
                 if (NodeServerError.Count > 0) {
@@ -90,16 +95,24 @@ namespace Zippy.Chirp {
         /// <param name="source">The content of the source file.</param>
         /// <returns>The Xml response from the Google API.</returns>
         private static XmlDocument CallApi(string source, string compressMode) {
-            //http://code.google.com/intl/fr-CA/closure/compiler/docs/api-ref.html
+            try
+            {
+                //http://code.google.com/intl/fr-CA/closure/compiler/docs/api-ref.html
 
-            using (WebClient client = new WebClient()) {
-                client.Headers.Add("content-type", "application/x-www-form-urlencoded");
-                string data = string.Format(PostData, HttpUtility.UrlEncode(source), compressMode);
-                string result = client.UploadString(ApiEndpoint, data);
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("content-type", "application/x-www-form-urlencoded");
+                    string data = string.Format(PostData, HttpUtility.UrlEncode(source), compressMode);
+                    string result = client.UploadString(ApiEndpoint, data);
 
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(result);
-                return doc;
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(result);
+                    return doc;
+                }
+            }
+            catch (System.Net.WebException eError)
+            {
+                return null; 
             }
         }
     }
