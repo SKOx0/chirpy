@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Zippy.Chirp.Xml {
-    public class FileGroupXml {
+namespace Zippy.Chirp.Xml
+{
+    public class FileGroupXml
+    {
         public string Name { get; set; }
         public string Path { get; set; }
         public IList<FileXml> Files { get; set; }
@@ -12,10 +14,12 @@ namespace Zippy.Chirp.Xml {
         public bool? Minify { get; set; }
 
         public FileGroupXml(XElement xElement) : this(xElement, string.Empty) { }
-        public FileGroupXml(XElement xElement, string basePath) {
+        public FileGroupXml(XElement xElement, string basePath)
+        {
             var name = xElement.Attribute("Name");
 
-            if (name == null && xElement.Attribute("Path") == null) {
+            if (name == null && xElement.Attribute("Path") == null)
+            {
                 throw new Exception("Name or path attribute required on FileGroup element");
             }
 
@@ -39,7 +43,8 @@ namespace Zippy.Chirp.Xml {
                 .SelectMany(n => n.FileXmlList);
             if (folderFiles.Count() == 0)
                 folderFiles = xElement.Descendants(XName.Get("Folder", "urn:ChirpyConfig"))
-                .Select(n => new FileXml(n, basePath));
+                 .Select(n => new FolderXml(n, basePath))
+                 .SelectMany(n => n.FileXmlList);
 
             Files = files.Union(folderFiles).ToList();
 
