@@ -102,6 +102,7 @@ namespace Zippy.Chirp {
                 }
             } catch (Exception ex) {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
             } finally {
                 if (regKey != null) {
                     regKey.Close();
