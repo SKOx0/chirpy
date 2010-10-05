@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using EnvDTE;
 
 namespace Zippy.Chirp {
@@ -11,7 +11,10 @@ namespace Zippy.Chirp {
         }
 
         public void Error(string message, string sourceName, int line, string lineSource, int lineOffset) {
-            TaskList.Instance.Add(_ProjectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+            if (TaskList.Instance == null)
+                Console.WriteLine(string.Format("{0}({1},{2}){3}", _fullFileName, line.ToString(), lineOffset.ToString(), message));
+            else
+                TaskList.Instance.Add(_ProjectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
                 _fullFileName, line, lineOffset, message);
         }
 

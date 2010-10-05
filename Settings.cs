@@ -98,8 +98,9 @@ namespace Zippy.Chirp {
                     Settings.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
-                    LoadExtensions();
+                   
                 }
+                LoadExtensions();
             } catch (Exception ex) {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
                 System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
