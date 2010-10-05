@@ -107,6 +107,8 @@ namespace Zippy.Chirp {
         }
 
         public static string GetBaseFileName(string fullFileName, params string[] extensions) {
+            if (Settings.AllExtensions == null)
+                Settings.Load();
             extensions = extensions == null ? Settings.AllExtensions : extensions.Union(Settings.AllExtensions).ToArray();
 
             var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
