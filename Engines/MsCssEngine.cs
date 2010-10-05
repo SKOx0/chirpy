@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using Microsoft.Ajax.Utilities;
 
 namespace Zippy.Chirp.Engines {
@@ -25,7 +25,11 @@ namespace Zippy.Chirp.Engines {
                 int.TryParse(err.Substring(IndexBegin + 1, (IndexEnd - IndexBegin) - 1), out column);
 
                 // yield return new ErrorResult(item.FileName, err, line, column);
-                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+
+                if (TaskList.Instance == null)
+                    Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), err));
+                else
+                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
                     fullFileName, line, column, err);
             }
 
