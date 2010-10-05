@@ -56,8 +56,10 @@ namespace Zippy.Chirp.Engines {
                         if((match = rxColNum.Match(description)).Success) {
                             column = match.Groups[1].Length + 1;
                         }
-
-                        TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
+                        if (TaskList.Instance == null)
+                            Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), description));
+                        else
+                            TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
                     }
 
             return css;
