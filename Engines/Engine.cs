@@ -80,7 +80,8 @@ namespace Zippy.Chirp.Engines {
         }
 
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText) {
-            manager.AddFileByFileName(baseFileName + GetOutputExtension(fullFileName), outputText);
+            if (manager!=null)
+                manager.AddFileByFileName(baseFileName + GetOutputExtension(fullFileName), outputText);
         }
     }
 
@@ -116,7 +117,15 @@ namespace Zippy.Chirp.Engines {
                     transformed = true;
                 }
                 _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
-                action.Run(fullFileName, projectItem);
+                try
+                {
+                    action.Run(fullFileName, projectItem);
+                }
+                catch (System.Exception eError)
+                {
+                    System.Windows.Forms.MessageBox.Show("Error see output windows");
+                    _Chirp.outputWindowPane.OutputString(string.Format("Error : {0}\r\n", eError));
+                }
                 if(TaskList.Instance.HasErrors(fullFileName))
                     break;
             }
@@ -148,6 +157,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Enqueue(ProjectItem projectItem) {
+
             var parent = projectItem.GetParent();
             if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) {
                 return;
