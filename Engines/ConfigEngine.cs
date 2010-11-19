@@ -8,7 +8,7 @@ using EnvDTE;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
-   public class ConfigEngine : ActionEngine {
+    public class ConfigEngine : ActionEngine {
         const string regularCssFile = ".css";
         const string regularJsFile = ".js";
         const string regularLessFile = ".less";
@@ -40,16 +40,16 @@ namespace Zippy.Chirp.Engines {
             string configFileName = projectItem.get_FileNames(1);
 
             //remove all current dependencies for this config file...
-            foreach(string key in dependentFiles.Keys.ToArray()) {
+            foreach (string key in dependentFiles.Keys.ToArray()) {
                 List<string> files = dependentFiles[key];
-                if(files.Remove(configFileName) && files.Count == 0)
+                if (files.Remove(configFileName) && files.Count == 0)
                     dependentFiles.Remove(key);
             }
 
             var fileGroups = LoadConfigFileGroups(configFileName);
-            foreach(var fileGroup in fileGroups) {
-                foreach(var file in fileGroup.Files) {
-                    if(!dependentFiles.ContainsKey(file.Path)) {
+            foreach (var fileGroup in fileGroups) {
+                foreach (var file in fileGroup.Files) {
+                    if (!dependentFiles.ContainsKey(file.Path)) {
                         dependentFiles.Add(file.Path, new List<string> { configFileName });
                     } else {
                         dependentFiles[file.Path].Add(configFileName);
@@ -67,7 +67,7 @@ namespace Zippy.Chirp.Engines {
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
 
-            if(ReturnList.Count == 0)
+            if (ReturnList.Count == 0)
                 ReturnList = doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig"))
                      .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
@@ -79,8 +79,7 @@ namespace Zippy.Chirp.Engines {
             return fullFileName.EndsWith(Settings.ChirpConfigFile, StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
         }
 
-        public override void Run(string fullFileName, ProjectItem projectItem)
-        {
+        public override void Run(string fullFileName, ProjectItem projectItem) {
 
             var fileGroups = LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
@@ -89,78 +88,72 @@ namespace Zippy.Chirp.Engines {
             if (_Chirp != null) //null in console mode
                 manager = new Manager.VSProjectItemManager(_Chirp.app, projectItem);
 
-            foreach (var fileGroup in fileGroups)
-            {
-                var allFileText = new StringBuilder();
-                bool isjs = false;
+            try {
+                foreach (var fileGroup in fileGroups) {
+                    var allFileText = new StringBuilder();
+                    bool isjs = false;
 
-                foreach (var file in fileGroup.Files)
-                {
-                    var path = file.Path;
-                    string code = System.IO.File.ReadAllText(path);
-                    isjs = IsJsFile(path);
-                    if (TaskList.Instance != null) TaskList.Instance.Remove(path);
+                    foreach (var file in fileGroup.Files) {
+                        var path = file.Path;
+                        string code = System.IO.File.ReadAllText(path);
+                        isjs = IsJsFile(path);
+                        if (TaskList.Instance != null) TaskList.Instance.Remove(path);
 
-                    if (IsLessFile(path))
-                    {
-                        code = LessEngine.TransformToCss(path, code, projectItem);
+                        if (IsLessFile(path)) {
+                            code = LessEngine.TransformToCss(path, code, projectItem);
+                        }
+
+                        if (file.Minify == true) {
+                            if (IsCssFile(path)) {
+                                code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+
+                            } else if (IsJsFile(path)) {
+                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                isjs = true;
+                            }
+                        }
+
+                        allFileText.AppendLine(code);
                     }
 
-                    if (file.Minify == true)
-                    {
-                        if (IsCssFile(path))
-                        {
-                            code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+                    string fullPath = directory + @"\" + fileGroup.Name;
+                    if (!string.IsNullOrEmpty(fileGroup.Path))
+                        fullPath = fileGroup.Path;
 
-                        }
-                        else if (IsJsFile(path))
-                        {
-                            code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
-                            isjs = true;
-                        }
+                    string output = allFileText.ToString();
+                    string mini = null;
+                    if (fileGroup.Minify == true || fileGroup.Minify == null) {
+                        if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
+
+                        mini = isjs ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
+                            : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
+
+                        if (fileGroup.Minify == true)
+                            output = mini;
                     }
 
-                    allFileText.AppendLine(code);
+                    if (manager != null) {
+                        manager.AddFileByFileName(fullPath, output);
+                        if (fileGroup.Minify == null) {
+                            manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + ".min." + (isjs ? "js" : "css"), mini);
+                        }
+                    } else {
+                        //console mode
+                        System.IO.File.WriteAllText(fullPath, output);
+                    }
                 }
 
-                string fullPath = directory + @"\" + fileGroup.Name;
-                if (!string.IsNullOrEmpty(fileGroup.Path))
-                    fullPath = fileGroup.Path;
+                if (projectItem != null) ReloadConfigFileDependencies(projectItem);
 
-                string output = allFileText.ToString();
-                string mini = null;
-                if (fileGroup.Minify == true || fileGroup.Minify == null)
-                {
-                    if(TaskList.Instance!=null) TaskList.Instance.Remove(fullPath);
-
-                    mini = isjs ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
-                        : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
-
-                    if (fileGroup.Minify == true)
-                        output = mini;
-                }
-
+            } finally {
                 if (manager != null)
-                {
-                    manager.AddFileByFileName(fullPath, output);
-                    if (fileGroup.Minify == null)
-                    {
-                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + ".min." + (isjs ? "js" : "css"), mini);
-                    }
-                }
-                else
-                {
-                    //console mode
-                    System.IO.File.WriteAllText(fullPath, output);
-                }
+                    manager.Dispose();
             }
-
-            if (projectItem != null) ReloadConfigFileDependencies(projectItem);
         }
 
         public void RefreshAll() {
             var configs = dependentFiles.SelectMany(x => x.Value).Distinct(StringComparer.InvariantCultureIgnoreCase);
-            foreach(var configFile in configs) {
+            foreach (var configFile in configs) {
                 Refresh(configFile);
             }
         }
@@ -168,26 +161,25 @@ namespace Zippy.Chirp.Engines {
         public void Refresh(string configFile) {
             ProjectItem configItem = _Chirp.app.Solution.FindProjectItem(configFile);
 
-            if(configItem != null) {
+            if (configItem != null) {
                 _Chirp.EngineManager.Enqueue(configItem);
             }
         }
 
         public void CheckForConfigRefresh(ProjectItem projectItem) {
-            
+
             string fullFileName = projectItem.get_FileNames(1);
 
-            if(dependentFiles.ContainsKey(fullFileName)) {
-                foreach(string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
+            if (dependentFiles.ContainsKey(fullFileName)) {
+                foreach (string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                     Refresh(configFile);
                 }
             }
 
-            if (projectItem.ProjectItems != null)
-            { 
-            foreach(ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
-                CheckForConfigRefresh(projectItemInner);
-            }
+            if (projectItem.ProjectItems != null) {
+                foreach (ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
+                    CheckForConfigRefresh(projectItemInner);
+                }
             }
         }
     }
