@@ -38,6 +38,8 @@ namespace Zippy.Chirp {
         public static string ChirpMSAjaxJsFile = ".msajax.js";
         public static string ChirpPartialViewFile = ".chirp.ascx";
         public static string ChirpViewFile = ".chirp.aspx";
+        public static string ChirpRazorCSViewFile = ".chirp.cshtml";
+        public static string ChirpRazorVBViewFile = ".chirp.vbhtml";
         public static string ChirpLessFile = ".chirp.less";
         public static string ChirpMSAjaxLessFile = ".msajax.less";
         public static string ChirpHybridLessFile = ".hybrid.less";
