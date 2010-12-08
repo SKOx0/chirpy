@@ -24,6 +24,7 @@ namespace Console.Chirp
             listTrasformEngine.Add(new YuiJsEngine());
             listTrasformEngine.Add(new ClosureCompilerEngine());
             listTrasformEngine.Add(new LessEngine());
+            listTrasformEngine.Add(new CoffeeScriptEngine());
             listTrasformEngine.Add(new MsJsEngine());
             listTrasformEngine.Add(new MsCssEngine());
             //listTrasformEngine.Add(new ConfigEngine());
