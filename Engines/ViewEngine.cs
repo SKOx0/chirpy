@@ -33,7 +33,7 @@ namespace Zippy.Chirp.Engines {
                 var code = match.Groups[3].Value;
 
                 if (tagName.Is("script")) {
-                    code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.None);
+					code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Default);
 
                 } else if (tagName.Is("style")) {
                     int i = attrs.IndexOf("text/less", StringComparison.InvariantCultureIgnoreCase);
@@ -41,7 +41,7 @@ namespace Zippy.Chirp.Engines {
                         attrs = attrs.Substring(0, i) + "text/css" + attrs.Substring(i + "text/less".Length);
                         code = LessEngine.TransformToCss(fullFileName, code, projectItem);
                     }
-                    code = CssEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.None);
+                    code = CssEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Default);
                 }
 
                 text = text.Substring(0, match.Index)

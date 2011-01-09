@@ -10,34 +10,30 @@ namespace Zippy.Chirp.Xml
 {
     public class FolderXml
     {
-        public string Path { get; set; }
+        public string Pattern { get; set; }
+		public bool Recursive { get; set; }
         public bool Minify { get; set; }
         public IList<FileXml> FileXmlList { get; set; }
 
         public FolderXml(XElement xElement) : this(xElement, string.Empty) { }
         public FolderXml(XElement xElement, string basePath)
         {
-            var path = xElement.Attribute("Path");
-            var type = xElement.Attribute("Type");
-            var minify = xElement.Attribute("Minify");
+			this.Pattern = (string)xElement.Attribute("Pattern");
+            this.Minify = ((string)xElement.Attribute("Minify")).ToBool(true);
+			this.Recursive = ((string)xElement.Attribute("Recursive")).ToBool(true);
 
-            if (path == null)
+			if (this.Pattern == null)
             {
                 throw new Exception("Path attribute required on Folder element");
             }
 
-            if (type == null)
-            {
-                throw new Exception("Type attribute required on Folder element"); 
-            }
+            var path = basePath;
 
-            string relPath = System.IO.Path.GetDirectoryName(path.Value) ?? "";
-            Path = System.IO.Path.Combine(basePath, relPath);
-
-            Minify = (minify == null) ? true : bool.Parse(minify.Value);
             FileXmlList = new List<FileXml>();
+			var searchOption = (this.Recursive) ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+			var filePaths = Directory.GetFiles(path, this.Pattern, searchOption);
 
-            foreach (string filePath in Directory.GetFiles(Path, type.Value ?? ".js"))
+            foreach (string filePath in filePaths)
             {
                 FileXmlList.Add(new FileXml
                 {

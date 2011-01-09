@@ -7,7 +7,7 @@ namespace Zippy.Chirp.Xml
 {
     public enum MinifyType
     {
-        None,
+        Default,
         yui,
         yuiMARE,
         yuiHybrid,
