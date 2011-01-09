@@ -157,6 +157,7 @@
     <Compile Include="Engines\GoogleClosureCompiler.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="TaskList.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Xml\FileGroupXml.cs" />

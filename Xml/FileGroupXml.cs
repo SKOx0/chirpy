@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.XPath;
+using System.Web;
 
 namespace Zippy.Chirp.Xml
 {
@@ -11,7 +13,8 @@ namespace Zippy.Chirp.Xml
         public string Path { get; set; }
         public IList<FileXml> Files { get; set; }
         public MinifyType MinifyWith { get; set; }
-        public bool? Minify { get; set; }
+        public bool Minify { get; set; }
+		public bool Debug { get; set; }
 
         public FileGroupXml(XElement xElement) : this(xElement, string.Empty) { }
         public FileGroupXml(XElement xElement, string basePath)
@@ -31,30 +34,27 @@ namespace Zippy.Chirp.Xml
             else
                 Path = System.IO.Path.Combine(basePath, Name);
 
-
-            var files = xElement.Descendants("File")
-                .Select(n => new FileXml(n, basePath));
-            if (files.Count() == 0)
-                files = xElement.Descendants(XName.Get("File", "urn:ChirpyConfig"))
-                .Select(n => new FileXml(n, basePath));
-
-            var folderFiles = xElement.Descendants("Folder")
-                .Select(n => new FolderXml(n, basePath))
-                .SelectMany(n => n.FileXmlList);
-            if (folderFiles.Count() == 0)
-                folderFiles = xElement.Descendants(XName.Get("Folder", "urn:ChirpyConfig"))
-                 .Select(n => new FolderXml(n, basePath))
-                 .SelectMany(n => n.FileXmlList);
-
-            Files = files.Union(folderFiles).ToList();
-
+			var fileDescriptors = xElement.XPathSelectElements(@"*[name() = 'File' or name() = 'Folder']");
+			var files = new List<FileXml>();
+			foreach (var fileDescriptor in fileDescriptors)
+			{
+				if (fileDescriptor.Name.LocalName == "File")
+					files.Add(new FileXml(fileDescriptor,basePath));
+				if (fileDescriptor.Name.LocalName == "Folder")
+					files.AddRange(new FolderXml(fileDescriptor, basePath).FileXmlList);
+			}
+			this.Files = files;
             var minify = (string)xElement.Attribute("Minify");
-            if (minify != null)
-                Minify = minify.ToBool(false);
-            else if (Files.Any(x => x.Minify == true)) //if any file is specifically marked to minify, then don't minify all
-                Minify = false;
+            this.Minify = minify.ToBool(true);
 
-            MinifyWith = ((string)xElement.Attribute("Minify")).ToEnum(MinifyType.None);
+			MinifyWith = ((string)xElement.Attribute("Minify")).ToEnum(MinifyType.yui);
+
+			var debug = (string)xElement.Attribute("Debug");
+			this.Debug = debug.ToBool(false);
         }
+		public string GetName()
+		{
+			return this.Path ?? this.Name;
+		}
     }
 }

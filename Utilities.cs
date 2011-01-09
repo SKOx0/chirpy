@@ -23,6 +23,11 @@ namespace Zippy.Chirp {
                 return result;
             else return defaultValue;
         }
+		public static bool? TryToBool(this string input, bool defaultValue)
+		{
+			bool result;
+			return (bool.TryParse(input, out result)) ? new Nullable<bool>(result) : null;
+		}
 
         public static bool Contains(this string input, string other, StringComparison comparison) {
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
