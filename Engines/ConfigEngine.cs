@@ -138,7 +138,7 @@ namespace Zippy.Chirp.Engines {
 
 					string output = allFileText.ToString();
                     string mini = null;
-					allFileText.AppendLine("fileGroup.Minify: {0}".F(fileGroup.Minify));
+					
 					if (!minifySeperatly && fileGroup.Minify)
 					{
                         if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
