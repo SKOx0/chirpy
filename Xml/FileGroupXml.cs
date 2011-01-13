@@ -27,30 +27,57 @@ namespace Zippy.Chirp.Xml
             }
 
             if (name != null)
-                Name = name.Value;
+                this.Name = name.Value;
 
             if (xElement.Attribute("Path") != null)
-                Path = System.IO.Path.Combine(basePath, xElement.Attribute("Path").Value);
+                this.Path = System.IO.Path.Combine(basePath, xElement.Attribute("Path").Value);
             else
-                Path = System.IO.Path.Combine(basePath, Name);
+                this.Path = System.IO.Path.Combine(basePath, this.Name);
+			
+			var minify = (string)xElement.Attribute("Minify");
+			var debug = (string)xElement.Attribute("Debug");
+
+			this.Minify = minify.ToBool(true);
+			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Default);
+			this.Debug = debug.ToBool(false);
 
 			var fileDescriptors = xElement.XPathSelectElements(@"*[name() = 'File' or name() = 'Folder']");
 			var files = new List<FileXml>();
 			foreach (var fileDescriptor in fileDescriptors)
 			{
 				if (fileDescriptor.Name.LocalName == "File")
-					files.Add(new FileXml(fileDescriptor,basePath));
+				{
+					var file = new FileXml(fileDescriptor,basePath);
+					if (file.Minify == null) 
+						file.Minify = this.Minify;
+					if (file.MinifyWith == MinifyType.Unspecified)
+						file.MinifyWith = this.MinifyWith;
+					files.Add(file);
+				}
 				if (fileDescriptor.Name.LocalName == "Folder")
-					files.AddRange(new FolderXml(fileDescriptor, basePath).FileXmlList);
+				{ 
+					var folder = new FolderXml(fileDescriptor, basePath);
+					if (folder.Minify == null)
+					{
+						folder.Minify = this.Minify;
+						foreach (var f in folder.FileXmlList)
+						{ 
+							f.Minify = this.Minify;
+						}
+					}
+					if (folder.MinifyWith == MinifyType.Unspecified)
+					{
+						folder.MinifyWith = this.MinifyWith;
+						foreach (var f in folder.FileXmlList)
+						{
+							f.MinifyWith = this.MinifyWith;
+						}
+					}
+					files.AddRange(folder.FileXmlList);
+				}
 			}
 			this.Files = files;
-            var minify = (string)xElement.Attribute("Minify");
-            this.Minify = minify.ToBool(true);
-
-			MinifyWith = ((string)xElement.Attribute("Minify")).ToEnum(MinifyType.yui);
-
-			var debug = (string)xElement.Attribute("Debug");
-			this.Debug = debug.ToBool(false);
+            
         }
 		public string GetName()
 		{

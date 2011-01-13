@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace Zippy.Chirp.Xml {
     public class FileXml {
         public string Path { get; set; }
-        public bool Minify { get; set; }
+        public bool? Minify { get; set; }
         public MinifyType MinifyWith { get; set; }
 
         public FileXml() { }
@@ -19,9 +19,9 @@ namespace Zippy.Chirp.Xml {
             }
 
             Path = System.IO.Path.Combine(basePath, path);
-            Minify = minify.ToBool(true);
+            Minify = minify.TryToBool();
 
-			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Default);			
+			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);			
 		
         }
     }
