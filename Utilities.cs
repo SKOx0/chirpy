@@ -23,7 +23,7 @@ namespace Zippy.Chirp {
                 return result;
             else return defaultValue;
         }
-		public static bool? TryToBool(this string input, bool defaultValue)
+		public static bool? TryToBool(this string input)
 		{
 			bool result;
 			return (bool.TryParse(input, out result)) ? new Nullable<bool>(result) : null;

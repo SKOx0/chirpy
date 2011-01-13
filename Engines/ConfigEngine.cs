@@ -93,7 +93,8 @@ namespace Zippy.Chirp.Engines {
 					
 					bool minifySeperatly = fileGroup.Files.Any(f=>
 											{
-												return f.Minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
+												var minify = (f.Minify.HasValue) ? f.Minify.Value : fileGroup.Minify;
+												return minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
 											})
 										   || fileGroup.Debug;
 
@@ -104,7 +105,7 @@ namespace Zippy.Chirp.Engines {
 						if (IsLessFile(path)) {
 							code = LessEngine.TransformToCss(path, code, projectItem);
 						}
-						if (minifySeperatly && file.Minify)
+						if (minifySeperatly && file.Minify == true)
 						{
 							if (TaskList.Instance != null) 
 								TaskList.Instance.Remove(path);
@@ -119,7 +120,14 @@ namespace Zippy.Chirp.Engines {
 						}
 						if (fileGroup.Debug)
 						{
-							code = "/* Chirpy File: {FilePath} */\r\n{Code}".F(new { FilePath = path, Code = code });
+							code = "/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
+								.F(new 
+									{ 
+										Minify = file.Minify.GetValueOrDefault(),
+										FilePath = path, 
+										Code = code, 
+										MinifyWith = file.MinifyWith.ToString() 
+									});
 						}
                         allFileText.AppendLine(code);
                     }
@@ -130,6 +138,7 @@ namespace Zippy.Chirp.Engines {
 
 					string output = allFileText.ToString();
                     string mini = null;
+					allFileText.AppendLine("fileGroup.Minify: {0}".F(fileGroup.Minify));
 					if (!minifySeperatly && fileGroup.Minify)
 					{
                         if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);

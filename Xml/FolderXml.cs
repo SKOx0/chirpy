@@ -12,16 +12,17 @@ namespace Zippy.Chirp.Xml
     {
         public string Pattern { get; set; }
 		public bool Recursive { get; set; }
-        public bool Minify { get; set; }
+        public bool? Minify { get; set; }
+		public MinifyType MinifyWith { get; set; }
         public IList<FileXml> FileXmlList { get; set; }
 
         public FolderXml(XElement xElement) : this(xElement, string.Empty) { }
         public FolderXml(XElement xElement, string basePath)
         {
 			this.Pattern = (string)xElement.Attribute("Pattern");
-            this.Minify = ((string)xElement.Attribute("Minify")).ToBool(true);
+            this.Minify = ((string)xElement.Attribute("Minify")).TryToBool();
 			this.Recursive = ((string)xElement.Attribute("Recursive")).ToBool(true);
-
+			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
 			if (this.Pattern == null)
             {
                 throw new Exception("Path attribute required on Folder element");
@@ -38,7 +39,8 @@ namespace Zippy.Chirp.Xml
                 FileXmlList.Add(new FileXml
                 {
                     Minify = this.Minify,
-                    Path = filePath 
+                    Path = filePath,
+					MinifyWith = this.MinifyWith
                 });
             }
         }

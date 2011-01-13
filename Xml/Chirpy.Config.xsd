@@ -29,19 +29,13 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
             </xs:sequence>
             <xs:attribute name="Name" type="xs:string" />
             <xs:attribute name="Path" type="xs:string" />
-            <xs:attribute name="Minify" type="MinifyMode" />
+            <xs:attribute name="Minify" type="xs:boolean" />
             <xs:attribute name="Debug" type="xs:boolean" />
           </xs:complexType>
         </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>
-  <xs:simpleType name="MinifyMode">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="True" />
-      <xs:enumeration value="False" />
-    </xs:restriction>
-  </xs:simpleType>
   <xs:simpleType name="MinifyType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="yui" />
