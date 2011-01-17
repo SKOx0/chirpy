@@ -47,11 +47,11 @@ namespace Zippy.Chirp.Manager {
         }
 
         public void AddFile(String fileExtension, String content) {
-            AddFile(fileExtension, System.Text.Encoding.Default.GetBytes(content));
+            AddFile(fileExtension, System.Text.Encoding.Default.GetBytes(content ?? string.Empty));
         }
 
         public void AddFileByFileName(String fileName, String content) {
-            AddFileByFileName(fileName, System.Text.Encoding.Default.GetBytes(content));
+            AddFileByFileName(fileName, System.Text.Encoding.Default.GetBytes(content ?? string.Empty));
         }
 
         public void AddFile(String fileExtension, byte[] content) {
