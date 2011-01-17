@@ -169,7 +169,9 @@ namespace Zippy.Chirp.Engines {
             string fullFileName = projectItem.get_FileNames(1);
 
             if (dependentFiles.ContainsKey(fullFileName)) {
-                foreach (string configFile in dependentFiles[fullFileName].ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
+                foreach (string configFile in dependentFiles[fullFileName]
+                    .Distinct(StringComparer.InvariantCultureIgnoreCase) //prevent the same config file from being fired multiple times
+                    .ToArray()) { //ToArray to prevent "Collection Modified" exceptions 
                     Refresh(configFile);
                 }
             }
