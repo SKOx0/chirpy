@@ -64,9 +64,9 @@ namespace Zippy.Chirp.Engines {
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
 
             IList<FileGroupXml> ReturnList = (
-					doc.Descendants("FileGroup")
-					.Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
-				)
+                    doc.Descendants("FileGroup")
+                    .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
+                )
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
 
@@ -82,85 +82,71 @@ namespace Zippy.Chirp.Engines {
             var fileGroups = LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
 
-            Manager.VSProjectItemManager manager = null;
-            if (_Chirp != null) //null in console mode
-                manager = new Manager.VSProjectItemManager(_Chirp.app, projectItem);
-
-            try {
+            using (var manager = new Manager.VSProjectItemManager(_Chirp != null ? _Chirp.app : null, projectItem)) {
                 foreach (var fileGroup in fileGroups) {
                     var allFileText = new StringBuilder();
                     bool isJS = IsJsFile(fileGroup.GetName());
-					
-					bool minifySeperatly = fileGroup.Files.Any(f=>
-											{
-												var minify = (f.Minify.HasValue) ? f.Minify.Value : fileGroup.Minify;
-												return minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
-											})
-										   || fileGroup.Debug;
-
-                    foreach (var file in fileGroup.Files) {
-                        var path = file.Path;
-                        string code = System.IO.File.ReadAllText(path);
-						
-						if (IsLessFile(path)) {
-							code = LessEngine.TransformToCss(path, code, projectItem);
-						}
-						if (minifySeperatly && file.Minify == true)
-						{
-							if (TaskList.Instance != null) 
-								TaskList.Instance.Remove(path);
-							if (IsCssFile(path))
-							{
-								code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
-							}
-							else if (IsJsFile(path))
-							{
-								code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
-							}
-						}
-						if (fileGroup.Debug)
-						{
-							code = "/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
-								.F(new 
-									{ 
-										Minify = file.Minify.GetValueOrDefault(),
-										FilePath = path, 
-										Code = code, 
-										MinifyWith = file.MinifyWith.ToString() 
-									});
-						}
-                        allFileText.AppendLine(code);
-                    }
 
                     string fullPath = directory + @"\" + fileGroup.Name;
                     if (!string.IsNullOrEmpty(fileGroup.Path))
                         fullPath = fileGroup.Path;
 
-					string output = allFileText.ToString();
+                    if (ImageSprite.IsImage(fileGroup.GetName())) {
+                        var img = ImageSprite.Build(fileGroup, fullPath);
+                        manager.AddFileByFileName(fullPath, img);
+                        continue;
+                    }
+
+                    bool minifySeperatly = fileGroup.Files.Any(f => {
+                        var minify = f.Minify ?? fileGroup.Minify;
+                        return minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
+                    }) || fileGroup.Debug;
+
+                    foreach (var file in fileGroup.Files) {
+                        var path = file.Path;
+                        string code = System.IO.File.ReadAllText(path);
+
+                        if (IsLessFile(path)) {
+                            code = LessEngine.TransformToCss(path, code, projectItem);
+                        }
+                        if (minifySeperatly && file.Minify == true) {
+                            if (TaskList.Instance != null)
+                                TaskList.Instance.Remove(path);
+                            if (IsCssFile(path)) {
+                                code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+                            } else if (IsJsFile(path)) {
+                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
+                            }
+                        }
+                        if (fileGroup.Debug) {
+                            code = "/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
+                                .F(new {
+                                    Minify = file.Minify.GetValueOrDefault(),
+                                    FilePath = path,
+                                    Code = code,
+                                    MinifyWith = file.MinifyWith.ToString()
+                                });
+                        }
+                        allFileText.AppendLine(code);
+                    }
+
+                    string output = allFileText.ToString();
                     string mini = null;
-					
-					if (!minifySeperatly && fileGroup.Minify)
-					{
+
+                    if (!minifySeperatly && fileGroup.Minify) {
                         if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
 
-						mini = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
-							: CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
+                        mini = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
+                            : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
 
-						output = mini;
+                        output = mini;
                     }
-                    if (manager != null) {
-                        manager.AddFileByFileName(fullPath, output);
-                    } else {
-                        //console mode
-                        System.IO.File.WriteAllText(fullPath, output);
-                    }
+
+                    manager.AddFileByFileName(fullPath, output);
+
                 }
 
                 if (projectItem != null) ReloadConfigFileDependencies(projectItem);
-
-            } finally {
-                if (manager != null)
-                    manager.Dispose();
             }
         }
         public void RefreshAll() {

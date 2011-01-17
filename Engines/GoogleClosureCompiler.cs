@@ -110,7 +110,7 @@ namespace Zippy.Chirp {
                     return doc;
                 }
             }
-            catch (System.Net.WebException eError)
+            catch (System.Net.WebException )
             {
                 return null; 
             }
