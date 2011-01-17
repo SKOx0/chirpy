@@ -2,16 +2,12 @@
 using System.IO;
 using Zippy.Chirp;
 using Zippy.Chirp.Engines;
-using Zippy.Chirp.Manager;
 
-namespace Console.Chirp
-{
-    class Program
-    {
+namespace Console.Chirp {
+    class Program {
 
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             string findPath = string.Empty;
             if (args.Length > 0) findPath = args[0];
 
@@ -31,12 +27,10 @@ namespace Console.Chirp
             listTrasformEngine.Add(new ViewEngine());
             // listTrasformEngine.Add(new T4Engine());
 
-            foreach (TransformEngine transformEngine in listTrasformEngine)
-            {
-                foreach (string extension in transformEngine.Extensions)
-                {
-                    foreach (string filename in Directory.GetFiles(findPath, "*" + extension, SearchOption.AllDirectories))
-                    {
+            foreach (TransformEngine transformEngine in listTrasformEngine) {
+                foreach (string extension in transformEngine.Extensions) {
+                    foreach (string filename in Directory.GetFiles(findPath, "*" + extension, SearchOption.AllDirectories)) {
+                        if (filename.Contains(".min.")) continue;
                         string text = System.IO.File.ReadAllText(filename);
                         string minFileName = Utilities.GetBaseFileName(filename, extension) + transformEngine.GetOutputExtension(filename);
                         text = transformEngine.Transform(filename, text, null);
@@ -49,18 +43,14 @@ namespace Console.Chirp
             //config file
             var configEngine = new ConfigEngine();
 
-            foreach (string filename in Directory.GetFiles(findPath, "*" + Settings.ChirpConfigFile, SearchOption.AllDirectories))
-            {
-                try
-                {
-                    System.Console.WriteLine(string.Format("ConfigEngine -- {0}",  filename));
+            foreach (string filename in Directory.GetFiles(findPath, "*" + Settings.ChirpConfigFile, SearchOption.AllDirectories)) {
+                try {
+                    System.Console.WriteLine(string.Format("ConfigEngine -- {0}", filename));
                     configEngine.Run(filename, null);
+                } catch (System.IO.FileNotFoundException) {
+                    System.Console.WriteLine(string.Format("File not found in config file={0}", filename));
                 }
-                catch (System.IO.FileNotFoundException)
-                {
-                    System.Console.WriteLine(string.Format("File not found in config file={0}",filename));
-                }
-                
+
             }
 
 

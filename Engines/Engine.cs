@@ -9,7 +9,7 @@ using Zippy.Chirp.Xml;
 namespace Zippy.Chirp.Engines {
     public abstract class JsEngine : TransformEngine {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
-            switch(mode) {
+            switch (mode) {
                 case MinifyType.gctAdvanced:
                     return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
                 case MinifyType.gctSimple:
@@ -26,7 +26,7 @@ namespace Zippy.Chirp.Engines {
 
     public abstract class CssEngine : TransformEngine {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
-            switch(mode) {
+            switch (mode) {
                 case MinifyType.msAjax:
                     return MsCssEngine.Minify(fullFileName, outputText, projectItem);
                 case MinifyType.yui:
@@ -64,14 +64,14 @@ namespace Zippy.Chirp.Engines {
         public abstract string Transform(string fullFileName, string text, ProjectItem projectItem);
 
         public override int Handles(string fullFileName) {
-            if(fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0;
+            if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0;
             var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
                 .FirstOrDefault() ?? string.Empty;
             return match.Length;
         }
 
         public override void Run(string fullFileName, ProjectItem projectItem) {
-            using(var manager = new VSProjectItemManager(_Chirp.app, projectItem)) {
+            using (var manager = new VSProjectItemManager(_Chirp.app, projectItem)) {
                 string baseFileName = Utilities.GetBaseFileName(fullFileName, Extensions);
                 string inputText = System.IO.File.ReadAllText(fullFileName);
                 string outputText = Transform(fullFileName, inputText, projectItem);
@@ -80,7 +80,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText) {
-            if (manager!=null)
+            if (manager != null)
                 manager.AddFileByFileName(baseFileName + GetOutputExtension(fullFileName), outputText);
         }
     }
@@ -111,22 +111,19 @@ namespace Zippy.Chirp.Engines {
                 .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
 
             bool transformed = false;
-            foreach(var action in actions) {
-                if(action is TransformEngine) {
-                    if(transformed) continue;
+            foreach (var action in actions) {
+                if (action is TransformEngine) {
+                    if (transformed) continue;
                     transformed = true;
                 }
                 _Chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
-                try
-                {
+                try {
                     action.Run(fullFileName, projectItem);
+                } catch (System.Exception eError) {
+                    System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", eError.Message));
+                    _Chirp.outputWindowPane.OutputString(string.Format("Error: {0}\r\n", eError));
                 }
-                catch (System.Exception eError)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error see output windows");
-                    _Chirp.outputWindowPane.OutputString(string.Format("Error : {0}\r\n", eError));
-                }
-                if(TaskList.Instance.HasErrors(fullFileName))
+                if (TaskList.Instance.HasErrors(fullFileName))
                     break;
             }
 
@@ -135,8 +132,8 @@ namespace Zippy.Chirp.Engines {
         }
 
         protected override void Error(ProjectItem projectItem, Exception ex) {
-            if(ex is COMException || ex is System.Threading.ThreadAbortException) return;
-            if(projectItem != null)
+            if (ex is COMException || ex is System.Threading.ThreadAbortException) return;
+            if (projectItem != null)
                 TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
             else _Chirp.outputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
         }
@@ -159,12 +156,12 @@ namespace Zippy.Chirp.Engines {
         public override void Enqueue(ProjectItem projectItem) {
 
             var parent = projectItem.GetParent();
-            if(parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) {
+            if (parent != null && !parent.IsFolder() && IsTransformed(parent.get_FileNames(1))) {
                 return;
             }
 
             var file = projectItem.get_FileNames(1);
-            if(!Any(i => i.get_FileNames(1).Is(file))) {
+            if (!Any(i => i.get_FileNames(1).Is(file))) {
                 base.Enqueue(projectItem);
             }
         }

@@ -143,6 +143,7 @@
     <Compile Include="Engines\ConfigEngine.cs" />
     <Compile Include="Engines\EnvironmentDirectory.cs" />
     <Compile Include="Engines\GoogleClosureOfflineCompiler.cs" />
+    <Compile Include="Engines\ImageSprite.cs" />
     <Compile Include="Engines\MsCssEngine.cs" />
     <Compile Include="Engines\MsJsEngine.cs" />
     <Compile Include="Engines\ServicePool.cs" />
