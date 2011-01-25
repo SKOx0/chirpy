@@ -18,6 +18,10 @@ namespace Zippy.Chirp.Engines {
                     return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.WHITESPACE_ONLY);
                 case MinifyType.msAjax:
                     return MsJsEngine.Minify(fullFileName, outputText, projectItem);
+                case MinifyType.uglify:
+                    return UglifyEngine.Minify(fullFileName, outputText, projectItem);
+                case MinifyType.jsBeautifier:
+                    return UglifyEngine.Beautify(outputText);
                 default:
                     return YuiJsEngine.Minify(fullFileName, outputText, projectItem);
             }
@@ -41,7 +45,7 @@ namespace Zippy.Chirp.Engines {
     /// <summary>
     /// Performs some action on a ProjectItem
     /// </summary>
-    public abstract class ActionEngine {
+    public abstract class ActionEngine : IDisposable {
         /// <summary>
         /// Determines whether this action hands the specified file.  Returns an int to specify the priority--0 being not handled.
         /// </summary>
@@ -50,6 +54,8 @@ namespace Zippy.Chirp.Engines {
         public abstract int Handles(string fullFileName);
         public abstract void Run(string fullFileName, ProjectItem projectItem);
         internal Chirp _Chirp;
+
+        public virtual void Dispose() { }
     }
 
     /// <summary>
@@ -148,6 +154,10 @@ namespace Zippy.Chirp.Engines {
 
         //Remove all actions
         public void Clear() {
+            foreach (var action in _allactions)
+                try {
+                    action.Dispose();
+                } catch (Exception) { }
             _allactions.Clear();
             _actions = new ActionEngine[0];
             _transformers = new TransformEngine[0];

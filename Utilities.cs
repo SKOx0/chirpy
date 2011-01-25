@@ -63,6 +63,9 @@ namespace Zippy.Chirp {
             //return parents.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns "C:\fakepath\test" when given "C:\fakepath\test.js"
+        /// </summary>
         public static string GetBaseFileName(string fullFileName, params string[] extensions) {
             if (Settings.AllExtensions == null)
                 Settings.Load();

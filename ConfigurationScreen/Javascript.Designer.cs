@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtMSAjaxJsFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtChirpJsFile = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,13 +39,15 @@
             this.txtChirpWhiteSpaceJsFile = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChirpYUIJsFile = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtMSAjaxJsFile = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtUglifyJsFile = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.txtUglifyJsFile);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txtMSAjaxJsFile);
             this.groupBox2.Controls.Add(this.label1);
@@ -56,10 +60,27 @@
             this.groupBox2.Controls.Add(this.txtChirpYUIJsFile);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 154);
+            this.groupBox2.Size = new System.Drawing.Size(320, 179);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Javascript";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 129);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(115, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Microsoft Ajax Minifier :";
+            // 
+            // txtMSAjaxJsFile
+            // 
+            this.txtMSAjaxJsFile.Location = new System.Drawing.Point(187, 126);
+            this.txtMSAjaxJsFile.Name = "txtMSAjaxJsFile";
+            this.txtMSAjaxJsFile.Size = new System.Drawing.Size(128, 20);
+            this.txtMSAjaxJsFile.TabIndex = 21;
+            this.txtMSAjaxJsFile.Text = ".MSAjax.js";
             // 
             // label1
             // 
@@ -130,22 +151,22 @@
             this.txtChirpYUIJsFile.TabIndex = 7;
             this.txtChirpYUIJsFile.Text = ".yui.js";
             // 
-            // label5
+            // label6
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 129);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(115, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "Microsoft Ajax Minifier :";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 155);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 13);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Uglify.JS :";
             // 
-            // txtMSAjaxJsFile
+            // txtUglifyJsFile
             // 
-            this.txtMSAjaxJsFile.Location = new System.Drawing.Point(187, 126);
-            this.txtMSAjaxJsFile.Name = "txtMSAjaxJsFile";
-            this.txtMSAjaxJsFile.Size = new System.Drawing.Size(128, 20);
-            this.txtMSAjaxJsFile.TabIndex = 21;
-            this.txtMSAjaxJsFile.Text = ".MSAjax.js";
+            this.txtUglifyJsFile.Location = new System.Drawing.Point(186, 152);
+            this.txtUglifyJsFile.Name = "txtUglifyJsFile";
+            this.txtUglifyJsFile.Size = new System.Drawing.Size(128, 20);
+            this.txtUglifyJsFile.TabIndex = 23;
+            this.txtUglifyJsFile.Text = ".uglify.js";
             // 
             // Javascript
             // 
@@ -153,7 +174,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Name = "Javascript";
-            this.Size = new System.Drawing.Size(327, 160);
+            this.Size = new System.Drawing.Size(327, 187);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -173,5 +194,7 @@
         private System.Windows.Forms.TextBox txtChirpYUIJsFile;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtMSAjaxJsFile;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtUglifyJsFile;
     }
 }

@@ -44,6 +44,7 @@ namespace Zippy.Chirp {
         public static string ChirpMSAjaxLessFile = ".msajax.less";
         public static string ChirpHybridLessFile = ".hybrid.less";
         public static string ChirpMichaelAshLessFile = ".michaelash.less";
+        public static string ChirpUglifyJsFile = ".uglify.js";
 
         public static string ChirpCoffeeScriptFile = ".chirp.coffee";
         public static string ChirpSimpleCoffeeScriptFile = ".simple.coffee";
@@ -92,6 +93,7 @@ namespace Zippy.Chirp {
                     Settings.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybrid.less"));
                     Settings.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
                     Settings.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
+                    Settings.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
 
                     Settings.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
                     Settings.ChirpSimpleCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpSimpleCoffeeScriptFile", ".simple.coffee"));
@@ -99,7 +101,7 @@ namespace Zippy.Chirp {
                     Settings.ChirpYUICoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpYUICoffeeScriptFile", ".yui.coffee"));
                     Settings.ChirpGctCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpGcCoffeeScriptFile", ".gct.coffee"));
                     Settings.ChirpMSAjaxCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCoffeeScriptFile", ".msajax.coffee"));
-                    Settings.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty ));
+                    Settings.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty));
 
                     //Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
@@ -115,7 +117,7 @@ namespace Zippy.Chirp {
                     Settings.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
-                   
+
                 }
                 LoadExtensions();
             } catch (Exception ex) {
@@ -157,6 +159,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpGcJsFile", Settings.ChirpGctJsFile);
                 regKey.SetValue("ChirpMSAjaxJsFile", Settings.ChirpMSAjaxJsFile);
                 regKey.SetValue("ChirpConfigFile", Settings.ChirpConfigFile);
+                regKey.SetValue("ChirpUglifyJsFile", Settings.ChirpUglifyJsFile);
 
                 regKey.SetValue("ChirpSimpleCoffeeScriptFile", Settings.ChirpSimpleCoffeeScriptFile);
                 regKey.SetValue("ChirpWhiteSpaceCoffeeScriptFile", Settings.ChirpWhiteSpaceCoffeeScriptFile);
@@ -164,8 +167,8 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpGcCoffeeScriptFile", Settings.ChirpGctCoffeeScriptFile);
                 regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", Settings.ChirpMSAjaxCoffeeScriptFile);
                 regKey.SetValue("CoffeeScriptBatFilePath", Settings.CoffeeScriptBatFilePath);
-                
-                
+
+
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
