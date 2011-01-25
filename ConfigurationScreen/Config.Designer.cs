@@ -30,6 +30,10 @@
         {
             this.label7 = new System.Windows.Forms.Label();
             this.txtChirpConfigFile = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbJavaScript = new System.Windows.Forms.ComboBox();
+            this.cmbCss = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label7
@@ -49,14 +53,55 @@
             this.txtChirpConfigFile.TabIndex = 15;
             this.txtChirpConfigFile.Text = ".chirp.config";
             // 
-            // General
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(136, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Default JavaScript Minifier :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(107, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Default CSS Minifier :";
+            // 
+            // cmbJavaScript
+            // 
+            this.cmbJavaScript.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbJavaScript.FormattingEnabled = true;
+            this.cmbJavaScript.Location = new System.Drawing.Point(198, 40);
+            this.cmbJavaScript.Name = "cmbJavaScript";
+            this.cmbJavaScript.Size = new System.Drawing.Size(121, 21);
+            this.cmbJavaScript.TabIndex = 19;
+            // 
+            // cmbCss
+            // 
+            this.cmbCss.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCss.FormattingEnabled = true;
+            this.cmbCss.Location = new System.Drawing.Point(198, 66);
+            this.cmbCss.Name = "cmbCss";
+            this.cmbCss.Size = new System.Drawing.Size(121, 21);
+            this.cmbCss.TabIndex = 20;
+            // 
+            // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmbCss);
+            this.Controls.Add(this.cmbJavaScript);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtChirpConfigFile);
-            this.Name = "General";
+            this.Name = "Config";
             this.Size = new System.Drawing.Size(481, 150);
+            this.Load += new System.EventHandler(this.Config_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -66,5 +111,9 @@
 
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtChirpConfigFile;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbJavaScript;
+        private System.Windows.Forms.ComboBox cmbCss;
     }
 }

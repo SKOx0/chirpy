@@ -6,6 +6,37 @@ using EnvDTE80;
 
 namespace Zippy.Chirp {
     public static class Utilities {
+
+        public static Dictionary<Enum, string> _Descriptions = new Dictionary<Enum, string>();
+        const char ENUM_SEPERATOR_CHARACTER = ',';
+        /// <summary>
+        /// Looks for the <see cref="System.ComponentModel.DescriptionAttribute">DescriptionAttribute</see> on an
+        /// enum, and returns the value.
+        /// </summary>
+        /// <param name="e"></param>
+
+        public static string Description(this Enum e) {
+            lock (_Descriptions) {
+                if (!_Descriptions.ContainsKey(e)) {
+                    var entries = e.ToString().Split(ENUM_SEPERATOR_CHARACTER);
+                    string[] desc = new string[entries.Length];
+                    Type type = e.GetType();
+                    for (int i = 0; i <= entries.Length - 1; i++) {
+                        var fieldinfo = type.GetField(entries[i].Trim());
+                        if (fieldinfo != null) {
+                            var attr = fieldinfo.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
+                                .FirstOrDefault() as System.ComponentModel.DescriptionAttribute;
+                            desc[i] = attr != null ? attr.Description : entries[i].Trim().Replace("_", " ");
+                        } else {
+                            desc[i] = entries[i].Trim().Replace("_", " ");
+                        }
+                    }
+                    _Descriptions.Add(e, string.Join(ENUM_SEPERATOR_CHARACTER.ToString(), desc));
+                }
+                return _Descriptions[e];
+            }
+        }
+
         public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName) {
             foreach (Project project in app.Solution.Projects) {
                 foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively()) {

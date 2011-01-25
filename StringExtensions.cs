@@ -29,10 +29,34 @@ namespace Zippy.Chirp {
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
         }
 
+        private static Dictionary<Type, Dictionary<string, IConvertible>> _Enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
         public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible {
-            var values = System.Enum.GetValues(typeof(T)).Cast<T>().Where(x => x.ToString().Is(input));
-            if (!values.Any()) return defaultValue;
-            else return values.First();
+            input = input ?? string.Empty;
+
+            Dictionary<string, IConvertible> enums = null;
+            if (!_Enums.TryGetValue(typeof(T), out enums)) {
+                lock (_Enums) {
+                    var temp = ((T[])System.Enum.GetValues(typeof(T))).ToDictionary(x => Convert.ToString(x), x => (IConvertible)x, StringComparer.OrdinalIgnoreCase);
+                    string desc;
+                    foreach (var e in temp.Values.ToArray()) {
+                        desc = Utilities.Description((Enum)e);
+                        if (!desc.Is(Convert.ToString(e))) {
+                            temp.Add(desc, e);
+                        }
+                    }
+                    enums = temp;
+
+                    if (!_Enums.ContainsKey(typeof(T)))
+                        _Enums.Add(typeof(T), temp);
+                }
+            }
+
+            IConvertible value = null;
+            if (!enums.TryGetValue(input, out value)) {
+                return defaultValue;
+            } else {
+                return (T)value;
+            }
         }
 
         public static bool IsNullOrEmpty(this String s) {

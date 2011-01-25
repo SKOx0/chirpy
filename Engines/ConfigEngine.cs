@@ -98,8 +98,10 @@ namespace Zippy.Chirp.Engines {
                     }
 
                     bool minifySeperatly = fileGroup.Files.Any(f => {
-                        var minify = f.Minify ?? fileGroup.Minify;
-                        return minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
+                        //var minify = f.Minify ?? fileGroup.Minify ;
+                        //return minify != fileGroup.Minify || f.MinifyWith != fileGroup.MinifyWith;
+                        return f.Minify != (fileGroup.Minify != FileGroupXml.MinifyOptions.False ? true : false)
+                            || f.MinifyWith != fileGroup.MinifyWith;
                     }) || fileGroup.Debug;
 
                     foreach (var file in fileGroup.Files) {
@@ -133,11 +135,11 @@ namespace Zippy.Chirp.Engines {
                     string output = allFileText.ToString();
                     string mini = null;
 
-                    if (fileGroup.Debug) {
+                    if (fileGroup.Minify == FileGroupXml.MinifyOptions.Both) {
                         manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : ".css"), isJS ? UglifyEngine.Beautify(output) : output);
                     }
 
-                    if (!minifySeperatly && fileGroup.Minify) {
+                    if (!minifySeperatly && fileGroup.Minify != FileGroupXml.MinifyOptions.False) {
                         if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
 
                         mini = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
@@ -146,7 +148,7 @@ namespace Zippy.Chirp.Engines {
                         output = mini;
                     }
 
-                    if (fileGroup.Debug) {
+                    if (fileGroup.Minify == FileGroupXml.MinifyOptions.Both) {
                         manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".min.js" : ".min.css"), output);
                     } else {
                         manager.AddFileByFileName(fullPath, output);

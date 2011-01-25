@@ -9,6 +9,7 @@ using Zippy.Chirp.Xml;
 namespace Zippy.Chirp.Engines {
     public abstract class JsEngine : TransformEngine {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
+            if (mode == MinifyType.Unspecified) mode = Settings.DefaultJavaScriptMinifier;
             switch (mode) {
                 case MinifyType.gctAdvanced:
                     return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
@@ -30,6 +31,7 @@ namespace Zippy.Chirp.Engines {
 
     public abstract class CssEngine : TransformEngine {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode) {
+            if (mode == MinifyType.Unspecified) mode = Settings.DefaultCssMinifier;
             switch (mode) {
                 case MinifyType.msAjax:
                     return MsCssEngine.Minify(fullFileName, outputText, projectItem);
