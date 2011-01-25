@@ -256,7 +256,7 @@
   <PropertyGroup>
     <PreBuildEvent>del "$(ProjectDir)$(OutDir)Chirpy.vsi"</PreBuildEvent>
     <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"
-"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
+"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)UglifyCS.dll" "$(ProjectDir)$(OutDir)Noesis.Javascript.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
 rename "$(ProjectDir)$(OutDir)Chirpy.zip" "Chirpy.vsi"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
