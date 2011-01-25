@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Zippy.Chirp.Xml
-{
-    public enum MinifyType
-    {
-		Unspecified,
+﻿
+namespace Zippy.Chirp.Xml {
+    public enum MinifyType {
+        Unspecified,
         Default,
         yui,
         yuiMARE,
@@ -15,6 +9,8 @@ namespace Zippy.Chirp.Xml
         gctAdvanced,
         gctSimple,
         gctWhiteSpaceOnly,
-        msAjax
+        msAjax,
+        uglify,
+        jsBeautifier,
     }
 }

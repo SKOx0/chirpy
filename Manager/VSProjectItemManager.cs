@@ -10,7 +10,7 @@ namespace Zippy.Chirp.Manager {
         #region Members
         private DTE2 _dte;
         private ProjectItem _projectItem;
-        private Dictionary<String, byte[]> _filesAdded;	// FullFileName / Content
+        private Dictionary<String, object> _filesAdded;	// FullFileName / Content
         private List<String> _filesCreated;
         private string _fullFileNamePrefix;
         #endregion
@@ -23,7 +23,7 @@ namespace Zippy.Chirp.Manager {
             _dte = dte;
             _projectItem = projectItem;
 
-            _filesAdded = new Dictionary<String, byte[]>();
+            _filesAdded = new Dictionary<String, object>();
             _filesCreated = new List<string>();
 
             if (_projectItem != null) {
@@ -46,21 +46,33 @@ namespace Zippy.Chirp.Manager {
             return prefix;
         }
 
-        public void AddFile(String fileExtension, String content) {
-            AddFile(fileExtension, System.Text.Encoding.Default.GetBytes(content ?? string.Empty));
-        }
-
-        public void AddFileByFileName(String fileName, String content) {
-            AddFileByFileName(fileName, System.Text.Encoding.Default.GetBytes(content ?? string.Empty));
-        }
-
-        public void AddFile(String fileExtension, byte[] content) {
+        public void AddFile(string fileExtension, string content) {
             AddFileByFileName(_fullFileNamePrefix + fileExtension, content);
         }
 
-        public void AddFileByFileName(String fileName, byte[] content) {
+        public void AddFileByFileName(string fileName, string content) {
+            Add(fileName, content);
+        }
+
+        public void AddFile(string fileExtension, byte[] content) {
+            AddFileByFileName(_fullFileNamePrefix + fileExtension, content);
+        }
+
+        public void AddFileByFileName(string fileName, byte[] content) {
+            Add(fileName, content);
+        }
+
+        private void Add(string fileName, object content) {
             if (_filesAdded.ContainsKey(fileName)) _filesAdded.Remove(fileName);
             _filesAdded.Add(fileName, content);
+        }
+
+        public void SaveFile(string filename, object content) {
+            if (content is string) {
+                System.IO.File.WriteAllText(filename, (string)content);
+            } else if (content is byte[]) {
+                System.IO.File.WriteAllBytes(filename, (byte[])content);
+            } else throw new NotSupportedException();
         }
 
         public void Process() {
@@ -85,16 +97,16 @@ namespace Zippy.Chirp.Manager {
                     // File doesnt exists
                     _filesCreated.Add(fullFileName);
                     CheckoutFileIfRequired(fullFileName);
-                    File.WriteAllBytes(fullFileName, file.Value);
+                    SaveFile(fullFileName, file.Value);
 
                 } else {
                     // File exists - find out if it is added to the projectItem
                     if (_projectItem.ProjectItems != null) {
                         if (ContainsItem(_projectItem.ProjectItems, fullFileName)) {
-                            if (!Equals(File.ReadAllBytes(fullFileName), file.Value)) {
+                            if (!CompareFile(fullFileName, file.Value)) {
                                 // Content was different
                                 CheckoutFileIfRequired(fullFileName);
-                                File.WriteAllBytes(fullFileName, file.Value);
+                                SaveFile(fullFileName, file.Value);
                             } else {
                                 // File is already added to the projectItem
                                 _filesCreated.Add(fullFileName);
@@ -114,11 +126,11 @@ namespace Zippy.Chirp.Manager {
                             // File is already added to the projectItem
                             _filesCreated.Add(fullFileName);
 
-                            if (!Equals(File.ReadAllBytes(fullFileName), file.Value)) {
+                            if (!CompareFile(fullFileName, file.Value)) {
                                 // Content was different
                                 CheckoutFileIfRequired(fullFileName);
                                 //File.WriteAllText(fullFileName, file.Value);
-                                File.WriteAllBytes(file.Key, file.Value);
+                                SaveFile(file.Key, file.Value);
                             } else {
                                 // File exists but is not added to the projectItem
                                 // For a security reason dont overwrite - instead let the user know
@@ -135,6 +147,16 @@ namespace Zippy.Chirp.Manager {
 
             // Clear
             Clear();
+        }
+
+        private bool CompareFile(string fileName, object contents) {
+            if (contents is string) {
+                return System.IO.File.ReadAllText(fileName) == (string)contents;
+            } else if (contents is byte[]) {
+                return Equals(System.IO.File.ReadAllBytes(fileName), (byte[])contents);
+            } else {
+                throw new NotSupportedException();
+            }
         }
 
         private bool Equals(byte[] a, byte[] b) {

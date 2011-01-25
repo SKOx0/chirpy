@@ -119,7 +119,7 @@ namespace Zippy.Chirp.Engines {
                             }
                         }
                         if (fileGroup.Debug) {
-                            code = "/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
+                            code = "\r\n/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
                                 .F(new {
                                     Minify = file.Minify.GetValueOrDefault(),
                                     FilePath = path,
@@ -133,6 +133,10 @@ namespace Zippy.Chirp.Engines {
                     string output = allFileText.ToString();
                     string mini = null;
 
+                    if (fileGroup.Debug) {
+                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : ".css"), isJS ? UglifyEngine.Beautify(output) : output);
+                    }
+
                     if (!minifySeperatly && fileGroup.Minify) {
                         if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
 
@@ -142,8 +146,11 @@ namespace Zippy.Chirp.Engines {
                         output = mini;
                     }
 
-                    manager.AddFileByFileName(fullPath, output);
-
+                    if (fileGroup.Debug) {
+                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".min.js" : ".min.css"), output);
+                    } else {
+                        manager.AddFileByFileName(fullPath, output);
+                    }
                 }
 
                 if (projectItem != null) ReloadConfigFileDependencies(projectItem);
