@@ -1,0 +1,88 @@
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\dotless.Core.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\Yahoo.Yui.Compressor.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\EcmaScript.NET.modified.dll
+C:\Users\Evan\Documents\Visual Studio 2008\Projects\Zippy.Chirp\Zippy.Chirp\bin\dotless.Core.pdb
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Documents and Settings\Administrateur\Bureau\Zippy-Source2\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.dll
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\bin\Zippy.pdb
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\projects\Zippy Source\Zippy.Chirp\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\Zippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\obj\Debug\Zippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy.Chirp\bin\EcmaScript.NET.modified.dll
+C:\projects\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\projects\Chirpy\obj\Debug\Zippy.pdb
+C:\projects\Chirpy\bin\Zippy.dll
+C:\projects\Chirpy\bin\Zippy.pdb
+C:\projects\Chirpy\obj\Debug\Zippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\Zippy.Chirp.ConfigurationScreen.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\bin\TempZippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\bin\TempZippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\TempZippy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Zippy\obj\Debug\TempZippy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\dotless.Core.pdb
+E:\Codeplex\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Css.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Javascript.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Less.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.T4Template.resources
+E:\Codeplex\Chirpy\obj\Debug\ResGen.read.1.tlog
+E:\Codeplex\Chirpy\obj\Debug\ResGen.write.1.tlog
+E:\Codeplex\Chirpy\obj\Debug\TempZippy.dll
+E:\Codeplex\Chirpy\bin\TempZippy.dll
+E:\Codeplex\Chirpy\bin\TempZippy.pdb
+E:\Codeplex\Chirpy\obj\Debug\TempZippy.pdb
+C:\projets\Chirpy\bin\TempZippy.dll
+C:\projets\Chirpy\bin\TempZippy.pdb
+C:\projets\Chirpy\bin\AjaxMin.dll
+C:\projets\Chirpy\obj\Debug\ResolveAssemblyReference.cache
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.csproj.ResolveComReference.cache
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Css.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Javascript.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Less.resources
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.T4Template.resources
+C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\projets\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\projets\Chirpy\obj\Debug\TempZippy.dll
+C:\projets\Chirpy\obj\Debug\TempZippy.pdb
+C:\projets\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Config.resources
+E:\Codeplex\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Config.resources
+E:\Codeplex\Chirpy\obj\Debug\GenerateResource-ResGen.read.1.tlog
+E:\Codeplex\Chirpy\obj\Debug\GenerateResource-ResGen.write.1.tlog
+E:\Codeplex\Chirpy\bin\dotless.Core.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Css.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Config.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Javascript.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.Less.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\Zippy.Chirp.ConfigurationScreen.T4Template.resources
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\TempChirpy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\bin\TempChirpy.pdb
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\TempChirpy.dll
+C:\Users\Weirdlover\Documents\Visual Studio 2010\Projects\Chirpy\obj\Debug\TempChirpy.pdb

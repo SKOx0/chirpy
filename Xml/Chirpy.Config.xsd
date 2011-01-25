@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copy file to C:\Program Files\Microsoft Visual Studio 10.0\Xml\Schemas
+in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:ChirpyConfig"
+-->
+<xs:schema targetNamespace="urn:ChirpyConfig"  id="root"  xmlns="urn:ChirpyConfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="root">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FileGroup">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:choice maxOccurs="unbounded">
+                <xs:element name="File" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="Path" use="required" type="xs:string" />
+                    <xs:attribute name="Minify" type="xs:boolean" />
+                    <xs:attribute name="MinifyWith" type="MinifyType" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="Folder" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="Pattern" use="required" type="xs:string" />
+                    <xs:attribute name="Minify" type="xs:boolean" />
+                    <xs:attribute name="Recursive" type="xs:boolean" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="Name" type="xs:string" />
+            <xs:attribute name="Path" type="xs:string" />
+            <xs:attribute name="Minify" type="xs:boolean" />
+            <xs:attribute name="Debug" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="MinifyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yui" />
+      <xs:enumeration value="yuiMARE" />
+      <xs:enumeration value="yuiHybrid" />
+      <xs:enumeration value="gctAdvanced" />
+      <xs:enumeration value="gctSimple" />
+      <xs:enumeration value="gctWhiteSpaceOnly" />
+      <xs:enumeration value="msAjax" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
