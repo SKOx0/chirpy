@@ -33,15 +33,17 @@ namespace Zippy.Chirp.Engines {
                 var code = match.Groups[3].Value;
 
                 if (tagName.Is("script")) {
-					code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Default);
+                    code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Unspecified);
 
                 } else if (tagName.Is("style")) {
                     int i = attrs.IndexOf("text/less", StringComparison.InvariantCultureIgnoreCase);
                     if (i > -1) {
                         attrs = attrs.Substring(0, i) + "text/css" + attrs.Substring(i + "text/less".Length);
+                        code = code.Replace("@@import", "@import"); //Razor views need the @ symbol to be escaped :/
                         code = LessEngine.TransformToCss(fullFileName, code, projectItem);
+                        code = code.Replace("@import", "@@import"); //Now we have to re-escape it
                     }
-                    code = CssEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Default);
+                    code = CssEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Unspecified);
                 }
 
                 text = text.Substring(0, match.Index)

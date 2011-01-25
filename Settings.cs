@@ -61,6 +61,8 @@ namespace Zippy.Chirp {
         public static string ChirpMichaelAshCssFile = ".michaelash.css";
 
         public static string ChirpConfigFile = ".chirp.config";
+        public static Xml.MinifyType DefaultCssMinifier = Xml.MinifyType.yui;
+        public static Xml.MinifyType DefaultJavaScriptMinifier = Xml.MinifyType.yui;
 
         public static string[] AllExtensions;
 
@@ -109,6 +111,8 @@ namespace Zippy.Chirp {
                     Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
                     Settings.ChirpMSAjaxCssFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCssFile", ".msajax.css"));
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
+                    Settings.DefaultCssMinifier = Convert.ToString(regKey.GetValue("DefaultCssMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
+                    Settings.DefaultJavaScriptMinifier = Convert.ToString(regKey.GetValue("DefaultJavaScriptMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
@@ -159,6 +163,9 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpGcJsFile", Settings.ChirpGctJsFile);
                 regKey.SetValue("ChirpMSAjaxJsFile", Settings.ChirpMSAjaxJsFile);
                 regKey.SetValue("ChirpConfigFile", Settings.ChirpConfigFile);
+                regKey.SetValue("DefaultCssMinifier", Settings.DefaultCssMinifier.ToString());
+                regKey.SetValue("DefaultJavaScriptMinifier", Settings.DefaultJavaScriptMinifier.ToString());
+
                 regKey.SetValue("ChirpUglifyJsFile", Settings.ChirpUglifyJsFile);
 
                 regKey.SetValue("ChirpSimpleCoffeeScriptFile", Settings.ChirpSimpleCoffeeScriptFile);

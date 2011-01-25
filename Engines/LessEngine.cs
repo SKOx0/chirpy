@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines {
@@ -16,7 +16,7 @@ namespace Zippy.Chirp.Engines {
         static dotless.Core.Parser.Parser lazyLessParser;
         static dotless.Core.Parser.Parser lessParser {
             get {
-                if(lazyLessParser == null) {
+                if (lazyLessParser == null) {
                     lazyLessParser = new dotless.Core.Parser.Parser();
                 }
                 return lazyLessParser;
@@ -41,19 +41,19 @@ namespace Zippy.Chirp.Engines {
         public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             string css = null;
 
-            lock(lessParser)
-                using(new EnvironmentDirectory(fullFileName))
+            lock (lessParser)
+                using (new EnvironmentDirectory(fullFileName))
                     try {
                         css = lessParser.Parse(text, fullFileName).ToCSS();
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         int line = 1, column = 1;
                         var description = e.Message.Trim();
                         Match match;
-                        if((match = rxLineNum.Match(description)).Success) {
+                        if ((match = rxLineNum.Match(description)).Success) {
                             line = match.Groups[1].Value.ToInt(1);
                         }
 
-                        if((match = rxColNum.Match(description)).Success) {
+                        if ((match = rxColNum.Match(description)).Success) {
                             column = match.Groups[1].Length + 1;
                         }
                         if (TaskList.Instance == null)
@@ -69,8 +69,7 @@ namespace Zippy.Chirp.Engines {
             return TransformToCss(fullFileName, text, projectItem);
         }
 
-        public override int Handles(string fullFileName)
-        {
+        public override int Handles(string fullFileName) {
 
             // if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0; --remove for handle less.css workitem=31,34
             var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
@@ -88,13 +87,13 @@ namespace Zippy.Chirp.Engines {
 
         public MinifyType GetMinifyType(string fullFileName) {
             MinifyType mode = MinifyType.yui;
-            if(IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
+            if (IsChirpMichaelAshLessFile(fullFileName) || IsChirpHybridLessFile(fullFileName) || IsChirpLessFile(fullFileName)) {
                 mode = IsChirpMichaelAshLessFile(fullFileName) ? MinifyType.yuiMARE
                : IsChirpHybridLessFile(fullFileName) ? MinifyType.yuiHybrid
                : MinifyType.yui;
 
             }
-            if(IsChirpMSAjaxLessFile(fullFileName)) {
+            if (IsChirpMSAjaxLessFile(fullFileName)) {
                 mode = MinifyType.msAjax;
             }
 
