@@ -66,7 +66,6 @@
     <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Noesis.Javascript, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ae36d046c7f89f85, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -80,7 +79,7 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UglifyCS, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="Uglify, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -255,8 +254,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>del "$(ProjectDir)$(OutDir)Chirpy.vsi"</PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"
-"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)UglifyCS.dll" "$(ProjectDir)$(OutDir)Noesis.Javascript.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
+    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll" "$(ProjectDir)$(OutDir)Uglify.dll"
+"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
 rename "$(ProjectDir)$(OutDir)Chirpy.zip" "Chirpy.vsi"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>

@@ -10,12 +10,13 @@ namespace Zippy.Chirp.Engines {
         }
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
-            return //(_uglify ?? (_uglify = new UglifyCS.Uglify())).squeeze_it(text);
-                UglifyCS.Uglify.UglifyScript(text);
+            return (_uglify ?? (_uglify = new UglifyCS.Uglify())).squeeze_it(text);
+            //UglifyCS.Uglify.UglifyScript(text);
         }
 
         public static string Beautify(string text) {
             return (_beautify ?? (_beautify = new UglifyCS.Beautify())).js_beautify(text);
+            //UglifyCS.Beautify.BeautifyScript(text);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
