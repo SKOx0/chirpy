@@ -254,8 +254,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PreBuildEvent>del "$(ProjectDir)$(OutDir)Chirpy.vsi"</PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll" "$(ProjectDir)$(OutDir)Uglify.dll"
-"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn"
+    <PostBuildEvent>"$(ProjectDir)$(OutDir)\ILMerge" /out:"$(ProjectDir)$(OutDir)Chirpy.dll" "$(TargetPath)" "$(ProjectDir)$(OutDir)EcmaScript.NET.modified.dll" "$(ProjectDir)$(OutDir)Yahoo.YUI.Compressor.dll" "$(ProjectDir)$(OutDir)dotless.Core.dll" "$(ProjectDir)$(OutDir)AjaxMin.dll"
+"$(ProjectDir)$(OutDir)7za.exe" u Chirpy.zip "$(ProjectDir)$(OutDir)Chirpy.dll" "$(ProjectDir)$(OutDir)Chirpy.vscontent" "$(ProjectDir)$(OutDir)Zippy.AddIn" "$(ProjectDir)$(OutDir)Uglify.dll"
 rename "$(ProjectDir)$(OutDir)Chirpy.zip" "Chirpy.vsi"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
