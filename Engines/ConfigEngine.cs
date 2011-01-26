@@ -115,7 +115,8 @@ namespace Zippy.Chirp.Engines
 						manager.AddFileByFileName(fullPath, img);
 						continue;
 					}
-					bool minifyAnything = fileGroup.Minify || fileGroup.Files.Any(f => f.Minify.GetValueOrDefault());
+					bool minifyAnything = (fileGroup.Minify && !fileGroup.Files.All(f=>f.Minify == false))
+						 || fileGroup.Files.Any(f => f.Minify.GetValueOrDefault());
 
 					bool minifySeperatly = fileGroup.Files.Any(f =>
 					{
