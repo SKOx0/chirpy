@@ -22,7 +22,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                   <xs:complexType>
                     <xs:attribute name="Pattern" use="required" type="xs:string" />
                     <xs:attribute name="Minify" type="xs:boolean" />
-                    <xs:attribute name="Recursive" type="xs:boolean" />
+                    <xs:attribute name="Deep" type="xs:boolean" />
                   </xs:complexType>
                 </xs:element>
               </xs:choice>
