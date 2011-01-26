@@ -47,7 +47,7 @@ namespace Zippy.Chirp.Xml {
                     files.Add(file);
                 }
                 if (fileDescriptor.Name.LocalName == "Folder") {
-                    var folder = new FolderXml(this, fileDescriptor);
+                    var folder = new FolderXml(fileDescriptor, basePath);
                     if (folder.Minify == null) {
                         folder.Minify = this.Minify;
                         foreach (var f in folder.FileXmlList) {
