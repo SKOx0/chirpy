@@ -15,7 +15,8 @@ namespace Zippy.Chirp.Engines {
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             var reporter = new EcmaScriptErrorReporter(fullFileName, projectItem);
             try {
-                var compressor = new JavaScriptCompressor(text, true, System.Text.Encoding.Default, System.Globalization.CultureInfo.CurrentCulture, false, reporter);
+                //http://chirpy.codeplex.com/workitem/54
+                var compressor = new JavaScriptCompressor(text, true, System.Text.Encoding.Default, System.Globalization.CultureInfo.InvariantCulture, false, reporter);
                 return compressor.Compress();
             } catch (System.Exception) {
                 return "/* error */";
