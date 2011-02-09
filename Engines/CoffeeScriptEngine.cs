@@ -87,7 +87,10 @@ namespace Zippy.Chirp.Engines
             return (fileName.EndsWith(Settings.ChirpYUICoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        
+        private bool IsUglifyScriptFile(string fileName)
+        {
+            return (fileName.EndsWith(Settings.ChirpUglifyJsFile, StringComparison.OrdinalIgnoreCase));
+        }
 
         public override void Process(Manager.VSProjectItemManager manager, string fullFileName, EnvDTE.ProjectItem projectItem, string baseFileName, string outputText)
         {
@@ -112,6 +115,8 @@ namespace Zippy.Chirp.Engines
                 mode = MinifyType.gctWhiteSpaceOnly;
             if (IsChirpYUICoffeeScriptFile(fullFileName))
                 mode = MinifyType.yui;
+            if (IsUglifyScriptFile(fullFileName))
+                mode = MinifyType.uglify;
             return mode;
         }
     }
