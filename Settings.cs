@@ -138,7 +138,8 @@ namespace Zippy.Chirp {
             AllExtensions = new[]{
                  Settings.ChirpConfigFile , Settings.ChirpCssFile, Settings.ChirpGctJsFile , Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile , Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile, 
                  Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile,
-                 Settings.ChirpSimpleCoffeeScriptFile,Settings.ChirpWhiteSpaceCoffeeScriptFile,Settings.ChirpYUICoffeeScriptFile,Settings.ChirpMSAjaxCoffeeScriptFile,Settings.ChirpGctCoffeeScriptFile,Settings.ChirpCoffeeScriptFile
+                 Settings.ChirpSimpleCoffeeScriptFile,Settings.ChirpWhiteSpaceCoffeeScriptFile,Settings.ChirpYUICoffeeScriptFile,Settings.ChirpMSAjaxCoffeeScriptFile,Settings.ChirpGctCoffeeScriptFile,Settings.ChirpCoffeeScriptFile,
+                ".debug.js", ".debug.css"
             };
         }
 
