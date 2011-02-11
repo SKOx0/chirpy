@@ -98,6 +98,7 @@ namespace Zippy.Chirp.Engines {
         private TransformEngine[] _transformers = new TransformEngine[0];
         private ActionEngine[] _actions = new ActionEngine[0];
         private Chirp _Chirp;
+        private ActionEngine _configEngine;
 
         public EngineManager(Chirp chirp) {
             _Chirp = chirp;
@@ -108,7 +109,8 @@ namespace Zippy.Chirp.Engines {
         }
 
         public bool IsTransformed(string fullFileName) {
-            return _transformers.Any(x => x.Handles(fullFileName) > 0);
+            return _transformers.Any(x => x.Handles(fullFileName) > 0)
+                || (_configEngine != null && _configEngine.Handles(fullFileName) > 0);
         }
 
         protected override void Process(ProjectItem projectItem) {
@@ -152,6 +154,8 @@ namespace Zippy.Chirp.Engines {
             _allactions.Add(action);
             _actions = _allactions.ToArray();
             _transformers = _allactions.OfType<TransformEngine>().ToArray();
+            if (action is ConfigEngine)
+                _configEngine = action;
         }
 
         //Remove all actions
