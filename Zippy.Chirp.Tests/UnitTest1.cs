@@ -166,6 +166,21 @@ namespace Zippy.Chirp.Tests
         }
         #endregion
 
+        #region "CoffeeScript"
+        [TestMethod]
+        public void TestCoffeeScriptEngine()
+        {
+            string code = "alert \"Hello CoffeeScript!\"";
+            string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
+            System.IO.File.WriteAllText(TempFilePath, code);
+
+            code = TestEngine<Zippy.Chirp.Engines.CoffeeScriptEngine>(TempFilePath, code);
+
+            Assert.AreEqual(code, "(function() {\n  alert(\"Hello CoffeeScript!\");\n}).call(this);\n");
+        }
+        #endregion
+
+
         #region "ClosureCompiler"
 
         [TestMethod]
@@ -231,6 +246,7 @@ namespace Zippy.Chirp.Tests
             Assert.AreEqual(TaskList.Instance.Errors.Count(), 1);
         }
         #endregion
+
         #endregion
 
         [TestMethod]
