@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
 using System.Linq;
 using Zippy.Chirp.Xml;
-using System.Diagnostics;
 
 namespace Zippy.Chirp.Engines
 {
@@ -10,36 +9,48 @@ namespace Zippy.Chirp.Engines
     {
         public CoffeeScriptEngine()
         {
-            Extensions = new[] { Settings.ChirpCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpSimpleCoffeeScriptFile,Settings.ChirpWhiteSpaceCoffeeScriptFile,Settings.ChirpYUICoffeeScriptFile };
+            Extensions = new[] { Settings.ChirpCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile };
             OutputExtension = ".js";
         }
 
         public static string TransformToJs(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-              string toCall= string.Format("\"{0}\"",fullFileName);
+            string toCall = string.Format("\"{0}\"", fullFileName);
             string error = string.Empty;
             string output = string.Empty;
 
-            var process = System.Diagnostics.Process.Start(Settings.CoffeeScriptBatFilePath + @"\coffee.bat", toCall);
-
-
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = process.StartInfo.RedirectStandardError = true;
-
-            process.Start();
-
-            output = process.StandardOutput.ReadToEnd();
-            error = process.StandardError.ReadToEnd();
-
-           
-            if (!process.HasExited)
+            try
             {
-                process.Kill();
+                var startInfo = new ProcessStartInfo(Settings.CoffeeScriptBatFilePath + @"\coffee.bat", toCall)
+                {
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                var process = System.Diagnostics.Process.Start(startInfo);
+
+                output = process.StandardOutput.ReadToEnd();
+                error = process.StandardError.ReadToEnd();
+                if (!process.HasExited)
+                {
+                    process.Kill();
+                }
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
             }
             if (!string.IsNullOrEmpty(error))
-                throw new Exception(error);
+            {
+                if (TaskList.Instance == null)
+                    Console.WriteLine(string.Format("Error compiling {0}.", fullFileName));
+                else
+                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, 0, 0, error);
+            }
+
             return output;
         }
 
@@ -121,3 +132,4 @@ namespace Zippy.Chirp.Engines
         }
     }
 }
+

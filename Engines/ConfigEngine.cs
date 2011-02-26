@@ -11,11 +11,18 @@ namespace Zippy.Chirp.Engines {
     public class ConfigEngine : ActionEngine {
         const string regularCssFile = ".css";
         const string regularJsFile = ".js";
+        const string regularCoffeeScriptFile = ".coffee";
         const string regularLessFile = ".less";
 
         bool IsLessFile(string fileName) {
             return (fileName.EndsWith(regularLessFile, StringComparison.OrdinalIgnoreCase));
         }
+        bool IsCoffeeScriptFile(string fileName)
+        {
+            return (fileName.EndsWith(regularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
+        }
+
+
 
         bool IsCssFile(string fileName) {
             return (fileName.EndsWith(regularCssFile, StringComparison.OrdinalIgnoreCase));
@@ -123,6 +130,11 @@ namespace Zippy.Chirp.Engines {
                         if (IsLessFile(path)) {
                             code = LessEngine.TransformToCss(path, code, projectItem);
                         }
+                        if (IsCoffeeScriptFile(path))
+                        {
+                            code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
+                        }
+
                         if (minifySeperatly && file.Minify == true) {
                             if (TaskList.Instance != null)
                                 TaskList.Instance.Remove(path);
