@@ -7,20 +7,18 @@ using EnvDTE80;
 using Extensibility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Zippy.Chirp.Tests
-{
+namespace Zippy.Chirp.Tests {
     /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
-    public class UnitTest1
-    {
+    public class UnitTest1 {
         Zippy.Chirp.Chirp chirp;
 
         DTE2 app;
+        TaskList tasks;
 
-        public UnitTest1()
-        {
+        public UnitTest1() {
             AttributesToAvoidReplicating.Add<TypeIdentifierAttribute>();
             chirp = new Chirp();
 
@@ -28,10 +26,10 @@ namespace Zippy.Chirp.Tests
 
             Array arr = null;
             chirp.OnConnection(app, ext_ConnectMode.ext_cm_AfterStartup, QuickMock<AddIn>(), ref  arr);
+            tasks = new TaskList(app);
         }
 
-        private static DTE2 GetApp()
-        {
+        private static DTE2 GetApp() {
             var mockApp = new Moq.Mock<DTE2>();
             var mockEvents = new Moq.Mock<Events2>();
             mockEvents.Setup(x => x.get_DocumentEvents(null)).Returns(QuickMock<DocumentEvents>());
@@ -44,8 +42,7 @@ namespace Zippy.Chirp.Tests
             return mockApp.Object;
         }
 
-        private static T QuickMock<T>() where T : class
-        {
+        private static T QuickMock<T>() where T : class {
             var mock = new Moq.Mock<T>();
             return mock.Object;
         }
@@ -79,10 +76,9 @@ namespace Zippy.Chirp.Tests
         #endregion
 
         #region "Test CSS"
-       
+
         [TestMethod]
-        public void TestYuiCssEngine()
-        {
+        public void TestYuiCssEngine() {
             string code = "#test {\r\n\t color  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.YuiCssEngine>("c:\\test.css", code);
 
@@ -90,8 +86,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestYuiMARECssEngine()
-        {
+        public void TestYuiMARECssEngine() {
             string code = "#test {\r\n\t color  : #ffffff; }";
             string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiMARE);
 
@@ -99,8 +94,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestYuiHybridCssEngine()
-        {
+        public void TestYuiHybridCssEngine() {
             string code = "#test {\r\n\t color  : #ffffff; }";
             string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiHybrid);
 
@@ -112,8 +106,7 @@ namespace Zippy.Chirp.Tests
         /// Test Microsoft Ajax Minifer (javascript)
         /// </summary>
         [TestMethod]
-        public void TestMsCssEngine()
-        {
+        public void TestMsCssEngine() {
             string code = "#test {\r\n\t color  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.MsCssEngine>("c:\\test.css", code);
 
@@ -123,10 +116,32 @@ namespace Zippy.Chirp.Tests
 
         #region "Test JS"
         #region "MsAjax"
-        
+
         [TestMethod]
-        public void TestMsJsEngine()
-        {
+        public void TestJsHintEngine() {
+            string code = "if(test) {\r\n\t eval('test'); }";
+            var filename = System.IO.Path.GetTempFileName();
+            try {
+                System.IO.File.WriteAllText(filename, code);
+                using (var jshint = new Zippy.Chirp.Engines.JSHintEngine()) {
+                    jshint.Run(filename, GetProjectItem(filename));
+                    Assert.AreEqual(1, TaskList.Instance.Errors.Count());
+                }
+            } finally {
+                System.IO.File.Delete(filename);
+            }
+        }
+
+        [TestMethod]
+        public void TestUglifyJsEngine() {
+            string code = "if(test) {\r\n\t alert('test'); }";
+            code = TestEngine<Zippy.Chirp.Engines.UglifyEngine>("c:\\test.js", code);
+
+            Assert.AreEqual(code, "test&&alert(\"test\")");
+        }
+
+        [TestMethod]
+        public void TestMsJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
 
@@ -134,8 +149,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestMsJsEngineThrowTaskListErrorOnJsError()
-        {
+        public void TestMsJsEngineThrowTaskListErrorOnJsError() {
             TaskList.Instance.RemoveAll();
             string code = "if(test){;";
             code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
@@ -147,8 +161,7 @@ namespace Zippy.Chirp.Tests
         #region "YuiCompressor"
 
         [TestMethod]
-        public void TestYuiJsEngine()
-        {
+        public void TestYuiJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
 
@@ -156,8 +169,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestYuiJsEngineThrowTaskListErrorOnJsError()
-        {
+        public void TestYuiJsEngineThrowTaskListErrorOnJsError() {
             TaskList.Instance.RemoveAll();
             string code = "if(test  }";
             code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
@@ -168,8 +180,7 @@ namespace Zippy.Chirp.Tests
 
         #region "CoffeeScript"
         [TestMethod]
-        public void TestCoffeeScriptEngine()
-        {
+        public void TestCoffeeScriptEngine() {
             string code = "alert \"Hello CoffeeScript!\"";
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
@@ -184,21 +195,19 @@ namespace Zippy.Chirp.Tests
         #region "ClosureCompiler"
 
         [TestMethod]
-        public void TestClosureCompilerJsEngine()
-        {
+        public void TestClosureCompilerJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             //create file for googleClosureCompilerOffline
-            string TempFilePath=System.Environment.CurrentDirectory +"\\test.js";
+            string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
-            
+
             code = TestEngine<Zippy.Chirp.Engines.ClosureCompilerEngine>(TempFilePath, code);
 
             Assert.IsTrue(code == "if(test)alert(\"test\");" || code == "if(test)alert(\"test\");\r\n");
         }
 
         [TestMethod]
-        public void TestClosureCompilerAdvancedJsEngine()
-        {
+        public void TestClosureCompilerAdvancedJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             //create file for googleClosureCompilerOffline
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
@@ -210,8 +219,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestClosureCompilerSimpleJsEngine()
-        {
+        public void TestClosureCompilerSimpleJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             //create file for googleClosureCompilerOffline
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
@@ -221,8 +229,7 @@ namespace Zippy.Chirp.Tests
             Assert.IsTrue(code == "test&&alert(\"test\");" || code == "test&&alert(\"test\");\r\n");
         }
         [TestMethod]
-        public void TestClosureCompilerWhiteSpaceOnlyJsEngine()
-        {
+        public void TestClosureCompilerWhiteSpaceOnlyJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
             //create file for googleClosureCompilerOffline
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
@@ -233,8 +240,7 @@ namespace Zippy.Chirp.Tests
         }
 
         [TestMethod]
-        public void TestClosureCompilerJsEngineThrowTaskListErrorOnJsError()
-        {
+        public void TestClosureCompilerJsEngineThrowTaskListErrorOnJsError() {
             TaskList.Instance.RemoveAll();
             string code = "if(test  }";
             //create file for googleClosureCompilerOffline
@@ -250,8 +256,7 @@ namespace Zippy.Chirp.Tests
         #endregion
 
         [TestMethod]
-        public void TestLessEngine()
-        {
+        public void TestLessEngine() {
             string code = "@x:1px; #test { border: solid @x #000; }";
             code = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", code);
             Assert.AreEqual(code, "#test {\n  border: solid 1px black;\n}\n");
@@ -263,28 +268,24 @@ namespace Zippy.Chirp.Tests
         }
 
 
-        private string TestEngine<T>(string filename, string code) where T : Zippy.Chirp.Engines.TransformEngine, new()
-        {
+        private string TestEngine<T>(string filename, string code) where T : Zippy.Chirp.Engines.TransformEngine, new() {
             var engine = new T();
             var item = GetProjectItem(filename);
             return engine.Transform(filename, code, item);
         }
 
-        private Project GetProject()
-        {
+        private Project GetProject() {
             var moq = new Moq.Mock<Project>();
             return moq.Object;
         }
 
-        private ProjectItems GetProjectItems()
-        {
+        private ProjectItems GetProjectItems() {
             var moq = new Moq.Mock<ProjectItems>();
             moq.Setup(x => x.Parent).Returns(() => GetProjectItem("C:\\parentitem.cs"));
             return moq.Object;
         }
 
-        private ProjectItem GetProjectItem(string filename)
-        {
+        private ProjectItem GetProjectItem(string filename) {
             var moq = new Moq.Mock<ProjectItem>();
             moq.Setup(x => x.get_FileNames(1)).Returns(filename);
             moq.Setup(x => x.ContainingProject).Returns(GetProject);

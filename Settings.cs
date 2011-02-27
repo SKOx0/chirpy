@@ -69,7 +69,7 @@ namespace Zippy.Chirp {
         public static bool T4RunAsBuild = false;
         public static string T4RunAsBuildTemplate = string.Empty;
         public static bool SmartRunT4MVC = false;
-
+        public static bool RunJSHint = true;
 
         public static bool GoogleClosureOffline = false;
         public static string GoogleClosureJavaPath = string.Empty;
@@ -121,6 +121,7 @@ namespace Zippy.Chirp {
                     Settings.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
+                    Settings.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
 
                 }
                 LoadExtensions();
@@ -176,8 +177,6 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", Settings.ChirpMSAjaxCoffeeScriptFile);
                 regKey.SetValue("CoffeeScriptBatFilePath", Settings.CoffeeScriptBatFilePath);
 
-
-
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
 
@@ -186,6 +185,7 @@ namespace Zippy.Chirp {
                 regKey.SetValue("GoogleClosureJavaPath", Settings.GoogleClosureJavaPath);
                 regKey.SetValue("GoogleClosureOffline", Settings.GoogleClosureOffline);
 
+                regKey.SetValue("RunJSHint", Settings.RunJSHint);
                 LoadExtensions();
 
                 if (Saved != null) Saved();
