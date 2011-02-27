@@ -10,10 +10,11 @@ namespace Zippy.Chirp.Engines {
             var code = System.IO.File.ReadAllText(fullFileName);
             var results = UglifyCS.JSHint.Hintify(code);
 
-            foreach (var item in results) {
-                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning,
-                    fullFileName, item.line, item.character, item.reason);
-            }
+            if (results != null)
+                foreach (var item in results) {
+                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning,
+                        fullFileName, item.line, item.character, item.reason);
+                }
         }
     }
 
