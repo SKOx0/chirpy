@@ -1,7 +1,5 @@
-﻿namespace Zippy.Chirp.ConfigurationScreen
-{
-    partial class Javascript
-    {
+﻿namespace Zippy.Chirp.ConfigurationScreen {
+    partial class Javascript {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,9 +22,10 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtUglifyJsFile = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtMSAjaxJsFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,13 +36,13 @@
             this.txtChirpWhiteSpaceJsFile = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChirpYUIJsFile = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtUglifyJsFile = new System.Windows.Forms.TextBox();
+            this.chkJSHint = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkJSHint);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtUglifyJsFile);
             this.groupBox2.Controls.Add(this.label5);
@@ -60,10 +57,27 @@
             this.groupBox2.Controls.Add(this.txtChirpYUIJsFile);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 179);
+            this.groupBox2.Size = new System.Drawing.Size(320, 219);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Javascript";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 155);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 13);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Uglify.JS :";
+            // 
+            // txtUglifyJsFile
+            // 
+            this.txtUglifyJsFile.Location = new System.Drawing.Point(186, 152);
+            this.txtUglifyJsFile.Name = "txtUglifyJsFile";
+            this.txtUglifyJsFile.Size = new System.Drawing.Size(128, 20);
+            this.txtUglifyJsFile.TabIndex = 23;
+            this.txtUglifyJsFile.Text = ".uglify.js";
             // 
             // label5
             // 
@@ -151,22 +165,15 @@
             this.txtChirpYUIJsFile.TabIndex = 7;
             this.txtChirpYUIJsFile.Text = ".yui.js";
             // 
-            // label6
+            // chkJSHint
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 155);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 13);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "Uglify.JS :";
-            // 
-            // txtUglifyJsFile
-            // 
-            this.txtUglifyJsFile.Location = new System.Drawing.Point(186, 152);
-            this.txtUglifyJsFile.Name = "txtUglifyJsFile";
-            this.txtUglifyJsFile.Size = new System.Drawing.Size(128, 20);
-            this.txtUglifyJsFile.TabIndex = 23;
-            this.txtUglifyJsFile.Text = ".uglify.js";
+            this.chkJSHint.AutoSize = true;
+            this.chkJSHint.Location = new System.Drawing.Point(187, 187);
+            this.chkJSHint.Name = "chkJSHint";
+            this.chkJSHint.Size = new System.Drawing.Size(83, 17);
+            this.chkJSHint.TabIndex = 25;
+            this.chkJSHint.Text = "Run JS Hint";
+            this.chkJSHint.UseVisualStyleBackColor = true;
             // 
             // Javascript
             // 
@@ -174,7 +181,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Name = "Javascript";
-            this.Size = new System.Drawing.Size(327, 187);
+            this.Size = new System.Drawing.Size(327, 225);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -196,5 +203,6 @@
         private System.Windows.Forms.TextBox txtMSAjaxJsFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtUglifyJsFile;
+        private System.Windows.Forms.CheckBox chkJSHint;
     }
 }
