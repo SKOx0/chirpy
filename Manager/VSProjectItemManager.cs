@@ -68,7 +68,7 @@ namespace Zippy.Chirp.Manager {
         }
 
         public void SaveFile(string filename, object content) {
-            if (content is string) {
+            if (content is string || content == null) {
                 System.IO.File.WriteAllText(filename, (string)content);
             } else if (content is byte[]) {
                 System.IO.File.WriteAllBytes(filename, (byte[])content);
@@ -150,7 +150,8 @@ namespace Zippy.Chirp.Manager {
         }
 
         private bool CompareFile(string fileName, object contents) {
-            if (contents is string) {
+            if (contents == null) return false;
+            else if (contents is string) {
                 return System.IO.File.ReadAllText(fileName) == (string)contents;
             } else if (contents is byte[]) {
                 return Equals(System.IO.File.ReadAllBytes(fileName), (byte[])contents);
