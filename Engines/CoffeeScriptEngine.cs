@@ -27,7 +27,9 @@ namespace Zippy.Chirp.Engines
                     WindowStyle = ProcessWindowStyle.Hidden,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    RedirectStandardError = true
+                    RedirectStandardError = true,
+                    StandardErrorEncoding = System.Text.Encoding.UTF8,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8
                 };
 
                 var process = System.Diagnostics.Process.Start(startInfo);

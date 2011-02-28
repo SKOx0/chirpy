@@ -1,0 +1,15 @@
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\Zippy.Chirp.Tests.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\Zippy.Chirp.Tests.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\Moq.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\TempChirpy.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\dotless.Core.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\Yahoo.Yui.Compressor.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\AjaxMin.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\UglifyCS.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\Noesis.Javascript.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\TempChirpy.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\bin\Debug\UglifyCS.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\obj\Debug\Zippy.Chirp.Tests.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Zippy.Chirp.Tests\obj\Debug\Zippy.Chirp.Tests.pdb

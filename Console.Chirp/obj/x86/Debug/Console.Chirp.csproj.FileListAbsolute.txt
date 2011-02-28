@@ -1,0 +1,15 @@
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\Chirpy.exe.config
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\Chirpy.exe
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\Chirpy.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\TempChirpy.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\dotless.Core.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\Yahoo.Yui.Compressor.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\AjaxMin.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\UglifyCS.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\Noesis.Javascript.dll
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\TempChirpy.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\bin\Debug\UglifyCS.pdb
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\obj\x86\Debug\Chirpy.exe
+C:\Users\enagle\Desktop\Chirpy Mod\Console.Chirp\obj\x86\Debug\Chirpy.pdb
