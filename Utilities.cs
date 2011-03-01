@@ -7,6 +7,13 @@ using EnvDTE80;
 namespace Zippy.Chirp {
     public static class Utilities {
 
+        public static void Dispose<T>(ref T obj) where T : class, IDisposable {
+            try {
+                if (obj != null) obj.Dispose();
+            } catch { }
+            obj = null;
+        }
+
         public static Dictionary<Enum, string> _Descriptions = new Dictionary<Enum, string>();
         const char ENUM_SEPERATOR_CHARACTER = ',';
         /// <summary>

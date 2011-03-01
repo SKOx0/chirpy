@@ -17,8 +17,7 @@ namespace Zippy.Chirp.Engines {
         bool IsLessFile(string fileName) {
             return (fileName.EndsWith(regularLessFile, StringComparison.OrdinalIgnoreCase));
         }
-        bool IsCoffeeScriptFile(string fileName)
-        {
+        bool IsCoffeeScriptFile(string fileName) {
             return (fileName.EndsWith(regularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -130,8 +129,7 @@ namespace Zippy.Chirp.Engines {
                         if (IsLessFile(path)) {
                             code = LessEngine.TransformToCss(path, code, projectItem);
                         }
-                        if (IsCoffeeScriptFile(path))
-                        {
+                        if (IsCoffeeScriptFile(path)) {
                             code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
                         }
 
@@ -152,7 +150,7 @@ namespace Zippy.Chirp.Engines {
 
                     if (fileGroup.Debug) {
                         var debugOutput = debugFileText.ToString();
-                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".debug.js" : ".debug.css"), debugOutput);
+                        manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : ".css"), debugOutput);
                     }
 
                     if (!minifySeperatly && fileGroup.Minify) {

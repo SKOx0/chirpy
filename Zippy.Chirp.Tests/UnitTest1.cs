@@ -82,7 +82,7 @@ namespace Zippy.Chirp.Tests {
             string code = "#test {\r\n\t color  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.YuiCssEngine>("c:\\test.css", code);
 
-            Assert.AreEqual(code, "#test{color:red;}");
+            Assert.AreEqual(code, "#test{color:red}");
         }
 
         [TestMethod]
