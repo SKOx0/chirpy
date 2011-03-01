@@ -13,6 +13,16 @@ namespace Zippy.Chirp.Engines {
         static Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
         static Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
 
+        static dotless.Core.Parser.Parser lazyLessParser;
+        static dotless.Core.Parser.Parser lessParser {
+            get {
+                if (lazyLessParser == null) {
+                    lazyLessParser = new dotless.Core.Parser.Parser();
+                }
+                return lazyLessParser;
+            }
+        }
+
         private bool IsChirpLessFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpLessFile, StringComparison.OrdinalIgnoreCase));
         }
@@ -31,25 +41,27 @@ namespace Zippy.Chirp.Engines {
         public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             string css = null;
 
-            using (new EnvironmentDirectory(fullFileName))
-                try {
-                    css = dotless.Core.Less.Parse(text, new dotless.Core.configuration.DotlessConfiguration { MinifyOutput = false });
-                } catch (Exception e) {
-                    int line = 1, column = 1;
-                    var description = e.ToString().Trim();
-                    Match match;
-                    if ((match = rxLineNum.Match(description)).Success) {
-                        line = match.Groups[1].Value.ToInt(1);
-                    }
+            lock (lessParser)
+                using (new EnvironmentDirectory(fullFileName))
+                    try {
+                        //The built in static method doesn't throw error messages
+                        css = lessParser.Parse(text, fullFileName).ToCSS();
+                    } catch (Exception e) {
+                        int line = 1, column = 1;
+                        var description = e.Message.Trim();
+                        Match match;
+                        if ((match = rxLineNum.Match(description)).Success) {
+                            line = match.Groups[1].Value.ToInt(1);
+                        }
 
-                    if ((match = rxColNum.Match(description)).Success) {
-                        column = match.Groups[1].Length + 1;
+                        if ((match = rxColNum.Match(description)).Success) {
+                            column = match.Groups[1].Length + 1;
+                        }
+                        if (TaskList.Instance == null)
+                            Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), description));
+                        else
+                            TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
                     }
-                    if (TaskList.Instance == null)
-                        Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), description));
-                    else
-                        TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
-                }
 
             return css;
         }
