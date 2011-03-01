@@ -1,10 +1,12 @@
 ﻿
+using System;
 namespace Zippy.Chirp.Engines {
     public class JSHintEngine : ActionEngine {
         private static UglifyCS.JSHint _hint;
 
         public override int Handles(string fullFileName) {
-            if (Settings.RunJSHint && fullFileName.EndsWith(".js", System.StringComparison.OrdinalIgnoreCase)) return 1;
+            if (Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                && !fullFileName.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase)) return 1;
             return 0;
         }
 
