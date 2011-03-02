@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Zippy.Chirp.Xml;
 
@@ -39,13 +38,13 @@ namespace Zippy.Chirp.Engines {
             return TransformToJs(fullFileName, text, projectItem);
         }
 
-        public override int Handles(string fullFileName) {
+        //public override int Handles(string fullFileName) {
 
-            // if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0; --remove for handle less.css workitem=31,34
-            var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
-                .FirstOrDefault() ?? string.Empty;
-            return match.Length;
-        }
+        //    // if (fullFileName.EndsWith(GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0; --remove for handle less.css workitem=31,34
+        //    var match = Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
+        //        .FirstOrDefault() ?? string.Empty;
+        //    return match.Length;
+        //}
 
         private bool IsChirpCoffeeScriptFile(string fileName) {
             return (fileName.EndsWith(Settings.ChirpCoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
@@ -71,8 +70,8 @@ namespace Zippy.Chirp.Engines {
             return (fileName.EndsWith(Settings.ChirpYUICoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool IsUglifyScriptFile(string fileName) {
-            return (fileName.EndsWith(Settings.ChirpUglifyJsFile, StringComparison.OrdinalIgnoreCase));
+        private bool IsChirpUglifyCoffeeScriptFile(string fileName) {
+            return (fileName.EndsWith(Settings.ChirpUglifyCoffeeScriptFile, StringComparison.OrdinalIgnoreCase));
         }
 
         public override void Process(Manager.VSProjectItemManager manager, string fullFileName, EnvDTE.ProjectItem projectItem, string baseFileName, string outputText) {
@@ -96,7 +95,7 @@ namespace Zippy.Chirp.Engines {
                 mode = MinifyType.gctWhiteSpaceOnly;
             if (IsChirpYUICoffeeScriptFile(fullFileName))
                 mode = MinifyType.yui;
-            if (IsUglifyScriptFile(fullFileName))
+            if (IsChirpUglifyCoffeeScriptFile(fullFileName))
                 mode = MinifyType.uglify;
             return mode;
         }
