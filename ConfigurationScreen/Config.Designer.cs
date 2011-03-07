@@ -74,6 +74,7 @@
             // cmbJavaScript
             // 
             this.cmbJavaScript.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbJavaScript.DropDownWidth = 200;
             this.cmbJavaScript.FormattingEnabled = true;
             this.cmbJavaScript.Location = new System.Drawing.Point(198, 40);
             this.cmbJavaScript.Name = "cmbJavaScript";
@@ -83,6 +84,7 @@
             // cmbCss
             // 
             this.cmbCss.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCss.DropDownWidth = 200;
             this.cmbCss.FormattingEnabled = true;
             this.cmbCss.Location = new System.Drawing.Point(198, 66);
             this.cmbCss.Name = "cmbCss";
