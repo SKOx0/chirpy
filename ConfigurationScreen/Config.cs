@@ -15,12 +15,14 @@ namespace Zippy.Chirp.ConfigurationScreen {
             Settings.Load();
             txtChirpConfigFile.Text = Settings.ChirpConfigFile;
 
+            cmbCss.Items.Clear();
             cmbCss.Items.Add(Xml.MinifyType.msAjax.Description());
             cmbCss.Items.Add(Xml.MinifyType.yui.Description());
             cmbCss.Items.Add(Xml.MinifyType.yuiHybrid.Description());
             cmbCss.Items.Add(Xml.MinifyType.yuiMARE.Description());
             cmbCss.Text = Settings.DefaultCssMinifier.Description();
 
+            cmbJavaScript.Items.Clear();
             cmbJavaScript.Items.Add(Xml.MinifyType.msAjax.Description());
             cmbJavaScript.Items.Add(Xml.MinifyType.yui.Description());
             cmbJavaScript.Items.Add(Xml.MinifyType.gctAdvanced.Description());
