@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Zippy.Chirp
 {
-   public  class GoogleClosureCompilerErrorException : Exception 
+   public class GoogleClosureCompilerErrorException : Exception
     {
-
         #region "constructor"
         public GoogleClosureCompilerErrorException()
             : base()
@@ -17,7 +16,6 @@ namespace Zippy.Chirp
         public GoogleClosureCompilerErrorException(string message)
             : base(message)
         {
-
         }
         #endregion
     }

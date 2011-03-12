@@ -2,23 +2,28 @@
 using System;
 using EnvDTE;
 using EnvDTE80;
-namespace Zippy.Chirp.Engines {
-    public class T4Engine : ActionEngine {
-        const string ControllerCSFile = ".cs";
-        const string ControllerVBFile = ".vb";
-        const string MVCViewFile = ".aspx";
-        const string MVCPartialViewFile = ".ascx";
-        const string RazorVBView = ".vbhtml";
-        const string RazorCSView = ".cshtml";
+
+namespace Zippy.Chirp.Engines
+{
+    public class T4Engine : ActionEngine
+    {
+        private const string ControllerCSFile = ".cs";
+        private const string ControllerVBFile = ".vb";
+        private const string MVCViewFile = ".aspx";
+        private const string MVCPartialViewFile = ".ascx";
+        private const string RazorVBView = ".vbhtml";
+        private const string RazorCSView = ".cshtml";
 
         const string MVCT4TemplateName = "T4MVC.tt";
 
-        bool IsMVCStandardControllerFile(string fileName) {
+        bool IsMVCStandardControllerFile(string fileName)
+        {
             return (fileName.EndsWith(ControllerCSFile, StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(ControllerVBFile, StringComparison.OrdinalIgnoreCase)) &&
                                         fileName.Contains("Controller");
         }
 
-        bool IsMVCStandardViewScriptOrContentFile(string fileName) {
+        bool IsMVCStandardViewScriptOrContentFile(string fileName)
+        {
             return ((
                 fileName.EndsWith(MVCViewFile, StringComparison.OrdinalIgnoreCase)
                 || fileName.EndsWith(MVCPartialViewFile, StringComparison.OrdinalIgnoreCase)
@@ -27,35 +32,41 @@ namespace Zippy.Chirp.Engines {
                 ) && fileName.Contains("Views")) || fileName.Contains("Scripts") || fileName.Contains("Content");
         }
 
-        public override int Handles(string filename) {
+        public override int Handles(string filename)
+        {
             return Settings.SmartRunT4MVC
-                && (IsMVCStandardViewScriptOrContentFile(filename) || IsMVCStandardControllerFile(filename)) ? 1 : 0;
+                && (this.IsMVCStandardViewScriptOrContentFile(filename) || this.IsMVCStandardControllerFile(filename)) ? 1 : 0;
         }
 
         System.Threading.Timer tmr;
-        public override void Run(string fullFileName, ProjectItem projectItem) {
-            if (tmr != null) tmr.Dispose();
-            tmr = new System.Threading.Timer((threadState) => RunT4Template(_Chirp.app, MVCT4TemplateName), null, 1000, System.Threading.Timeout.Infinite);
+
+        public override void Run(string fullFileName, ProjectItem projectItem)
+        {
+            if (this.tmr != null) this.tmr.Dispose();
+            this.tmr = new System.Threading.Timer((threadState) => RunT4Template(_Chirp.app, MVCT4TemplateName), null, 1000, System.Threading.Timeout.Infinite);
         }
 
-        public static void RunT4Template(DTE2 app, string t4TemplateList) {
-            try {
-
+        public static void RunT4Template(DTE2 app, string t4TemplateList)
+        {
+            try
+            {
                 string[] T4List = t4TemplateList.Split(new char[] { ',' });
-                foreach (string t4Template in T4List) {
+                foreach (string t4Template in T4List)
+                {
                     ProjectItem projectItem = app.Solution.FindProjectItem(t4Template.Trim());
 
-                    if (projectItem != null) {
+                    if (projectItem != null)
+                    {
                         if (!projectItem.IsOpen)
                             projectItem.Open();
                         projectItem.Save();
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 System.Windows.Forms.MessageBox.Show(ex.ToString());
             }
         }
     }
-
-
 }
