@@ -22,7 +22,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             txtMichaelAshLessFile.Text = Settings.ChirpMichaelAshLessFile;
             txtHybridLessFile.Text = Settings.ChirpHybridLessFile;
             txtMSAjaxLessFile.Text = Settings.ChirpMSAjaxLessFile;
-           
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()

@@ -1,9 +1,10 @@
-﻿
-using System.ComponentModel;
-namespace Zippy.Chirp.Xml {
-    public enum MinifyType {
+﻿using System.ComponentModel;
+
+namespace Zippy.Chirp.Xml 
+{
+    public enum MinifyType
+    {
         Unspecified,
-        //Default,
         [Description("YUI")]
         yui,
         [Description("YUI w/ Michael Ash Regex Enhancement")]

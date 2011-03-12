@@ -1,5 +1,7 @@
-﻿namespace Zippy.Chirp.ConfigurationScreen {
-    partial class Javascript {
+﻿namespace Zippy.Chirp.ConfigurationScreen 
+{
+    partial class Javascript
+    {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -9,10 +11,13 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
-                components.Dispose();
+        protected override void Dispose(bool disposing) 
+        {
+            if (disposing && (this.components != null))
+            {
+                this.components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 

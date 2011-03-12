@@ -4,9 +4,10 @@ using System.Web;
 using System.Xml;
 using Yahoo.Yui.Compressor;
 
-namespace Zippy.Chirp {
-    public class GoogleClosureCompiler {
-
+namespace Zippy.Chirp
+{
+    public class GoogleClosureCompiler
+    {
         private const string PostData = "js_code={0}&output_format=xml&output_info=errors&output_info=compiled_code&compilation_level={1}";
         private const string ApiEndpoint = "http://closure-compiler.appspot.com/compile";
 
@@ -19,85 +20,94 @@ namespace Zippy.Chirp {
         /// <param name="js">javascript to compiler.</param>
         /// <param name="compressMode">SIMPLE_OPTIMIZATIONS,WHITESPACE_ONLY,ADVANCED_OPTIMIZATIONS</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
-        public static string Compress(string fullFileName,string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError) {
-            if (string.IsNullOrEmpty(js)) return string.Empty;
+        public static string Compress(string fullFileName, string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError)
+        {
+            if (string.IsNullOrEmpty(js))
+            {
+                return string.Empty;
+            }
 
-            if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath)&& Settings.GoogleClosureOffline )
+            if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath) && Settings.GoogleClosureOffline)
                 return GoogleClosureOfflineCompiler.Compress(
                     fullFileName, compressMode, onError);
 
             long size = js.Length;
-            if (size < 200000) {
-                //string source = File.ReadAllText(file);
+            if (size < 200000)
+            {
                 XmlDocument xml = CallApi(js, compressMode.ToString());
 
-                //xml is null when computer don't have Internet connection
-                if(xml==null)
+                if (xml == null)
                     return GoogleClosureOfflineCompiler.Compress(
                     fullFileName, compressMode, onError);
 
-                //valid have server error
+                // valid have server error
                 XmlNodeList NodeServerError = xml.SelectNodes("//serverErrors");
-                if (NodeServerError.Count > 0) {
+                if (NodeServerError.Count > 0)
+                {
                     string ErrorText = string.Empty;
-                    foreach (XmlNode node in NodeServerError) {
+                    foreach (XmlNode node in NodeServerError)
+                    {
                         if (!string.IsNullOrEmpty(ErrorText))
                             ErrorText += System.Environment.NewLine;
                         ErrorText += node.InnerText;
                         onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, "Server error : " + node.InnerText, 1, 1);
                     }
-                    //throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
 
-                //valid have Javascript error
+                // valid have Javascript error
                 XmlNodeList NodeError = xml.SelectNodes("//errors");
-                if (NodeError.Count > 0) {
+                if (NodeError.Count > 0)
+                {
                     string ErrorText = string.Empty;
-                    foreach (XmlNode node in NodeError) {
+                    foreach (XmlNode node in NodeError)
+                    {
                         if (!string.IsNullOrEmpty(ErrorText))
                             ErrorText += System.Environment.NewLine;
 
                         if (node.Attributes["lineno"] == null && node.Attributes["charno"] == null)
                             ErrorText += node.InnerText;
                         else
-                            ErrorText += string.Format("type: {0} Line : {1} Char : {2} Error : {3}",
+                            ErrorText += string.Format(
+                                "type: {0} Line : {1} Char : {2} Error : {3}",
                                 node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
                                 node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,
                                 node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty,
                                 node.InnerText);
 
-                        string TaskErrorText = string.Format("Type: {0} Error : {1}",
+                        string TaskErrorText = string.Format(
+                            "Type: {0} Error : {1}",
                             node.Attributes["type"] != null ? node.Attributes["type"].ToString() : "General",
                             node.InnerText);
 
-                        onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
+                        onError(
+                            Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
                             TaskErrorText,
                              (node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty).ToInt(1),
                              (node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty).ToInt(1));
                     }
-                    //throw new GoogleClosureCompilerErrorException(ErrorText);
                 }
+
                 return xml.SelectSingleNode("//compiledCode").InnerText;
-            } else {
-                //file too large (use YUI compressor)
+            }
+            else
+            {
+                // file too large (use YUI compressor)
                 string exceptionMessage = "file size too large for Google: " + size.ToString("#,#");
                 onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, exceptionMessage, 1, 1);
                 return "//" + exceptionMessage + Environment.NewLine + JavaScriptCompressor.Compress(js);
             }
         }
 
-
-
-
         /// <summary>
         /// Calls the API with the source file as post data.
         /// </summary>
         /// <param name="source">The content of the source file.</param>
         /// <returns>The Xml response from the Google API.</returns>
-        private static XmlDocument CallApi(string source, string compressMode) {
+        private static XmlDocument CallApi(string source, string compressMode)
+        {
             try
             {
-                //http://code.google.com/intl/fr-CA/closure/compiler/docs/api-ref.html
+                // http://code.google.com/intl/fr-CA/closure/compiler/docs/api-ref.html
 
                 using (WebClient client = new WebClient())
                 {
@@ -110,9 +120,9 @@ namespace Zippy.Chirp {
                     return doc;
                 }
             }
-            catch (System.Net.WebException )
+            catch (System.Net.WebException)
             {
-                return null; 
+                return null;
             }
         }
     }
