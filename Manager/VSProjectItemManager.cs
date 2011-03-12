@@ -67,12 +67,17 @@ namespace Zippy.Chirp.Manager {
             _filesAdded.Add(fileName, content);
         }
 
-        public void SaveFile(string filename, object content) {
-            if (content is string || content == null) {
-                System.IO.File.WriteAllText(filename, (string)content);
-            } else if (content is byte[]) {
+        public void SaveFile(string filename, object content)
+        {
+            if (content is string || content == null)
+            {
+                System.IO.File.WriteAllText(filename, (string)content, System.Text.Encoding.UTF8);
+            }
+            else if (content is byte[])
+            {
                 System.IO.File.WriteAllBytes(filename, (byte[])content);
-            } else throw new NotSupportedException();
+            }
+            else throw new NotSupportedException();
         }
 
         public void Process() {
