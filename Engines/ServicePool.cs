@@ -4,30 +4,36 @@ namespace Zippy.Chirp.Threading
 {
     public class ServicePool : IDisposable
     {
-        private System.Threading.Thread[] p_Threads;
-        private System.Threading.ThreadStart p_Delegate;
+        private System.Threading.Thread[] threads;
+        private System.Threading.ThreadStart threadDelegate;
         private long p_Runnning;
+        private bool isDisposed;
 
-        public ServicePool(System.Threading.ThreadStart callback, int numThreads) : this(callback, numThreads, "ServicePool", System.Threading.ThreadPriority.Normal) { }
+        #region "constructor"
+        public ServicePool(System.Threading.ThreadStart callback, int numThreads)
+            : this(callback, numThreads, "ServicePool", System.Threading.ThreadPriority.Normal)
+        {
+        }
 
         public ServicePool(System.Threading.ThreadStart callback, int numThreads, string name, System.Threading.ThreadPriority priority)
         {
-            this.p_Delegate = callback;
-            this.p_Threads = new System.Threading.Thread[numThreads];
+            this.threadDelegate = callback;
+            this.threads = new System.Threading.Thread[numThreads];
             this.p_Runnning = numThreads;
-            for (int i = 0; i <= this.p_Threads.Length - 1; i++)
+            for (int i = 0; i <= this.threads.Length - 1; i++)
             {
                 var th = new System.Threading.Thread(this.Execute);
                 th.Name = string.Concat(name, " #", i + 1);
                 th.Priority = priority;
                 th.Start();
-                this.p_Threads[i] = th;
+                this.threads[i] = th;
             }
         }
+        #endregion
 
         private void Execute()
         {
-            this.p_Delegate();
+            this.threadDelegate();
             System.Threading.Interlocked.Decrement(ref this.p_Runnning);
         }
 
@@ -36,14 +42,17 @@ namespace Zippy.Chirp.Threading
             get { return this.p_Runnning > 0; }
         }
 
-        private bool isDisposed;
+
 
         public void Dispose()
         {
-            if(this.isDisposed) return;
+            if (this.isDisposed)
+            {
+                return;
+            }
 
             this.isDisposed = true;
-            foreach (System.Threading.Thread th in this.p_Threads)
+            foreach (System.Threading.Thread th in this.threads)
             {
                 if (th != null)
                 {
@@ -51,7 +60,7 @@ namespace Zippy.Chirp.Threading
                 }
             }
 
-            this.p_Threads = null;
+            this.threads = null;
         }
     }
 }

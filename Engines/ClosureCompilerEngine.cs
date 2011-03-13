@@ -32,9 +32,13 @@ namespace Zippy.Chirp.Engines
                 (category, msg, line, col) =>
                 {
                     if (TaskList.Instance == null)
+                    {
                         Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), col.ToString(), msg));
+                    }
                     else
+                    {
                         TaskList.Instance.Add(projectItem.ContainingProject, category, fullFileName, line, col, msg);
+                    }
                 });
 
             return returnedCode;

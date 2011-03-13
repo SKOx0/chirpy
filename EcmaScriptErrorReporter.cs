@@ -17,9 +17,13 @@ namespace Zippy.Chirp
         public void Error(string message, string sourceName, int line, string lineSource, int lineOffset)
         {
             if (TaskList.Instance == null)
+            {
                 Console.WriteLine(string.Format("{0}({1},{2}){3}", this.fullFileName, line.ToString(), lineOffset.ToString(), message));
+            }
             else
+            {
                 TaskList.Instance.Add(this.projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, this.fullFileName, line, lineOffset, message);
+            }
         }
 
         public void Warning(string message, string sourceName, int line, string lineSource, int lineOffset)

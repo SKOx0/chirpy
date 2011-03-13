@@ -1,4 +1,12 @@
 <StyleCopSettings Version="4.3">
+  <Parsers>
+    <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+      <ParserSettings>
+        <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
+        <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
+      </ParserSettings>
+    </Parser>
+  </Parsers>
   <Analyzers>
     <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
       <Rules>

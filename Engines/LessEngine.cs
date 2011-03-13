@@ -7,18 +7,14 @@ namespace Zippy.Chirp.Engines
 {
     public class LessEngine : TransformEngine
     {
-        public LessEngine()
-        {
-            Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
-            OutputExtension = ".css";
-        }
+
 
         static Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
         static Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
 
         static dotless.Core.Parser.Parser lazyLessParser;
 
-        static dotless.Core.Parser.Parser lessParser
+        static dotless.Core.Parser.Parser LessParser
         {
             get
             {
@@ -30,6 +26,14 @@ namespace Zippy.Chirp.Engines
                 return lazyLessParser;
             }
         }
+
+        #region "constructor"
+        public LessEngine()
+        {
+            Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
+            OutputExtension = ".css";
+        }
+        #endregion
 
         private bool IsChirpLessFile(string fileName)
         {
@@ -55,12 +59,12 @@ namespace Zippy.Chirp.Engines
         {
             string css = null;
 
-            lock (lessParser)
+            lock (LessParser)
                 using (new EnvironmentDirectory(fullFileName))
                     try
                     {
                         // The built in static method doesn't throw error messages
-                        css = lessParser.Parse(text, fullFileName).ToCSS();
+                        css = LessParser.Parse(text, fullFileName).ToCSS();
                     }
                     catch (Exception e)
                     {

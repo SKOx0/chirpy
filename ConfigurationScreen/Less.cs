@@ -7,7 +7,7 @@ namespace Zippy.Chirp.ConfigurationScreen
     {
         public Less()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
