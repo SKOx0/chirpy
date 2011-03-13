@@ -11,29 +11,29 @@ namespace Zippy.Chirp.Engines
 {
     public class ConfigEngine : ActionEngine
     {
-        const string regularCssFile = ".css";
-        const string regularJsFile = ".js";
-        const string regularCoffeeScriptFile = ".coffee";
-        const string regularLessFile = ".less";
+        private const string RegularCssFile = ".css";
+        private const string RegularJsFile = ".js";
+        private const string RegularCoffeeScriptFile = ".coffee";
+        private const string RegularLessFile = ".less";
 
-        bool IsLessFile(string fileName)
+        private bool IsLessFile(string fileName)
         {
-            return fileName.EndsWith(regularLessFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
         }
 
-        bool IsCoffeeScriptFile(string fileName)
+        private bool IsCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(regularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(RegularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
-        bool IsCssFile(string fileName)
+        private bool IsCssFile(string fileName)
         {
-            return fileName.EndsWith(regularCssFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(RegularCssFile, StringComparison.OrdinalIgnoreCase);
         }
 
-        bool IsJsFile(string fileName)
+       private bool IsJsFile(string fileName)
         {
-            return fileName.EndsWith(regularJsFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
         }
 
         internal Dictionary<string, List<string>> dependentFiles =
@@ -45,7 +45,7 @@ namespace Zippy.Chirp.Engines
         /// so, when a .less.css file changes, we look in the list and rebuild any of the configs associated with it.
         /// if a config file changes...this rebuild all of this....
         /// </summary>
-        /// <param name="projectItem"></param>
+        /// <param name="projectItem">project Item</param>
         internal void ReloadConfigFileDependencies(ProjectItem projectItem)
         {
             string configFileName = projectItem.get_FileNames(1);
@@ -83,10 +83,8 @@ namespace Zippy.Chirp.Engines
 
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
 
-            IList<FileGroupXml> ReturnList = (
-                    doc.Descendants("FileGroup")
+            IList<FileGroupXml> ReturnList = doc.Descendants("FileGroup")
                     .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
-                )
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
 
@@ -109,13 +107,15 @@ namespace Zippy.Chirp.Engines
                 {
                     var productionFileText = new StringBuilder();
                     var debugFileText = new StringBuilder();
-                    bool isJS = this.IsJsFile(fileGroup.GetName());
+                    bool isJS = this.IsJsFile(fileGroup.GetName);
 
                     string fullPath = directory + @"\" + fileGroup.Name;
                     if (!string.IsNullOrEmpty(fileGroup.Path))
+                    {
                         fullPath = fileGroup.Path;
+                    }
 
-                    if (ImageSprite.IsImage(fileGroup.GetName()))
+                    if (ImageSprite.IsImage(fileGroup.GetName))
                     {
                         var img = ImageSprite.Build(fileGroup, fullPath);
                         manager.AddFileByFileName(fullPath, img);
@@ -200,7 +200,9 @@ namespace Zippy.Chirp.Engines
                         manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".min.js" : ".min.css"), output);
                     }
                     else
+                    {
                         manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : ".css"), output);
+                    }
                 }
 
                 if (projectItem != null)

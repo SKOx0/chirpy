@@ -28,8 +28,7 @@ namespace Zippy.Chirp.Engines
                 fileName.EndsWith(MVCViewFile, StringComparison.OrdinalIgnoreCase)
                 || fileName.EndsWith(MVCPartialViewFile, StringComparison.OrdinalIgnoreCase)
                 || fileName.EndsWith(RazorCSView, StringComparison.OrdinalIgnoreCase)
-                || fileName.EndsWith(RazorVBView, StringComparison.OrdinalIgnoreCase)
-                ) && fileName.Contains("Views")) || fileName.Contains("Scripts") || fileName.Contains("Content");
+                || fileName.EndsWith(RazorVBView, StringComparison.OrdinalIgnoreCase)) && fileName.Contains("Views")) || fileName.Contains("Scripts") || fileName.Contains("Content");
         }
 
         public override int Handles(string filename)

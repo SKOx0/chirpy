@@ -6,8 +6,8 @@ namespace Zippy.Chirp.Engines
 {
     public class CoffeeScriptEngine : TransformEngine
     {
-        private static UglifyCS.CoffeeScript _coffee;
-        private static Regex rxError = new Regex(@"Error\:\s*(.*?)\s+on\s+line\s+([0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled); // "Error: unclosed { on line 1"
+        private static UglifyCS.CoffeeScript coffee;
+        private static Regex regexError = new Regex(@"Error\:\s*(.*?)\s+on\s+line\s+([0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled); // "Error: unclosed { on line 1"
 
         public CoffeeScriptEngine()
         {
@@ -17,17 +17,17 @@ namespace Zippy.Chirp.Engines
 
         public static string TransformToJs(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            if (_coffee == null) lock (UglifyCS.Extensibility.Instance) if (_coffee == null) _coffee = new UglifyCS.CoffeeScript();
+            if (coffee == null) lock (UglifyCS.Extensibility.Instance) if (coffee == null) coffee = new UglifyCS.CoffeeScript();
 
             string error = null;
             try
             {
-                return _coffee.compile(text);
+                return coffee.compile(text);
             }
             catch (Exception e)
             {
                 Match match;
-                if (TaskList.Instance != null && (match = rxError.Match(e.Message)).Success)
+                if (TaskList.Instance != null && (match = regexError.Match(e.Message)).Success)
                 {
                     TaskList.Instance.Add(
                         projectItem.ContainingProject,
@@ -39,15 +39,16 @@ namespace Zippy.Chirp.Engines
                 }
                 else
                 {
-                    error = e.Message; 
+                    error = e.Message;
                 }
+
                 return null;
             }
         }
 
         public override void Dispose()
         {
-            Utilities.Dispose(ref _coffee);
+            Utilities.Dispose(ref coffee);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
@@ -104,17 +105,35 @@ namespace Zippy.Chirp.Engines
             MinifyType mode = MinifyType.gctAdvanced;
 
             if (this.IsChirpGctCoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.gctAdvanced;
+            }
+
             if (this.IsChirpMSAjaxCoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.msAjax;
+            }
+
             if (this.IsChirpSimpleCoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.gctSimple;
+            }
+
             if (this.IsChirpWhiteSpaceCoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.gctWhiteSpaceOnly;
+            }
+
             if (this.IsChirpYUICoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.yui;
+            }
+
             if (this.IsChirpUglifyCoffeeScriptFile(fullFileName))
+            {
                 mode = MinifyType.uglify;
+            }
+
             return mode;
         }
     }

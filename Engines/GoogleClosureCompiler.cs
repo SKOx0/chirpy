@@ -17,8 +17,10 @@ namespace Zippy.Chirp
         /// The file to compress must be smaller than 200,000 bytes.
         /// </remarks>
         /// </summary>
+        /// <param name="fullFileName">Full filename.</param>
         /// <param name="js">javascript to compiler.</param>
-        /// <param name="compressMode">SIMPLE_OPTIMIZATIONS,WHITESPACE_ONLY,ADVANCED_OPTIMIZATIONS</param>
+        /// <param name="compressMode">SIMPLE_OPTIMIZATIONS, WHITESPACE_ONLY, ADVANCED_OPTIMIZATIONS</param>
+        /// <param name="onError">Error event</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
         public static string Compress(string fullFileName, string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError)
         {
@@ -102,13 +104,13 @@ namespace Zippy.Chirp
         /// Calls the API with the source file as post data.
         /// </summary>
         /// <param name="source">The content of the source file.</param>
+        /// <param name="compressMode">SIMPLE_OPTIMIZATIONS, WHITESPACE_ONLY, ADVANCED_OPTIMIZATIONS</param>
         /// <returns>The Xml response from the Google API.</returns>
         private static XmlDocument CallApi(string source, string compressMode)
         {
             try
             {
                 // http://code.google.com/intl/fr-CA/closure/compiler/docs/api-ref.html
-
                 using (WebClient client = new WebClient())
                 {
                     client.Headers.Add("content-type", "application/x-www-form-urlencoded");

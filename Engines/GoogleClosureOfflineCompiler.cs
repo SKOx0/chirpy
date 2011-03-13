@@ -62,7 +62,7 @@ namespace Zippy.Chirp
         private static string GetArguments(string FileName, ClosureCompilerCompressMode compressMode, IList<string> ReferencePathsOrUrls)
         {
             return
-                string.Format("--js \"{0}\" --compilation_level {1} --warning_level QUIET", FileName,compressMode);
+                string.Format("--js \"{0}\" --compilation_level {1} --warning_level QUIET", FileName, compressMode);
         }
     }
 }

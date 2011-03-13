@@ -2,30 +2,28 @@
 using System.Diagnostics;
 using Microsoft.Win32;
 
-namespace Zippy.Chirp {
-
-
+namespace Zippy.Chirp
+{
     /// <summary>
     /// Used by WDS add-in to save and retrieve its options from the registry.
     /// </summary>
-    public class Settings {
-        public static event Action Saved;
-
+    public class Settings 
+    {
+        
         #region Private Fields
 
-        private const string _regWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
+        private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
 
         #endregion
 
         #region Constructors
-
-        private Settings() {
+        static Settings()
+        {
         }
 
-        static Settings() {
-
-        }
-
+        private Settings()
+        {
+        }      
         #endregion
 
         #region Properties
@@ -55,7 +53,7 @@ namespace Zippy.Chirp {
         public static string ChirpUglifyCoffeeScriptFile = ".uglify.coffee";
         public static string CoffeeScriptBatFilePath = string.Empty;
 
-        //public static string ChirpLessCssFile = ".chirp.less.css";
+        // public static string ChirpLessCssFile = ".chirp.less.css";
         public static string ChirpCssFile = ".chirp.css";
         public static string ChirpMSAjaxCssFile = ".msajax.css";
         public static string ChirpHybridCssFile = ".hybrid.css";
@@ -76,16 +74,21 @@ namespace Zippy.Chirp {
         public static string GoogleClosureJavaPath = string.Empty;
         #endregion
 
+        public static event Action Saved;
+
         #region Public Methods
 
         /// <summary>
         /// Loads options page settings from registry.
         /// </summary>
-        public static void Load() {
+        public static void Load() 
+        {
             RegistryKey regKey = null;
-            try {
-                regKey = Registry.CurrentUser.OpenSubKey(_regWDS, false);
-                if (regKey != null) {
+            try 
+            {
+                regKey = Registry.CurrentUser.OpenSubKey(RegWDS, false);
+                if (regKey != null)
+                {
                     Settings.ChirpJsFile = Convert.ToString(regKey.GetValue("ChirpJsFile", ".chirp.js"));
                     Settings.ChirpSimpleJsFile = Convert.ToString(regKey.GetValue("ChirpSimpleJsFile", ".simple.js"));
                     Settings.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
@@ -107,7 +110,7 @@ namespace Zippy.Chirp {
                     Settings.ChirpUglifyCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpUglifyCoffeeScriptFile", ".uglify.coffee"));
                     Settings.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty));
 
-                    //Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
+                    // Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybrid.css"));
                     Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
@@ -124,24 +127,30 @@ namespace Zippy.Chirp {
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
                     Settings.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
-
                 }
+
                 LoadExtensions();
-            } catch (Exception ex) {
+            } 
+            catch (Exception ex)
+            {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
                 System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
-            } finally {
-                if (regKey != null) {
+            }
+            finally 
+            {
+                if (regKey != null)
+                {
                     regKey.Close();
                 }
             }
         }
 
-        private static void LoadExtensions() {
+        private static void LoadExtensions()
+        {
             AllExtensions = new[]{
-                 Settings.ChirpConfigFile , Settings.ChirpCssFile, Settings.ChirpGctJsFile , Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile , Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile, 
+                 Settings.ChirpConfigFile, Settings.ChirpCssFile, Settings.ChirpGctJsFile , Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile, Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile,
                  Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile,
-                 Settings.ChirpSimpleCoffeeScriptFile,Settings.ChirpWhiteSpaceCoffeeScriptFile,Settings.ChirpYUICoffeeScriptFile,Settings.ChirpMSAjaxCoffeeScriptFile,Settings.ChirpGctCoffeeScriptFile,Settings.ChirpCoffeeScriptFile,
+                 Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile,Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpCoffeeScriptFile,
                 ".debug.js", ".debug.css"
             };
         }
@@ -149,8 +158,10 @@ namespace Zippy.Chirp {
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
-        public static void Save() {
-            using (var regKey = Registry.CurrentUser.OpenSubKey(_regWDS, true) ?? Registry.CurrentUser.CreateSubKey(_regWDS)) {
+        public static void Save() 
+        {
+            using (var regKey = Registry.CurrentUser.OpenSubKey(RegWDS, true) ?? Registry.CurrentUser.CreateSubKey(RegWDS))
+            {
                 regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
                 regKey.SetValue("ChirpHybridCssFile", Settings.ChirpHybridCssFile);
                 regKey.SetValue("ChirpMichaelAshCssFile", Settings.ChirpMichaelAshCssFile);
@@ -160,7 +171,6 @@ namespace Zippy.Chirp {
                 regKey.SetValue("ChirpHybridLessFile", Settings.ChirpHybridLessFile);
                 regKey.SetValue("ChirpMichaelAshLessFile", Settings.ChirpMichaelAshLessFile);
                 regKey.SetValue("ChirpMSAjaxLessFile", Settings.ChirpMSAjaxLessFile);
-                // regKey.SetValue("ChirpLessCssFile", Settings.ChirpLessCssFile);
                 regKey.SetValue("ChirpSimpleJsFile", Settings.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
@@ -191,7 +201,10 @@ namespace Zippy.Chirp {
                 regKey.SetValue("RunJSHint", Settings.RunJSHint);
                 LoadExtensions();
 
-                if (Saved != null) Saved();
+                if (Saved != null)
+                { 
+                    Saved(); 
+                }
             }
         }
         #endregion

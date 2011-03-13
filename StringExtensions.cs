@@ -4,46 +4,61 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 
-namespace Zippy.Chirp {
-    public static class StringExtensions {
-        public static bool Is(this string a, string b) {
+namespace Zippy.Chirp
+{
+    public static class StringExtensions
+    {
+        private static Dictionary<Type, Dictionary<string, IConvertible>> _Enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
+
+        public static bool Is(this string a, string b)
+        {
             return string.Equals(a, b, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public static int ToInt(this string input, int defaultValue) {
+        public static int ToInt(this string input, int defaultValue)
+        {
             int result;
             if (int.TryParse(input, out result))
                 return result;
             else return defaultValue;
         }
 
-        public static bool ToBool(this string input, bool defaultValue) {
+        public static bool ToBool(this string input, bool defaultValue)
+        {
             return input.TryToBool() ?? defaultValue;
         }
-        public static bool? TryToBool(this string input) {
+
+        public static bool? TryToBool(this string input)
+        {
             bool result;
-            return (bool.TryParse(input, out result)) ? result : (bool?)null;
+            return bool.TryParse(input, out result) ? result : (bool?)null;
         }
 
-        public static bool Contains(this string input, string other, StringComparison comparison) {
+        public static bool Contains(this string input, string other, StringComparison comparison)
+        {
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
         }
 
-        private static Dictionary<Type, Dictionary<string, IConvertible>> _Enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
-        public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible {
+        public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible
+        {
             input = input ?? string.Empty;
 
             Dictionary<string, IConvertible> enums = null;
-            if (!_Enums.TryGetValue(typeof(T), out enums)) {
-                lock (_Enums) {
+            if (!_Enums.TryGetValue(typeof(T), out enums))
+            {
+                lock (_Enums)
+                {
                     var temp = ((T[])System.Enum.GetValues(typeof(T))).ToDictionary(x => Convert.ToString(x), x => (IConvertible)x, StringComparer.OrdinalIgnoreCase);
                     string desc;
-                    foreach (var e in temp.Values.ToArray()) {
+                    foreach (var e in temp.Values.ToArray())
+                    {
                         desc = Utilities.Description((Enum)e);
-                        if (!desc.Is(Convert.ToString(e))) {
+                        if (!desc.Is(Convert.ToString(e)))
+                        {
                             temp.Add(desc, e);
                         }
                     }
+
                     enums = temp;
 
                     if (!_Enums.ContainsKey(typeof(T)))
@@ -52,30 +67,38 @@ namespace Zippy.Chirp {
             }
 
             IConvertible value = null;
-            if (!enums.TryGetValue(input, out value)) {
+            if (!enums.TryGetValue(input, out value))
+            {
                 return defaultValue;
-            } else {
+            }
+            else
+            {
                 return (T)value;
             }
         }
 
-        public static bool IsNullOrEmpty(this String s) {
+        public static bool IsNullOrEmpty(this string s)
+        {
             return String.IsNullOrEmpty(s);
         }
 
-        public static string F(this string format, object source) {
+        public static string F(this string format, object source)
+        {
             return F(format, null, source);
         }
 
-        public static string F(this string format, IFormatProvider provider, object source) {
+        public static string F(this string format, IFormatProvider provider, object source)
+        {
             if (format == null)
+            {
                 throw new ArgumentNullException("format");
+            }
 
-            Regex r = new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",
-              RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex r = new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
 
             List<object> values = new List<object>();
-            string rewrittenFormat = r.Replace(format, delegate(Match m) {
+            string rewrittenFormat = r.Replace(format, delegate(Match m)
+            {
                 Group startGroup = m.Groups["start"];
                 Group propertyGroup = m.Groups["property"];
                 Group formatGroup = m.Groups["format"];

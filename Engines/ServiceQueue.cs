@@ -7,14 +7,14 @@ namespace Zippy.Chirp.Threading
 {
     public class ServiceQueue<T> : IDisposable
     {
-        private ServicePool p_Pool;
-        private long p_Running = 0;
-        private long p_Finished = 0;
+        private ServicePool pool;
+        private long running = 0;
+        private long finished = 0;
 
-        private System.Collections.Generic.Queue<T> p_Queue = new System.Collections.Generic.Queue<T>();
-        private System.Threading.AutoResetEvent p_Notifier = new System.Threading.AutoResetEvent(false);
-        private Action<T> p_Action = t => { };
-        private Action<T, Exception> p_OnError = (t, e) => { };
+        private System.Collections.Generic.Queue<T> queue = new System.Collections.Generic.Queue<T>();
+        private System.Threading.AutoResetEvent notifier = new System.Threading.AutoResetEvent(false);
+        private Action<T> action = t => { };
+        private Action<T, Exception> onError = (t, e) => { };
         private bool p_IsDisposed = false;
 
         public bool IsDisposed
@@ -24,47 +24,49 @@ namespace Zippy.Chirp.Threading
 
         protected virtual void Process(T item)
         {
-            this.p_Action(item);
+            this.action(item);
         }
 
         protected virtual void Error(T item, Exception ex)
         {
-            this.p_OnError(item, ex);
+            this.onError(item, ex);
         }
 
         public ServiceQueue(Action<T> action = null, Action<T, Exception> onError = null, int? numThreads = null, string name = "Worker", System.Threading.ThreadPriority priority = System.Threading.ThreadPriority.Normal)
         {
-            this.p_Action = action;
-            this.p_OnError = onError;
-            this.p_Pool = new ServicePool(this.ProcessQueue, numThreads ?? System.Environment.ProcessorCount, name, priority);
+            this.action = action;
+            this.onError = onError;
+            this.pool = new ServicePool(this.ProcessQueue, numThreads ?? System.Environment.ProcessorCount, name, priority);
         }
 
         public virtual void Enqueue(T obj)
         {
-            lock (this.p_Queue)
-                this.p_Queue.Enqueue(obj);
-            this.p_Notifier.Set();
+            lock (this.queue)
+                this.queue.Enqueue(obj);
+            this.notifier.Set();
         }
 
         public bool Any(Func<T, bool> predicate)
         {
-            lock (this.p_Queue) return this.p_Queue.Any(predicate);
+            lock (this.queue) return this.queue.Any(predicate);
         }
 
         public virtual void Enqueue(IEnumerable<T> objs)
         {
-            lock (this.p_Queue)
+            lock (this.queue)
                 foreach (var x in objs)
-                    this.p_Queue.Enqueue(x);
+                {
+                    this.queue.Enqueue(x);
+                }
 
-            this.p_Notifier.Set();
+            this.notifier.Set();
         }
 
         public long Finished
         {
             get
             {
-                return this.p_Finished;
+                return this.finished;
             }
         }
 
@@ -81,13 +83,13 @@ namespace Zippy.Chirp.Threading
             get
             {
                 if (this.p_IsDisposed) return 0;
-                return this.p_Queue.Count + this.p_Running;
+                return this.queue.Count + this.running;
             }
         }
 
         public long Running
         {
-            get { return this.p_Running; }
+            get { return this.running; }
         }
 
         public bool IsActive
@@ -99,21 +101,21 @@ namespace Zippy.Chirp.Threading
         {
             while (!this.p_IsDisposed)
             {
-                this.p_Notifier.WaitOne(300);
+                this.notifier.WaitOne(300);
 
                 T obj = default(T);
                 bool exec = false;
-                if (!this.p_IsDisposed && this.p_Queue != null && this.p_Queue.Count > 0)
+                if (!this.p_IsDisposed && this.queue != null && this.queue.Count > 0)
                 {
-                    lock (this.p_Queue)
+                    lock (this.queue)
                     {
                         // Now that we have an exclusive lock on the queue, it could be empty
-                        if (this.p_Queue.Count > 0)
+                        if (this.queue.Count > 0)
                         {
-                            System.Threading.Interlocked.Increment(ref this.p_Running);
+                            System.Threading.Interlocked.Increment(ref this.running);
 
                             // Ensure that CurrentlyExecuting + QueueLength <> 0
-                            obj = this.p_Queue.Dequeue();
+                            obj = this.queue.Dequeue();
                             exec = true;
                         }
                     }
@@ -129,16 +131,16 @@ namespace Zippy.Chirp.Threading
                     {
                         if (!this.p_IsDisposed)
                         {
-                            if (this.p_OnError != null)
+                            if (this.onError != null)
                             {
-                                this.p_OnError(obj, ex);
+                                this.onError(obj, ex);
                             }
                         }
                     }
                     finally
                     {
-                        System.Threading.Interlocked.Decrement(ref this.p_Running);
-                        System.Threading.Interlocked.Increment(ref this.p_Finished);
+                        System.Threading.Interlocked.Decrement(ref this.running);
+                        System.Threading.Interlocked.Increment(ref this.finished);
                         if (obj is IDisposable)
                         {
                             ((IDisposable)obj).Dispose();
@@ -151,16 +153,21 @@ namespace Zippy.Chirp.Threading
         public void Dispose()
         {
             this.p_IsDisposed = true;
-            if (this.p_Pool != null)
+            if (this.pool != null)
             {
-                this.p_Pool.Dispose();
+                this.pool.Dispose();
             }
 
-            this.p_Queue = null;
-            this.p_Pool = null;
+            this.queue = null;
+            this.pool = null;
         }
 
-        public void Wait(int waitInterval = 100, Action whileWaiting = null)
+        public void Wait()
+        {
+            this.Wait(100, null);
+        }
+
+        public void Wait(int waitInterval, Action whileWaiting)
         {
             var mre = new System.Threading.ManualResetEvent(false);
             while (this.IsActive)

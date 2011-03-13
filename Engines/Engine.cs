@@ -12,7 +12,11 @@ namespace Zippy.Chirp.Engines
     {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode)
         {
-            if (mode == MinifyType.Unspecified) mode = Settings.DefaultJavaScriptMinifier;
+            if (mode == MinifyType.Unspecified)
+            {
+                mode = Settings.DefaultJavaScriptMinifier;
+            }
+
             switch (mode)
             {
                 case MinifyType.gctAdvanced:
@@ -37,7 +41,11 @@ namespace Zippy.Chirp.Engines
     {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode)
         {
-            if (mode == MinifyType.Unspecified) mode = Settings.DefaultCssMinifier;
+            if (mode == MinifyType.Unspecified)
+            {
+                mode = Settings.DefaultCssMinifier; 
+            }
+
             switch (mode)
             {
                 case MinifyType.msAjax:
@@ -59,9 +67,10 @@ namespace Zippy.Chirp.Engines
         /// <summary>
         /// Determines whether this action hands the specified file.  Returns an int to specify the priority--0 being not handled.
         /// </summary>
-        /// <param name="fullFileName"></param>
-        /// <returns></returns>
+        /// <param name="fullFileName">file full name</param>
+        /// <returns>Handle id</returns>
         public abstract int Handles(string fullFileName);
+
         public abstract void Run(string fullFileName, ProjectItem projectItem);
 
         internal Chirp _Chirp;
@@ -152,7 +161,7 @@ namespace Zippy.Chirp.Engines
                     transformed = true;
                 }
 
-                this.chirp.outputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
                 try
                 {
                     action.Run(fullFileName, projectItem);
@@ -160,7 +169,7 @@ namespace Zippy.Chirp.Engines
                 catch (System.Exception eError)
                 {
                     System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", eError.Message));
-                    this.chirp.outputWindowPane.OutputString(string.Format("Error: {0}\r\n", eError));
+                    this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", eError));
                 }
 
                 if (TaskList.Instance.HasErrors(fullFileName))
@@ -174,14 +183,19 @@ namespace Zippy.Chirp.Engines
         {
             if (ex is COMException || ex is System.Threading.ThreadAbortException) return;
             if (projectItem != null)
+            {
                 TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
-            else this.chirp.outputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
+            }
+            else
+            {
+                this.chirp.OutputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
+            }
         }
 
         /// <summary>
         /// Add a new ProjectItem processor
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">action engine</param>
         public void Add(ActionEngine action)
         {
             action._Chirp = this.chirp;
