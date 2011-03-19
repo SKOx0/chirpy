@@ -9,22 +9,20 @@ namespace Zippy.Chirp.ConfigurationScreen
         public GoogleClosure()
         {
             InitializeComponent();
-            
           }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
+        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
         {
-            PropertiesObject = null;
+            propertiesObject = null;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
         {
             Settings.Load();
 
-            textBoxJavaPath.Text = Settings.GoogleClosureJavaPath;
-            toolTip1.SetToolTip(textBoxJavaPath, textBoxJavaPath.Text);
-            chkEnableOfline.Checked=Settings.GoogleClosureOffline;
-            //chkEnableOfline.Checked = !string.IsNullOrEmpty(textBoxJavaPath.Text);
+            this.textBoxJavaPath.Text = Settings.GoogleClosureJavaPath;
+            this.toolTip1.SetToolTip(textBoxJavaPath, textBoxJavaPath.Text);
+            this.chkEnableOfline.Checked = Settings.GoogleClosureOffline;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()
@@ -39,27 +37,28 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         void EnvDTE.IDTToolsOptionsPage.OnOK()
         {
-            Settings.GoogleClosureOffline = chkEnableOfline.Checked;
-            Settings.GoogleClosureJavaPath = textBoxJavaPath.Text;
+            Settings.GoogleClosureOffline = this.chkEnableOfline.Checked;
+            Settings.GoogleClosureJavaPath = this.textBoxJavaPath.Text;
             Settings.Save();
         }
 
         private void chkEnableOfline_CheckedChanged(object sender, EventArgs e)
         {
-            groupBoxOffline.Enabled = chkEnableOfline.Checked;
+            this.groupBoxOffline.Enabled = this.chkEnableOfline.Checked;
             if (string.IsNullOrEmpty(textBoxJavaPath.Text))
-                FindJavaPath();
+            {
+                this.FindJavaPath();
+            }
         }
 
         private void btnFindJava_Click(object sender, EventArgs e)
         {
-            if (!FindJavaPath())
+            if (!this.FindJavaPath())
             {
+                // active textbox if java path is not present in registry
+                this.textBoxJavaPath.Enabled = true;
 
-                //active textbox if java path is not present in registry
-                textBoxJavaPath.Enabled = true;
-
-                //not found in registry, ask user to find java.exe
+                // not found in registry, ask user to find java.exe
                 if (MessageBox.Show(
                     this,
                     string.Format("Java runtime was not found in the registry.{0}Do you wish to try to find javaw.exe?", Environment.NewLine),
@@ -70,14 +69,14 @@ namespace Zippy.Chirp.ConfigurationScreen
                 {
                     openFileDialog1.Filter = "javaw.exe";
                     openFileDialog1.ShowDialog(this);
-                    GotJavaPath(openFileDialog1.FileName);
+                    this.GotJavaPath(openFileDialog1.FileName);
                 }
             }
-
         }
 
-        private bool FindJavaPath() {
-            //Try registry first
+        private bool FindJavaPath()
+        {
+            // Try registry first
             var regKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\JavaSoft\Java Runtime Environment")
                 ??
                 Registry.LocalMachine.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment");
@@ -87,10 +86,13 @@ namespace Zippy.Chirp.ConfigurationScreen
                 var currentVersion = Convert.ToString(regKey.GetValue("CurrentVersion", string.Empty));
                 if (!string.IsNullOrEmpty(currentVersion))
                 {
-                    if (GotJavaPath(Convert.ToString(regKey.OpenSubKey(currentVersion).GetValue("JavaHome", string.Empty)) + @"\bin\javaw.exe"))
+                    if (this.GotJavaPath(Convert.ToString(regKey.OpenSubKey(currentVersion).GetValue("JavaHome", string.Empty)) + @"\bin\javaw.exe"))
+                    {
                         return true;
+                    }
                 }
             }
+
             return false;
         }
 
@@ -98,9 +100,10 @@ namespace Zippy.Chirp.ConfigurationScreen
         {
             if (System.IO.File.Exists(path))
             {
-                textBoxJavaPath.Text = path;
+                this.textBoxJavaPath.Text = path;
                 return true;
             }
+
             return false;
         }
     }

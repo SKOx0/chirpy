@@ -8,12 +8,14 @@ namespace Zippy.Chirp
 {
     public static class Utilities
     {
-
         public static void Dispose<T>(ref T obj) where T : class, IDisposable
         {
             try
             {
-                if (obj != null) obj.Dispose();
+                if (obj != null) 
+                {
+                    obj.Dispose(); 
+                }
             }
             catch
             { }
@@ -22,12 +24,12 @@ namespace Zippy.Chirp
 
         public static Dictionary<Enum, string> _Descriptions = new Dictionary<Enum, string>();
         const char ENUM_SEPERATOR_CHARACTER = ',';
+
         /// <summary>
         /// Looks for the <see cref="System.ComponentModel.DescriptionAttribute">DescriptionAttribute</see> on an
         /// enum, and returns the value.
         /// </summary>
-        /// <param name="e"></param>
-
+        /// <param name="e">enum type</param>
         public static string Description(this Enum e)
         {
             lock (_Descriptions)
@@ -50,7 +52,6 @@ namespace Zippy.Chirp
                         {
                             desc[i] = entries[i].Trim().Replace("_", " ");
                         }
-
                     }
 
                     _Descriptions.Add(e, string.Join(ENUM_SEPERATOR_CHARACTER.ToString(), desc));
@@ -67,10 +68,12 @@ namespace Zippy.Chirp
                 foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively())
                 {
                     if (projectItem.get_FileNames(1) == fileName)
-                        return projectItem;
+                    {
+                        return projectItem; 
+                    }
                 }
-
             }
+
             return null;
         }
 
@@ -108,7 +111,6 @@ namespace Zippy.Chirp
                     {
                         yield return projectItem;
                     }
-
                 }
             }
         }
@@ -129,21 +131,27 @@ namespace Zippy.Chirp
         public static ProjectItem GetParent(this ProjectItem projectItem)
         {
             if (projectItem.Collection == null)
+            {
                 return null;
+            }
             else
+            {
                 return projectItem.Collection.Parent as ProjectItem;
-            // var all = projectItem.ContainingProject.ProjectItems.GetAll();
-            // var parents = all.Where(x => x.ProjectItems.Cast<ProjectItem>().Contains(projectItem)).ToArray();
-            // return parents.FirstOrDefault();
+            }
         }
 
         /// <summary>
         /// Returns "C:\fakepath\test" when given "C:\fakepath\test.js"
         /// </summary>
+        /// <param name="extensions">file extension</param>
+        /// <param name="fullFileName">full file name</param>
         public static string GetBaseFileName(string fullFileName, params string[] extensions)
         {
             if (Settings.AllExtensions == null)
-                Settings.Load();
+            {
+                Settings.Load(); 
+            }
+
             extensions = extensions == null ? Settings.AllExtensions : extensions.Union(Settings.AllExtensions).ToArray();
 
             var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
@@ -156,6 +164,5 @@ namespace Zippy.Chirp
 
             return fullFileName;
         }
-
     }
 }

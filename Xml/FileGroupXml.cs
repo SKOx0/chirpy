@@ -27,7 +27,9 @@ namespace Zippy.Chirp.Xml
 			}
 		}
 
-		public FileGroupXml(XElement xElement) : this(xElement, string.Empty) { }
+		public FileGroupXml(XElement xElement) : this(xElement, string.Empty) 
+		{ 
+		}
 
 		public FileGroupXml(XElement xElement, string basePath)
 		{
@@ -39,12 +41,18 @@ namespace Zippy.Chirp.Xml
 			}
 
 			if (name != null)
-				this.Name = name.Value;
+			{ 
+				this.Name = name.Value; 
+			}
 
 			if (xElement.Attribute("Path") != null)
+			{
 				this.Path = System.IO.Path.Combine(basePath, xElement.Attribute("Path").Value);
+			}
 			else
+			{
 				this.Path = System.IO.Path.Combine(basePath, this.Name);
+			}
 
 			var minify = (string)xElement.Attribute("Minify");
 			var debug = (string)xElement.Attribute("Debug");
@@ -61,9 +69,15 @@ namespace Zippy.Chirp.Xml
 				{
 					var file = new FileXml(fileDescriptor, basePath);
 					if (file.Minify == null)
-						file.Minify = this.Minify;
+					{
+						file.Minify = this.Minify; 
+					}
+
 					if (file.MinifyWith == MinifyType.Unspecified)
-						file.MinifyWith = this.MinifyWith;
+					{
+						file.MinifyWith = this.MinifyWith; 
+					}
+
 					files.Add(file);
 				}
 
@@ -93,8 +107,6 @@ namespace Zippy.Chirp.Xml
 			}
 
 			this.Files = files;
-
 		}
-		
 	}
 }

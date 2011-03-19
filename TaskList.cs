@@ -109,7 +109,7 @@ namespace Zippy.Chirp
             }
         }
 
-        void Task_Navigate(object sender, EventArgs e)
+        private void Task_Navigate(object sender, EventArgs e)
         {
             var task = sender as ErrorTask;
 
@@ -141,14 +141,22 @@ namespace Zippy.Chirp
 
         public void RemoveAll()
         {
-            if (this.listProvider != null) this.listProvider.Tasks.Clear();
+            if (this.listProvider != null)
+            {
+                this.listProvider.Tasks.Clear();
+            }
+
             this.tasks.Clear();
             this.taskProjects.Clear();
         }
 
         private void Remove(ErrorTask task)
         {
-            if (this.listProvider != null) this.listProvider.Tasks.Remove(task);
+            if (this.listProvider != null)
+            {
+                this.listProvider.Tasks.Remove(task);
+            }
+
             this.tasks.Remove(task);
             lock (this.taskProjects)
             {

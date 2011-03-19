@@ -10,9 +10,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
+        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
         {
-            PropertiesObject = null;
+            propertiesObject = null;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)

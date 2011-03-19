@@ -43,7 +43,142 @@ namespace Zippy.Chirp.Manager
         }
         #endregion
 
-        #region Methods
+        // Static methods
+        internal static bool ContainsItem(ProjectItems items, string fullFileNameOfItemContained)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException("items");
+            }
+
+            if (string.IsNullOrEmpty(fullFileNameOfItemContained))
+            {
+                throw new Exception("fullFileNameOfItemContained needs to contain a valid filename.");
+            }
+
+            foreach (ProjectItem item in items)
+            {
+                if (item.get_FileNames(0).Equals(fullFileNameOfItemContained))
+                {
+                    return true;
+                }
+            }
+
+            // valid is same folder
+            string curringItemDir = new FileInfo(((ProjectItem)items.Parent).get_FileNames(0)).DirectoryName;
+            if (curringItemDir != new FileInfo(fullFileNameOfItemContained).DirectoryName)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static ProjectItem GetItemByFullFileName(ProjectItems items, string fullFileNameOfItemToGet)
+        {
+            return GetItemByFullFileName(items, fullFileNameOfItemToGet, false);
+        }
+
+        internal static ProjectItem GetItemByFullFileName(ProjectItems items, string fullFileNameOfItemToGet, bool ignoreCase)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException("items");
+            }
+
+            if (string.IsNullOrEmpty(fullFileNameOfItemToGet))
+            {
+                throw new Exception("fullFileNameOfItemToGet needs to contain a valid filename.");
+            }
+
+            StringComparison strComparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
+            foreach (ProjectItem item in items)
+            {
+                if (item.get_FileNames(0).Equals(fullFileNameOfItemToGet, strComparison))
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        internal static void AddItem(ProjectItem projectItem, string fullFileNameToAdd)
+        {
+            if (projectItem == null)
+            {
+                throw new ArgumentNullException("projectItem");
+            }
+
+            if (string.IsNullOrEmpty(fullFileNameToAdd))
+            {
+                throw new Exception("fullFileNameToAdd needs to contain a valid filename.");
+            }
+
+            if (projectItem.ProjectItems != null)
+            {
+                string CurringItemDir = projectItem.get_FileNames(0);
+                CurringItemDir = new FileInfo(CurringItemDir).DirectoryName;
+                if (CurringItemDir == new FileInfo(fullFileNameToAdd).DirectoryName)
+                {
+                    projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
+                }
+            }
+        }
+
+        internal static void AddItems(ProjectItem projectItem, IEnumerable<string> filesToAdd)
+        {
+            if (projectItem == null)
+            {
+                throw new ArgumentNullException("projectItem");
+            }
+
+            if (filesToAdd == null)
+            {
+                throw new ArgumentNullException("filesToAdd");
+            }
+
+            foreach (string fullFileNameToAdd in filesToAdd)
+            {
+                AddItem(projectItem, fullFileNameToAdd);
+            }
+        }
+
+        internal static void DeleteAllItems(ProjectItems projectItems)
+        {
+            if (projectItems == null)
+            {
+                throw new ArgumentNullException("projectItems");
+            }
+
+            foreach (ProjectItem item in projectItems)
+            {
+                item.Delete();
+            }
+        }
+
+        internal static void DeleteItems(ProjectItems projectItems, IEnumerable<string> itemsToKeep)
+        {
+            if (projectItems == null)
+            {
+                throw new ArgumentNullException("projectItem");
+            }
+
+            if (itemsToKeep == null)
+            {
+                throw new ArgumentNullException("itemsToKeep");
+            }
+
+            foreach (ProjectItem item in projectItems)
+            {
+                if (!itemsToKeep.Contains(item.get_FileNames(0)))
+                {
+                    item.Delete();
+                }
+            }
+        }
+
         protected virtual string GetFileNamePrefix(string fileName)
         {
             string prefix = Path.GetFileNameWithoutExtension(fileName);
@@ -78,7 +213,11 @@ namespace Zippy.Chirp.Manager
 
         private void Add(string fileName, object content)
         {
-            if (this.filesAdded.ContainsKey(fileName)) this.filesAdded.Remove(fileName);
+            if (this.filesAdded.ContainsKey(fileName))
+            { 
+                this.filesAdded.Remove(fileName); 
+            }
+
             this.filesAdded.Add(fileName, content);
         }
 
@@ -158,11 +297,9 @@ namespace Zippy.Chirp.Manager
                     }
                     else
                     {
-
                         // visual studio 2010 (web site projet)
                         for (short i = 0; i <= this.projectItem.FileCount; i++)
                         {
-
                             fullFileName = this.projectItem.FileNames[i];
 
                             // File is already added to the projectItem
@@ -170,14 +307,12 @@ namespace Zippy.Chirp.Manager
 
                             if (!this.CompareFile(fullFileName, file.Value))
                             {
-
                                 // Content was different
                                 this.CheckoutFileIfRequired(fullFileName);
                                 this.SaveFile(file.Key, file.Value);
                             }
                             else
                             {
-
                                 /* File exists but is not added to the projectItem
                                  For a security reason dont overwrite - instead let the user know
                                  MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");*/
@@ -189,7 +324,10 @@ namespace Zippy.Chirp.Manager
             }
 
             // Add files created
-            if (this.projectItem != null) AddItems(this.projectItem, this.filesCreated);
+            if (this.projectItem != null) 
+            {
+                AddItems(this.projectItem, this.filesCreated); 
+            }
 
             // Clear
             this.Clear();
@@ -197,7 +335,11 @@ namespace Zippy.Chirp.Manager
 
         private bool CompareFile(string fileName, object contents)
         {
-            if (contents == null) return false;
+            if (contents == null)
+            {
+                return false; 
+            }
+
             else if (contents is string)
             {
                 return System.IO.File.ReadAllText(fileName) == (string)contents;
@@ -214,10 +356,17 @@ namespace Zippy.Chirp.Manager
 
         private bool Equals(byte[] a, byte[] b)
         {
-            if (a.LongLength != b.LongLength) return false;
+            if (a.LongLength != b.LongLength)
+            {
+                return false; 
+            }
+
             for (long i = 0, j = a.LongLength; i < j; i++)
             {
-                if (a[i] != b[i]) return false;
+                if (a[i] != b[i]) 
+                { 
+                    return false;
+                }
             }
 
             return true;
@@ -231,151 +380,17 @@ namespace Zippy.Chirp.Manager
 
         private void CheckoutFileIfRequired(string fullFileName)
         {
-            if (this.dte == null) return;
+            if (this.dte == null) 
+            { 
+                return; 
+            }
+
             var sc = this.dte.SourceControl;
             if (sc != null && sc.IsItemUnderSCC(fullFileName) && !sc.IsItemCheckedOut(fullFileName))
             {
                 this.dte.SourceControl.CheckOutItem(fullFileName);
             }
         }
-
-        // Static methods
-        internal static bool ContainsItem(ProjectItems items, string fullFileNameOfItemContained)
-        {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
-
-            if (string.IsNullOrEmpty(fullFileNameOfItemContained))
-            {
-                throw new Exception("fullFileNameOfItemContained needs to contain a valid filename.");
-            }
-
-            foreach (ProjectItem item in items)
-            {
-                if (item.get_FileNames(0).Equals(fullFileNameOfItemContained))
-                {
-                    return true;
-                }
-            }
-
-            // valid is same folder
-            string CurringItemDir = new FileInfo(((ProjectItem)items.Parent).get_FileNames(0)).DirectoryName;
-            if (CurringItemDir != new FileInfo(fullFileNameOfItemContained).DirectoryName)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        internal static ProjectItem GetItemByFullFileName(ProjectItems items, string fullFileNameOfItemToGet)
-        {
-            return GetItemByFullFileName(items, fullFileNameOfItemToGet, false);
-        }
-
-        internal static ProjectItem GetItemByFullFileName(ProjectItems items, string fullFileNameOfItemToGet, bool ignoreCase)
-        {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
-
-            if (string.IsNullOrEmpty(fullFileNameOfItemToGet))
-            {
-                throw new Exception("fullFileNameOfItemToGet needs to contain a valid filename.");
-            }
-
-            StringComparison strComparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-
-            foreach (ProjectItem item in items)
-            {
-                if (item.get_FileNames(0).Equals(fullFileNameOfItemToGet, strComparison))
-                {
-                    return item;
-                }
-
-            }
-
-            return null;
-        }
-        internal static void AddItem(ProjectItem projectItem, string fullFileNameToAdd)
-        {
-            if (projectItem == null)
-            {
-                throw new ArgumentNullException("projectItem");
-            }
-
-            if (string.IsNullOrEmpty(fullFileNameToAdd))
-            {
-                throw new Exception("fullFileNameToAdd needs to contain a valid filename.");
-            }
-
-            if (projectItem.ProjectItems != null)
-            {
-                string CurringItemDir = projectItem.get_FileNames(0);
-                CurringItemDir = new FileInfo(CurringItemDir).DirectoryName;
-                if (CurringItemDir == new FileInfo(fullFileNameToAdd).DirectoryName)
-                {
-                    projectItem.ProjectItems.AddFromFile(fullFileNameToAdd);
-                }
-
-            }
-        }
-
-        internal static void AddItems(ProjectItem projectItem, IEnumerable<string> filesToAdd)
-        {
-            if (projectItem == null)
-            {
-                throw new ArgumentNullException("projectItem");
-            }
-
-            if (filesToAdd == null)
-            {
-                throw new ArgumentNullException("filesToAdd");
-            }
-
-            foreach (string fullFileNameToAdd in filesToAdd)
-            {
-                AddItem(projectItem, fullFileNameToAdd);
-            }
-        }
-
-        internal static void DeleteAllItems(ProjectItems projectItems)
-        {
-            if (projectItems == null)
-            {
-                throw new ArgumentNullException("projectItems");
-            }
-
-            foreach (ProjectItem item in projectItems)
-            {
-                item.Delete();
-            }
-        }
-
-        internal static void DeleteItems(ProjectItems projectItems, IEnumerable<string> itemsToKeep)
-        {
-            if (projectItems == null)
-            {
-                throw new ArgumentNullException("projectItem");
-            }
-
-            if (itemsToKeep == null)
-            {
-                throw new ArgumentNullException("itemsToKeep");
-            }
-
-            foreach (ProjectItem item in projectItems)
-            {
-                if (!itemsToKeep.Contains(item.get_FileNames(0)))
-                {
-                    item.Delete();
-                }
-            }
-        }
-        #endregion
 
         #region IDisposable Members
         public void Dispose()

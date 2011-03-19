@@ -64,6 +64,8 @@ namespace Zippy.Chirp.Engines
     /// </summary>
     public abstract class ActionEngine : IDisposable
     {
+        internal Chirp _Chirp;
+
         /// <summary>
         /// Determines whether this action hands the specified file.  Returns an int to specify the priority--0 being not handled.
         /// </summary>
@@ -73,9 +75,9 @@ namespace Zippy.Chirp.Engines
 
         public abstract void Run(string fullFileName, ProjectItem projectItem);
 
-        internal Chirp _Chirp;
-
-        public virtual void Dispose() { }
+        public virtual void Dispose() 
+        { 
+        }
     }
 
     /// <summary>
@@ -96,7 +98,11 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string fullFileName)
         {
-            if (fullFileName.EndsWith(this.GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) return 0;
+            if (fullFileName.EndsWith(this.GetOutputExtension(fullFileName), StringComparison.InvariantCultureIgnoreCase)) 
+            { 
+                return 0; 
+            }
+
             var match = this.Extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase))
                 .FirstOrDefault() ?? string.Empty;
             return match.Length;
@@ -116,7 +122,9 @@ namespace Zippy.Chirp.Engines
         public virtual void Process(VSProjectItemManager manager, string fullFileName, ProjectItem projectItem, string baseFileName, string outputText)
         {
             if (manager != null)
+            {
                 manager.AddFileByFileName(baseFileName + this.GetOutputExtension(fullFileName), outputText);
+            }
         }
     }
 
@@ -157,7 +165,11 @@ namespace Zippy.Chirp.Engines
             {
                 if (action is TransformEngine)
                 {
-                    if (transformed) continue;
+                    if (transformed) 
+                    {
+                        continue; 
+                    }
+
                     transformed = true;
                 }
 
@@ -166,14 +178,16 @@ namespace Zippy.Chirp.Engines
                 {
                     action.Run(fullFileName, projectItem);
                 }
-                catch (System.Exception eError)
+                catch (System.Exception errorThrow)
                 {
-                    System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", eError.Message));
-                    this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", eError));
+                    System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", errorThrow.Message));
+                    this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
                 }
 
                 if (TaskList.Instance.HasErrors(fullFileName))
+                {
                     break;
+                }
             }
 
             this.chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
@@ -181,7 +195,11 @@ namespace Zippy.Chirp.Engines
 
         protected override void Error(ProjectItem projectItem, Exception ex)
         {
-            if (ex is COMException || ex is System.Threading.ThreadAbortException) return;
+            if (ex is COMException || ex is System.Threading.ThreadAbortException)
+            {
+                return;
+            }
+
             if (projectItem != null)
             {
                 TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
@@ -203,7 +221,9 @@ namespace Zippy.Chirp.Engines
             this.actions = this.allActions.ToArray();
             this.transformers = this.allActions.OfType<TransformEngine>().ToArray();
             if (action is ConfigEngine)
+            {
                 this.configEngine = action;
+            }
         }
 
         /// <summary>
@@ -212,11 +232,16 @@ namespace Zippy.Chirp.Engines
         public void Clear()
         {
             foreach (var action in this.allActions)
+            {
                 try
                 {
                     action.Dispose();
                 }
-                catch (Exception) { }
+                catch (Exception) 
+                {
+                }
+            }
+
             this.allActions.Clear();
             this.actions = new ActionEngine[0];
             this.transformers = new TransformEngine[0];

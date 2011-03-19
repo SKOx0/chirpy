@@ -13,15 +13,19 @@ namespace Zippy.Chirp
             return Compress(fileName, compressMode, onError, null);
         }
 
-        public static string Compress(string fileName, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError, IList<string> ReferencePathsOrUrls) 
+        public static string Compress(string fileName, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError, IList<string> referencePathsOrUrls) 
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException("File does not exist: " + fileName);
+            if (!File.Exists(fileName)) 
+            { 
+                throw new FileNotFoundException("File does not exist: " + fileName); 
+            }
 
-            string toCall = string.Format("-jar \"{0}\" {1}", GetJarPath(), GetArguments(fileName, compressMode, ReferencePathsOrUrls));
+            string toCall = string.Format("-jar \"{0}\" {1}", GetJarPath(), GetArguments(fileName, compressMode, referencePathsOrUrls));
 
             string error = string.Empty;
             string output = string.Empty;
-            try {
+            try 
+            {
                 using (var process = Process.Start(Settings.GoogleClosureJavaPath, toCall)) 
                 {
                     process.StartInfo.CreateNoWindow = true;
@@ -39,7 +43,8 @@ namespace Zippy.Chirp
                         process.Kill();
                     }
                 }
-            } catch (Exception e) 
+            } 
+            catch (Exception e) 
             {
                 onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, "Java error : " + e.ToString(), 0, 0);
             }

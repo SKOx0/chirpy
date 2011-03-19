@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+
 namespace Zippy.Chirp.Engines
 {
     public class JSHintEngine : ActionEngine
@@ -9,7 +9,11 @@ namespace Zippy.Chirp.Engines
         public override int Handles(string fullFileName)
         {
             if (Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
-                && !fullFileName.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase)) return 1;
+                && !fullFileName.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase))
+            { 
+                return 1; 
+            }
+
             return 0;
         }
 
@@ -20,10 +24,12 @@ namespace Zippy.Chirp.Engines
             var results = _hint.JSHINT(code);
 
             if (results != null)
+            {
                 foreach (var item in results)
                 {
                     TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, fullFileName, item.line, item.character, item.reason);
                 }
+            }
         }
 
         public override void Dispose()

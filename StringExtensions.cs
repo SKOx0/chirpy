@@ -8,7 +8,7 @@ namespace Zippy.Chirp
 {
     public static class StringExtensions
     {
-        private static Dictionary<Type, Dictionary<string, IConvertible>> _Enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
+        private static Dictionary<Type, Dictionary<string, IConvertible>> enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
 
         public static bool Is(this string a, string b)
         {
@@ -19,8 +19,13 @@ namespace Zippy.Chirp
         {
             int result;
             if (int.TryParse(input, out result))
+            {
                 return result;
-            else return defaultValue;
+            }
+            else
+            {
+                return defaultValue;
+            }
         }
 
         public static bool ToBool(this string input, bool defaultValue)
@@ -44,9 +49,9 @@ namespace Zippy.Chirp
             input = input ?? string.Empty;
 
             Dictionary<string, IConvertible> enums = null;
-            if (!_Enums.TryGetValue(typeof(T), out enums))
+            if (!StringExtensions.enums.TryGetValue(typeof(T), out enums))
             {
-                lock (_Enums)
+                lock (StringExtensions.enums)
                 {
                     var temp = ((T[])System.Enum.GetValues(typeof(T))).ToDictionary(x => Convert.ToString(x), x => (IConvertible)x, StringComparer.OrdinalIgnoreCase);
                     string desc;
@@ -61,8 +66,10 @@ namespace Zippy.Chirp
 
                     enums = temp;
 
-                    if (!_Enums.ContainsKey(typeof(T)))
-                        _Enums.Add(typeof(T), temp);
+                    if (!StringExtensions.enums.ContainsKey(typeof(T)))
+                    {
+                        StringExtensions.enums.Add(typeof(T), temp);
+                    }
                 }
             }
 

@@ -9,23 +9,6 @@ namespace Zippy.Chirp
     /// </summary>
     public class Settings 
     {
-        
-        #region Private Fields
-
-        private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
-
-        #endregion
-
-        #region Constructors
-        static Settings()
-        {
-        }
-
-        private Settings()
-        {
-        }      
-        #endregion
-
         #region Properties
 
         public static string ChirpJsFile = ".chirp.js";
@@ -72,6 +55,22 @@ namespace Zippy.Chirp
 
         public static bool GoogleClosureOffline = false;
         public static string GoogleClosureJavaPath = string.Empty;
+        #endregion
+
+        #region Private Fields
+
+        private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
+
+        #endregion
+
+        #region Constructors
+        static Settings()
+        {
+        }
+
+        private Settings()
+        {
+        }
         #endregion
 
         public static event Action Saved;

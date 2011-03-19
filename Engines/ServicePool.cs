@@ -6,7 +6,7 @@ namespace Zippy.Chirp.Threading
     {
         private System.Threading.Thread[] threads;
         private System.Threading.ThreadStart threadDelegate;
-        private long p_Runnning;
+        private long runnning;
         private bool isDisposed;
 
         #region "constructor"
@@ -19,7 +19,7 @@ namespace Zippy.Chirp.Threading
         {
             this.threadDelegate = callback;
             this.threads = new System.Threading.Thread[numThreads];
-            this.p_Runnning = numThreads;
+            this.runnning = numThreads;
             for (int i = 0; i <= this.threads.Length - 1; i++)
             {
                 var th = new System.Threading.Thread(this.Execute);
@@ -31,18 +31,16 @@ namespace Zippy.Chirp.Threading
         }
         #endregion
 
+        public bool IsActive
+        {
+            get { return this.runnning > 0; }
+        }
+
         private void Execute()
         {
             this.threadDelegate();
-            System.Threading.Interlocked.Decrement(ref this.p_Runnning);
+            System.Threading.Interlocked.Decrement(ref this.runnning);
         }
-
-        public bool IsActive
-        {
-            get { return this.p_Runnning > 0; }
-        }
-
-
 
         public void Dispose()
         {

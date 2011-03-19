@@ -15,11 +15,59 @@ namespace Zippy.Chirp.Threading
         private System.Threading.AutoResetEvent notifier = new System.Threading.AutoResetEvent(false);
         private Action<T> action = t => { };
         private Action<T, Exception> onError = (t, e) => { };
-        private bool p_IsDisposed = false;
+        private bool isDisposed = false;
+
+        #region "constructor"
+        public ServiceQueue(Action<T> action = null, Action<T, Exception> onError = null, int? numThreads = null, string name = "Worker", System.Threading.ThreadPriority priority = System.Threading.ThreadPriority.Normal)
+        {
+            this.action = action;
+            this.onError = onError;
+            this.pool = new ServicePool(this.ProcessQueue, numThreads ?? System.Environment.ProcessorCount, name, priority);
+        }
+        #endregion
 
         public bool IsDisposed
         {
-            get { return this.p_IsDisposed; }
+            get { return this.isDisposed; }
+        }
+
+        public long Finished
+        {
+            get
+            {
+                return this.finished;
+            }
+        }
+
+        public long Total
+        {
+            get
+            {
+                return this.Finished + this.Length;
+            }
+        }
+
+        public long Length
+        {
+            get
+            {
+                if (this.isDisposed) 
+                { 
+                    return 0;
+                }
+
+                return this.queue.Count + this.running;
+            }
+        }
+
+        public long Running
+        {
+            get { return this.running; }
+        }
+
+        public bool IsActive
+        {
+            get { return this.Length > 0; }
         }
 
         protected virtual void Process(T item)
@@ -30,13 +78,6 @@ namespace Zippy.Chirp.Threading
         protected virtual void Error(T item, Exception ex)
         {
             this.onError(item, ex);
-        }
-
-        public ServiceQueue(Action<T> action = null, Action<T, Exception> onError = null, int? numThreads = null, string name = "Worker", System.Threading.ThreadPriority priority = System.Threading.ThreadPriority.Normal)
-        {
-            this.action = action;
-            this.onError = onError;
-            this.pool = new ServicePool(this.ProcessQueue, numThreads ?? System.Environment.ProcessorCount, name, priority);
         }
 
         public virtual void Enqueue(T obj)
@@ -62,50 +103,15 @@ namespace Zippy.Chirp.Threading
             this.notifier.Set();
         }
 
-        public long Finished
-        {
-            get
-            {
-                return this.finished;
-            }
-        }
-
-        public long Total
-        {
-            get
-            {
-                return this.Finished + this.Length;
-            }
-        }
-
-        public long Length
-        {
-            get
-            {
-                if (this.p_IsDisposed) return 0;
-                return this.queue.Count + this.running;
-            }
-        }
-
-        public long Running
-        {
-            get { return this.running; }
-        }
-
-        public bool IsActive
-        {
-            get { return this.Length > 0; }
-        }
-
         private void ProcessQueue()
         {
-            while (!this.p_IsDisposed)
+            while (!this.isDisposed)
             {
                 this.notifier.WaitOne(300);
 
                 T obj = default(T);
                 bool exec = false;
-                if (!this.p_IsDisposed && this.queue != null && this.queue.Count > 0)
+                if (!this.isDisposed && this.queue != null && this.queue.Count > 0)
                 {
                     lock (this.queue)
                     {
@@ -129,7 +135,7 @@ namespace Zippy.Chirp.Threading
                     }
                     catch (Exception ex)
                     {
-                        if (!this.p_IsDisposed)
+                        if (!this.isDisposed)
                         {
                             if (this.onError != null)
                             {
@@ -152,7 +158,7 @@ namespace Zippy.Chirp.Threading
 
         public void Dispose()
         {
-            this.p_IsDisposed = true;
+            this.isDisposed = true;
             if (this.pool != null)
             {
                 this.pool.Dispose();
@@ -174,7 +180,9 @@ namespace Zippy.Chirp.Threading
             {
                 mre.WaitOne(100);
                 if (whileWaiting != null)
+                {
                     whileWaiting();
+                }
             }
         }
     }
