@@ -7,12 +7,17 @@ namespace Zippy.Chirp.Engines
 {
     public class LessEngine : TransformEngine
     {
-
-
-        static Regex rxLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
-        static Regex rxColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
-
+        static Regex regexLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
+        static Regex regexColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
         static dotless.Core.Parser.Parser lazyLessParser;
+
+        #region "constructor"
+        public LessEngine()
+        {
+            Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
+            OutputExtension = ".css";
+        }
+        #endregion
 
         static dotless.Core.Parser.Parser LessParser
         {
@@ -26,14 +31,6 @@ namespace Zippy.Chirp.Engines
                 return lazyLessParser;
             }
         }
-
-        #region "constructor"
-        public LessEngine()
-        {
-            Extensions = new[] { Settings.ChirpLessFile, Settings.ChirpMichaelAshLessFile, Settings.ChirpHybridLessFile, Settings.ChirpMSAjaxLessFile };
-            OutputExtension = ".css";
-        }
-        #endregion
 
         private bool IsChirpLessFile(string fileName)
         {
@@ -61,6 +58,7 @@ namespace Zippy.Chirp.Engines
 
             lock (LessParser)
                 using (new EnvironmentDirectory(fullFileName))
+                {
                     try
                     {
                         // The built in static method doesn't throw error messages
@@ -71,21 +69,26 @@ namespace Zippy.Chirp.Engines
                         int line = 1, column = 1;
                         var description = e.Message.Trim();
                         Match match;
-                        if ((match = rxLineNum.Match(description)).Success)
+                        if ((match = regexLineNum.Match(description)).Success)
                         {
                             line = match.Groups[1].Value.ToInt(1);
                         }
 
-                        if ((match = rxColNum.Match(description)).Success)
+                        if ((match = regexColNum.Match(description)).Success)
                         {
                             column = match.Groups[1].Length + 1;
                         }
 
                         if (TaskList.Instance == null)
+                        {
                             Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), description));
+                        }
                         else
+                        {
                             TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, description);
+                        }
                     }
+                }
 
             return css;
         }

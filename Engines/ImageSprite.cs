@@ -4,19 +4,31 @@ namespace Zippy.Chirp.Engines
 {
     public static class ImageSprite
     {
-        private static System.Text.RegularExpressions.Regex rxImage = new System.Text.RegularExpressions.Regex(@"\.(jpg|gif|png)$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        private static System.Text.RegularExpressions.Regex regexImage = new System.Text.RegularExpressions.Regex(@"\.(jpg|gif|png)$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
         public static bool IsImage(string path)
         {
-            return rxImage.IsMatch(path);
+            return regexImage.IsMatch(path);
         }
 
         private static System.Drawing.Imaging.ImageFormat GetFormat(string file)
         {
             var ext = System.IO.Path.GetExtension(file).ToLower();
-            if (ext == ".jpg") return System.Drawing.Imaging.ImageFormat.Jpeg;
-            if (ext == ".gif") return System.Drawing.Imaging.ImageFormat.Gif;
-            if (ext == ".png") return System.Drawing.Imaging.ImageFormat.Png;
+            if (ext == ".jpg") 
+            {
+                return System.Drawing.Imaging.ImageFormat.Jpeg;
+            }
+
+            if (ext == ".gif")
+            {
+                return System.Drawing.Imaging.ImageFormat.Gif;
+            }
+
+            if (ext == ".png") 
+            {
+                return System.Drawing.Imaging.ImageFormat.Png; 
+            }
+
             return null;
         }
 

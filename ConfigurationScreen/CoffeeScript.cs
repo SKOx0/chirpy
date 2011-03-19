@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
@@ -16,9 +10,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
+        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
         {
-            PropertiesObject = null;
+            propertiesObject = null;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
@@ -49,7 +43,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.ChirpWhiteSpaceCoffeeScriptFile = txtChirpWhiteSpaceJsFile.Text;
             Settings.ChirpYUICoffeeScriptFile = txtChirpYUIJsFile.Text;
             Settings.ChirpMSAjaxCoffeeScriptFile = txtMSAjaxJsFile.Text;
-            Settings.CoffeeScriptBatFilePath=txtPath.Text;
+            Settings.CoffeeScriptBatFilePath = txtPath.Text;
             Settings.Save();
         }
 

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-
 namespace Zippy.Chirp.Engines 
 {
     public class ViewEngine : TransformEngine 
@@ -38,7 +37,10 @@ namespace Zippy.Chirp.Engines
             {
                 return 1;
             }
-            else return 0;
+            else 
+            {
+                return 0; 
+            }
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) 

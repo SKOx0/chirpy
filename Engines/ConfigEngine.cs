@@ -11,33 +11,13 @@ namespace Zippy.Chirp.Engines
 {
     public class ConfigEngine : ActionEngine
     {
+        internal Dictionary<string, List<string>> dependentFiles =
+       new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
+
         private const string RegularCssFile = ".css";
         private const string RegularJsFile = ".js";
         private const string RegularCoffeeScriptFile = ".coffee";
         private const string RegularLessFile = ".less";
-
-        private bool IsLessFile(string fileName)
-        {
-            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsCoffeeScriptFile(string fileName)
-        {
-            return fileName.EndsWith(RegularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsCssFile(string fileName)
-        {
-            return fileName.EndsWith(RegularCssFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-       private bool IsJsFile(string fileName)
-        {
-            return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        internal Dictionary<string, List<string>> dependentFiles =
-            new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// build a dictionary that has the files that could change as the key.
@@ -77,18 +57,38 @@ namespace Zippy.Chirp.Engines
             }
         }
 
-        IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
+        private bool IsLessFile(string fileName)
+        {
+            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsCoffeeScriptFile(string fileName)
+        {
+            return fileName.EndsWith(RegularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsCssFile(string fileName)
+        {
+            return fileName.EndsWith(RegularCssFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+       private bool IsJsFile(string fileName)
+        {
+            return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
         {
             XDocument doc = XDocument.Load(configFileName);
 
             string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
 
-            IList<FileGroupXml> ReturnList = doc.Descendants("FileGroup")
+            IList<FileGroupXml> returnList = doc.Descendants("FileGroup")
                     .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
                 .Select(n => new FileGroupXml(n, appRoot))
                 .ToList();
 
-            return ReturnList;
+            return returnList;
         }
 
         public override int Handles(string fullFileName)
@@ -189,7 +189,10 @@ namespace Zippy.Chirp.Engines
 
                     if (!minifySeperatly && fileGroup.Minify)
                     {
-                        if (TaskList.Instance != null) TaskList.Instance.Remove(fullPath);
+                        if (TaskList.Instance != null) 
+                        {
+                            TaskList.Instance.Remove(fullPath); 
+                        }
 
                         output = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);

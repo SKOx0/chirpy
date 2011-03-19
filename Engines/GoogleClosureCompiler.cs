@@ -30,8 +30,10 @@ namespace Zippy.Chirp
             }
 
             if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath) && Settings.GoogleClosureOffline)
+            {
                 return GoogleClosureOfflineCompiler.Compress(
                     fullFileName, compressMode, onError);
+            }
 
             long size = js.Length;
             if (size < 200000)
@@ -39,18 +41,23 @@ namespace Zippy.Chirp
                 XmlDocument xml = CallApi(js, compressMode.ToString());
 
                 if (xml == null)
+                {
                     return GoogleClosureOfflineCompiler.Compress(
                     fullFileName, compressMode, onError);
+                }
 
                 // valid have server error
-                XmlNodeList NodeServerError = xml.SelectNodes("//serverErrors");
-                if (NodeServerError.Count > 0)
+                XmlNodeList nodeServerError = xml.SelectNodes("//serverErrors");
+                if (nodeServerError.Count > 0)
                 {
                     string ErrorText = string.Empty;
-                    foreach (XmlNode node in NodeServerError)
+                    foreach (XmlNode node in nodeServerError)
                     {
                         if (!string.IsNullOrEmpty(ErrorText))
+                        {
                             ErrorText += System.Environment.NewLine;
+                        }
+
                         ErrorText += node.InnerText;
                         onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, "Server error : " + node.InnerText, 1, 1);
                     }
@@ -64,26 +71,32 @@ namespace Zippy.Chirp
                     foreach (XmlNode node in NodeError)
                     {
                         if (!string.IsNullOrEmpty(ErrorText))
+                        {
                             ErrorText += System.Environment.NewLine;
+                        }
 
                         if (node.Attributes["lineno"] == null && node.Attributes["charno"] == null)
+                        {
                             ErrorText += node.InnerText;
+                        }
                         else
+                        {
                             ErrorText += string.Format(
                                 "type: {0} Line : {1} Char : {2} Error : {3}",
                                 node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
                                 node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,
                                 node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty,
                                 node.InnerText);
+                        }
 
-                        string TaskErrorText = string.Format(
+                        string taskErrorText = string.Format(
                             "Type: {0} Error : {1}",
                             node.Attributes["type"] != null ? node.Attributes["type"].ToString() : "General",
                             node.InnerText);
 
                         onError(
                             Microsoft.VisualStudio.Shell.TaskErrorCategory.Error,
-                            TaskErrorText,
+                            taskErrorText,
                              (node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty).ToInt(1),
                              (node.Attributes["charno"] != null ? node.Attributes["charno"].ToString() : string.Empty).ToInt(1));
                     }

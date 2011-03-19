@@ -103,7 +103,6 @@
             this.Controls.Add(this.txtChirpConfigFile);
             this.Name = "Config";
             this.Size = new System.Drawing.Size(481, 150);
-            this.Load += new System.EventHandler(this.Config_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

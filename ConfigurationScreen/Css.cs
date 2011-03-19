@@ -10,20 +10,18 @@ namespace Zippy.Chirp.ConfigurationScreen
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object PropertiesObject)
+        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
         {
-            PropertiesObject = null;
+            propertiesObject = null;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
         {
             Settings.Load();
-            txtChirpCssFile.Text = Settings.ChirpCssFile;
-            txtMichaelAshCssFile.Text = Settings.ChirpMichaelAshCssFile;
-            txtHybridCssFile.Text = Settings.ChirpHybridCssFile;
-            txtMSAjaxCssFile.Text = Settings.ChirpMSAjaxCssFile;
-           
- 
+            this.txtChirpCssFile.Text = Settings.ChirpCssFile;
+            this.txtMichaelAshCssFile.Text = Settings.ChirpMichaelAshCssFile;
+            this.txtHybridCssFile.Text = Settings.ChirpHybridCssFile;
+            this.txtMSAjaxCssFile.Text = Settings.ChirpMSAjaxCssFile;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()
@@ -38,10 +36,10 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         void EnvDTE.IDTToolsOptionsPage.OnOK()
         {
-            Settings.ChirpCssFile = txtChirpCssFile.Text;
-            Settings.ChirpMichaelAshCssFile = txtMichaelAshCssFile.Text;
-            Settings.ChirpHybridCssFile = txtHybridCssFile.Text;
-            Settings.ChirpMSAjaxCssFile = txtMSAjaxCssFile.Text;
+            Settings.ChirpCssFile = this.txtChirpCssFile.Text;
+            Settings.ChirpMichaelAshCssFile = this.txtMichaelAshCssFile.Text;
+            Settings.ChirpHybridCssFile = this.txtHybridCssFile.Text;
+            Settings.ChirpMSAjaxCssFile = this.txtMSAjaxCssFile.Text;
             Settings.Save();
         }
     }

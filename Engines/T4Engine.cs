@@ -16,13 +16,15 @@ namespace Zippy.Chirp.Engines
 
         const string MVCT4TemplateName = "T4MVC.tt";
 
-        bool IsMVCStandardControllerFile(string fileName)
+        System.Threading.Timer tmr;
+
+        private bool IsMVCStandardControllerFile(string fileName)
         {
             return (fileName.EndsWith(ControllerCSFile, StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(ControllerVBFile, StringComparison.OrdinalIgnoreCase)) &&
                                         fileName.Contains("Controller");
         }
 
-        bool IsMVCStandardViewScriptOrContentFile(string fileName)
+        private bool IsMVCStandardViewScriptOrContentFile(string fileName)
         {
             return ((
                 fileName.EndsWith(MVCViewFile, StringComparison.OrdinalIgnoreCase)
@@ -37,11 +39,13 @@ namespace Zippy.Chirp.Engines
                 && (this.IsMVCStandardViewScriptOrContentFile(filename) || this.IsMVCStandardControllerFile(filename)) ? 1 : 0;
         }
 
-        System.Threading.Timer tmr;
-
         public override void Run(string fullFileName, ProjectItem projectItem)
         {
-            if (this.tmr != null) this.tmr.Dispose();
+            if (this.tmr != null) 
+            {
+                this.tmr.Dispose(); 
+            }
+
             this.tmr = new System.Threading.Timer((threadState) => RunT4Template(_Chirp.app, MVCT4TemplateName), null, 1000, System.Threading.Timeout.Infinite);
         }
 
@@ -49,15 +53,18 @@ namespace Zippy.Chirp.Engines
         {
             try
             {
-                string[] T4List = t4TemplateList.Split(new char[] { ',' });
-                foreach (string t4Template in T4List)
+                string[] t4List = t4TemplateList.Split(new char[] { ',' });
+                foreach (string t4Template in t4List)
                 {
                     ProjectItem projectItem = app.Solution.FindProjectItem(t4Template.Trim());
 
                     if (projectItem != null)
                     {
                         if (!projectItem.IsOpen)
+                        {
                             projectItem.Open();
+                        }
+
                         projectItem.Save();
                     }
                 }
