@@ -4,7 +4,7 @@ namespace Zippy.Chirp.Engines
 {
     public class JSHintEngine : ActionEngine
     {
-        private static UglifyCS.JSHint _hint;
+        private static UglifyCS.JSHint hint;
 
         public override int Handles(string fullFileName)
         {
@@ -19,9 +19,19 @@ namespace Zippy.Chirp.Engines
 
         public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem)
         {
-            if (_hint == null) lock (UglifyCS.Extensibility.Instance) if (_hint == null) _hint = new UglifyCS.JSHint();
+            if (JSHintEngine.hint == null)
+            {
+                lock (UglifyCS.Extensibility.Instance)
+                {
+                    if (JSHintEngine.hint == null)
+                    {
+                        JSHintEngine.hint = new UglifyCS.JSHint();
+                    }
+                }
+            }
+
             var code = System.IO.File.ReadAllText(fullFileName);
-            var results = _hint.JSHINT(code);
+            var results = JSHintEngine.hint.JSHINT(code);
 
             if (results != null)
             {
@@ -34,7 +44,7 @@ namespace Zippy.Chirp.Engines
 
         public override void Dispose()
         {
-            Utilities.Dispose(ref _hint);
+            Utilities.Dispose(ref JSHintEngine.hint);
         }
     }
 
@@ -51,7 +61,17 @@ namespace Zippy.Chirp.Engines
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            if (UglifyEngine.uglify == null) lock (UglifyCS.Extensibility.Instance) if (UglifyEngine.uglify == null) UglifyEngine.uglify = new UglifyCS.Uglify();
+            if (UglifyEngine.uglify == null)
+            {
+                lock (UglifyCS.Extensibility.Instance)
+                {
+                    if (UglifyEngine.uglify == null)
+                    {
+                        UglifyEngine.uglify = new UglifyCS.Uglify();
+                    }
+                }
+            }
+
             try
             {
                 return UglifyEngine.uglify.squeeze_it(text);
@@ -65,7 +85,17 @@ namespace Zippy.Chirp.Engines
 
         public static string Beautify(string text)
         {
-            if (UglifyEngine.beautify == null) lock (UglifyCS.Extensibility.Instance) if (UglifyEngine.beautify == null) UglifyEngine.beautify = new UglifyCS.Beautify();
+            if (UglifyEngine.beautify == null)
+            {
+                lock (UglifyCS.Extensibility.Instance)
+                {
+                    if (UglifyEngine.beautify == null)
+                    {
+                        UglifyEngine.beautify = new UglifyCS.Beautify();
+                    }
+                }
+            }
+
             return UglifyEngine.beautify.js_beautify(text);
         }
 

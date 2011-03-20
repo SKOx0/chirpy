@@ -11,84 +11,55 @@ namespace Zippy.Chirp.Engines
 {
     public class ConfigEngine : ActionEngine
     {
-        internal Dictionary<string, List<string>> dependentFiles =
-       new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
-
         private const string RegularCssFile = ".css";
         private const string RegularJsFile = ".js";
         private const string RegularCoffeeScriptFile = ".coffee";
         private const string RegularLessFile = ".less";
+        private Dictionary<string, List<string>> dependentFiles =
+       new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
 
-        /// <summary>
-        /// build a dictionary that has the files that could change as the key.
-        /// for the value it is a LIST of config files that need updated if it does change.
-        /// so, when a .less.css file changes, we look in the list and rebuild any of the configs associated with it.
-        /// if a config file changes...this rebuild all of this....
-        /// </summary>
-        /// <param name="projectItem">project Item</param>
-        internal void ReloadConfigFileDependencies(ProjectItem projectItem)
+        public void RefreshAll()
         {
-            string configFileName = projectItem.get_FileNames(1);
-
-            // remove all current dependencies for this config file...
-            foreach (string key in this.dependentFiles.Keys.ToArray())
+            var configs = this.dependentFiles.SelectMany(x => x.Value).Distinct(StringComparer.InvariantCultureIgnoreCase);
+            foreach (var configFile in configs)
             {
-                List<string> files = this.dependentFiles[key];
-                if (files.Remove(configFileName) && files.Count == 0)
-                {
-                    this.dependentFiles.Remove(key);
-                }
-            }
-
-            var fileGroups = this.LoadConfigFileGroups(configFileName);
-            foreach (var fileGroup in fileGroups)
-            {
-                foreach (var file in fileGroup.Files)
-                {
-                    if (!this.dependentFiles.ContainsKey(file.Path))
-                    {
-                        this.dependentFiles.Add(file.Path, new List<string> { configFileName });
-                    }
-                    else
-                    {
-                        this.dependentFiles[file.Path].Add(configFileName);
-                    }
-                }
+                this.Refresh(configFile);
             }
         }
 
-        private bool IsLessFile(string fileName)
+        public void Refresh(string configFile)
         {
-            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
+            ProjectItem configItem = this.Chirp.App.Solution.FindProjectItem(configFile);
+
+            if (configItem != null)
+            {
+                this.Chirp.EngineManager.Enqueue(configItem);
+            }
         }
 
-        private bool IsCoffeeScriptFile(string fileName)
+        public void CheckForConfigRefresh(ProjectItem projectItem)
         {
-            return fileName.EndsWith(RegularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
-        }
+            string fullFileName = projectItem.get_FileNames(1);
 
-        private bool IsCssFile(string fileName)
-        {
-            return fileName.EndsWith(RegularCssFile, StringComparison.OrdinalIgnoreCase);
-        }
+            if (this.dependentFiles.ContainsKey(fullFileName))
+            {
+                foreach (string configFile in this.dependentFiles[fullFileName]
+                    .Distinct(StringComparer.InvariantCultureIgnoreCase) // prevent the same config file from being fired multiple times
+                    .ToArray())
+                {
+                    // ToArray to prevent "Collection Modified" exceptions 
+                    this.Refresh(configFile);
+                }
+            }
 
-       private bool IsJsFile(string fileName)
-        {
-            return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
-        {
-            XDocument doc = XDocument.Load(configFileName);
-
-            string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
-
-            IList<FileGroupXml> returnList = doc.Descendants("FileGroup")
-                    .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
-                .Select(n => new FileGroupXml(n, appRoot))
-                .ToList();
-
-            return returnList;
+            if (projectItem.ProjectItems != null)
+            {
+                foreach (ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray())
+                {
+                    // ToArray to prevent "Collection Modified" exceptions 
+                    this.CheckForConfigRefresh(projectItemInner);
+                }
+            }
         }
 
         public override int Handles(string fullFileName)
@@ -101,7 +72,7 @@ namespace Zippy.Chirp.Engines
             var fileGroups = this.LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
 
-            using (var manager = new Manager.VSProjectItemManager(_Chirp != null ? _Chirp.app : null, projectItem))
+            using (var manager = new Manager.VSProjectItemManager(this.Chirp != null ? this.Chirp.App : null, projectItem))
             {
                 foreach (var fileGroup in fileGroups)
                 {
@@ -189,9 +160,9 @@ namespace Zippy.Chirp.Engines
 
                     if (!minifySeperatly && fileGroup.Minify)
                     {
-                        if (TaskList.Instance != null) 
+                        if (TaskList.Instance != null)
                         {
-                            TaskList.Instance.Remove(fullPath); 
+                            TaskList.Instance.Remove(fullPath);
                         }
 
                         output = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
@@ -215,48 +186,76 @@ namespace Zippy.Chirp.Engines
             }
         }
 
-        public void RefreshAll()
+        /// <summary>
+        /// build a dictionary that has the files that could change as the key.
+        /// for the value it is a LIST of config files that need updated if it does change.
+        /// so, when a .less.css file changes, we look in the list and rebuild any of the configs associated with it.
+        /// if a config file changes...this rebuild all of this....
+        /// </summary>
+        /// <param name="projectItem">project Item</param>
+        internal void ReloadConfigFileDependencies(ProjectItem projectItem)
         {
-            var configs = this.dependentFiles.SelectMany(x => x.Value).Distinct(StringComparer.InvariantCultureIgnoreCase);
-            foreach (var configFile in configs)
+            string configFileName = projectItem.get_FileNames(1);
+
+            // remove all current dependencies for this config file...
+            foreach (string key in this.dependentFiles.Keys.ToArray())
             {
-                this.Refresh(configFile);
-            }
-        }
-
-        public void Refresh(string configFile)
-        {
-            ProjectItem configItem = _Chirp.app.Solution.FindProjectItem(configFile);
-
-            if (configItem != null)
-            {
-                _Chirp.EngineManager.Enqueue(configItem);
-            }
-        }
-
-        public void CheckForConfigRefresh(ProjectItem projectItem)
-        {
-            string fullFileName = projectItem.get_FileNames(1);
-
-            if (this.dependentFiles.ContainsKey(fullFileName))
-            {
-                foreach (string configFile in this.dependentFiles[fullFileName]
-                    .Distinct(StringComparer.InvariantCultureIgnoreCase) // prevent the same config file from being fired multiple times
-                    .ToArray())
+                List<string> files = this.dependentFiles[key];
+                if (files.Remove(configFileName) && files.Count == 0)
                 {
-                    // ToArray to prevent "Collection Modified" exceptions 
-                    this.Refresh(configFile);
+                    this.dependentFiles.Remove(key);
                 }
             }
 
-            if (projectItem.ProjectItems != null)
+            var fileGroups = this.LoadConfigFileGroups(configFileName);
+            foreach (var fileGroup in fileGroups)
             {
-                foreach (ProjectItem projectItemInner in projectItem.ProjectItems.Cast<ProjectItem>().ToArray())
+                foreach (var file in fileGroup.Files)
                 {
-                    // ToArray to prevent "Collection Modified" exceptions 
-                    this.CheckForConfigRefresh(projectItemInner);
+                    if (!this.dependentFiles.ContainsKey(file.Path))
+                    {
+                        this.dependentFiles.Add(file.Path, new List<string> { configFileName });
+                    }
+                    else
+                    {
+                        this.dependentFiles[file.Path].Add(configFileName);
+                    }
                 }
             }
+        }
+
+        private bool IsLessFile(string fileName)
+        {
+            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsCoffeeScriptFile(string fileName)
+        {
+            return fileName.EndsWith(RegularCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsCssFile(string fileName)
+        {
+            return fileName.EndsWith(RegularCssFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsJsFile(string fileName)
+        {
+            return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
+        {
+            XDocument doc = XDocument.Load(configFileName);
+
+            string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
+
+            IList<FileGroupXml> returnList = doc.Descendants("FileGroup")
+                    .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
+                .Select(n => new FileGroupXml(n, appRoot))
+                .ToList();
+
+            return returnList;
         }
     }
 }

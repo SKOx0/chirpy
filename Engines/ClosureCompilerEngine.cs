@@ -6,20 +6,13 @@ namespace Zippy.Chirp.Engines
 {
     public class ClosureCompilerEngine : JsEngine
     {
+        #region "constructor"
         public ClosureCompilerEngine()
         {
             Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile, Settings.ChirpJsFile };
             OutputExtension = ".min.js";
         }
-
-        public override string Transform(string fullFileName, string text, ProjectItem projectItem)
-        {
-            var mode = fullFileName.EndsWith(Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS
-                  : fullFileName.EndsWith(Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
-                  : ClosureCompilerCompressMode.WHITESPACE_ONLY;
-
-            return Minify(fullFileName, text, projectItem, mode);
-        }
+        #endregion
 
         public static string Minify(string fullFileName, string text, ProjectItem projectItem, ClosureCompilerCompressMode mode)
         {
@@ -42,6 +35,15 @@ namespace Zippy.Chirp.Engines
                 });
 
             return returnedCode;
+        }
+
+        public override string Transform(string fullFileName, string text, ProjectItem projectItem)
+        {
+            var mode = fullFileName.EndsWith(Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS
+                  : fullFileName.EndsWith(Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
+                  : ClosureCompilerCompressMode.WHITESPACE_ONLY;
+
+            return Minify(fullFileName, text, projectItem, mode);
         }
     }
 }

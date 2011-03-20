@@ -9,19 +9,10 @@ namespace Zippy.Chirp.Xml
 {
 	public class FolderXml
 	{
-		public string Pattern { get; set; }
-
-		public bool Deep { get; set; }
-
-		public bool? Minify { get; set; }
-
-		public MinifyType MinifyWith { get; set; }
-
-		public IList<FileXml> FileXmlList { get; set; }
-
 		#region "constructor"
-		public FolderXml(XElement xElement) : this(xElement, string.Empty) 
-		{ 
+		public FolderXml(XElement xElement)
+			: this(xElement, string.Empty)
+		{
 		}
 
 		public FolderXml(XElement xElement, string basePath)
@@ -37,7 +28,12 @@ namespace Zippy.Chirp.Xml
 			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
 			this.FileXmlList = new List<FileXml>();
 
-			var folderSeperators = new char[]{'/','\\'};
+			var folderSeperators = new char[]
+			{
+				'/',
+				'\\'
+			};
+
 			if (this.Pattern.StartsWith(".."))
 			{
 				var combinedPath = Path.Combine(basePath, this.Pattern);
@@ -49,9 +45,7 @@ namespace Zippy.Chirp.Xml
 				this.Pattern = Regex.Replace(this.Pattern, @"^.+[\\/]", string.Empty);
 			}
 
-			if (folderSeperators.Contains(this.Pattern.First())
-					&& !Regex.IsMatch(this.Pattern,@"^\\{2}")
-				)
+			if (folderSeperators.Contains(this.Pattern.First()) && !Regex.IsMatch(this.Pattern, @"^\\{2}"))
 			{
 				// If the pattern starts with a folder separator and not two backslashes (network path)
 				// root basePath. 
@@ -69,11 +63,11 @@ namespace Zippy.Chirp.Xml
 					basePath = Path.GetDirectoryName(uri.LocalPath);
 					this.Pattern = Regex.Replace(this.Pattern, @"^.+[\\/]", string.Empty);
 				}
-				catch 
+				catch
 				{
 				}
 			}
-			
+
 			var searchOption = this.Deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 			var filePaths = Directory.GetFiles(basePath, this.Pattern, searchOption);
 
@@ -88,5 +82,15 @@ namespace Zippy.Chirp.Xml
 			}
 		}
 		#endregion
+
+		public string Pattern { get; set; }
+
+		public bool Deep { get; set; }
+
+		public bool? Minify { get; set; }
+
+		public MinifyType MinifyWith { get; set; }
+
+		public IList<FileXml> FileXmlList { get; set; }
 	}
 }

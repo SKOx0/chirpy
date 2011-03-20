@@ -7,9 +7,9 @@ namespace Zippy.Chirp.Engines
 {
     public class LessEngine : TransformEngine
     {
-        static Regex regexLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
-        static Regex regexColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
-        static dotless.Core.Parser.Parser lazyLessParser;
+        private static Regex regexLineNum = new Regex(@"line\s+([0-9]+)", RegexOptions.Compiled);
+        private static Regex regexColNum = new Regex(@"\s+(\-*)\^", RegexOptions.Compiled);
+        private static dotless.Core.Parser.Parser lazyLessParser;
 
         #region "constructor"
         public LessEngine()
@@ -19,7 +19,7 @@ namespace Zippy.Chirp.Engines
         }
         #endregion
 
-        static dotless.Core.Parser.Parser LessParser
+        public static dotless.Core.Parser.Parser LessParser
         {
             get
             {
@@ -30,26 +30,6 @@ namespace Zippy.Chirp.Engines
 
                 return lazyLessParser;
             }
-        }
-
-        private bool IsChirpLessFile(string fileName)
-        {
-            return fileName.EndsWith(Settings.ChirpLessFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsChirpHybridLessFile(string fileName)
-        {
-            return fileName.EndsWith(Settings.ChirpHybridLessFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsChirpMichaelAshLessFile(string fileName)
-        {
-            return fileName.EndsWith(Settings.ChirpMichaelAshLessFile, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsChirpMSAjaxLessFile(string fileName)
-        {
-            return fileName.EndsWith(Settings.ChirpMSAjaxLessFile, StringComparison.OrdinalIgnoreCase);
         }
 
         public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
@@ -130,6 +110,26 @@ namespace Zippy.Chirp.Engines
             }
 
             return mode;
+        }
+
+        private bool IsChirpLessFile(string fileName)
+        {
+            return fileName.EndsWith(Settings.ChirpLessFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsChirpHybridLessFile(string fileName)
+        {
+            return fileName.EndsWith(Settings.ChirpHybridLessFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsChirpMichaelAshLessFile(string fileName)
+        {
+            return fileName.EndsWith(Settings.ChirpMichaelAshLessFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsChirpMSAjaxLessFile(string fileName)
+        {
+            return fileName.EndsWith(Settings.ChirpMSAjaxLessFile, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

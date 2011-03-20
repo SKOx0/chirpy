@@ -11,27 +11,6 @@ namespace Zippy.Chirp.Engines
             return regexImage.IsMatch(path);
         }
 
-        private static System.Drawing.Imaging.ImageFormat GetFormat(string file)
-        {
-            var ext = System.IO.Path.GetExtension(file).ToLower();
-            if (ext == ".jpg") 
-            {
-                return System.Drawing.Imaging.ImageFormat.Jpeg;
-            }
-
-            if (ext == ".gif")
-            {
-                return System.Drawing.Imaging.ImageFormat.Gif;
-            }
-
-            if (ext == ".png") 
-            {
-                return System.Drawing.Imaging.ImageFormat.Png; 
-            }
-
-            return null;
-        }
-
         public static byte[] Build(Xml.FileGroupXml group, string spriteFile)
         {
             var bmps = group.Files.Select(x => new System.Drawing.Bitmap(x.Path));
@@ -56,6 +35,27 @@ namespace Zippy.Chirp.Engines
                 sprite.Save(mem, GetFormat(spriteFile) ?? System.Drawing.Imaging.ImageFormat.Png);
                 return mem.ToArray();
             }
+        }
+
+        private static System.Drawing.Imaging.ImageFormat GetFormat(string file)
+        {
+            var ext = System.IO.Path.GetExtension(file).ToLower();
+            if (ext == ".jpg")
+            {
+                return System.Drawing.Imaging.ImageFormat.Jpeg;
+            }
+
+            if (ext == ".gif")
+            {
+                return System.Drawing.Imaging.ImageFormat.Gif;
+            }
+
+            if (ext == ".png")
+            {
+                return System.Drawing.Imaging.ImageFormat.Png;
+            }
+
+            return null;
         }
     }
 }

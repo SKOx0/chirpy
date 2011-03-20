@@ -50,38 +50,38 @@ namespace Zippy.Chirp
                 XmlNodeList nodeServerError = xml.SelectNodes("//serverErrors");
                 if (nodeServerError.Count > 0)
                 {
-                    string ErrorText = string.Empty;
+                    string errorText = string.Empty;
                     foreach (XmlNode node in nodeServerError)
                     {
-                        if (!string.IsNullOrEmpty(ErrorText))
+                        if (!string.IsNullOrEmpty(errorText))
                         {
-                            ErrorText += System.Environment.NewLine;
+                            errorText += System.Environment.NewLine;
                         }
 
-                        ErrorText += node.InnerText;
+                        errorText += node.InnerText;
                         onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, "Server error : " + node.InnerText, 1, 1);
                     }
                 }
 
                 // valid have Javascript error
-                XmlNodeList NodeError = xml.SelectNodes("//errors");
-                if (NodeError.Count > 0)
+                XmlNodeList nodeError = xml.SelectNodes("//errors");
+                if (nodeError.Count > 0)
                 {
-                    string ErrorText = string.Empty;
-                    foreach (XmlNode node in NodeError)
+                    string errorText = string.Empty;
+                    foreach (XmlNode node in nodeError)
                     {
-                        if (!string.IsNullOrEmpty(ErrorText))
+                        if (!string.IsNullOrEmpty(errorText))
                         {
-                            ErrorText += System.Environment.NewLine;
+                            errorText += System.Environment.NewLine;
                         }
 
                         if (node.Attributes["lineno"] == null && node.Attributes["charno"] == null)
                         {
-                            ErrorText += node.InnerText;
+                            errorText += node.InnerText;
                         }
                         else
                         {
-                            ErrorText += string.Format(
+                            errorText += string.Format(
                                 "type: {0} Line : {1} Char : {2} Error : {3}",
                                 node.Attributes["type"] != null ? node.Attributes["type"].ToString() : string.Empty,
                                 node.Attributes["lineno"] != null ? node.Attributes["lineno"].ToString() : string.Empty,

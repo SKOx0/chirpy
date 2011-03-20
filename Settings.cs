@@ -9,58 +9,45 @@ namespace Zippy.Chirp
     /// </summary>
     public class Settings 
     {
-        #region Properties
-
-        public static string ChirpJsFile = ".chirp.js";
-        public static string ChirpSimpleJsFile = ".simple.js";
-        public static string ChirpWhiteSpaceJsFile = ".whitespace.js";
-        public static string ChirpYUIJsFile = ".yui.js";
-        public static string ChirpGctJsFile = ".gct.js";
-        public static string ChirpMSAjaxJsFile = ".msajax.js";
-        public static string ChirpPartialViewFile = ".chirp.ascx";
-        public static string ChirpViewFile = ".chirp.aspx";
-        public static string ChirpRazorCSViewFile = ".chirp.cshtml";
-        public static string ChirpRazorVBViewFile = ".chirp.vbhtml";
-        public static string ChirpLessFile = ".chirp.less";
-        public static string ChirpMSAjaxLessFile = ".msajax.less";
-        public static string ChirpHybridLessFile = ".hybrid.less";
-        public static string ChirpMichaelAshLessFile = ".michaelash.less";
-        public static string ChirpUglifyJsFile = ".uglify.js";
-
-        public static string ChirpCoffeeScriptFile = ".chirp.coffee";
-        public static string ChirpSimpleCoffeeScriptFile = ".simple.coffee";
-        public static string ChirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
-        public static string ChirpYUICoffeeScriptFile = ".yui.coffee";
-        public static string ChirpGctCoffeeScriptFile = ".gct.coffee";
-        public static string ChirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
-        public static string ChirpUglifyCoffeeScriptFile = ".uglify.coffee";
-        public static string CoffeeScriptBatFilePath = string.Empty;
-
-        // public static string ChirpLessCssFile = ".chirp.less.css";
-        public static string ChirpCssFile = ".chirp.css";
-        public static string ChirpMSAjaxCssFile = ".msajax.css";
-        public static string ChirpHybridCssFile = ".hybrid.css";
-        public static string ChirpMichaelAshCssFile = ".michaelash.css";
-
-        public static string ChirpConfigFile = ".chirp.config";
-        public static Xml.MinifyType DefaultCssMinifier = Xml.MinifyType.yui;
-        public static Xml.MinifyType DefaultJavaScriptMinifier = Xml.MinifyType.yui;
-
-        public static string[] AllExtensions;
-
-        public static bool T4RunAsBuild = false;
-        public static string T4RunAsBuildTemplate = string.Empty;
-        public static bool SmartRunT4MVC = false;
-        public static bool RunJSHint = true;
-
-        public static bool GoogleClosureOffline = false;
-        public static string GoogleClosureJavaPath = string.Empty;
-        #endregion
-
         #region Private Fields
-
         private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
-
+        private static string chirpJsFile = ".chirp.js";
+        private static string chirpSimpleJsFile = ".simple.js";
+        private static string chirpWhiteSpaceJsFile = ".whitespace.js";
+        private static string chirpYUIJsFile = ".yui.js";
+        private static string chirpGctJsFile = ".gct.js";
+        private static string chirpMSAjaxJsFile = ".msajax.js";
+        private static string chirpPartialViewFile = ".chirp.ascx";
+        private static string chirpMichaelAshLessFile = ".michaelash.less";
+        private static string chirpViewFile = ".chirp.aspx";
+        private static string chirpRazorCSViewFile = ".chirp.cshtml";
+        private static string chirpRazorVBViewFile = ".chirp.vbhtml";
+        private static string chirpMSAjaxLessFile = ".msajax.less";
+        private static string chirpLessFile = ".chirp.less";
+        private static string chirpHybridLessFile = ".hybrid.less";
+        private static string chirpCoffeeScriptFile = ".chirp.coffee";
+        private static string chirpUglifyJsFile = ".uglify.js";
+        private static string chirpSimpleCoffeeScriptFile = ".simple.coffee";
+        private static string chirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
+        private static string chirpYUICoffeeScriptFile = ".yui.coffee";
+        private static string chirpGctCoffeeScriptFile = ".gct.coffee";
+        private static string coffeeScriptBatFilePath = string.Empty;
+        private static string chirpCssFile = ".chirp.css";
+        private static string chirpMSAjaxCssFile = ".msajax.css";
+        private static string chirpHybridCssFile = ".hybrid.css";
+        private static string chirpMichaelAshCssFile = ".michaelash.css";
+        private static bool t4RunAsBuild = false;
+        private static string t4RunAsBuildTemplate = string.Empty;
+        private static bool smartRunT4MVC = false;
+        private static bool runJSHint = true;
+        private static bool googleClosureOffline = false;
+        private static string googleClosureJavaPath = string.Empty;
+        private static string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
+        private static string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
+        private static string chirpConfigFile = ".chirp.config";
+        private static string[] allExtensions;
+        private static Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
+        private static Xml.MinifyType defaultJavaScriptMinifier = Xml.MinifyType.yui;
         #endregion
 
         #region Constructors
@@ -74,6 +61,230 @@ namespace Zippy.Chirp
         #endregion
 
         public static event Action Saved;
+
+        #region Properties
+        public static string ChirpJsFile
+        {
+            get { return Settings.chirpJsFile; }
+            set { Settings.chirpJsFile = value; }
+        }
+      
+        public static string ChirpSimpleJsFile
+        {
+            get { return Settings.chirpSimpleJsFile; }
+            set { Settings.chirpSimpleJsFile = value; }
+        }
+      
+        public static string ChirpWhiteSpaceJsFile
+        {
+            get { return Settings.chirpWhiteSpaceJsFile; }
+            set { Settings.chirpWhiteSpaceJsFile = value; }
+        }
+
+        public static string ChirpYUIJsFile
+        {
+            get { return Settings.chirpYUIJsFile; }
+            set { Settings.chirpYUIJsFile = value; }
+        }
+       
+        public static string ChirpGctJsFile
+        {
+            get { return Settings.chirpGctJsFile; }
+            set { Settings.chirpGctJsFile = value; }
+        }
+       
+        public static string ChirpMSAjaxJsFile
+        {
+            get { return Settings.chirpMSAjaxJsFile; }
+            set { Settings.chirpMSAjaxJsFile = value; }
+        }
+        
+        public static string ChirpPartialViewFile
+        {
+            get { return Settings.chirpPartialViewFile; }
+            set { Settings.chirpPartialViewFile = value; }
+        }
+      
+        public static string ChirpViewFile
+        {
+            get { return Settings.chirpViewFile; }
+            set { Settings.chirpViewFile = value; }
+        }
+     
+        public static string ChirpRazorCSViewFile
+        {
+            get { return Settings.chirpRazorCSViewFile; }
+            set { Settings.chirpRazorCSViewFile = value; }
+        }
+       
+        public static string ChirpRazorVBViewFile
+        {
+            get { return Settings.chirpRazorVBViewFile; }
+            set { Settings.chirpRazorVBViewFile = value; }
+        }
+       
+        public static string ChirpLessFile
+        {
+            get { return Settings.chirpLessFile; }
+            set { Settings.chirpLessFile = value; }
+        }
+       
+        public static string ChirpMSAjaxLessFile
+        {
+            get { return Settings.chirpMSAjaxLessFile; }
+            set { Settings.chirpMSAjaxLessFile = value; }
+        }
+      
+        public static string ChirpHybridLessFile
+        {
+            get { return Settings.chirpHybridLessFile; }
+            set { Settings.chirpHybridLessFile = value; }
+        }
+        
+        public static string ChirpMichaelAshLessFile
+        {
+            get { return Settings.chirpMichaelAshLessFile; }
+            set { Settings.chirpMichaelAshLessFile = value; }
+        }
+       
+        public static string ChirpUglifyJsFile
+        {
+            get { return Settings.chirpUglifyJsFile; }
+            set { Settings.chirpUglifyJsFile = value; }
+        }
+
+        public static string ChirpCoffeeScriptFile
+        {
+            get { return Settings.chirpCoffeeScriptFile; }
+            set { Settings.chirpCoffeeScriptFile = value; }
+        }
+       
+        public static string ChirpSimpleCoffeeScriptFile
+        {
+            get { return Settings.chirpSimpleCoffeeScriptFile; }
+            set { Settings.chirpSimpleCoffeeScriptFile = value; }
+        }
+        
+        public static string ChirpWhiteSpaceCoffeeScriptFile
+        {
+            get { return Settings.chirpWhiteSpaceCoffeeScriptFile; }
+            set { Settings.chirpWhiteSpaceCoffeeScriptFile = value; }
+        }
+        
+        public static string ChirpYUICoffeeScriptFile
+        {
+            get { return Settings.chirpYUICoffeeScriptFile; }
+            set { Settings.chirpYUICoffeeScriptFile = value; }
+        }
+       
+        public static string ChirpGctCoffeeScriptFile
+        {
+            get { return Settings.chirpGctCoffeeScriptFile; }
+            set { Settings.chirpGctCoffeeScriptFile = value; }
+        }
+       
+        public static string ChirpMSAjaxCoffeeScriptFile
+        {
+            get { return Settings.chirpMSAjaxCoffeeScriptFile; }
+            set { Settings.chirpMSAjaxCoffeeScriptFile = value; }
+        }
+       
+        public static string ChirpUglifyCoffeeScriptFile
+        {
+            get { return Settings.chirpUglifyCoffeeScriptFile; }
+            set { Settings.chirpUglifyCoffeeScriptFile = value; }
+        }
+        
+        public static string CoffeeScriptBatFilePath
+        {
+            get { return Settings.coffeeScriptBatFilePath; }
+            set { Settings.coffeeScriptBatFilePath = value; }
+        }
+
+        public static string ChirpCssFile
+        {
+            get { return Settings.chirpCssFile; }
+            set { Settings.chirpCssFile = value; }
+        }
+        
+        public static string ChirpMSAjaxCssFile
+        {
+            get { return Settings.chirpMSAjaxCssFile; }
+            set { Settings.chirpMSAjaxCssFile = value; }
+        }
+        
+        public static string ChirpHybridCssFile
+        {
+            get { return Settings.chirpHybridCssFile; }
+            set { Settings.chirpHybridCssFile = value; }
+        }
+        
+        public static string ChirpMichaelAshCssFile
+        {
+            get { return Settings.chirpMichaelAshCssFile; }
+            set { Settings.chirpMichaelAshCssFile = value; }
+        }
+
+        public static string ChirpConfigFile
+        {
+            get { return Settings.chirpConfigFile; }
+            set { Settings.chirpConfigFile = value; }
+        }
+
+        public static Xml.MinifyType DefaultCssMinifier
+        {
+            get { return Settings.defaultCssMinifier; }
+            set { Settings.defaultCssMinifier = value; }
+        }
+        
+        public static Xml.MinifyType DefaultJavaScriptMinifier
+        {
+            get { return Settings.defaultJavaScriptMinifier; }
+            set { Settings.defaultJavaScriptMinifier = value; }
+        }
+
+        public static string[] AllExtensions
+        {
+            get { return Settings.allExtensions; }
+            set { Settings.allExtensions = value; }
+        }
+
+        public static bool T4RunAsBuild
+        {
+            get { return Settings.t4RunAsBuild; }
+            set { Settings.t4RunAsBuild = value; }
+        }
+        
+        public static string T4RunAsBuildTemplate
+        {
+            get { return Settings.t4RunAsBuildTemplate; }
+            set { Settings.t4RunAsBuildTemplate = value; }
+        }
+        
+        public static bool SmartRunT4MVC
+        {
+            get { return Settings.smartRunT4MVC; }
+            set { Settings.smartRunT4MVC = value; }
+        }
+        
+        public static bool RunJSHint
+        {
+            get { return Settings.runJSHint; }
+            set { Settings.runJSHint = value; }
+        }
+        
+        public static bool GoogleClosureOffline
+        {
+            get { return Settings.googleClosureOffline; }
+            set { Settings.googleClosureOffline = value; }
+        }
+        
+        public static string GoogleClosureJavaPath
+        {
+            get { return Settings.googleClosureJavaPath; }
+            set { Settings.googleClosureJavaPath = value; }
+        }
+        #endregion
 
         #region Public Methods
 
@@ -144,16 +355,6 @@ namespace Zippy.Chirp
             }
         }
 
-        private static void LoadExtensions()
-        {
-            AllExtensions = new[]{
-                 Settings.ChirpConfigFile, Settings.ChirpCssFile, Settings.ChirpGctJsFile , Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile, Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile,
-                 Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile,
-                 Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile,Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpCoffeeScriptFile,
-                ".debug.js", ".debug.css"
-            };
-        }
-
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
@@ -207,5 +408,16 @@ namespace Zippy.Chirp
             }
         }
         #endregion
+
+        private static void LoadExtensions()
+        {
+            AllExtensions = new[]
+            {
+                 Settings.ChirpConfigFile, Settings.ChirpCssFile, Settings.ChirpGctJsFile, Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile, Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile,
+                 Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile,
+                 Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile, Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpCoffeeScriptFile,
+                ".debug.js", ".debug.css"
+            };
+        }
     }
 }

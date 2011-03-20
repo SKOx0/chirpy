@@ -6,7 +6,7 @@ namespace Zippy.Chirp.Engines
 {
     public class ViewEngine : TransformEngine 
     {
-        static Regex rxScripts = new Regex(@"\<(style|script)([^>]*)\>(.*?)\</\1\>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static Regex regexScripts = new Regex(@"\<(style|script)([^>]*)\>(.*?)\</\1\>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public ViewEngine()
         {
@@ -45,7 +45,7 @@ namespace Zippy.Chirp.Engines
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) 
         {
-            var tags = rxScripts.Matches(text).Cast<Match>().Reverse();
+            var tags = regexScripts.Matches(text).Cast<Match>().Reverse();
 
             foreach (var match in tags)
             {

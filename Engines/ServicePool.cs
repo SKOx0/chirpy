@@ -36,12 +36,6 @@ namespace Zippy.Chirp.Threading
             get { return this.runnning > 0; }
         }
 
-        private void Execute()
-        {
-            this.threadDelegate();
-            System.Threading.Interlocked.Decrement(ref this.runnning);
-        }
-
         public void Dispose()
         {
             if (this.isDisposed)
@@ -59,6 +53,12 @@ namespace Zippy.Chirp.Threading
             }
 
             this.threads = null;
+        }
+
+        private void Execute()
+        {
+            this.threadDelegate();
+            System.Threading.Interlocked.Decrement(ref this.runnning);
         }
     }
 }

@@ -175,7 +175,7 @@
             this.llDownload.TabIndex = 13;
             this.llDownload.TabStop = true;
             this.llDownload.Text = "Download";
-            this.llDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llDownload_LinkClicked);
+            this.llDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Download_LinkClicked);
             // 
             // txtPath
             // 

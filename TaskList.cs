@@ -12,12 +12,12 @@ namespace Zippy.Chirp
 {
     public class TaskList : IDisposable
     {
-        static TaskList instance;
-        ErrorListProvider listProvider;
-        ServiceProvider serviceProvider;
-        List<ErrorTask> tasks = new List<ErrorTask>();
-        DTE2 app;
-        Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();
+        private static TaskList instance;
+        private ErrorListProvider listProvider;
+        private ServiceProvider serviceProvider;
+        private List<ErrorTask> tasks = new List<ErrorTask>();
+        private DTE2 app;
+        private Dictionary<ErrorTask, Project> taskProjects = new Dictionary<ErrorTask, Project>();
 
         public TaskList(object application)
         {
@@ -74,50 +74,6 @@ namespace Zippy.Chirp
             this.Add(project, TaskErrorCategory.Error, filename, 0, 0, ex.ToString());
         }
 
-        private void Add(Project project, ErrorTask task)
-        {
-            IVsHierarchy hierarchy = null;
-            if (project != null && this.serviceProvider != null)
-            {
-                var solution = this.serviceProvider.GetService(typeof(IVsSolution)) as IVsSolution;
-                if (solution != null)
-                {
-                    solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
-                }
-            }
-
-            task.HierarchyItem = hierarchy;
-            task.Navigate += new EventHandler(this.Task_Navigate);
-            if (this.listProvider != null)
-            { 
-                this.listProvider.Tasks.Add(task); 
-            }
-
-            this.tasks.Add(task);
-
-            if (project != null)
-            {
-                lock (this.taskProjects)
-                {
-                    this.taskProjects.Add(task, project);
-                }
-            }
-
-            if (this.app != null && this.app.ToolWindows != null)
-            {
-                this.app.ToolWindows.ErrorList.Parent.Activate();
-            }
-        }
-
-        private void Task_Navigate(object sender, EventArgs e)
-        {
-            var task = sender as ErrorTask;
-
-            task.Line++;
-            var result = this.listProvider.Navigate(task, new Guid(EnvDTE.Constants.vsViewKindCode));
-            task.Line--;
-        }
-
         public void Remove(string file)
         {
             // var tasks = listProvider.Tasks.Cast<ErrorTask>().Where(x => file.Is(x.Document)).ToArray();
@@ -150,6 +106,19 @@ namespace Zippy.Chirp
             this.taskProjects.Clear();
         }
 
+        public void Dispose()
+        {
+            if (this.listProvider != null)
+            {
+                this.listProvider.Dispose();
+            }
+
+            if (this.serviceProvider != null)
+            {
+                this.serviceProvider.Dispose();
+            }
+        }
+
         private void Remove(ErrorTask task)
         {
             if (this.listProvider != null)
@@ -167,17 +136,48 @@ namespace Zippy.Chirp
             }
         }
 
-        public void Dispose()
+        private void Add(Project project, ErrorTask task)
         {
-            if (this.listProvider != null)
+            IVsHierarchy hierarchy = null;
+            if (project != null && this.serviceProvider != null)
             {
-                this.listProvider.Dispose();
+                var solution = this.serviceProvider.GetService(typeof(IVsSolution)) as IVsSolution;
+                if (solution != null)
+                {
+                    solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
+                }
             }
 
-            if (this.serviceProvider != null)
+            task.HierarchyItem = hierarchy;
+            task.Navigate += new EventHandler(this.Task_Navigate);
+            if (this.listProvider != null)
             {
-                this.serviceProvider.Dispose();
+                this.listProvider.Tasks.Add(task);
             }
+
+            this.tasks.Add(task);
+
+            if (project != null)
+            {
+                lock (this.taskProjects)
+                {
+                    this.taskProjects.Add(task, project);
+                }
+            }
+
+            if (this.app != null && this.app.ToolWindows != null)
+            {
+                this.app.ToolWindows.ErrorList.Parent.Activate();
+            }
+        }
+
+        private void Task_Navigate(object sender, EventArgs e)
+        {
+            var task = sender as ErrorTask;
+
+            task.Line++;
+            var result = this.listProvider.Navigate(task, new Guid(EnvDTE.Constants.vsViewKindCode));
+            task.Line--;
         }
     }
 }

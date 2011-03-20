@@ -15,7 +15,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             propertiesObject = null;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
+        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
         {
             Settings.Load();
             txtChirpJsFile.Text = Settings.ChirpCoffeeScriptFile;
@@ -47,7 +47,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.Save();
         }
 
-        private void llDownload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Download_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/alisey/CoffeeScript-Compiler-for-Windows");
         }
