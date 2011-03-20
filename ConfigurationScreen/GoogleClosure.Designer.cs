@@ -81,7 +81,7 @@
             this.btnFindJava.TabIndex = 13;
             this.btnFindJava.Text = "Find Java";
             this.btnFindJava.UseVisualStyleBackColor = true;
-            this.btnFindJava.Click += new System.EventHandler(this.btnFindJava_Click);
+            this.btnFindJava.Click += new System.EventHandler(this.FindJava_Click);
             // 
             // textBoxJavaPath
             // 
@@ -110,7 +110,7 @@
             this.chkEnableOfline.Size = new System.Drawing.Size(15, 14);
             this.chkEnableOfline.TabIndex = 12;
             this.chkEnableOfline.UseVisualStyleBackColor = true;
-            this.chkEnableOfline.CheckedChanged += new System.EventHandler(this.chkEnableOfline_CheckedChanged);
+            this.chkEnableOfline.CheckedChanged += new System.EventHandler(this.EnableOfline_CheckedChanged);
             // 
             // label6
             // 

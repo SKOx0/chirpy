@@ -22,13 +22,13 @@ namespace Zippy.Chirp.Engines
                 int column = 0;
 
                 // todo : use regex
-                int IndexBegin = err.IndexOf("(");
-                int IndexEnd = err.IndexOf(",");
-                int.TryParse(err.Substring(IndexBegin + 1, (IndexEnd - IndexBegin) - 1), out line);
+                int indexBegin = err.IndexOf("(");
+                int indexEnd = err.IndexOf(",");
+                int.TryParse(err.Substring(indexBegin + 1, (indexEnd - indexBegin) - 1), out line);
 
-                IndexBegin = IndexEnd;
-                IndexEnd = err.IndexOf("-");
-                int.TryParse(err.Substring(IndexBegin + 1, (IndexEnd - IndexBegin) - 1), out column);
+                indexBegin = indexEnd;
+                indexEnd = err.IndexOf("-");
+                int.TryParse(err.Substring(indexBegin + 1, (indexEnd - indexBegin) - 1), out column);
 
                 if (TaskList.Instance == null)
                 {

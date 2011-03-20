@@ -32,6 +32,5 @@ namespace Zippy.Chirp.Engines
         {
             return Minify(fullFileName, text, projectItem);
         }
-
     }
 }

@@ -16,7 +16,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             propertiesObject = null;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
+        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
         {
             Settings.Load();
 
@@ -42,7 +42,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.Save();
         }
 
-        private void chkEnableOfline_CheckedChanged(object sender, EventArgs e)
+        private void EnableOfline_CheckedChanged(object sender, EventArgs e)
         {
             this.groupBoxOffline.Enabled = this.chkEnableOfline.Checked;
             if (string.IsNullOrEmpty(textBoxJavaPath.Text))
@@ -51,7 +51,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             }
         }
 
-        private void btnFindJava_Click(object sender, EventArgs e)
+        private void FindJava_Click(object sender, EventArgs e)
         {
             if (!this.FindJavaPath())
             {

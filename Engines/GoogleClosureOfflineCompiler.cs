@@ -64,10 +64,10 @@ namespace Zippy.Chirp
             return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "compiler.jar");
         }
 
-        private static string GetArguments(string FileName, ClosureCompilerCompressMode compressMode, IList<string> ReferencePathsOrUrls)
+        private static string GetArguments(string fileName, ClosureCompilerCompressMode compressMode, IList<string> referencePathsOrUrls)
         {
             return
-                string.Format("--js \"{0}\" --compilation_level {1} --warning_level QUIET", FileName, compressMode);
+                string.Format("--js \"{0}\" --compilation_level {1} --warning_level QUIET", fileName, compressMode);
         }
     }
 }

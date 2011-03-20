@@ -3,7 +3,7 @@ using EnvDTE;
 
 namespace Zippy.Chirp
 {
-    class EcmaScriptErrorReporter : EcmaScript.NET.ErrorReporter
+   public class EcmaScriptErrorReporter : EcmaScript.NET.ErrorReporter
     {
         private ProjectItem projectItem;
         private string fullFileName;

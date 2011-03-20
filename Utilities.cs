@@ -8,6 +8,9 @@ namespace Zippy.Chirp
 {
     public static class Utilities
     {
+        private const char ENUM_SEPERATOR_CHARACTER = ',';
+        private static Dictionary<Enum, string> descriptions = new Dictionary<Enum, string>();
+        
         public static void Dispose<T>(ref T obj) where T : class, IDisposable
         {
             try
@@ -18,23 +21,23 @@ namespace Zippy.Chirp
                 }
             }
             catch
-            { }
+            { 
+            }
+
             obj = null;
         }
-
-        public static Dictionary<Enum, string> _Descriptions = new Dictionary<Enum, string>();
-        const char ENUM_SEPERATOR_CHARACTER = ',';
 
         /// <summary>
         /// Looks for the <see cref="System.ComponentModel.DescriptionAttribute">DescriptionAttribute</see> on an
         /// enum, and returns the value.
         /// </summary>
         /// <param name="e">enum type</param>
+        /// <returns>Description attribute</returns>    
         public static string Description(this Enum e)
         {
-            lock (_Descriptions)
+            lock (Utilities.descriptions)
             {
-                if (!_Descriptions.ContainsKey(e))
+                if (!Utilities.descriptions.ContainsKey(e))
                 {
                     var entries = e.ToString().Split(ENUM_SEPERATOR_CHARACTER);
                     string[] desc = new string[entries.Length];
@@ -54,10 +57,10 @@ namespace Zippy.Chirp
                         }
                     }
 
-                    _Descriptions.Add(e, string.Join(ENUM_SEPERATOR_CHARACTER.ToString(), desc));
+                    Utilities.descriptions.Add(e, string.Join(ENUM_SEPERATOR_CHARACTER.ToString(), desc));
                 }
 
-                return _Descriptions[e];
+                return Utilities.descriptions[e];
             }
         }
 
@@ -115,7 +118,7 @@ namespace Zippy.Chirp
             }
         }
 
-        public static IEnumerable<ProjectItem> GetAll(this  ProjectItems projectItems)
+        public static IEnumerable<ProjectItem> GetAll(this ProjectItems projectItems)
         {
             foreach (ProjectItem projectItem in projectItems)
             {
@@ -143,8 +146,9 @@ namespace Zippy.Chirp
         /// <summary>
         /// Returns "C:\fakepath\test" when given "C:\fakepath\test.js"
         /// </summary>
-        /// <param name="extensions">file extension</param>
         /// <param name="fullFileName">full file name</param>
+        /// <param name="extensions">file extension</param>
+        /// <returns>Base filename "C:\fakepath\test"</returns>
         public static string GetBaseFileName(string fullFileName, params string[] extensions)
         {
             if (Settings.AllExtensions == null)

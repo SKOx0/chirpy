@@ -70,16 +70,6 @@ namespace Zippy.Chirp.Threading
             get { return this.Length > 0; }
         }
 
-        protected virtual void Process(T item)
-        {
-            this.action(item);
-        }
-
-        protected virtual void Error(T item, Exception ex)
-        {
-            this.onError(item, ex);
-        }
-
         public virtual void Enqueue(T obj)
         {
             lock (this.queue)
@@ -101,6 +91,46 @@ namespace Zippy.Chirp.Threading
                 }
 
             this.notifier.Set();
+        }
+
+        public void Dispose()
+        {
+            this.isDisposed = true;
+            if (this.pool != null)
+            {
+                this.pool.Dispose();
+            }
+
+            this.queue = null;
+            this.pool = null;
+        }
+
+        public void Wait()
+        {
+            this.Wait(100, null);
+        }
+
+        public void Wait(int waitInterval, Action whileWaiting)
+        {
+            var mre = new System.Threading.ManualResetEvent(false);
+            while (this.IsActive)
+            {
+                mre.WaitOne(100);
+                if (whileWaiting != null)
+                {
+                    whileWaiting();
+                }
+            }
+        }
+
+        protected virtual void Process(T item)
+        {
+            this.action(item);
+        }
+
+        protected virtual void Error(T item, Exception ex)
+        {
+            this.onError(item, ex);
         }
 
         private void ProcessQueue()
@@ -152,36 +182,6 @@ namespace Zippy.Chirp.Threading
                             ((IDisposable)obj).Dispose();
                         }
                     }
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            this.isDisposed = true;
-            if (this.pool != null)
-            {
-                this.pool.Dispose();
-            }
-
-            this.queue = null;
-            this.pool = null;
-        }
-
-        public void Wait()
-        {
-            this.Wait(100, null);
-        }
-
-        public void Wait(int waitInterval, Action whileWaiting)
-        {
-            var mre = new System.Threading.ManualResetEvent(false);
-            while (this.IsActive)
-            {
-                mre.WaitOne(100);
-                if (whileWaiting != null)
-                {
-                    whileWaiting();
                 }
             }
         }

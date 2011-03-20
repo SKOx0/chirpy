@@ -64,7 +64,7 @@ namespace Zippy.Chirp.Engines
     /// </summary>
     public abstract class ActionEngine : IDisposable
     {
-        internal Chirp _Chirp;
+        internal Chirp Chirp;
 
         /// <summary>
         /// Determines whether this action hands the specified file.  Returns an int to specify the priority--0 being not handled.
@@ -110,7 +110,7 @@ namespace Zippy.Chirp.Engines
 
         public override void Run(string fullFileName, ProjectItem projectItem)
         {
-            using (var manager = new VSProjectItemManager(_Chirp.app, projectItem))
+            using (var manager = new VSProjectItemManager(this.Chirp.App, projectItem))
             {
                 string baseFileName = Utilities.GetBaseFileName(fullFileName, this.Extensions);
                 string inputText = System.IO.File.ReadAllText(fullFileName);
@@ -152,71 +152,13 @@ namespace Zippy.Chirp.Engines
                 || (this.configEngine != null && this.configEngine.Handles(fullFileName) > 0);
         }
 
-        protected override void Process(ProjectItem projectItem)
-        {
-            var fullFileName = projectItem.get_FileNames(1);
-            TaskList.Instance.Remove(fullFileName);
-
-            var actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
-                .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
-
-            bool transformed = false;
-            foreach (var action in actions)
-            {
-                if (action is TransformEngine)
-                {
-                    if (transformed) 
-                    {
-                        continue; 
-                    }
-
-                    transformed = true;
-                }
-
-                this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
-                try
-                {
-                    action.Run(fullFileName, projectItem);
-                }
-                catch (System.Exception errorThrow)
-                {
-                    System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", errorThrow.Message));
-                    this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
-                }
-
-                if (TaskList.Instance.HasErrors(fullFileName))
-                {
-                    break;
-                }
-            }
-
-            this.chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
-        }
-
-        protected override void Error(ProjectItem projectItem, Exception ex)
-        {
-            if (ex is COMException || ex is System.Threading.ThreadAbortException)
-            {
-                return;
-            }
-
-            if (projectItem != null)
-            {
-                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
-            }
-            else
-            {
-                this.chirp.OutputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
-            }
-        }
-
         /// <summary>
         /// Add a new ProjectItem processor
         /// </summary>
         /// <param name="action">action engine</param>
         public void Add(ActionEngine action)
         {
-            action._Chirp = this.chirp;
+            action.Chirp = this.chirp;
             this.allActions.Add(action);
             this.actions = this.allActions.ToArray();
             this.transformers = this.allActions.OfType<TransformEngine>().ToArray();
@@ -259,6 +201,64 @@ namespace Zippy.Chirp.Engines
             if (!Any(i => i.get_FileNames(1).Is(file)))
             {
                 base.Enqueue(projectItem);
+            }
+        }
+
+        protected override void Process(ProjectItem projectItem)
+        {
+            var fullFileName = projectItem.get_FileNames(1);
+            TaskList.Instance.Remove(fullFileName);
+
+            var actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
+                .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
+
+            bool transformed = false;
+            foreach (var action in actions)
+            {
+                if (action is TransformEngine)
+                {
+                    if (transformed)
+                    {
+                        continue;
+                    }
+
+                    transformed = true;
+                }
+
+                this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                try
+                {
+                    action.Run(fullFileName, projectItem);
+                }
+                catch (System.Exception errorThrow)
+                {
+                    System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", errorThrow.Message));
+                    this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
+                }
+
+                if (TaskList.Instance.HasErrors(fullFileName))
+                {
+                    break;
+                }
+            }
+
+            this.chirp.ConfigEngine.CheckForConfigRefresh(projectItem);
+        }
+
+        protected override void Error(ProjectItem projectItem, Exception ex)
+        {
+            if (ex is COMException || ex is System.Threading.ThreadAbortException)
+            {
+                return;
+            }
+
+            if (projectItem != null)
+            {
+                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
+            }
+            else
+            {
+                this.chirp.OutputWindowPane.OutputString(ex.ToString() + Environment.NewLine);
             }
         }
     }

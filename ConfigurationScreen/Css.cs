@@ -15,7 +15,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             propertiesObject = null;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE DTEObject)
+        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
         {
             Settings.Load();
             this.txtChirpCssFile.Text = Settings.ChirpCssFile;

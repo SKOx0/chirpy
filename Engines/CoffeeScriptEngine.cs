@@ -17,7 +17,16 @@ namespace Zippy.Chirp.Engines
 
         public static string TransformToJs(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            if (coffee == null) lock (UglifyCS.Extensibility.Instance) if (coffee == null) coffee = new UglifyCS.CoffeeScript();
+            if (coffee == null)
+            {
+                lock (UglifyCS.Extensibility.Instance)
+                {
+                    if (coffee == null)
+                    {
+                        coffee = new UglifyCS.CoffeeScript();
+                    }
+                }
+            }
 
             string error = null;
             try
