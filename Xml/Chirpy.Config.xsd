@@ -45,6 +45,8 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
       <xs:enumeration value="gctSimple" />
       <xs:enumeration value="gctWhiteSpaceOnly" />
       <xs:enumeration value="msAjax" />
+      <xs:enumeration value="uglify" />
+      <xs:enumeration value="jsBeautifier" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
