@@ -246,16 +246,27 @@ namespace Zippy.Chirp.Engines
 
         private IList<FileGroupXml> LoadConfigFileGroups(string configFileName)
         {
-            XDocument doc = XDocument.Load(configFileName);
+            try
+            {
+                XDocument doc = XDocument.Load(configFileName);
 
-            string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
+                string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
 
-            IList<FileGroupXml> returnList = doc.Descendants("FileGroup")
-                    .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
-                .Select(n => new FileGroupXml(n, appRoot))
-                .ToList();
+                IList<FileGroupXml> returnList = doc.Descendants("FileGroup")
+                        .Concat(doc.Descendants(XName.Get("FileGroup", "urn:ChirpyConfig")))
+                    .Select(n => new FileGroupXml(n, appRoot))
+                    .ToList();
 
-            return returnList;
+                return returnList;
+            }
+            catch (System.Xml.XmlException eError)
+            {
+                if (!eError.Message.Contains("Root element not found") && !eError.Message.Contains("Root element is missing"))
+                {
+                    throw eError;
+                }
+                return new List<FileGroupXml>(); //return empty list
+            }
         }
     }
 }
