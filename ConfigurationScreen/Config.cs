@@ -18,6 +18,7 @@ namespace Zippy.Chirp.ConfigurationScreen
         void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject) 
         {
             Settings.Load();
+            this.chkShowDetailLog.Checked = Settings.ShowDetailLog;
             this.txtChirpConfigFile.Text = Settings.ChirpConfigFile;
 
             this.cmbCss.Items.Clear();
@@ -49,6 +50,7 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         void EnvDTE.IDTToolsOptionsPage.OnOK() 
         {
+            Settings.ShowDetailLog = this.chkShowDetailLog.Checked;
             Settings.ChirpConfigFile = this.txtChirpConfigFile.Text;
             Settings.DefaultCssMinifier = this.cmbCss.Text.ToEnum(Xml.MinifyType.Unspecified);
             Settings.DefaultJavaScriptMinifier = this.cmbJavaScript.Text.ToEnum(Xml.MinifyType.Unspecified);

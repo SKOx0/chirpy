@@ -225,7 +225,11 @@ namespace Zippy.Chirp.Engines
                     transformed = true;
                 }
 
-                this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                if (Settings.ShowDetailLog)
+                {
+                    this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                }
+
                 try
                 {
                     action.Run(fullFileName, projectItem);
