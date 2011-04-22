@@ -45,6 +45,7 @@ namespace Zippy.Chirp
         private static string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
         private static string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
         private static string chirpConfigFile = ".chirp.config";
+        private static bool showDetailLog = true;
         private static string[] allExtensions;
         private static Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
         private static Xml.MinifyType defaultJavaScriptMinifier = Xml.MinifyType.yui;
@@ -284,6 +285,12 @@ namespace Zippy.Chirp
             get { return Settings.googleClosureJavaPath; }
             set { Settings.googleClosureJavaPath = value; }
         }
+
+        public static bool ShowDetailLog 
+        { 
+            get{ return Settings.showDetailLog; } 
+            set{ Settings.showDetailLog=value; } 
+        }
         #endregion
 
         #region Public Methods
@@ -337,6 +344,7 @@ namespace Zippy.Chirp
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
                     Settings.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
+                    Settings.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
                 }
 
                 LoadExtensions();
@@ -399,6 +407,8 @@ namespace Zippy.Chirp
                 regKey.SetValue("GoogleClosureOffline", Settings.GoogleClosureOffline);
 
                 regKey.SetValue("RunJSHint", Settings.RunJSHint);
+                regKey.SetValue("showDetailLog", Settings.showDetailLog);
+
                 LoadExtensions();
 
                 if (Saved != null)

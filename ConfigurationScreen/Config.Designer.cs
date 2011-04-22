@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbJavaScript = new System.Windows.Forms.ComboBox();
             this.cmbCss = new System.Windows.Forms.ComboBox();
+            this.chkShowDetailLog = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label7
@@ -91,10 +92,21 @@
             this.cmbCss.Size = new System.Drawing.Size(121, 21);
             this.cmbCss.TabIndex = 20;
             // 
+            // chkShowDetailLog
+            // 
+            this.chkShowDetailLog.AutoSize = true;
+            this.chkShowDetailLog.Location = new System.Drawing.Point(198, 93);
+            this.chkShowDetailLog.Name = "chkShowDetailLog";
+            this.chkShowDetailLog.Size = new System.Drawing.Size(98, 17);
+            this.chkShowDetailLog.TabIndex = 26;
+            this.chkShowDetailLog.Text = "Show detail log";
+            this.chkShowDetailLog.UseVisualStyleBackColor = true;
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkShowDetailLog);
             this.Controls.Add(this.cmbCss);
             this.Controls.Add(this.cmbJavaScript);
             this.Controls.Add(this.label2);
@@ -116,5 +128,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbJavaScript;
         private System.Windows.Forms.ComboBox cmbCss;
+        private System.Windows.Forms.CheckBox chkShowDetailLog;
     }
 }
