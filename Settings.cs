@@ -40,6 +40,7 @@ namespace Zippy.Chirp
         private static string t4RunAsBuildTemplate = string.Empty;
         private static bool smartRunT4MVC = false;
         private static bool runJSHint = true;
+        private static bool runCSSLint = true;
         private static bool googleClosureOffline = false;
         private static string googleClosureJavaPath = string.Empty;
         private static string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
@@ -267,11 +268,15 @@ namespace Zippy.Chirp
             get { return Settings.smartRunT4MVC; }
             set { Settings.smartRunT4MVC = value; }
         }
-        
-        public static bool RunJSHint
-        {
+
+        public static bool RunJSHint {
             get { return Settings.runJSHint; }
             set { Settings.runJSHint = value; }
+        }
+
+        public static bool RunCSSLint {
+            get { return Settings.runCSSLint; }
+            set { Settings.runCSSLint = value; }
         }
         
         public static bool GoogleClosureOffline
@@ -344,6 +349,7 @@ namespace Zippy.Chirp
                     Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
 
                     Settings.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
+                    Settings.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
                     Settings.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
                 }
 
@@ -407,6 +413,7 @@ namespace Zippy.Chirp
                 regKey.SetValue("GoogleClosureOffline", Settings.GoogleClosureOffline);
 
                 regKey.SetValue("RunJSHint", Settings.RunJSHint);
+                regKey.SetValue("RunCSSLint", Settings.RunCSSLint);
                 regKey.SetValue("showDetailLog", Settings.showDetailLog);
 
                 LoadExtensions();

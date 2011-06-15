@@ -29,19 +29,21 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.txtMSAjaxCssFile = new System.Windows.Forms.TextBox();
             this.txtHybridCssFile = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtMSAjaxCssFile = new System.Windows.Forms.TextBox();
+            this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkCSSLint);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.txtMSAjaxCssFile);
@@ -52,10 +54,19 @@
             this.groupBox3.Controls.Add(this.txtChirpCssFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(320, 128);
+            this.groupBox3.Size = new System.Drawing.Size(320, 152);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CSS";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 94);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(115, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Microsoft Ajax Minifier :";
             // 
             // label10
             // 
@@ -65,6 +76,14 @@
             this.label10.Size = new System.Drawing.Size(43, 13);
             this.label10.TabIndex = 14;
             this.label10.Text = "Hybrid :";
+            // 
+            // txtMSAjaxCssFile
+            // 
+            this.txtMSAjaxCssFile.Location = new System.Drawing.Point(184, 91);
+            this.txtMSAjaxCssFile.Name = "txtMSAjaxCssFile";
+            this.txtMSAjaxCssFile.Size = new System.Drawing.Size(128, 20);
+            this.txtMSAjaxCssFile.TabIndex = 19;
+            this.txtMSAjaxCssFile.Text = ".MSAjax.css";
             // 
             // txtHybridCssFile
             // 
@@ -108,22 +127,15 @@
             this.txtChirpCssFile.TabIndex = 11;
             this.txtChirpCssFile.Text = ".chirp.css";
             // 
-            // label1
+            // chkCSSLint
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 94);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Microsoft Ajax Minifier :";
-            // 
-            // txtMSAjaxCssFile
-            // 
-            this.txtMSAjaxCssFile.Location = new System.Drawing.Point(184, 91);
-            this.txtMSAjaxCssFile.Name = "txtMSAjaxCssFile";
-            this.txtMSAjaxCssFile.Size = new System.Drawing.Size(128, 20);
-            this.txtMSAjaxCssFile.TabIndex = 19;
-            this.txtMSAjaxCssFile.Text = ".MSAjax.css";
+            this.chkCSSLint.AutoSize = true;
+            this.chkCSSLint.Location = new System.Drawing.Point(184, 117);
+            this.chkCSSLint.Name = "chkCSSLint";
+            this.chkCSSLint.Size = new System.Drawing.Size(83, 17);
+            this.chkCSSLint.TabIndex = 26;
+            this.chkCSSLint.Text = "Run JS Hint";
+            this.chkCSSLint.UseVisualStyleBackColor = true;
             // 
             // Css
             // 
@@ -149,5 +161,6 @@
         private System.Windows.Forms.TextBox txtChirpCssFile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMSAjaxCssFile;
+        private System.Windows.Forms.CheckBox chkCSSLint;
     }
 }
