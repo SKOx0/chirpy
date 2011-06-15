@@ -2,6 +2,56 @@
 
 namespace Zippy.Chirp.Engines
 {
+    public class CSSLintEngine : ActionEngine 
+    {
+        private static UglifyCS.CSSLint lint;
+
+        public override int Handles(string fullFileName) 
+        {
+            if (Settings.RunCSSLint && fullFileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
+                && !fullFileName.EndsWith(".min.css", StringComparison.OrdinalIgnoreCase)) 
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem) 
+        {
+            if (lint == null) 
+            {
+                lock (UglifyCS.Extensibility.Instance) 
+                {
+                    if (lint == null) 
+                    {
+                        lint = new UglifyCS.CSSLint();
+                    }
+                }
+            }
+
+            var code = System.IO.File.ReadAllText(fullFileName);
+            var results = lint.CSSLINT(code);
+
+            if (results != null && results.messages != null && results.messages.Length > 0) 
+            {
+                foreach (var item in results.messages) 
+                {
+                    TaskList.Instance.Add(projectItem.ContainingProject,
+                        item.type == UglifyCS.CSSLint.Message.types.error ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Error
+                            : item.type == UglifyCS.CSSLint.Message.types.warning ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning
+                            : Microsoft.VisualStudio.Shell.TaskErrorCategory.Message,
+                        fullFileName, item.line, item.col, item.message);
+                }
+            }
+        }
+
+        public override void Dispose() 
+        {
+            Utilities.Dispose(ref lint);
+        }
+    }
+
     public class JSHintEngine : ActionEngine
     {
         private static UglifyCS.JSHint hint;
