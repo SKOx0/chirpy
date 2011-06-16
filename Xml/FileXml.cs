@@ -26,7 +26,9 @@ namespace Zippy.Chirp.Xml
                 throw new Exception("Path attribute required on File element");
             }
 
-            this.Path = System.IO.Path.Combine(basePath, path);
+            this.Path = System.IO.Path.GetFullPath(  //to process "..\" references
+                    System.IO.Path.Combine(basePath, path)
+                );
             this.Minify = minify.TryToBool();
 
             this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
