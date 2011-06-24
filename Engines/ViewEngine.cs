@@ -55,7 +55,7 @@ namespace Zippy.Chirp.Engines
 
                 if (tagName.Is("script")) 
                 {
-                    code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Unspecified);
+                    code = JsEngine.Minify(fullFileName, code, projectItem, Xml.MinifyType.Unspecified,string.Empty);
                 } 
                 else if (tagName.Is("style")) 
                 {

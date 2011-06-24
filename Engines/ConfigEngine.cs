@@ -106,6 +106,7 @@ namespace Zippy.Chirp.Engines
                     {
                         var path = file.Path;
                         string code = System.IO.File.ReadAllText(path);
+                        string customArg = file.CustomArgument;
 
                         if (fileGroup.Debug)
                         {
@@ -143,7 +144,7 @@ namespace Zippy.Chirp.Engines
                             }
                             else if (this.IsJsFile(path))
                             {
-                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith, customArg);
                             }
                         }
 
@@ -265,6 +266,7 @@ namespace Zippy.Chirp.Engines
                 {
                     throw eError;
                 }
+
                 return new List<FileGroupXml>(); //return empty list
             }
         }

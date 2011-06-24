@@ -70,7 +70,7 @@ namespace Zippy.Chirp.Engines
             base.Process(manager, fullFileName, projectItem, baseFileName, outputText);
 
             var mode = this.GetMinifyType(fullFileName);
-            string mini = JsEngine.Minify(fullFileName, outputText, projectItem, mode);
+            string mini = JsEngine.Minify(fullFileName, outputText, projectItem, mode,string.Empty);
             manager.AddFileByFileName(baseFileName + ".min.js", mini);
         }
 

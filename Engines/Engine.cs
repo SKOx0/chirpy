@@ -12,6 +12,11 @@ namespace Zippy.Chirp.Engines
     {
         public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode)
         {
+            return Minify(fullFileName, outputText, projectItem, mode, string.Empty);
+        }
+
+        public static string Minify(string fullFileName, string outputText, ProjectItem projectItem, MinifyType mode,string customArgument)
+        {
             if (mode == MinifyType.Unspecified)
             {
                 mode = Settings.DefaultJavaScriptMinifier;
@@ -20,11 +25,11 @@ namespace Zippy.Chirp.Engines
             switch (mode)
             {
                 case MinifyType.gctAdvanced:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
+                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS, customArgument);
                 case MinifyType.gctSimple:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
+                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS, customArgument);
                 case MinifyType.gctWhiteSpaceOnly:
-                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.WHITESPACE_ONLY);
+                    return ClosureCompilerEngine.Minify(fullFileName, outputText, projectItem, ClosureCompilerCompressMode.WHITESPACE_ONLY, customArgument);
                 case MinifyType.msAjax:
                     return MsJsEngine.Minify(fullFileName, outputText, projectItem);
                 case MinifyType.uglify:

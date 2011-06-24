@@ -14,7 +14,7 @@ namespace Zippy.Chirp.Engines
         }
         #endregion
 
-        public static string Minify(string fullFileName, string text, ProjectItem projectItem, ClosureCompilerCompressMode mode)
+        public static string Minify(string fullFileName, string text, ProjectItem projectItem, ClosureCompilerCompressMode mode, string customArgument)
         {
             string returnedCode = null;
 
@@ -32,7 +32,9 @@ namespace Zippy.Chirp.Engines
                     {
                         TaskList.Instance.Add(projectItem.ContainingProject, category, fullFileName, line, col, msg);
                     }
-                });
+                },
+                customArgument
+                );
 
             return returnedCode;
         }
@@ -43,7 +45,7 @@ namespace Zippy.Chirp.Engines
                   : fullFileName.EndsWith(Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
                   : ClosureCompilerCompressMode.WHITESPACE_ONLY;
 
-            return Minify(fullFileName, text, projectItem, mode);
+            return Minify(fullFileName, text, projectItem, mode, string.Empty);
         }
     }
 }
