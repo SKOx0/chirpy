@@ -16,6 +16,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                     <xs:attribute name="Path" use="required" type="xs:string" />
                     <xs:attribute name="Minify" type="xs:boolean" />
                     <xs:attribute name="MinifyWith" type="MinifyType" />
+                    <xs:attribute name="CustomArgument" type="xs:string" />
                   </xs:complexType>
                 </xs:element>
                 <xs:element name="Folder" minOccurs="0" maxOccurs="unbounded">

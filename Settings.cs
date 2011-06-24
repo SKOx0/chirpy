@@ -293,8 +293,8 @@ namespace Zippy.Chirp
 
         public static bool ShowDetailLog 
         { 
-            get{ return Settings.showDetailLog; } 
-            set{ Settings.showDetailLog=value; } 
+            get{ return Settings.showDetailLog; }
+            set{ Settings.showDetailLog = value; }
         }
         #endregion
 

@@ -22,7 +22,7 @@ namespace Zippy.Chirp
         /// <param name="compressMode">SIMPLE_OPTIMIZATIONS, WHITESPACE_ONLY, ADVANCED_OPTIMIZATIONS</param>
         /// <param name="onError">Error event</param>
         /// <returns>A compressed version of the specified JavaScript file.</returns>
-        public static string Compress(string fullFileName, string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError)
+        public static string Compress(string fullFileName, string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError, string customArgument)
         {
             if (string.IsNullOrEmpty(js))
             {
@@ -32,7 +32,7 @@ namespace Zippy.Chirp
             if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath) && Settings.GoogleClosureOffline)
             {
                 return GoogleClosureOfflineCompiler.Compress(
-                    fullFileName, compressMode, onError);
+                    fullFileName, compressMode, onError, customArgument);
             }
 
             long size = js.Length;
@@ -43,7 +43,7 @@ namespace Zippy.Chirp
                 if (xml == null)
                 {
                     return GoogleClosureOfflineCompiler.Compress(
-                    fullFileName, compressMode, onError);
+                    fullFileName, compressMode, onError, customArgument);
                 }
 
                 // valid have server error

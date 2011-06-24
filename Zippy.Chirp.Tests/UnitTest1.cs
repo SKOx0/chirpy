@@ -214,7 +214,7 @@ namespace Zippy.Chirp.Tests {
             System.IO.File.WriteAllText(TempFilePath, code);
 
 
-            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS);
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS,string.Empty);
             Assert.IsTrue(code == "test&&alert(\"test\");" || code == "test&&alert(\"test\");\r\n");
         }
 
@@ -225,9 +225,11 @@ namespace Zippy.Chirp.Tests {
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
 
-            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS);
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS, string.Empty);
             Assert.IsTrue(code == "test&&alert(\"test\");" || code == "test&&alert(\"test\");\r\n");
         }
+
+
         [TestMethod]
         public void TestClosureCompilerWhiteSpaceOnlyJsEngine() {
             string code = "if(test) {\r\n\t alert('test'); }";
@@ -235,7 +237,7 @@ namespace Zippy.Chirp.Tests {
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
 
-            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.WHITESPACE_ONLY);
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.WHITESPACE_ONLY,string.Empty );
             Assert.IsTrue(code == "if(test)alert(\"test\");" || code == "if(test)alert(\"test\");\r\n");
         }
 
