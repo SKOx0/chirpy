@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtMSAjaxCssFile = new System.Windows.Forms.TextBox();
@@ -37,7 +38,6 @@
             this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
-            this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +58,16 @@
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CSS";
+            // 
+            // chkCSSLint
+            // 
+            this.chkCSSLint.AutoSize = true;
+            this.chkCSSLint.Location = new System.Drawing.Point(184, 117);
+            this.chkCSSLint.Name = "chkCSSLint";
+            this.chkCSSLint.Size = new System.Drawing.Size(92, 17);
+            this.chkCSSLint.TabIndex = 26;
+            this.chkCSSLint.Text = "Run CSS Hint";
+            this.chkCSSLint.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -126,16 +136,6 @@
             this.txtChirpCssFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpCssFile.TabIndex = 11;
             this.txtChirpCssFile.Text = ".chirp.css";
-            // 
-            // chkCSSLint
-            // 
-            this.chkCSSLint.AutoSize = true;
-            this.chkCSSLint.Location = new System.Drawing.Point(184, 117);
-            this.chkCSSLint.Name = "chkCSSLint";
-            this.chkCSSLint.Size = new System.Drawing.Size(83, 17);
-            this.chkCSSLint.TabIndex = 26;
-            this.chkCSSLint.Text = "Run JS Hint";
-            this.chkCSSLint.UseVisualStyleBackColor = true;
             // 
             // Css
             // 
