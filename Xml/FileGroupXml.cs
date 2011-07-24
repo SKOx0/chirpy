@@ -36,12 +36,9 @@ namespace Zippy.Chirp.Xml
 				this.Path = System.IO.Path.Combine(basePath, this.Name);
 			}
 
-			var minify = (string)xElement.Attribute("Minify");
-			var debug = (string)xElement.Attribute("Debug");
-
-			this.Minify = minify.ToBool(true);
+			this.Minify = ((string)xElement.Attribute("Minify")).ToEnum(MinifyActions.True);
 			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
-			this.Debug = debug.ToBool(false);
+			this.Debug = ((string)xElement.Attribute("Debug")).ToBool(false);
 
 			var fileDescriptors = xElement.XPathSelectElements(@"*[name() = 'File' or name() = 'Folder']");
 			var files = new List<FileXml>();
@@ -50,10 +47,6 @@ namespace Zippy.Chirp.Xml
 				if (fileDescriptor.Name.LocalName == "File")
 				{
 					var file = new FileXml(fileDescriptor, basePath);
-					if (file.Minify == null)
-					{
-						file.Minify = this.Minify;
-					}
 
 					if (file.MinifyWith == MinifyType.Unspecified)
 					{
@@ -66,12 +59,11 @@ namespace Zippy.Chirp.Xml
 				if (fileDescriptor.Name.LocalName == "Folder")
 				{
 					var folder = new FolderXml(fileDescriptor, basePath);
-					if (folder.Minify == null)
+					if (folder.Minify != null)
 					{
-						folder.Minify = this.Minify;
 						foreach (var f in folder.FileXmlList)
 						{
-							f.Minify = this.Minify;
+							f.Minify = folder.Minify;
 						}
 					}
 
@@ -100,9 +92,13 @@ namespace Zippy.Chirp.Xml
 
 		public MinifyType MinifyWith { get; set; }
 
-		public bool Minify { get; set; }
+		public MinifyActions Minify { get; set; }
 
 		public bool Debug { get; set; }
+
+        public enum MinifyActions {
+            True, False, Both 
+        }
 
 		public string GetName
 		{
