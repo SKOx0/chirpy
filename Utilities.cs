@@ -27,6 +27,11 @@ namespace Zippy.Chirp
             obj = null;
         }
 
+        public static void Clear(this System.Text.StringBuilder str) {
+            if (str.Length == 0) return;
+            str.Remove(0, str.Length);
+        }
+
         /// <summary>
         /// Looks for the <see cref="System.ComponentModel.DescriptionAttribute">DescriptionAttribute</see> on an
         /// enum, and returns the value.

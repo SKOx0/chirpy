@@ -14,7 +14,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                 <xs:element name="File" minOccurs="0" maxOccurs="unbounded">
                   <xs:complexType>
                     <xs:attribute name="Path" use="required" type="xs:string" />
-                    <xs:attribute name="Minify" type="xs:boolean" />
+                    <xs:attribute name="Minify" type="MinifyAction" />
                     <xs:attribute name="MinifyWith" type="MinifyType" />
                     <xs:attribute name="CustomArgument" type="xs:string" />
                   </xs:complexType>
@@ -37,17 +37,24 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
       </xs:choice>
     </xs:complexType>
   </xs:element>
-  <xs:simpleType name="MinifyType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="yui" />
-      <xs:enumeration value="yuiMARE" />
-      <xs:enumeration value="yuiHybrid" />
-      <xs:enumeration value="gctAdvanced" />
-      <xs:enumeration value="gctSimple" />
-      <xs:enumeration value="gctWhiteSpaceOnly" />
-      <xs:enumeration value="msAjax" />
-      <xs:enumeration value="uglify" />
-      <xs:enumeration value="jsBeautifier" />
-    </xs:restriction>
-  </xs:simpleType>
+    <xs:simpleType name="MinifyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="yui" />
+            <xs:enumeration value="yuiMARE" />
+            <xs:enumeration value="yuiHybrid" />
+            <xs:enumeration value="gctAdvanced" />
+            <xs:enumeration value="gctSimple" />
+            <xs:enumeration value="gctWhiteSpaceOnly" />
+            <xs:enumeration value="msAjax" />
+            <xs:enumeration value="uglify" />
+            <xs:enumeration value="jsBeautifier" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MinifyAction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="true" />
+            <xs:enumeration value="false" />
+            <xs:enumeration value="both" /> 
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
