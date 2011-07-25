@@ -105,8 +105,9 @@ namespace Zippy.Chirp.Engines
                         var path = file.Path;
                         string code = System.IO.File.ReadAllText(path);
                         string customArg = file.CustomArgument;
-
-                        if (TaskList.Instance != null) {
+                        
+                        if ((this.IsLessFile(path) || this.IsCoffeeScriptFile(path) || file.Minify == true) && TaskList.Instance != null) 
+                        {
                             TaskList.Instance.Remove(path);
                         }
 
@@ -126,9 +127,8 @@ namespace Zippy.Chirp.Engines
                         if (this.IsLessFile(path))
                         {
                             code = LessEngine.TransformToCss(path, code, projectItem);
-                        }
-
-                        if (this.IsCoffeeScriptFile(path))
+                        } 
+                        else if (this.IsCoffeeScriptFile(path))
                         {
                             code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
                         }
