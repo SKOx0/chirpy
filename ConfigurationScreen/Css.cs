@@ -22,6 +22,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.txtMichaelAshCssFile.Text = Settings.ChirpMichaelAshCssFile;
             this.txtHybridCssFile.Text = Settings.ChirpHybridCssFile;
             this.txtMSAjaxCssFile.Text = Settings.ChirpMSAjaxCssFile;
+            this.txtOutputExtension.Text = Settings.OutputExtensionCSS;
             this.chkCSSLint.Checked = Settings.RunCSSLint;
         }
 
@@ -41,6 +42,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.ChirpMichaelAshCssFile = this.txtMichaelAshCssFile.Text;
             Settings.ChirpHybridCssFile = this.txtHybridCssFile.Text;
             Settings.ChirpMSAjaxCssFile = this.txtMSAjaxCssFile.Text;
+            Settings.OutputExtensionCSS = this.txtOutputExtension.Text;
             Settings.RunCSSLint = this.chkCSSLint.Checked;
             Settings.Save();
         }

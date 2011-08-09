@@ -38,11 +38,15 @@
             this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtOutputExtension = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.txtOutputExtension);
             this.groupBox3.Controls.Add(this.chkCSSLint);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label10);
@@ -54,7 +58,7 @@
             this.groupBox3.Controls.Add(this.txtChirpCssFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(320, 152);
+            this.groupBox3.Size = new System.Drawing.Size(320, 163);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CSS";
@@ -62,7 +66,7 @@
             // chkCSSLint
             // 
             this.chkCSSLint.AutoSize = true;
-            this.chkCSSLint.Location = new System.Drawing.Point(184, 117);
+            this.chkCSSLint.Location = new System.Drawing.Point(184, 141);
             this.chkCSSLint.Name = "chkCSSLint";
             this.chkCSSLint.Size = new System.Drawing.Size(92, 17);
             this.chkCSSLint.TabIndex = 26;
@@ -137,13 +141,30 @@
             this.txtChirpCssFile.TabIndex = 11;
             this.txtChirpCssFile.Text = ".chirp.css";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Output extension :";
+            // 
+            // txtOutputExtension
+            // 
+            this.txtOutputExtension.Location = new System.Drawing.Point(185, 116);
+            this.txtOutputExtension.Name = "txtOutputExtension";
+            this.txtOutputExtension.Size = new System.Drawing.Size(128, 20);
+            this.txtOutputExtension.TabIndex = 28;
+            this.txtOutputExtension.Text = ".MSAjax.css";
+            // 
             // Css
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox3);
             this.Name = "Css";
-            this.Size = new System.Drawing.Size(331, 158);
+            this.Size = new System.Drawing.Size(331, 177);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -162,5 +183,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMSAjaxCssFile;
         private System.Windows.Forms.CheckBox chkCSSLint;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtOutputExtension;
     }
 }

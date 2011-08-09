@@ -17,6 +17,8 @@ namespace Zippy.Chirp
         private static string chirpYUIJsFile = ".yui.js";
         private static string chirpGctJsFile = ".gct.js";
         private static string chirpMSAjaxJsFile = ".msajax.js";
+        private static string outputExtensionJS = ".min.js";
+        private static string outputExtensionCSS = ".min.css";
         private static string chirpPartialViewFile = ".chirp.ascx";
         private static string chirpMichaelAshLessFile = ".michaelash.less";
         private static string chirpViewFile = ".chirp.aspx";
@@ -278,7 +280,19 @@ namespace Zippy.Chirp
             get { return Settings.runCSSLint; }
             set { Settings.runCSSLint = value; }
         }
-        
+
+        public static string OutputExtensionJS
+        {
+            get { return Settings.outputExtensionJS; }
+            set { Settings.outputExtensionJS = value; }
+        }
+
+        public static string OutputExtensionCSS
+        {
+            get { return Settings.outputExtensionCSS; }
+            set { Settings.outputExtensionCSS = value; }
+        }
+
         public static bool GoogleClosureOffline
         {
             get { return Settings.googleClosureOffline; }
@@ -340,6 +354,9 @@ namespace Zippy.Chirp
                     Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
                     Settings.DefaultCssMinifier = Convert.ToString(regKey.GetValue("DefaultCssMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
                     Settings.DefaultJavaScriptMinifier = Convert.ToString(regKey.GetValue("DefaultJavaScriptMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
+
+                    Settings.OutputExtensionCSS = Convert.ToString(regKey.GetValue("OutputExtensionCSS", ".min.css"));
+                    Settings.OutputExtensionJS = Convert.ToString(regKey.GetValue("OutputExtensionJS", ".min.js"));
 
                     Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
                     Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
@@ -403,6 +420,9 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", Settings.ChirpMSAjaxCoffeeScriptFile);
                 regKey.SetValue("ChirpUglifyCoffeeScriptFile", Settings.ChirpUglifyCoffeeScriptFile);
                 regKey.SetValue("CoffeeScriptBatFilePath", Settings.CoffeeScriptBatFilePath);
+
+                regKey.SetValue("OutputExtensionCSS", Settings.outputExtensionCSS);
+                regKey.SetValue("OutputExtensionJS", Settings.outputExtensionJS);
 
                 regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
                 regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());

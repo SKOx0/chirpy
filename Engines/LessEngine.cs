@@ -91,7 +91,7 @@ namespace Zippy.Chirp.Engines
 
             var mode = this.GetMinifyType(fullFileName);
             string mini = CssEngine.Minify(fullFileName, outputText, projectItem, mode);
-            manager.AddFileByFileName(baseFileName + ".min.css", mini);
+            manager.AddFileByFileName(baseFileName + Settings.OutputExtensionCSS, mini);
         }
 
         public MinifyType GetMinifyType(string fullFileName)

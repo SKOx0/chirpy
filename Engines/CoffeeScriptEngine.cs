@@ -71,7 +71,7 @@ namespace Zippy.Chirp.Engines
 
             var mode = this.GetMinifyType(fullFileName);
             string mini = JsEngine.Minify(fullFileName, outputText, projectItem, mode,string.Empty);
-            manager.AddFileByFileName(baseFileName + ".min.js", mini);
+            manager.AddFileByFileName(baseFileName + Settings.OutputExtensionJS, mini);
         }
 
         public MinifyType GetMinifyType(string fullFileName)

@@ -10,7 +10,7 @@ namespace Zippy.Chirp.Engines
         public ClosureCompilerEngine()
         {
             Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile, Settings.ChirpJsFile };
-            OutputExtension = ".min.js";
+            OutputExtension = Settings.OutputExtensionJS;
         }
         #endregion
 

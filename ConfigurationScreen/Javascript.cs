@@ -24,6 +24,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.txtChirpYUIJsFile.Text = Settings.ChirpYUIJsFile;
             this.txtMSAjaxJsFile.Text = Settings.ChirpMSAjaxJsFile;
             this.txtUglifyJsFile.Text = Settings.ChirpUglifyJsFile;
+            this.txtOutputExtension.Text = Settings.OutputExtensionJS;
             this.chkJSHint.Checked = Settings.RunJSHint;
         }
 
@@ -45,6 +46,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.ChirpYUIJsFile = this.txtChirpYUIJsFile.Text;
             Settings.ChirpMSAjaxJsFile = this.txtMSAjaxJsFile.Text;
             Settings.ChirpUglifyJsFile = this.txtUglifyJsFile.Text;
+            Settings.OutputExtensionJS = this.txtOutputExtension.Text;
             Settings.RunJSHint = this.chkJSHint.Checked;
             Settings.Save();
         }
