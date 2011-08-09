@@ -8,7 +8,7 @@ namespace Zippy.Chirp.Engines
         public YuiJsEngine()
         {
             Extensions = new[] { Settings.ChirpYUIJsFile };
-            OutputExtension = ".min.js";
+            OutputExtension = Settings.OutputExtensionJS;
         }
         #endregion
 

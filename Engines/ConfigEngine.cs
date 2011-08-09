@@ -86,7 +86,7 @@ namespace Zippy.Chirp.Engines
                     {
                         fullPath = fileGroup.Path;
                     }
-                    string fullPathMin = Utilities.GetBaseFileName(fullPath) + (isJS ? ".min.js" : ".min.css");
+                    string fullPathMin = Utilities.GetBaseFileName(fullPath) + (isJS ? Settings.OutputExtensionJS : Settings.OutputExtensionCSS);
                     if (TaskList.Instance != null) 
                     {
                         TaskList.Instance.Remove(fullPath);

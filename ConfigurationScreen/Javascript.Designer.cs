@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkJSHint = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtUglifyJsFile = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -41,12 +42,15 @@
             this.txtChirpWhiteSpaceJsFile = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChirpYUIJsFile = new System.Windows.Forms.TextBox();
-            this.chkJSHint = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtOutputExtension = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.txtOutputExtension);
             this.groupBox2.Controls.Add(this.chkJSHint);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtUglifyJsFile);
@@ -62,10 +66,20 @@
             this.groupBox2.Controls.Add(this.txtChirpYUIJsFile);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 219);
+            this.groupBox2.Size = new System.Drawing.Size(320, 223);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Javascript";
+            // 
+            // chkJSHint
+            // 
+            this.chkJSHint.AutoSize = true;
+            this.chkJSHint.Location = new System.Drawing.Point(187, 204);
+            this.chkJSHint.Name = "chkJSHint";
+            this.chkJSHint.Size = new System.Drawing.Size(83, 17);
+            this.chkJSHint.TabIndex = 25;
+            this.chkJSHint.Text = "Run JS Hint";
+            this.chkJSHint.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -170,15 +184,22 @@
             this.txtChirpYUIJsFile.TabIndex = 7;
             this.txtChirpYUIJsFile.Text = ".yui.js";
             // 
-            // chkJSHint
+            // label7
             // 
-            this.chkJSHint.AutoSize = true;
-            this.chkJSHint.Location = new System.Drawing.Point(187, 187);
-            this.chkJSHint.Name = "chkJSHint";
-            this.chkJSHint.Size = new System.Drawing.Size(83, 17);
-            this.chkJSHint.TabIndex = 25;
-            this.chkJSHint.Text = "Run JS Hint";
-            this.chkJSHint.UseVisualStyleBackColor = true;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 181);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(93, 13);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Output extension :";
+            // 
+            // txtOutputExtension
+            // 
+            this.txtOutputExtension.Location = new System.Drawing.Point(185, 178);
+            this.txtOutputExtension.Name = "txtOutputExtension";
+            this.txtOutputExtension.Size = new System.Drawing.Size(128, 20);
+            this.txtOutputExtension.TabIndex = 27;
+            this.txtOutputExtension.Text = ".uglify.js";
             // 
             // Javascript
             // 
@@ -186,7 +207,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Name = "Javascript";
-            this.Size = new System.Drawing.Size(327, 225);
+            this.Size = new System.Drawing.Size(327, 232);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -209,5 +230,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtUglifyJsFile;
         private System.Windows.Forms.CheckBox chkJSHint;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtOutputExtension;
     }
 }

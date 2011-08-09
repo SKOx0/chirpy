@@ -9,7 +9,7 @@ namespace Zippy.Chirp.Engines
         public YuiCssEngine()
         {
             Extensions = new[] { Settings.ChirpHybridCssFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpCssFile };
-            OutputExtension = ".min.css";
+            OutputExtension = Settings.OutputExtensionCSS;
         }
 
         public static string Minify(string text, MinifyType mode)

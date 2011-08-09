@@ -8,7 +8,7 @@ namespace Zippy.Chirp.Engines
         public MsCssEngine()
         {
             Extensions = new[] { Settings.ChirpMSAjaxCssFile };
-            OutputExtension = ".min.css";
+            OutputExtension = Settings.OutputExtensionCSS;
         }
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem)

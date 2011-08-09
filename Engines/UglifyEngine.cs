@@ -9,7 +9,7 @@ namespace Zippy.Chirp.Engines
         public override int Handles(string fullFileName) 
         {
             if (Settings.RunCSSLint && fullFileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
-                && !fullFileName.EndsWith(".min.css", StringComparison.OrdinalIgnoreCase)) 
+                && !fullFileName.EndsWith(Settings.OutputExtensionCSS, StringComparison.OrdinalIgnoreCase)) 
             {
                 return 1;
             }
@@ -59,7 +59,7 @@ namespace Zippy.Chirp.Engines
         public override int Handles(string fullFileName)
         {
             if (Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
-                && !fullFileName.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase))
+                && !fullFileName.EndsWith(Settings.OutputExtensionJS, StringComparison.OrdinalIgnoreCase))
             { 
                 return 1; 
             }
@@ -106,7 +106,7 @@ namespace Zippy.Chirp.Engines
         public UglifyEngine()
         {
             Extensions = new[] { Settings.ChirpUglifyJsFile };
-            OutputExtension = ".min.js";
+            OutputExtension = Settings.OutputExtensionJS;
         }
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
