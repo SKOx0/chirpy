@@ -151,6 +151,11 @@ namespace Zippy.Chirp.Engines
             return this.actions.Any(x => x.Handles(fullFileName) > 0);
         }
 
+        public bool IsHandledWithoutHint(string fullFileName)
+        {
+            return this.actions.Any(x => (x.Handles(fullFileName)> 0 && !(x is JSHintEngine) && !(x is CSSLintEngine)));
+        }
+
         public bool IsTransformed(string fullFileName)
         {
             return this.transformers.Any(x => x.Handles(fullFileName) > 0)
