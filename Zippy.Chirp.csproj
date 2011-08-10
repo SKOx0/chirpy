@@ -101,6 +101,7 @@
     <Compile Include="Chirp.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommandHelper.cs" />
     <Compile Include="ConfigurationScreen\CoffeeScript.cs">
       <SubType>UserControl</SubType>
     </Compile>
