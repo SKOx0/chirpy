@@ -71,7 +71,6 @@
             this.chkJSHint.TabIndex = 26;
             this.chkJSHint.Text = "Run JS Hint";
             this.chkJSHint.UseVisualStyleBackColor = true;
-            this.chkJSHint.CheckedChanged += new System.EventHandler(this.chkJSHint_CheckedChanged);
             // 
             // gbSetting
             // 
@@ -79,7 +78,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSetting.Controls.Add(this.panel1);
-            this.gbSetting.Enabled = false;
             this.gbSetting.Location = new System.Drawing.Point(3, 35);
             this.gbSetting.Name = "gbSetting";
             this.gbSetting.Size = new System.Drawing.Size(381, 252);
