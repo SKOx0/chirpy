@@ -52,8 +52,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.chkUndef.Checked = Settings.JsHintOptions.undef;
             this.chkWhite.Checked = Settings.JsHintOptions.white;
             this.chkJSHint.Checked = Settings.RunJSHint;
-           
-            gbSetting.Enabled = chkJSHint.Checked;
 
         }
 
@@ -98,9 +96,5 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.Save();
         }
 
-        private void chkJSHint_CheckedChanged(object sender, EventArgs e)
-        {
-            gbSetting.Enabled = chkJSHint.Checked;
-        }
     }
 }
