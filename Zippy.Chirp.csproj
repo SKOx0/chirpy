@@ -114,6 +114,12 @@
     <Compile Include="ConfigurationScreen\GoogleClosure.Designer.cs">
       <DependentUpon>GoogleClosure.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationScreen\JSHint.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\JSHint.Designer.cs">
+      <DependentUpon>JSHint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Engines\ClosureCompilerCompressMode.cs" />
     <Compile Include="ConfigurationScreen\Css.cs">
       <SubType>UserControl</SubType>
@@ -239,6 +245,9 @@
     <EmbeddedResource Include="ConfigurationScreen\Javascript.resx">
       <DependentUpon>Javascript.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\JSHint.resx">
+      <DependentUpon>JSHint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\Less.resx">
       <DependentUpon>Less.cs</DependentUpon>

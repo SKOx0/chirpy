@@ -25,7 +25,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.txtMSAjaxJsFile.Text = Settings.ChirpMSAjaxJsFile;
             this.txtUglifyJsFile.Text = Settings.ChirpUglifyJsFile;
             this.txtOutputExtension.Text = Settings.OutputExtensionJS;
-            this.chkJSHint.Checked = Settings.RunJSHint;
         }
 
         void EnvDTE.IDTToolsOptionsPage.OnCancel()
@@ -47,7 +46,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             Settings.ChirpMSAjaxJsFile = this.txtMSAjaxJsFile.Text;
             Settings.ChirpUglifyJsFile = this.txtUglifyJsFile.Text;
             Settings.OutputExtensionJS = this.txtOutputExtension.Text;
-            Settings.RunJSHint = this.chkJSHint.Checked;
             Settings.Save();
         }
     }
