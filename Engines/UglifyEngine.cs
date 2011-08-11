@@ -81,7 +81,8 @@ namespace Zippy.Chirp.Engines
             }
 
             var code = System.IO.File.ReadAllText(fullFileName);
-            var results = JSHintEngine.hint.JSHINT(code);
+           
+            var results = JSHintEngine.hint.JSHINT(code,Settings.JsHintOptions);
 
             if (results != null)
             {

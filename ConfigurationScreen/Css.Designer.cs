@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtOutputExtension = new System.Windows.Forms.TextBox();
             this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -38,13 +40,14 @@
             this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtOutputExtension = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.txtOutputExtension);
             this.groupBox3.Controls.Add(this.chkCSSLint);
@@ -58,10 +61,27 @@
             this.groupBox3.Controls.Add(this.txtChirpCssFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(320, 163);
+            this.groupBox3.Size = new System.Drawing.Size(321, 156);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CSS";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Output extension :";
+            // 
+            // txtOutputExtension
+            // 
+            this.txtOutputExtension.Location = new System.Drawing.Point(185, 116);
+            this.txtOutputExtension.Name = "txtOutputExtension";
+            this.txtOutputExtension.Size = new System.Drawing.Size(128, 20);
+            this.txtOutputExtension.TabIndex = 28;
+            this.txtOutputExtension.Text = ".MSAjax.css";
             // 
             // chkCSSLint
             // 
@@ -141,30 +161,14 @@
             this.txtChirpCssFile.TabIndex = 11;
             this.txtChirpCssFile.Text = ".chirp.css";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 119);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
-            this.label2.TabIndex = 27;
-            this.label2.Text = "Output extension :";
-            // 
-            // txtOutputExtension
-            // 
-            this.txtOutputExtension.Location = new System.Drawing.Point(185, 116);
-            this.txtOutputExtension.Name = "txtOutputExtension";
-            this.txtOutputExtension.Size = new System.Drawing.Size(128, 20);
-            this.txtOutputExtension.TabIndex = 28;
-            this.txtOutputExtension.Text = ".MSAjax.css";
-            // 
             // Css
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.Controls.Add(this.groupBox3);
             this.Name = "Css";
-            this.Size = new System.Drawing.Size(331, 177);
+            this.Size = new System.Drawing.Size(332, 169);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);

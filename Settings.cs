@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace Zippy.Chirp
 {
@@ -11,6 +13,7 @@ namespace Zippy.Chirp
     {
         #region Private Fields
         private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
+        private const string RegWDSJsHint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\JSHint";
         private static string chirpJsFile = ".chirp.js";
         private static string chirpSimpleJsFile = ".simple.js";
         private static string chirpWhiteSpaceJsFile = ".whitespace.js";
@@ -253,6 +256,12 @@ namespace Zippy.Chirp
             set { Settings.allExtensions = value; }
         }
 
+        public static UglifyCS.JSHint.options JsHintOptions 
+        { 
+            get; 
+            set; 
+        }
+
         public static bool T4RunAsBuild
         {
             get { return Settings.t4RunAsBuild; }
@@ -370,6 +379,39 @@ namespace Zippy.Chirp
                     Settings.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
                 }
 
+                  regKey = Registry.CurrentUser.OpenSubKey(RegWDSJsHint, false);
+                  if (regKey != null)
+                  {
+                      if (Settings.JsHintOptions == null)
+                      {
+                          Settings.JsHintOptions = new UglifyCS.JSHint.options();
+
+                          // default setting
+                          Settings.JsHintOptions.devel = true;
+                          Settings.JsHintOptions.curly = true;
+                          Settings.JsHintOptions.undef = true;
+
+                          PropertyInfo[] propertyInfos;
+                          propertyInfos = typeof(UglifyCS.JSHint.options).GetProperties();
+                          foreach (PropertyInfo propertyInfo in propertyInfos)
+                          {
+                             try
+                              {
+                                  bool tempValue = false;
+                                  if (bool.TryParse(regKey.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                  {
+                                      propertyInfo.SetValue(Settings.JsHintOptions, tempValue, null);
+                                  }
+                              }
+                              catch(Exception ex)
+                              {
+                                  propertyInfo.SetValue(Settings.JsHintOptions, regKey.GetValue(propertyInfo.Name), null);
+                              }
+                          }
+                      }
+
+
+                  }
                 LoadExtensions();
             } 
             catch (Exception ex)
@@ -436,6 +478,16 @@ namespace Zippy.Chirp
                 regKey.SetValue("RunCSSLint", Settings.RunCSSLint);
                 regKey.SetValue("showDetailLog", Settings.showDetailLog);
 
+                using (var regKeyJsHint = Registry.CurrentUser.OpenSubKey(RegWDSJsHint, true) ?? Registry.CurrentUser.CreateSubKey(RegWDSJsHint))
+                {
+                    PropertyInfo[] propertyInfos;
+                    propertyInfos = typeof(UglifyCS.JSHint.options).GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        regKeyJsHint.SetValue(propertyInfo.Name, propertyInfo.GetValue(Settings.JsHintOptions, null));
+                    }
+                }
+
                 LoadExtensions();
 
                 if (Saved != null)
@@ -456,5 +508,7 @@ namespace Zippy.Chirp
                 ".debug.js", ".debug.css"
             };
         }
+
+       
     }
 }
