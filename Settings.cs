@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using Microsoft.Win32;
 
 namespace Zippy.Chirp
 {
     /// <summary>
     /// Used by WDS add-in to save and retrieve its options from the registry.
     /// </summary>
-    public class Settings 
+    public class Settings
     {
         #region Private Fields
         private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
@@ -63,17 +62,18 @@ namespace Zippy.Chirp
         #region Constructors
         public Settings()
         {
-            LoadSettingFromRegistry();
+            this.LoadSettingFromRegistry();
         }
 
         public Settings(string directoryPath)
         {
             // load defaut setting from registry
-
-            LoadSettingFromRegistry();
+            this.LoadSettingFromRegistry();
 
             if (!string.IsNullOrEmpty(directoryPath))
-                this.SetSettings(CalculateSettingsForDirectory(directoryPath, new Dictionary<string, string>(), ChirpConfigFile));
+            {
+                this.SetSettings(this.CalculateSettingsForDirectory(directoryPath, new Dictionary<string, string>(), this.ChirpConfigFile));
+            }
         }
         #endregion
 
@@ -86,13 +86,13 @@ namespace Zippy.Chirp
             get { return this.chirpJsFile; }
             set { this.chirpJsFile = value; }
         }
-      
+
         public string ChirpSimpleJsFile
         {
             get { return this.chirpSimpleJsFile; }
             set { this.chirpSimpleJsFile = value; }
         }
-      
+
         public string ChirpWhiteSpaceJsFile
         {
             get { return this.chirpWhiteSpaceJsFile; }
@@ -104,67 +104,67 @@ namespace Zippy.Chirp
             get { return this.chirpYUIJsFile; }
             set { this.chirpYUIJsFile = value; }
         }
-       
+
         public string ChirpGctJsFile
         {
             get { return this.chirpGctJsFile; }
             set { this.chirpGctJsFile = value; }
         }
-       
+
         public string ChirpMSAjaxJsFile
         {
             get { return this.chirpMSAjaxJsFile; }
             set { this.chirpMSAjaxJsFile = value; }
         }
-        
+
         public string ChirpPartialViewFile
         {
             get { return this.chirpPartialViewFile; }
             set { this.chirpPartialViewFile = value; }
         }
-      
+
         public string ChirpViewFile
         {
             get { return this.chirpViewFile; }
             set { this.chirpViewFile = value; }
         }
-     
+
         public string ChirpRazorCSViewFile
         {
             get { return this.chirpRazorCSViewFile; }
             set { this.chirpRazorCSViewFile = value; }
         }
-       
+
         public string ChirpRazorVBViewFile
         {
             get { return this.chirpRazorVBViewFile; }
             set { this.chirpRazorVBViewFile = value; }
         }
-       
+
         public string ChirpLessFile
         {
             get { return this.chirpLessFile; }
             set { this.chirpLessFile = value; }
         }
-       
+
         public string ChirpMSAjaxLessFile
         {
             get { return this.chirpMSAjaxLessFile; }
             set { this.chirpMSAjaxLessFile = value; }
         }
-      
+
         public string ChirpHybridLessFile
         {
             get { return this.chirpHybridLessFile; }
             set { this.chirpHybridLessFile = value; }
         }
-        
+
         public string ChirpMichaelAshLessFile
         {
             get { return this.chirpMichaelAshLessFile; }
             set { this.chirpMichaelAshLessFile = value; }
         }
-       
+
         public string ChirpUglifyJsFile
         {
             get { return this.chirpUglifyJsFile; }
@@ -176,43 +176,43 @@ namespace Zippy.Chirp
             get { return this.chirpCoffeeScriptFile; }
             set { this.chirpCoffeeScriptFile = value; }
         }
-       
+
         public string ChirpSimpleCoffeeScriptFile
         {
             get { return this.chirpSimpleCoffeeScriptFile; }
             set { this.chirpSimpleCoffeeScriptFile = value; }
         }
-        
+
         public string ChirpWhiteSpaceCoffeeScriptFile
         {
             get { return this.chirpWhiteSpaceCoffeeScriptFile; }
             set { this.chirpWhiteSpaceCoffeeScriptFile = value; }
         }
-        
+
         public string ChirpYUICoffeeScriptFile
         {
             get { return this.chirpYUICoffeeScriptFile; }
             set { this.chirpYUICoffeeScriptFile = value; }
         }
-       
+
         public string ChirpGctCoffeeScriptFile
         {
             get { return this.chirpGctCoffeeScriptFile; }
             set { this.chirpGctCoffeeScriptFile = value; }
         }
-       
+
         public string ChirpMSAjaxCoffeeScriptFile
         {
             get { return this.chirpMSAjaxCoffeeScriptFile; }
             set { this.chirpMSAjaxCoffeeScriptFile = value; }
         }
-       
+
         public string ChirpUglifyCoffeeScriptFile
         {
             get { return this.chirpUglifyCoffeeScriptFile; }
             set { this.chirpUglifyCoffeeScriptFile = value; }
         }
-        
+
         public string CoffeeScriptBatFilePath
         {
             get { return this.coffeeScriptBatFilePath; }
@@ -224,19 +224,19 @@ namespace Zippy.Chirp
             get { return this.chirpCssFile; }
             set { this.chirpCssFile = value; }
         }
-        
+
         public string ChirpMSAjaxCssFile
         {
             get { return this.chirpMSAjaxCssFile; }
             set { this.chirpMSAjaxCssFile = value; }
         }
-        
+
         public string ChirpHybridCssFile
         {
             get { return this.chirpHybridCssFile; }
             set { this.chirpHybridCssFile = value; }
         }
-        
+
         public string ChirpMichaelAshCssFile
         {
             get { return this.chirpMichaelAshCssFile; }
@@ -254,7 +254,7 @@ namespace Zippy.Chirp
             get { return this.defaultCssMinifier; }
             set { this.defaultCssMinifier = value; }
         }
-        
+
         public Xml.MinifyType DefaultJavaScriptMinifier
         {
             get { return this.defaultJavaScriptMinifier; }
@@ -267,42 +267,44 @@ namespace Zippy.Chirp
             set { this.allExtensions = value; }
         }
 
-        public UglifyCS.JSHint.options JsHintOptions 
-        { 
-            get; 
-            set; 
+        public UglifyCS.JSHint.options JsHintOptions
+        {
+            get;
+            set;
         }
 
-        public UglifyCS.CSSLint.options CssLintOptions 
-        { 
-            get; 
-            set; 
-        }        
+        public UglifyCS.CSSLint.options CssLintOptions
+        {
+            get;
+            set;
+        }
 
         public bool T4RunAsBuild
         {
             get { return this.t4RunAsBuild; }
             set { this.t4RunAsBuild = value; }
         }
-        
+
         public string T4RunAsBuildTemplate
         {
             get { return this.t4RunAsBuildTemplate; }
             set { this.t4RunAsBuildTemplate = value; }
         }
-        
+
         public bool SmartRunT4MVC
         {
             get { return this.smartRunT4MVC; }
             set { this.smartRunT4MVC = value; }
         }
 
-        public bool RunJSHint {
+        public bool RunJSHint
+        {
             get { return this.runJSHint; }
             set { this.runJSHint = value; }
         }
 
-        public bool RunCSSLint {
+        public bool RunCSSLint
+        {
             get { return this.runCSSLint; }
             set { this.runCSSLint = value; }
         }
@@ -324,27 +326,27 @@ namespace Zippy.Chirp
             get { return this.googleClosureOffline; }
             set { this.googleClosureOffline = value; }
         }
-        
+
         public string GoogleClosureJavaPath
         {
             get { return this.googleClosureJavaPath; }
             set { this.googleClosureJavaPath = value; }
         }
 
-        public bool ShowDetailLog 
-        { 
-            get{ return this.showDetailLog; }
-            set{ this.showDetailLog = value; }
+        public bool ShowDetailLog
+        {
+            get { return this.showDetailLog; }
+            set { this.showDetailLog = value; }
         }
         #endregion
 
-        #region Public Methods 
-    
+        #region Public Methods
+
         /// <summary>
-        /// 
+        /// Instance settings class
         /// </summary>
-        /// <param name="fullFileName"></param>
-        /// <returns></returns>
+        /// <param name="fullFileName">Full file name</param>
+        /// <returns>Instance settings class by full file name</returns>
         public static Settings Instance(string fullFileName)
         {
             return new Settings(System.IO.Path.GetDirectoryName(fullFileName));
@@ -353,7 +355,7 @@ namespace Zippy.Chirp
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
-        public void Save() 
+        public void Save()
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(RegWDS, true) ?? Registry.CurrentUser.CreateSubKey(RegWDS))
             {
@@ -400,14 +402,14 @@ namespace Zippy.Chirp
                 regKey.SetValue("RunCSSLint", this.RunCSSLint);
                 regKey.SetValue("showDetailLog", this.showDetailLog);
 
-                SaveOptionsInRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint.options), this.JsHintOptions);
-                SaveOptionsInRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint.options), this.CssLintOptions);
+                this.SaveOptionsInRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint.options), this.JsHintOptions);
+                this.SaveOptionsInRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint.options), this.CssLintOptions);
 
-                LoadExtensions();
+                this.LoadExtensions();
 
                 if (Saved != null)
-                { 
-                    Saved(); 
+                {
+                    Saved();
                 }
             }
         }
@@ -468,10 +470,11 @@ namespace Zippy.Chirp
                     this.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
                     this.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
                 }
-                LoadJsHintOptions();
-                LoadCssLintOptions();
 
-                LoadExtensions();
+                this.LoadJsHintOptions();
+                this.LoadCssLintOptions();
+
+                this.LoadExtensions();
             }
             catch (Exception ex)
             {
@@ -487,18 +490,21 @@ namespace Zippy.Chirp
             }
         }
 
-   
-
         /// <summary>
         /// set setting from list
         /// </summary>
+        /// <param name="settings">list of settings key-value</param>
         private void SetSettings(IEnumerable<KeyValuePair<string, string>> settings)
         {
             foreach (var kvp in settings)
             {
                 var thisType = typeof(Settings);
                 System.Reflection.PropertyInfo prop = thisType.GetProperty(kvp.Key);
-                if (prop == null) continue;
+                if (prop == null)
+                {
+                    continue;
+                }
+
                 if (prop.PropertyType == typeof(string))
                 {
                     prop.SetValue(this, kvp.Value, null);
@@ -520,30 +526,41 @@ namespace Zippy.Chirp
             {
                 // Process the file
                 // /root/Settings/key
-
                 try
                 {
-                    //var xdoc = new System.Xml.XPath.XPathDocument(file).CreateNavigator();
+                    // var xdoc = new System.Xml.XPath.XPathDocument(file).CreateNavigator();
                     var xdoc = System.Xml.Linq.XDocument.Load(file);
                     System.Xml.Linq.XNamespace c = "urn:ChirpyConfig";
                     var settings = xdoc.Element(c + "root").Element(c + "Settings");
                     if (settings != null)
+                    {
                         foreach (var setting in settings.Elements(c + "Setting"))
+                        {
                             if (!initialSettings.ContainsKey(setting.Attribute("key").Value))
+                            {
                                 initialSettings.Add(setting.Attribute("key").Value,
                                                     setting.Attribute("value").Value);
+                            }
+                        }
+                    }
                 }
-                catch (System.IO.IOException) { } // Ignore locked files, etc.
+                catch (System.IO.IOException)
+                {
+                    // Ignore locked files, etc.
+                }
             }
+
             var parent = System.IO.Directory.GetParent(directoryPath);
             if (parent != null)
+            {
                 this.CalculateSettingsForDirectory(parent.FullName, initialSettings, configFile);
+            }
+
             return initialSettings;
         }
 
         private void LoadJsHintOptions()
         {
-
             if (this.JsHintOptions == null)
             {
                 this.JsHintOptions = new UglifyCS.JSHint.options();
@@ -553,20 +570,16 @@ namespace Zippy.Chirp
                 this.JsHintOptions.curly = true;
                 this.JsHintOptions.undef = true;
 
-                LoadOptionsFromRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint), this.JsHintOptions);
+                this.LoadOptionsFromRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint), this.JsHintOptions);
             }
         }
 
         private void LoadCssLintOptions()
         {
-
             if (this.CssLintOptions == null)
             {
                 this.CssLintOptions = new UglifyCS.CSSLint.options();
-
-                // default setting
-
-                LoadOptionsFromRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint), this.CssLintOptions);
+                this.LoadOptionsFromRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint), this.CssLintOptions);
             }
         }
 
@@ -598,7 +611,7 @@ namespace Zippy.Chirp
                             }
                             else if (propertyInfo.PropertyType == typeof(int))
                             {
-                                propertyInfo.SetValue(objectToSave,Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                                propertyInfo.SetValue(objectToSave, Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
                             }
                         }
                         catch (Exception ex)
@@ -622,7 +635,7 @@ namespace Zippy.Chirp
             }
         }
 
-        private void SaveOptionsInRegistry(string regKey,Type objectType, object objectToSave)
+        private void SaveOptionsInRegistry(string regKey, Type objectType, object objectToSave)
         {
             using (var regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, true) ?? Registry.CurrentUser.CreateSubKey(regKey))
             {
@@ -635,7 +648,7 @@ namespace Zippy.Chirp
             }
         }
 
-        private  void LoadExtensions()
+        private void LoadExtensions()
         {
             this.AllExtensions = new[]
             {
@@ -645,7 +658,5 @@ namespace Zippy.Chirp
                 ".debug.js", ".debug.css"
             };
         }
-
-       
     }
 }

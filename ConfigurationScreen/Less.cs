@@ -10,7 +10,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.InitializeComponent();
         }
 
-
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
             txtChirpLessFile.Text = this.Settings.ChirpLessFile;
