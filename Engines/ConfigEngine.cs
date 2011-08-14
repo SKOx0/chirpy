@@ -64,7 +64,8 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string fullFileName)
         {
-            return fullFileName.EndsWith(Settings.ChirpConfigFile, StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
+            this.Settings = Settings.Instance(fullFileName);
+            return fullFileName.EndsWith(this.Settings.ChirpConfigFile, StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
         }
 
         public override void Run(string fullFileName, ProjectItem projectItem)
@@ -86,7 +87,7 @@ namespace Zippy.Chirp.Engines
                     {
                         fullPath = fileGroup.Path;
                     }
-                    string fullPathMin = Utilities.GetBaseFileName(fullPath) + (isJS ? Settings.OutputExtensionJS : Settings.OutputExtensionCSS);
+                    string fullPathMin = Utilities.GetBaseFileName(fullPath) + (isJS ? this.Settings.OutputExtensionJS : this.Settings.OutputExtensionCSS);
                     if (TaskList.Instance != null) 
                     {
                         TaskList.Instance.Remove(fullPath);

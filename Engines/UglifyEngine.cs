@@ -8,8 +8,9 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string fullFileName) 
         {
-            if (Settings.RunCSSLint && fullFileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
-                && !fullFileName.EndsWith(Settings.OutputExtensionCSS, StringComparison.OrdinalIgnoreCase)) 
+            this.Settings = Settings.Instance(fullFileName);
+            if (this.Settings.RunCSSLint && fullFileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
+                && !fullFileName.EndsWith(this.Settings.OutputExtensionCSS, StringComparison.OrdinalIgnoreCase)) 
             {
                 return 1;
             }
@@ -29,7 +30,7 @@ namespace Zippy.Chirp.Engines
                     }
                 }
             }
-
+  
             var code = System.IO.File.ReadAllText(fullFileName);
             var results = lint.CSSLINT(code);
 
@@ -58,8 +59,9 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string fullFileName)
         {
-            if (Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
-                && !fullFileName.EndsWith(Settings.OutputExtensionJS, StringComparison.OrdinalIgnoreCase))
+            this.Settings = Settings.Instance(fullFileName);
+            if (this.Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                && !fullFileName.EndsWith(this.Settings.OutputExtensionJS, StringComparison.OrdinalIgnoreCase))
             { 
                 return 1; 
             }
@@ -69,6 +71,7 @@ namespace Zippy.Chirp.Engines
 
         public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem)
         {
+
             if (JSHintEngine.hint == null)
             {
                 lock (UglifyCS.Extensibility.Instance)
@@ -81,14 +84,17 @@ namespace Zippy.Chirp.Engines
             }
 
             var code = System.IO.File.ReadAllText(fullFileName);
-           
-            var results = JSHintEngine.hint.JSHINT(code,Settings.JsHintOptions);
+
+            var results = JSHintEngine.hint.JSHINT(code, this.Settings.JsHintOptions);
 
             if (results != null)
             {
                 foreach (var item in results)
                 {
-                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, fullFileName, item.line, item.character, item.reason);
+                    if (item != null && projectItem.ContainingProject != null && TaskList.Instance != null)
+                    {
+                        TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, fullFileName, item.line, item.character, item.reason);
+                    }
                 }
             }
         }
@@ -106,8 +112,8 @@ namespace Zippy.Chirp.Engines
 
         public UglifyEngine()
         {
-            Extensions = new[] { Settings.ChirpUglifyJsFile };
-            OutputExtension = Settings.OutputExtensionJS;
+            Extensions = new[] { this.Settings.ChirpUglifyJsFile };
+            OutputExtension = this.Settings.OutputExtensionJS;
         }
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem)

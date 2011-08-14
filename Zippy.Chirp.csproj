@@ -102,6 +102,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandHelper.cs" />
+    <Compile Include="ConfigurationScreen\BaseConfigurationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ConfigurationScreen\CoffeeScript.cs">
       <SubType>UserControl</SubType>
     </Compile>

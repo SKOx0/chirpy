@@ -156,12 +156,8 @@ namespace Zippy.Chirp
         /// <returns>Base filename "C:\fakepath\test"</returns>
         public static string GetBaseFileName(string fullFileName, params string[] extensions)
         {
-            if (Settings.AllExtensions == null)
-            {
-                Settings.Load(); 
-            }
-
-            extensions = extensions == null ? Settings.AllExtensions : extensions.Union(Settings.AllExtensions).ToArray();
+            var settings = Settings.Instance(fullFileName);
+            extensions = extensions == null ? settings.AllExtensions : extensions.Union(settings.AllExtensions).ToArray();
 
             var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
                 ?? System.IO.Path.GetExtension(fullFileName);

@@ -3,48 +3,32 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class CoffeeScript : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class CoffeeScript : BaseConfigurationControl
     {
         public CoffeeScript()
         {
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            propertiesObject = null;
+            txtChirpJsFile.Text = this.Settings.ChirpCoffeeScriptFile;
+            txtChirpSimpleJsFile.Text = this.Settings.ChirpSimpleCoffeeScriptFile;
+            txtChirpWhiteSpaceJsFile.Text = this.Settings.ChirpWhiteSpaceCoffeeScriptFile;
+            txtChirpYUIJsFile.Text = this.Settings.ChirpYUICoffeeScriptFile;
+            txtMSAjaxJsFile.Text = this.Settings.ChirpMSAjaxCoffeeScriptFile;
+            txtPath.Text = this.Settings.CoffeeScriptBatFilePath;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
+        public override void OnOK()
         {
-            Settings.Load();
-            txtChirpJsFile.Text = Settings.ChirpCoffeeScriptFile;
-            txtChirpSimpleJsFile.Text = Settings.ChirpSimpleCoffeeScriptFile;
-            txtChirpWhiteSpaceJsFile.Text = Settings.ChirpWhiteSpaceCoffeeScriptFile;
-            txtChirpYUIJsFile.Text = Settings.ChirpYUICoffeeScriptFile;
-            txtMSAjaxJsFile.Text = Settings.ChirpMSAjaxCoffeeScriptFile;
-            txtPath.Text = Settings.CoffeeScriptBatFilePath;
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK()
-        {
-            Settings.ChirpCoffeeScriptFile = txtChirpJsFile.Text;
-            Settings.ChirpSimpleCoffeeScriptFile = txtChirpSimpleJsFile.Text;
-            Settings.ChirpWhiteSpaceCoffeeScriptFile = txtChirpWhiteSpaceJsFile.Text;
-            Settings.ChirpYUICoffeeScriptFile = txtChirpYUIJsFile.Text;
-            Settings.ChirpMSAjaxCoffeeScriptFile = txtMSAjaxJsFile.Text;
-            Settings.CoffeeScriptBatFilePath = txtPath.Text;
-            Settings.Save();
+            this.Settings.ChirpCoffeeScriptFile = txtChirpJsFile.Text;
+            this.Settings.ChirpSimpleCoffeeScriptFile = txtChirpSimpleJsFile.Text;
+            this.Settings.ChirpWhiteSpaceCoffeeScriptFile = txtChirpWhiteSpaceJsFile.Text;
+            this.Settings.ChirpYUICoffeeScriptFile = txtChirpYUIJsFile.Text;
+            this.Settings.ChirpMSAjaxCoffeeScriptFile = txtMSAjaxJsFile.Text;
+            this.Settings.CoffeeScriptBatFilePath = txtPath.Text;
+            this.Settings.Save();
         }
 
         private void Download_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

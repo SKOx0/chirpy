@@ -10,8 +10,8 @@ namespace Zippy.Chirp.Engines
 
         public ViewEngine()
         {
-            Extensions = new[] { Settings.ChirpViewFile, Settings.ChirpPartialViewFile, Settings.ChirpRazorCSViewFile, Settings.ChirpRazorVBViewFile };
-            OutputExtension = Settings.ChirpViewFile;
+            Extensions = new[] { this.Settings.ChirpViewFile, this.Settings.ChirpPartialViewFile, this.Settings.ChirpRazorCSViewFile, this.Settings.ChirpRazorVBViewFile };
+            OutputExtension = this.Settings.ChirpViewFile;
         }
 
         public override string GetOutputExtension(string fullFileName) 
@@ -21,19 +21,20 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string fullFileName) 
         {
-            if (fullFileName.EndsWith(Settings.ChirpViewFile, System.StringComparison.InvariantCultureIgnoreCase))
+            this.Settings = Settings.Instance(fullFileName);
+            if (fullFileName.EndsWith(this.Settings.ChirpViewFile, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 return 1;
             }
-            else if (fullFileName.EndsWith(Settings.ChirpPartialViewFile, System.StringComparison.InvariantCultureIgnoreCase))
+            else if (fullFileName.EndsWith(this.Settings.ChirpPartialViewFile, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 return 1;
             }
-            else if (fullFileName.EndsWith(Settings.ChirpRazorCSViewFile, System.StringComparison.InvariantCultureIgnoreCase))
+            else if (fullFileName.EndsWith(this.Settings.ChirpRazorCSViewFile, System.StringComparison.InvariantCultureIgnoreCase))
             { 
                 return 1; 
             }
-            else if (fullFileName.EndsWith(Settings.ChirpRazorVBViewFile, System.StringComparison.InvariantCultureIgnoreCase))
+            else if (fullFileName.EndsWith(this.Settings.ChirpRazorVBViewFile, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 return 1;
             }

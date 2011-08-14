@@ -4,42 +4,25 @@ using Microsoft.Win32;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class GoogleClosure : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class GoogleClosure : BaseConfigurationControl
     {
         public GoogleClosure()
         {
             InitializeComponent();
-          }
-
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
-        {
-            propertiesObject = null;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            Settings.Load();
-
-            this.textBoxJavaPath.Text = Settings.GoogleClosureJavaPath;
+            this.textBoxJavaPath.Text = this.Settings.GoogleClosureJavaPath;
             this.toolTip1.SetToolTip(textBoxJavaPath, textBoxJavaPath.Text);
-            this.chkEnableOfline.Checked = Settings.GoogleClosureOffline;
+            this.chkEnableOfline.Checked = this.Settings.GoogleClosureOffline;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
+        public override void OnOK()
         {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK()
-        {
-            Settings.GoogleClosureOffline = this.chkEnableOfline.Checked;
-            Settings.GoogleClosureJavaPath = this.textBoxJavaPath.Text;
-            Settings.Save();
+            this.Settings.GoogleClosureOffline = this.chkEnableOfline.Checked;
+            this.Settings.GoogleClosureJavaPath = this.textBoxJavaPath.Text;
+            this.Settings.Save();
         }
 
         private void EnableOfline_CheckedChanged(object sender, EventArgs e)

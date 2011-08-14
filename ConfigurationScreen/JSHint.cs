@@ -9,91 +9,76 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class JSHint : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class JSHint : BaseConfigurationControl
     {
         public JSHint()
         {
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
-        {
-            propertiesObject = null;
-        }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            Settings.Load();
-            this.chkBitwise.Checked = Settings.JsHintOptions.bitwise;
-            this.chkBoss.Checked = Settings.JsHintOptions.boss;
-            this.chkCurly.Checked = Settings.JsHintOptions.curly;
-            this.chkDebug.Checked = Settings.JsHintOptions.debug;
+            this.chkBitwise.Checked = this.Settings.JsHintOptions.bitwise;
+            this.chkBoss.Checked = this.Settings.JsHintOptions.boss;
+            this.chkCurly.Checked = this.Settings.JsHintOptions.curly;
+            this.chkDebug.Checked = this.Settings.JsHintOptions.debug;
             //this.chkDevel.Checked = Settings.JsHintOptions.devel;
-            this.chkEqeqeq.Checked = Settings.JsHintOptions.eqeqeq;
-            this.chkEvil.Checked = Settings.JsHintOptions.evil;
-            this.chkForin.Checked = Settings.JsHintOptions.forin;
-            this.chkImmed.Checked = Settings.JsHintOptions.immed;
-            this.chkLaxbreak.Checked = Settings.JsHintOptions.laxbreak;
-            if (Settings.JsHintOptions.maxerr.HasValue)
+            this.chkEqeqeq.Checked = this.Settings.JsHintOptions.eqeqeq;
+            this.chkEvil.Checked = this.Settings.JsHintOptions.evil;
+            this.chkForin.Checked = this.Settings.JsHintOptions.forin;
+            this.chkImmed.Checked = this.Settings.JsHintOptions.immed;
+            this.chkLaxbreak.Checked = this.Settings.JsHintOptions.laxbreak;
+            if (this.Settings.JsHintOptions.maxerr.HasValue)
             {
-                this.TxtMaxerr.Value = Settings.JsHintOptions.maxerr.Value;
+                this.TxtMaxerr.Value = this.Settings.JsHintOptions.maxerr.Value;
             }
-            this.chkNewcap.Checked = Settings.JsHintOptions.newcapp;
-            this.chkNoArg.Checked = Settings.JsHintOptions.noarg;
-            this.chkNoEmpty.Checked = Settings.JsHintOptions.noempty;
-            this.chkNomen.Checked = Settings.JsHintOptions.nomen;
-            this.chkNoNew.Checked = Settings.JsHintOptions.nonew;
-            this.chkNoVar.Checked = Settings.JsHintOptions.novar;
-            this.chkPassfail.Checked = Settings.JsHintOptions.passfail;
-            this.chkPlusPlus.Checked = Settings.JsHintOptions.plusplus;
-            this.chkRegex.Checked = Settings.JsHintOptions.regex;
-            this.chkStrict.Checked = Settings.JsHintOptions.strict;
-            this.chkSub.Checked = Settings.JsHintOptions.sub;
-            this.chkUndef.Checked = Settings.JsHintOptions.undef;
-            this.chkWhite.Checked = Settings.JsHintOptions.white;
-            this.chkJSHint.Checked = Settings.RunJSHint;
+            this.chkNewcap.Checked = this.Settings.JsHintOptions.newcapp;
+            this.chkNoArg.Checked = this.Settings.JsHintOptions.noarg;
+            this.chkNoEmpty.Checked = this.Settings.JsHintOptions.noempty;
+            this.chkNomen.Checked = this.Settings.JsHintOptions.nomen;
+            this.chkNoNew.Checked = this.Settings.JsHintOptions.nonew;
+            this.chkNoVar.Checked = this.Settings.JsHintOptions.novar;
+            this.chkPassfail.Checked = this.Settings.JsHintOptions.passfail;
+            this.chkPlusPlus.Checked = this.Settings.JsHintOptions.plusplus;
+            this.chkRegex.Checked = this.Settings.JsHintOptions.regex;
+            this.chkStrict.Checked = this.Settings.JsHintOptions.strict;
+            this.chkSub.Checked = this.Settings.JsHintOptions.sub;
+            this.chkUndef.Checked = this.Settings.JsHintOptions.undef;
+            this.chkWhite.Checked = this.Settings.JsHintOptions.white;
+            this.chkJSHint.Checked = this.Settings.RunJSHint;
 
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
+        public override void OnOK()
         {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK()
-        {
-            Settings.JsHintOptions.devel = true;
-            Settings.JsHintOptions.bitwise = this.chkBitwise.Checked;
-            Settings.JsHintOptions.boss = this.chkBoss.Checked;
-            Settings.JsHintOptions.curly = this.chkCurly.Checked;
-            Settings.JsHintOptions.debug = this.chkDebug.Checked;
+            this.Settings.JsHintOptions.devel = true;
+            this.Settings.JsHintOptions.bitwise = this.chkBitwise.Checked;
+            this.Settings.JsHintOptions.boss = this.chkBoss.Checked;
+            this.Settings.JsHintOptions.curly = this.chkCurly.Checked;
+            this.Settings.JsHintOptions.debug = this.chkDebug.Checked;
             //this.chkDevel.Checked = Settings.JsHintOptions.devel;
-            Settings.JsHintOptions.eqeqeq = this.chkEqeqeq.Checked;
-            Settings.JsHintOptions.evil = this.chkEvil.Checked;
-            Settings.JsHintOptions.forin = this.chkForin.Checked;
-            Settings.JsHintOptions.immed = this.chkImmed.Checked;
-            Settings.JsHintOptions.laxbreak = this.chkLaxbreak.Checked;
-            Settings.JsHintOptions.maxerr = (int)this.TxtMaxerr.Value;
-            Settings.JsHintOptions.newcapp = this.chkNewcap.Checked;
-            Settings.JsHintOptions.noarg=this.chkNoArg.Checked;
-            Settings.JsHintOptions.noempty = this.chkNoEmpty.Checked;
-            Settings.JsHintOptions.nomen = this.chkNomen.Checked;
-            Settings.JsHintOptions.nonew = this.chkNoNew.Checked;
-            Settings.JsHintOptions.novar = this.chkNoVar.Checked;
-            Settings.JsHintOptions.passfail=this.chkPassfail.Checked;
-            Settings.JsHintOptions.plusplus=this.chkPlusPlus.Checked;
-            Settings.JsHintOptions.regex=this.chkRegex.Checked;
-            Settings.JsHintOptions.strict=this.chkStrict.Checked;
-            Settings.JsHintOptions.sub=this.chkSub.Checked;
-            Settings.JsHintOptions.undef=this.chkUndef.Checked;
-            Settings.JsHintOptions.white=this.chkWhite.Checked;
-            this.chkJSHint.Checked = Settings.RunJSHint;
-            Settings.Save();
+            this.Settings.JsHintOptions.eqeqeq = this.chkEqeqeq.Checked;
+            this.Settings.JsHintOptions.evil = this.chkEvil.Checked;
+            this.Settings.JsHintOptions.forin = this.chkForin.Checked;
+            this.Settings.JsHintOptions.immed = this.chkImmed.Checked;
+            this.Settings.JsHintOptions.laxbreak = this.chkLaxbreak.Checked;
+            this.Settings.JsHintOptions.maxerr = (int)this.TxtMaxerr.Value;
+            this.Settings.JsHintOptions.newcapp = this.chkNewcap.Checked;
+            this.Settings.JsHintOptions.noarg = this.chkNoArg.Checked;
+            this.Settings.JsHintOptions.noempty = this.chkNoEmpty.Checked;
+            this.Settings.JsHintOptions.nomen = this.chkNomen.Checked;
+            this.Settings.JsHintOptions.nonew = this.chkNoNew.Checked;
+            this.Settings.JsHintOptions.novar = this.chkNoVar.Checked;
+            this.Settings.JsHintOptions.passfail = this.chkPassfail.Checked;
+            this.Settings.JsHintOptions.plusplus = this.chkPlusPlus.Checked;
+            this.Settings.JsHintOptions.regex = this.chkRegex.Checked;
+            this.Settings.JsHintOptions.strict = this.chkStrict.Checked;
+            this.Settings.JsHintOptions.sub = this.chkSub.Checked;
+            this.Settings.JsHintOptions.undef = this.chkUndef.Checked;
+            this.Settings.JsHintOptions.white = this.chkWhite.Checked;
+            this.Settings.RunJSHint = this.chkJSHint.Checked;
+            this.Settings.Save();
         }
 
     }

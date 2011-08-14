@@ -19,7 +19,7 @@ namespace Zippy.Chirp.Engines
         {
             if (mode == MinifyType.Unspecified)
             {
-                mode = Settings.DefaultJavaScriptMinifier;
+                mode = Settings.Instance(fullFileName).DefaultJavaScriptMinifier;
             }
 
             switch (mode)
@@ -48,7 +48,7 @@ namespace Zippy.Chirp.Engines
         {
             if (mode == MinifyType.Unspecified)
             {
-                mode = Settings.DefaultCssMinifier; 
+                mode = Settings.Instance(fullFileName).DefaultCssMinifier; 
             }
 
             switch (mode)
@@ -69,6 +69,13 @@ namespace Zippy.Chirp.Engines
     /// </summary>
     public abstract class ActionEngine : IDisposable
     {
+        private Settings _settings = new Settings();
+        public Settings Settings
+        {
+            get { return _settings; }
+            set { _settings = value; }
+        }
+
         internal Chirp Chirp;
 
         /// <summary>
@@ -78,7 +85,10 @@ namespace Zippy.Chirp.Engines
         /// <returns>Handle id</returns>
         public abstract int Handles(string fullFileName);
 
-        public abstract void Run(string fullFileName, ProjectItem projectItem);
+        public virtual void Run(string fullFileName, ProjectItem projectItem)
+        {
+            Settings = new Settings(System.IO.Path.GetDirectoryName(fullFileName));
+        }
 
         public virtual void Dispose() 
         { 
@@ -217,6 +227,7 @@ namespace Zippy.Chirp.Engines
         protected override void Process(ProjectItem projectItem)
         {
             var fullFileName = projectItem.get_FileNames(1);
+            var detailLog =  Settings.Instance(fullFileName).ShowDetailLog;
             TaskList.Instance.Remove(fullFileName);
 
             var actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
@@ -235,7 +246,7 @@ namespace Zippy.Chirp.Engines
                     transformed = true;
                 }
 
-                if (Settings.ShowDetailLog)
+                if (detailLog)
                 {
                     this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
                 }

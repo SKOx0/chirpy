@@ -28,15 +28,27 @@ namespace Console.Chirp {
             listTrasformEngine.Add(new ViewEngine());
             // listTrasformEngine.Add(new T4Engine());
 
-            foreach (TransformEngine transformEngine in listTrasformEngine) {
-                foreach (string extension in transformEngine.Extensions) {
-                    foreach (string filename in Directory.GetFiles(findPath, "*" + extension, SearchOption.AllDirectories)) {
-                        if (filename.Contains(".min.")) continue;
-                        string text = System.IO.File.ReadAllText(filename);
-                        string minFileName = Utilities.GetBaseFileName(filename, extension) + transformEngine.GetOutputExtension(filename);
-                        text = transformEngine.Transform(filename, text, null);
-                        System.IO.File.WriteAllText(minFileName, text);
-                        System.Console.WriteLine(string.Format("{0} -- {1}", transformEngine.GetType().Name, filename));
+            foreach (var directory in Directory.GetDirectories(findPath, "*", SearchOption.AllDirectories))
+            {
+                var settings = new Settings(directory);
+                foreach (TransformEngine transformEngine in listTrasformEngine)
+                {
+                    transformEngine.Settings = settings;
+                    foreach (string extension in transformEngine.Extensions)
+                    {
+                        foreach (
+                            string filename in
+                                Directory.GetFiles(directory, "*" + extension, SearchOption.TopDirectoryOnly))
+                        {
+                            if (filename.Contains(".min.")) continue;
+                            string text = System.IO.File.ReadAllText(filename);
+                            string minFileName = Utilities.GetBaseFileName(filename, extension) +
+                                                 transformEngine.GetOutputExtension(filename);
+                            text = transformEngine.Transform(filename, text, null);
+                            System.IO.File.WriteAllText(minFileName, text);
+                            System.Console.WriteLine(string.Format("{0} -- {1}", transformEngine.GetType().Name,
+                                                                   filename));
+                        }
                     }
                 }
             }
@@ -44,14 +56,21 @@ namespace Console.Chirp {
             //config file
             var configEngine = new ConfigEngine();
 
-            foreach (string filename in Directory.GetFiles(findPath, "*" + Settings.ChirpConfigFile, SearchOption.AllDirectories)) {
-                try {
-                    System.Console.WriteLine(string.Format("ConfigEngine -- {0}", filename));
-                    configEngine.Run(filename, null);
-                } catch (System.IO.FileNotFoundException) {
-                    System.Console.WriteLine(string.Format("File not found in config file={0}", filename));
+            foreach (var directory in Directory.GetDirectories(findPath, "*", SearchOption.AllDirectories))
+            {
+                var settings = new Settings(directory);
+                foreach (string filename in Directory.GetFiles(findPath, "*" + new Settings(directory).ChirpConfigFile, SearchOption.TopDirectoryOnly))
+                {
+                    try
+                    {
+                        System.Console.WriteLine(string.Format("ConfigEngine -- {0}", filename));
+                        configEngine.Run(filename, null);
+                    }
+                    catch (System.IO.FileNotFoundException)
+                    {
+                        System.Console.WriteLine(string.Format("File not found in config file={0}", filename));
+                    }
                 }
-
             }
 
 
