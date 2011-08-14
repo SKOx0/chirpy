@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
+﻿
 namespace Zippy.Chirp.ConfigurationScreen
 {
     public partial class JSHint : BaseConfigurationControl
@@ -16,14 +8,12 @@ namespace Zippy.Chirp.ConfigurationScreen
             InitializeComponent();
         }
 
-
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
             this.chkBitwise.Checked = this.Settings.JsHintOptions.bitwise;
             this.chkBoss.Checked = this.Settings.JsHintOptions.boss;
             this.chkCurly.Checked = this.Settings.JsHintOptions.curly;
             this.chkDebug.Checked = this.Settings.JsHintOptions.debug;
-            //this.chkDevel.Checked = Settings.JsHintOptions.devel;
             this.chkEqeqeq.Checked = this.Settings.JsHintOptions.eqeqeq;
             this.chkEvil.Checked = this.Settings.JsHintOptions.evil;
             this.chkForin.Checked = this.Settings.JsHintOptions.forin;
@@ -33,6 +23,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             {
                 this.TxtMaxerr.Value = this.Settings.JsHintOptions.maxerr.Value;
             }
+
             this.chkNewcap.Checked = this.Settings.JsHintOptions.newcapp;
             this.chkNoArg.Checked = this.Settings.JsHintOptions.noarg;
             this.chkNoEmpty.Checked = this.Settings.JsHintOptions.noempty;
@@ -47,7 +38,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.chkUndef.Checked = this.Settings.JsHintOptions.undef;
             this.chkWhite.Checked = this.Settings.JsHintOptions.white;
             this.chkJSHint.Checked = this.Settings.RunJSHint;
-
         }
 
         public override void OnOK()
@@ -57,7 +47,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.JsHintOptions.boss = this.chkBoss.Checked;
             this.Settings.JsHintOptions.curly = this.chkCurly.Checked;
             this.Settings.JsHintOptions.debug = this.chkDebug.Checked;
-            //this.chkDevel.Checked = Settings.JsHintOptions.devel;
             this.Settings.JsHintOptions.eqeqeq = this.chkEqeqeq.Checked;
             this.Settings.JsHintOptions.evil = this.chkEvil.Checked;
             this.Settings.JsHintOptions.forin = this.chkForin.Checked;
@@ -80,6 +69,5 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.RunJSHint = this.chkJSHint.Checked;
             this.Settings.Save();
         }
-
     }
 }

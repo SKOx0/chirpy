@@ -5,10 +5,11 @@ namespace Zippy.Chirp.ConfigurationScreen
 {
     public class BaseConfigurationControl : UserControl, EnvDTE.IDTToolsOptionsPage
     {
-        private Settings _settings = new Settings();
+        private Settings settings = new Settings();
+
         public Settings Settings
         {
-            get { return _settings; }
+            get { return this.settings; }
         }
 
         public virtual void GetProperties(ref object propertiesObject)

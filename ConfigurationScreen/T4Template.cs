@@ -10,7 +10,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             InitializeComponent();
         }
 
-
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
            this.chkT4RunOnBuild.Checked = this.Settings.T4RunAsBuild;
