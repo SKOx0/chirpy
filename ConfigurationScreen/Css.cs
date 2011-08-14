@@ -3,48 +3,32 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class Css : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class Css : BaseConfigurationControl
     {
         public Css()
         {
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            propertiesObject = null;
+             this.txtChirpCssFile.Text = this.Settings.ChirpCssFile;
+            this.txtMichaelAshCssFile.Text = this.Settings.ChirpMichaelAshCssFile;
+            this.txtHybridCssFile.Text = this.Settings.ChirpHybridCssFile;
+            this.txtMSAjaxCssFile.Text = this.Settings.ChirpMSAjaxCssFile;
+            this.txtOutputExtension.Text = this.Settings.OutputExtensionCSS;
+            this.chkCSSLint.Checked = this.Settings.RunCSSLint;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
+        public override void OnOK()
         {
-            Settings.Load();
-            this.txtChirpCssFile.Text = Settings.ChirpCssFile;
-            this.txtMichaelAshCssFile.Text = Settings.ChirpMichaelAshCssFile;
-            this.txtHybridCssFile.Text = Settings.ChirpHybridCssFile;
-            this.txtMSAjaxCssFile.Text = Settings.ChirpMSAjaxCssFile;
-            this.txtOutputExtension.Text = Settings.OutputExtensionCSS;
-            this.chkCSSLint.Checked = Settings.RunCSSLint;
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK()
-        {
-            Settings.ChirpCssFile = this.txtChirpCssFile.Text;
-            Settings.ChirpMichaelAshCssFile = this.txtMichaelAshCssFile.Text;
-            Settings.ChirpHybridCssFile = this.txtHybridCssFile.Text;
-            Settings.ChirpMSAjaxCssFile = this.txtMSAjaxCssFile.Text;
-            Settings.OutputExtensionCSS = this.txtOutputExtension.Text;
-            Settings.RunCSSLint = this.chkCSSLint.Checked;
-            Settings.Save();
+            this.Settings.ChirpCssFile = this.txtChirpCssFile.Text;
+            this.Settings.ChirpMichaelAshCssFile = this.txtMichaelAshCssFile.Text;
+            this.Settings.ChirpHybridCssFile = this.txtHybridCssFile.Text;
+            this.Settings.ChirpMSAjaxCssFile = this.txtMSAjaxCssFile.Text;
+            this.Settings.OutputExtensionCSS = this.txtOutputExtension.Text;
+            this.Settings.RunCSSLint = this.chkCSSLint.Checked;
+            this.Settings.Save();
         }
     }
 }

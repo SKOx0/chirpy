@@ -11,7 +11,7 @@ namespace Zippy.Chirp.Engines
 
         public CoffeeScriptEngine()
         {
-            Extensions = new[] { Settings.ChirpCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile };
+            Extensions = new[] { this.Settings.ChirpCoffeeScriptFile, this.Settings.ChirpGctCoffeeScriptFile, this.Settings.ChirpMSAjaxCoffeeScriptFile, this.Settings.ChirpSimpleCoffeeScriptFile, this.Settings.ChirpWhiteSpaceCoffeeScriptFile, this.Settings.ChirpYUICoffeeScriptFile };
             OutputExtension = ".js";
         }
 
@@ -71,11 +71,12 @@ namespace Zippy.Chirp.Engines
 
             var mode = this.GetMinifyType(fullFileName);
             string mini = JsEngine.Minify(fullFileName, outputText, projectItem, mode,string.Empty);
-            manager.AddFileByFileName(baseFileName + Settings.OutputExtensionJS, mini);
+            manager.AddFileByFileName(baseFileName + this.Settings.OutputExtensionJS, mini);
         }
 
         public MinifyType GetMinifyType(string fullFileName)
         {
+            this.Settings = Settings.Instance(fullFileName);
             MinifyType mode = MinifyType.gctAdvanced;
 
             if (this.IsChirpGctCoffeeScriptFile(fullFileName))
@@ -113,37 +114,37 @@ namespace Zippy.Chirp.Engines
 
         private bool IsChirpCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpGctCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpGctCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpGctCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpMSAjaxCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpMSAjaxCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpMSAjaxCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpSimpleCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpSimpleCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpSimpleCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpWhiteSpaceCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpWhiteSpaceCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpWhiteSpaceCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpYUICoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpYUICoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpYUICoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsChirpUglifyCoffeeScriptFile(string fileName)
         {
-            return fileName.EndsWith(Settings.ChirpUglifyCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
+            return fileName.EndsWith(this.Settings.ChirpUglifyCoffeeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

@@ -3,30 +3,24 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen 
 {
-    public partial class Config : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class Config : BaseConfigurationControl
     {
         public Config() 
         {
             InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            propertiesObject = null;
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject) 
-        {
-            Settings.Load();
-            this.chkShowDetailLog.Checked = Settings.ShowDetailLog;
-            this.txtChirpConfigFile.Text = Settings.ChirpConfigFile;
+            this.chkShowDetailLog.Checked = this.Settings.ShowDetailLog;
+            this.txtChirpConfigFile.Text = this.Settings.ChirpConfigFile;
 
             this.cmbCss.Items.Clear();
             this.cmbCss.Items.Add(Xml.MinifyType.msAjax.Description());
             this.cmbCss.Items.Add(Xml.MinifyType.yui.Description());
             this.cmbCss.Items.Add(Xml.MinifyType.yuiHybrid.Description());
             this.cmbCss.Items.Add(Xml.MinifyType.yuiMARE.Description());
-            this.cmbCss.Text = Settings.DefaultCssMinifier.Description();
+            this.cmbCss.Text = this.Settings.DefaultCssMinifier.Description();
 
             this.cmbJavaScript.Items.Clear();
             this.cmbJavaScript.Items.Add(Xml.MinifyType.msAjax.Description());
@@ -35,26 +29,16 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.cmbJavaScript.Items.Add(Xml.MinifyType.gctSimple.Description());
             this.cmbJavaScript.Items.Add(Xml.MinifyType.gctWhiteSpaceOnly.Description());
             this.cmbJavaScript.Items.Add(Xml.MinifyType.uglify.Description());
-            this.cmbJavaScript.Text = Settings.DefaultJavaScriptMinifier.Description();
+            this.cmbJavaScript.Text = this.Settings.DefaultJavaScriptMinifier.Description();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
+        public override void OnOK() 
         {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK() 
-        {
-            Settings.ShowDetailLog = this.chkShowDetailLog.Checked;
-            Settings.ChirpConfigFile = this.txtChirpConfigFile.Text;
-            Settings.DefaultCssMinifier = this.cmbCss.Text.ToEnum(Xml.MinifyType.Unspecified);
-            Settings.DefaultJavaScriptMinifier = this.cmbJavaScript.Text.ToEnum(Xml.MinifyType.Unspecified);
-            Settings.Save();
+            this.Settings.ShowDetailLog = this.chkShowDetailLog.Checked;
+            this.Settings.ChirpConfigFile = this.txtChirpConfigFile.Text;
+            this.Settings.DefaultCssMinifier = this.cmbCss.Text.ToEnum(Xml.MinifyType.Unspecified);
+            this.Settings.DefaultJavaScriptMinifier = this.cmbJavaScript.Text.ToEnum(Xml.MinifyType.Unspecified);
+            this.Settings.Save();
         }
     }
 }

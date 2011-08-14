@@ -7,8 +7,8 @@ namespace Zippy.Chirp.Engines
         #region "constructor"
         public YuiJsEngine()
         {
-            Extensions = new[] { Settings.ChirpYUIJsFile };
-            OutputExtension = Settings.OutputExtensionJS;
+            Extensions = new[] { this.Settings.ChirpYUIJsFile };
+            OutputExtension = this.Settings.OutputExtensionJS;
         }
         #endregion
 

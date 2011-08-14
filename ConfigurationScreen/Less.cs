@@ -3,45 +3,30 @@ using System.Windows.Forms;
 
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class Less : UserControl, EnvDTE.IDTToolsOptionsPage
+    public partial class Less : BaseConfigurationControl
     {
         public Less()
         {
             this.InitializeComponent();
         }
 
-        void EnvDTE.IDTToolsOptionsPage.GetProperties(ref object propertiesObject)
+
+        public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            propertiesObject = null;
+            txtChirpLessFile.Text = this.Settings.ChirpLessFile;
+            txtMichaelAshLessFile.Text = this.Settings.ChirpMichaelAshLessFile;
+            txtHybridLessFile.Text = this.Settings.ChirpHybridLessFile;
+            txtMSAjaxLessFile.Text = this.Settings.ChirpMSAjaxLessFile;
         }
 
-        void EnvDTE.IDTToolsOptionsPage.OnAfterCreated(EnvDTE.DTE dteObject)
+        public override void OnOK()
         {
-            Settings.Load();
-            txtChirpLessFile.Text = Settings.ChirpLessFile;
-            txtMichaelAshLessFile.Text = Settings.ChirpMichaelAshLessFile;
-            txtHybridLessFile.Text = Settings.ChirpHybridLessFile;
-            txtMSAjaxLessFile.Text = Settings.ChirpMSAjaxLessFile;
-        }
+            this.Settings.ChirpLessFile = txtChirpLessFile.Text;
+            this.Settings.ChirpMichaelAshLessFile = txtMichaelAshLessFile.Text;
+            this.Settings.ChirpHybridLessFile = txtHybridLessFile.Text;
+            this.Settings.ChirpMSAjaxLessFile = txtMSAjaxLessFile.Text;
 
-        void EnvDTE.IDTToolsOptionsPage.OnCancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnHelp()
-        {
-            System.Diagnostics.Process.Start("http://chirpy.codeplex.com/");
-        }
-
-        void EnvDTE.IDTToolsOptionsPage.OnOK()
-        {
-            Settings.ChirpLessFile = txtChirpLessFile.Text;
-            Settings.ChirpMichaelAshLessFile = txtMichaelAshLessFile.Text;
-            Settings.ChirpHybridLessFile = txtHybridLessFile.Text;
-            Settings.ChirpMSAjaxLessFile = txtMSAjaxLessFile.Text;
-           
-            Settings.Save();
+            this.Settings.Save();
         }
     }
 }

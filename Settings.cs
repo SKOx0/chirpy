@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Zippy.Chirp
 {
@@ -14,479 +16,392 @@ namespace Zippy.Chirp
         #region Private Fields
         private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
         private const string RegWDSJsHint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\JSHint";
-        private static string chirpJsFile = ".chirp.js";
-        private static string chirpSimpleJsFile = ".simple.js";
-        private static string chirpWhiteSpaceJsFile = ".whitespace.js";
-        private static string chirpYUIJsFile = ".yui.js";
-        private static string chirpGctJsFile = ".gct.js";
-        private static string chirpMSAjaxJsFile = ".msajax.js";
-        private static string outputExtensionJS = ".min.js";
-        private static string outputExtensionCSS = ".min.css";
-        private static string chirpPartialViewFile = ".chirp.ascx";
-        private static string chirpMichaelAshLessFile = ".michaelash.less";
-        private static string chirpViewFile = ".chirp.aspx";
-        private static string chirpRazorCSViewFile = ".chirp.cshtml";
-        private static string chirpRazorVBViewFile = ".chirp.vbhtml";
-        private static string chirpMSAjaxLessFile = ".msajax.less";
-        private static string chirpLessFile = ".chirp.less";
-        private static string chirpHybridLessFile = ".hybrid.less";
-        private static string chirpCoffeeScriptFile = ".chirp.coffee";
-        private static string chirpUglifyJsFile = ".uglify.js";
-        private static string chirpSimpleCoffeeScriptFile = ".simple.coffee";
-        private static string chirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
-        private static string chirpYUICoffeeScriptFile = ".yui.coffee";
-        private static string chirpGctCoffeeScriptFile = ".gct.coffee";
-        private static string coffeeScriptBatFilePath = string.Empty;
-        private static string chirpCssFile = ".chirp.css";
-        private static string chirpMSAjaxCssFile = ".msajax.css";
-        private static string chirpHybridCssFile = ".hybrid.css";
-        private static string chirpMichaelAshCssFile = ".michaelash.css";
-        private static bool t4RunAsBuild = false;
-        private static string t4RunAsBuildTemplate = string.Empty;
-        private static bool smartRunT4MVC = false;
-        private static bool runJSHint = true;
-        private static bool runCSSLint = true;
-        private static bool googleClosureOffline = false;
-        private static string googleClosureJavaPath = string.Empty;
-        private static string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
-        private static string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
-        private static string chirpConfigFile = ".chirp.config";
-        private static bool showDetailLog = true;
-        private static string[] allExtensions;
-        private static Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
-        private static Xml.MinifyType defaultJavaScriptMinifier = Xml.MinifyType.yui;
+        private const string RegWDSCssLint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\CSSLint";
+        private string chirpJsFile = ".chirp.js";
+        private string chirpSimpleJsFile = ".simple.js";
+        private string chirpWhiteSpaceJsFile = ".whitespace.js";
+        private string chirpYUIJsFile = ".yui.js";
+        private string chirpGctJsFile = ".gct.js";
+        private string chirpMSAjaxJsFile = ".msajax.js";
+        private string outputExtensionJS = ".min.js";
+        private string outputExtensionCSS = ".min.css";
+        private string chirpPartialViewFile = ".chirp.ascx";
+        private string chirpMichaelAshLessFile = ".michaelash.less";
+        private string chirpViewFile = ".chirp.aspx";
+        private string chirpRazorCSViewFile = ".chirp.cshtml";
+        private string chirpRazorVBViewFile = ".chirp.vbhtml";
+        private string chirpMSAjaxLessFile = ".msajax.less";
+        private string chirpLessFile = ".chirp.less";
+        private string chirpHybridLessFile = ".hybrid.less";
+        private string chirpCoffeeScriptFile = ".chirp.coffee";
+        private string chirpUglifyJsFile = ".uglify.js";
+        private string chirpSimpleCoffeeScriptFile = ".simple.coffee";
+        private string chirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
+        private string chirpYUICoffeeScriptFile = ".yui.coffee";
+        private string chirpGctCoffeeScriptFile = ".gct.coffee";
+        private string coffeeScriptBatFilePath = string.Empty;
+        private string chirpCssFile = ".chirp.css";
+        private string chirpMSAjaxCssFile = ".msajax.css";
+        private string chirpHybridCssFile = ".hybrid.css";
+        private string chirpMichaelAshCssFile = ".michaelash.css";
+        private bool t4RunAsBuild = false;
+        private string t4RunAsBuildTemplate = string.Empty;
+        private bool smartRunT4MVC = false;
+        private bool runJSHint = true;
+        private bool runCSSLint = true;
+        private bool googleClosureOffline = false;
+        private string googleClosureJavaPath = string.Empty;
+        private string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
+        private string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
+        private string chirpConfigFile = ".chirp.config";
+        private bool showDetailLog = true;
+        private string[] allExtensions;
+        private Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
+        private Xml.MinifyType defaultJavaScriptMinifier = Xml.MinifyType.yui;
         #endregion
 
         #region Constructors
-        static Settings()
+        public Settings()
         {
+            LoadSettingFromRegistry();
         }
 
-        private Settings()
+        public Settings(string directoryPath)
         {
+            // load defaut setting from registry
+
+            LoadSettingFromRegistry();
+
+            if (!string.IsNullOrEmpty(directoryPath))
+                this.SetSettings(CalculateSettingsForDirectory(directoryPath, new Dictionary<string, string>(), ChirpConfigFile));
         }
         #endregion
 
         public static event Action Saved;
 
         #region Properties
-        public static string ChirpJsFile
+
+        public string ChirpJsFile
         {
-            get { return Settings.chirpJsFile; }
-            set { Settings.chirpJsFile = value; }
+            get { return this.chirpJsFile; }
+            set { this.chirpJsFile = value; }
         }
       
-        public static string ChirpSimpleJsFile
+        public string ChirpSimpleJsFile
         {
-            get { return Settings.chirpSimpleJsFile; }
-            set { Settings.chirpSimpleJsFile = value; }
+            get { return this.chirpSimpleJsFile; }
+            set { this.chirpSimpleJsFile = value; }
         }
       
-        public static string ChirpWhiteSpaceJsFile
+        public string ChirpWhiteSpaceJsFile
         {
-            get { return Settings.chirpWhiteSpaceJsFile; }
-            set { Settings.chirpWhiteSpaceJsFile = value; }
+            get { return this.chirpWhiteSpaceJsFile; }
+            set { this.chirpWhiteSpaceJsFile = value; }
         }
 
-        public static string ChirpYUIJsFile
+        public string ChirpYUIJsFile
         {
-            get { return Settings.chirpYUIJsFile; }
-            set { Settings.chirpYUIJsFile = value; }
+            get { return this.chirpYUIJsFile; }
+            set { this.chirpYUIJsFile = value; }
         }
        
-        public static string ChirpGctJsFile
+        public string ChirpGctJsFile
         {
-            get { return Settings.chirpGctJsFile; }
-            set { Settings.chirpGctJsFile = value; }
+            get { return this.chirpGctJsFile; }
+            set { this.chirpGctJsFile = value; }
         }
        
-        public static string ChirpMSAjaxJsFile
+        public string ChirpMSAjaxJsFile
         {
-            get { return Settings.chirpMSAjaxJsFile; }
-            set { Settings.chirpMSAjaxJsFile = value; }
+            get { return this.chirpMSAjaxJsFile; }
+            set { this.chirpMSAjaxJsFile = value; }
         }
         
-        public static string ChirpPartialViewFile
+        public string ChirpPartialViewFile
         {
-            get { return Settings.chirpPartialViewFile; }
-            set { Settings.chirpPartialViewFile = value; }
+            get { return this.chirpPartialViewFile; }
+            set { this.chirpPartialViewFile = value; }
         }
       
-        public static string ChirpViewFile
+        public string ChirpViewFile
         {
-            get { return Settings.chirpViewFile; }
-            set { Settings.chirpViewFile = value; }
+            get { return this.chirpViewFile; }
+            set { this.chirpViewFile = value; }
         }
      
-        public static string ChirpRazorCSViewFile
+        public string ChirpRazorCSViewFile
         {
-            get { return Settings.chirpRazorCSViewFile; }
-            set { Settings.chirpRazorCSViewFile = value; }
+            get { return this.chirpRazorCSViewFile; }
+            set { this.chirpRazorCSViewFile = value; }
         }
        
-        public static string ChirpRazorVBViewFile
+        public string ChirpRazorVBViewFile
         {
-            get { return Settings.chirpRazorVBViewFile; }
-            set { Settings.chirpRazorVBViewFile = value; }
+            get { return this.chirpRazorVBViewFile; }
+            set { this.chirpRazorVBViewFile = value; }
         }
        
-        public static string ChirpLessFile
+        public string ChirpLessFile
         {
-            get { return Settings.chirpLessFile; }
-            set { Settings.chirpLessFile = value; }
+            get { return this.chirpLessFile; }
+            set { this.chirpLessFile = value; }
         }
        
-        public static string ChirpMSAjaxLessFile
+        public string ChirpMSAjaxLessFile
         {
-            get { return Settings.chirpMSAjaxLessFile; }
-            set { Settings.chirpMSAjaxLessFile = value; }
+            get { return this.chirpMSAjaxLessFile; }
+            set { this.chirpMSAjaxLessFile = value; }
         }
       
-        public static string ChirpHybridLessFile
+        public string ChirpHybridLessFile
         {
-            get { return Settings.chirpHybridLessFile; }
-            set { Settings.chirpHybridLessFile = value; }
+            get { return this.chirpHybridLessFile; }
+            set { this.chirpHybridLessFile = value; }
         }
         
-        public static string ChirpMichaelAshLessFile
+        public string ChirpMichaelAshLessFile
         {
-            get { return Settings.chirpMichaelAshLessFile; }
-            set { Settings.chirpMichaelAshLessFile = value; }
+            get { return this.chirpMichaelAshLessFile; }
+            set { this.chirpMichaelAshLessFile = value; }
         }
        
-        public static string ChirpUglifyJsFile
+        public string ChirpUglifyJsFile
         {
-            get { return Settings.chirpUglifyJsFile; }
-            set { Settings.chirpUglifyJsFile = value; }
+            get { return this.chirpUglifyJsFile; }
+            set { this.chirpUglifyJsFile = value; }
         }
 
-        public static string ChirpCoffeeScriptFile
+        public string ChirpCoffeeScriptFile
         {
-            get { return Settings.chirpCoffeeScriptFile; }
-            set { Settings.chirpCoffeeScriptFile = value; }
+            get { return this.chirpCoffeeScriptFile; }
+            set { this.chirpCoffeeScriptFile = value; }
         }
        
-        public static string ChirpSimpleCoffeeScriptFile
+        public string ChirpSimpleCoffeeScriptFile
         {
-            get { return Settings.chirpSimpleCoffeeScriptFile; }
-            set { Settings.chirpSimpleCoffeeScriptFile = value; }
+            get { return this.chirpSimpleCoffeeScriptFile; }
+            set { this.chirpSimpleCoffeeScriptFile = value; }
         }
         
-        public static string ChirpWhiteSpaceCoffeeScriptFile
+        public string ChirpWhiteSpaceCoffeeScriptFile
         {
-            get { return Settings.chirpWhiteSpaceCoffeeScriptFile; }
-            set { Settings.chirpWhiteSpaceCoffeeScriptFile = value; }
+            get { return this.chirpWhiteSpaceCoffeeScriptFile; }
+            set { this.chirpWhiteSpaceCoffeeScriptFile = value; }
         }
         
-        public static string ChirpYUICoffeeScriptFile
+        public string ChirpYUICoffeeScriptFile
         {
-            get { return Settings.chirpYUICoffeeScriptFile; }
-            set { Settings.chirpYUICoffeeScriptFile = value; }
+            get { return this.chirpYUICoffeeScriptFile; }
+            set { this.chirpYUICoffeeScriptFile = value; }
         }
        
-        public static string ChirpGctCoffeeScriptFile
+        public string ChirpGctCoffeeScriptFile
         {
-            get { return Settings.chirpGctCoffeeScriptFile; }
-            set { Settings.chirpGctCoffeeScriptFile = value; }
+            get { return this.chirpGctCoffeeScriptFile; }
+            set { this.chirpGctCoffeeScriptFile = value; }
         }
        
-        public static string ChirpMSAjaxCoffeeScriptFile
+        public string ChirpMSAjaxCoffeeScriptFile
         {
-            get { return Settings.chirpMSAjaxCoffeeScriptFile; }
-            set { Settings.chirpMSAjaxCoffeeScriptFile = value; }
+            get { return this.chirpMSAjaxCoffeeScriptFile; }
+            set { this.chirpMSAjaxCoffeeScriptFile = value; }
         }
        
-        public static string ChirpUglifyCoffeeScriptFile
+        public string ChirpUglifyCoffeeScriptFile
         {
-            get { return Settings.chirpUglifyCoffeeScriptFile; }
-            set { Settings.chirpUglifyCoffeeScriptFile = value; }
+            get { return this.chirpUglifyCoffeeScriptFile; }
+            set { this.chirpUglifyCoffeeScriptFile = value; }
         }
         
-        public static string CoffeeScriptBatFilePath
+        public string CoffeeScriptBatFilePath
         {
-            get { return Settings.coffeeScriptBatFilePath; }
-            set { Settings.coffeeScriptBatFilePath = value; }
+            get { return this.coffeeScriptBatFilePath; }
+            set { this.coffeeScriptBatFilePath = value; }
         }
 
-        public static string ChirpCssFile
+        public string ChirpCssFile
         {
-            get { return Settings.chirpCssFile; }
-            set { Settings.chirpCssFile = value; }
+            get { return this.chirpCssFile; }
+            set { this.chirpCssFile = value; }
         }
         
-        public static string ChirpMSAjaxCssFile
+        public string ChirpMSAjaxCssFile
         {
-            get { return Settings.chirpMSAjaxCssFile; }
-            set { Settings.chirpMSAjaxCssFile = value; }
+            get { return this.chirpMSAjaxCssFile; }
+            set { this.chirpMSAjaxCssFile = value; }
         }
         
-        public static string ChirpHybridCssFile
+        public string ChirpHybridCssFile
         {
-            get { return Settings.chirpHybridCssFile; }
-            set { Settings.chirpHybridCssFile = value; }
+            get { return this.chirpHybridCssFile; }
+            set { this.chirpHybridCssFile = value; }
         }
         
-        public static string ChirpMichaelAshCssFile
+        public string ChirpMichaelAshCssFile
         {
-            get { return Settings.chirpMichaelAshCssFile; }
-            set { Settings.chirpMichaelAshCssFile = value; }
+            get { return this.chirpMichaelAshCssFile; }
+            set { this.chirpMichaelAshCssFile = value; }
         }
 
-        public static string ChirpConfigFile
+        public string ChirpConfigFile
         {
-            get { return Settings.chirpConfigFile; }
-            set { Settings.chirpConfigFile = value; }
+            get { return this.chirpConfigFile; }
+            set { this.chirpConfigFile = value; }
         }
 
-        public static Xml.MinifyType DefaultCssMinifier
+        public Xml.MinifyType DefaultCssMinifier
         {
-            get { return Settings.defaultCssMinifier; }
-            set { Settings.defaultCssMinifier = value; }
+            get { return this.defaultCssMinifier; }
+            set { this.defaultCssMinifier = value; }
         }
         
-        public static Xml.MinifyType DefaultJavaScriptMinifier
+        public Xml.MinifyType DefaultJavaScriptMinifier
         {
-            get { return Settings.defaultJavaScriptMinifier; }
-            set { Settings.defaultJavaScriptMinifier = value; }
+            get { return this.defaultJavaScriptMinifier; }
+            set { this.defaultJavaScriptMinifier = value; }
         }
 
-        public static string[] AllExtensions
+        public string[] AllExtensions
         {
-            get { return Settings.allExtensions; }
-            set { Settings.allExtensions = value; }
+            get { return this.allExtensions; }
+            set { this.allExtensions = value; }
         }
 
-        public static UglifyCS.JSHint.options JsHintOptions 
+        public UglifyCS.JSHint.options JsHintOptions 
         { 
             get; 
             set; 
         }
 
-        public static bool T4RunAsBuild
-        {
-            get { return Settings.t4RunAsBuild; }
-            set { Settings.t4RunAsBuild = value; }
-        }
-        
-        public static string T4RunAsBuildTemplate
-        {
-            get { return Settings.t4RunAsBuildTemplate; }
-            set { Settings.t4RunAsBuildTemplate = value; }
-        }
-        
-        public static bool SmartRunT4MVC
-        {
-            get { return Settings.smartRunT4MVC; }
-            set { Settings.smartRunT4MVC = value; }
-        }
-
-        public static bool RunJSHint {
-            get { return Settings.runJSHint; }
-            set { Settings.runJSHint = value; }
-        }
-
-        public static bool RunCSSLint {
-            get { return Settings.runCSSLint; }
-            set { Settings.runCSSLint = value; }
-        }
-
-        public static string OutputExtensionJS
-        {
-            get { return Settings.outputExtensionJS; }
-            set { Settings.outputExtensionJS = value; }
-        }
-
-        public static string OutputExtensionCSS
-        {
-            get { return Settings.outputExtensionCSS; }
-            set { Settings.outputExtensionCSS = value; }
-        }
-
-        public static bool GoogleClosureOffline
-        {
-            get { return Settings.googleClosureOffline; }
-            set { Settings.googleClosureOffline = value; }
-        }
-        
-        public static string GoogleClosureJavaPath
-        {
-            get { return Settings.googleClosureJavaPath; }
-            set { Settings.googleClosureJavaPath = value; }
-        }
-
-        public static bool ShowDetailLog 
+        public UglifyCS.CSSLint.options CssLintOptions 
         { 
-            get{ return Settings.showDetailLog; }
-            set{ Settings.showDetailLog = value; }
+            get; 
+            set; 
+        }        
+
+        public bool T4RunAsBuild
+        {
+            get { return this.t4RunAsBuild; }
+            set { this.t4RunAsBuild = value; }
+        }
+        
+        public string T4RunAsBuildTemplate
+        {
+            get { return this.t4RunAsBuildTemplate; }
+            set { this.t4RunAsBuildTemplate = value; }
+        }
+        
+        public bool SmartRunT4MVC
+        {
+            get { return this.smartRunT4MVC; }
+            set { this.smartRunT4MVC = value; }
+        }
+
+        public bool RunJSHint {
+            get { return this.runJSHint; }
+            set { this.runJSHint = value; }
+        }
+
+        public bool RunCSSLint {
+            get { return this.runCSSLint; }
+            set { this.runCSSLint = value; }
+        }
+
+        public string OutputExtensionJS
+        {
+            get { return this.outputExtensionJS; }
+            set { this.outputExtensionJS = value; }
+        }
+
+        public string OutputExtensionCSS
+        {
+            get { return this.outputExtensionCSS; }
+            set { this.outputExtensionCSS = value; }
+        }
+
+        public bool GoogleClosureOffline
+        {
+            get { return this.googleClosureOffline; }
+            set { this.googleClosureOffline = value; }
+        }
+        
+        public string GoogleClosureJavaPath
+        {
+            get { return this.googleClosureJavaPath; }
+            set { this.googleClosureJavaPath = value; }
+        }
+
+        public bool ShowDetailLog 
+        { 
+            get{ return this.showDetailLog; }
+            set{ this.showDetailLog = value; }
         }
         #endregion
 
-        #region Public Methods
-
+        #region Public Methods 
+    
         /// <summary>
-        /// Loads options page settings from registry.
+        /// 
         /// </summary>
-        public static void Load() 
+        /// <param name="fullFileName"></param>
+        /// <returns></returns>
+        public static Settings Instance(string fullFileName)
         {
-            RegistryKey regKey = null;
-            try 
-            {
-                regKey = Registry.CurrentUser.OpenSubKey(RegWDS, false);
-                if (regKey != null)
-                {
-                    Settings.ChirpJsFile = Convert.ToString(regKey.GetValue("ChirpJsFile", ".chirp.js"));
-                    Settings.ChirpSimpleJsFile = Convert.ToString(regKey.GetValue("ChirpSimpleJsFile", ".simple.js"));
-                    Settings.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
-                    Settings.ChirpYUIJsFile = Convert.ToString(regKey.GetValue("ChirpYUIJsFile", ".yui.js"));
-                    Settings.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
-                    Settings.ChirpMSAjaxJsFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxJsFile", ".msajax.js"));
-                    Settings.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
-                    Settings.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybrid.less"));
-                    Settings.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
-                    Settings.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
-                    Settings.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
-
-                    Settings.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
-                    Settings.ChirpSimpleCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpSimpleCoffeeScriptFile", ".simple.coffee"));
-                    Settings.ChirpWhiteSpaceCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceCoffeeScriptFile", ".whitespace.coffee"));
-                    Settings.ChirpYUICoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpYUICoffeeScriptFile", ".yui.coffee"));
-                    Settings.ChirpGctCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpGcCoffeeScriptFile", ".gct.coffee"));
-                    Settings.ChirpMSAjaxCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCoffeeScriptFile", ".msajax.coffee"));
-                    Settings.ChirpUglifyCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpUglifyCoffeeScriptFile", ".uglify.coffee"));
-                    Settings.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty));
-
-                    // Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
-                    Settings.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
-                    Settings.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybrid.css"));
-                    Settings.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
-                    Settings.ChirpMSAjaxCssFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCssFile", ".msajax.css"));
-                    Settings.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
-                    Settings.DefaultCssMinifier = Convert.ToString(regKey.GetValue("DefaultCssMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
-                    Settings.DefaultJavaScriptMinifier = Convert.ToString(regKey.GetValue("DefaultJavaScriptMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
-
-                    Settings.OutputExtensionCSS = Convert.ToString(regKey.GetValue("OutputExtensionCSS", ".min.css"));
-                    Settings.OutputExtensionJS = Convert.ToString(regKey.GetValue("OutputExtensionJS", ".min.js"));
-
-                    Settings.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
-                    Settings.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
-                    Settings.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
-
-                    Settings.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
-                    Settings.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
-
-                    Settings.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
-                    Settings.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
-                    Settings.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
-                }
-
-                  regKey = Registry.CurrentUser.OpenSubKey(RegWDSJsHint, false);
-                  if (regKey != null)
-                  {
-                      if (Settings.JsHintOptions == null)
-                      {
-                          Settings.JsHintOptions = new UglifyCS.JSHint.options();
-
-                          // default setting
-                          Settings.JsHintOptions.devel = true;
-                          Settings.JsHintOptions.curly = true;
-                          Settings.JsHintOptions.undef = true;
-
-                          PropertyInfo[] propertyInfos;
-                          propertyInfos = typeof(UglifyCS.JSHint.options).GetProperties();
-                          foreach (PropertyInfo propertyInfo in propertyInfos)
-                          {
-                             try
-                              {
-                                  bool tempValue = false;
-                                  if (bool.TryParse(regKey.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
-                                  {
-                                      propertyInfo.SetValue(Settings.JsHintOptions, tempValue, null);
-                                  }
-                              }
-                              catch(Exception ex)
-                              {
-                                  propertyInfo.SetValue(Settings.JsHintOptions, regKey.GetValue(propertyInfo.Name), null);
-                              }
-                          }
-                      }
-
-
-                  }
-                LoadExtensions();
-            } 
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Chrip - failed to load: " + ex.Message);
-                System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
-            }
-            finally 
-            {
-                if (regKey != null)
-                {
-                    regKey.Close();
-                }
-            }
+            return new Settings(System.IO.Path.GetDirectoryName(fullFileName));
         }
 
         /// <summary>
         /// Saves options page settings to registry.
         /// </summary>
-        public static void Save() 
+        public void Save() 
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(RegWDS, true) ?? Registry.CurrentUser.CreateSubKey(RegWDS))
             {
-                regKey.SetValue("ChirpCssFile", Settings.ChirpCssFile);
-                regKey.SetValue("ChirpHybridCssFile", Settings.ChirpHybridCssFile);
-                regKey.SetValue("ChirpMichaelAshCssFile", Settings.ChirpMichaelAshCssFile);
-                regKey.SetValue("ChirpMSAjaxCssFile", Settings.ChirpMSAjaxCssFile);
-                regKey.SetValue("ChirpJsFile", Settings.ChirpJsFile);
-                regKey.SetValue("ChirpLessFile", Settings.ChirpLessFile);
-                regKey.SetValue("ChirpHybridLessFile", Settings.ChirpHybridLessFile);
-                regKey.SetValue("ChirpMichaelAshLessFile", Settings.ChirpMichaelAshLessFile);
-                regKey.SetValue("ChirpMSAjaxLessFile", Settings.ChirpMSAjaxLessFile);
-                regKey.SetValue("ChirpSimpleJsFile", Settings.ChirpSimpleJsFile);
-                regKey.SetValue("ChirpWhiteSpaceJsFile", Settings.ChirpWhiteSpaceJsFile);
-                regKey.SetValue("ChirpYUIJsFile", Settings.ChirpYUIJsFile);
-                regKey.SetValue("ChirpGcJsFile", Settings.ChirpGctJsFile);
-                regKey.SetValue("ChirpMSAjaxJsFile", Settings.ChirpMSAjaxJsFile);
-                regKey.SetValue("ChirpConfigFile", Settings.ChirpConfigFile);
-                regKey.SetValue("DefaultCssMinifier", Settings.DefaultCssMinifier.ToString());
-                regKey.SetValue("DefaultJavaScriptMinifier", Settings.DefaultJavaScriptMinifier.ToString());
+                regKey.SetValue("ChirpCssFile", this.ChirpCssFile);
+                regKey.SetValue("ChirpHybridCssFile", this.ChirpHybridCssFile);
+                regKey.SetValue("ChirpMichaelAshCssFile", this.ChirpMichaelAshCssFile);
+                regKey.SetValue("ChirpMSAjaxCssFile", this.ChirpMSAjaxCssFile);
+                regKey.SetValue("ChirpJsFile", this.ChirpJsFile);
+                regKey.SetValue("ChirpLessFile", this.ChirpLessFile);
+                regKey.SetValue("ChirpHybridLessFile", this.ChirpHybridLessFile);
+                regKey.SetValue("ChirpMichaelAshLessFile", this.ChirpMichaelAshLessFile);
+                regKey.SetValue("ChirpMSAjaxLessFile", this.ChirpMSAjaxLessFile);
+                regKey.SetValue("ChirpSimpleJsFile", this.ChirpSimpleJsFile);
+                regKey.SetValue("ChirpWhiteSpaceJsFile", this.ChirpWhiteSpaceJsFile);
+                regKey.SetValue("ChirpYUIJsFile", this.ChirpYUIJsFile);
+                regKey.SetValue("ChirpGcJsFile", this.ChirpGctJsFile);
+                regKey.SetValue("ChirpMSAjaxJsFile", this.ChirpMSAjaxJsFile);
+                regKey.SetValue("ChirpConfigFile", this.ChirpConfigFile);
+                regKey.SetValue("DefaultCssMinifier", this.DefaultCssMinifier.ToString());
+                regKey.SetValue("DefaultJavaScriptMinifier", this.DefaultJavaScriptMinifier.ToString());
 
-                regKey.SetValue("ChirpUglifyJsFile", Settings.ChirpUglifyJsFile);
+                regKey.SetValue("ChirpUglifyJsFile", this.ChirpUglifyJsFile);
 
-                regKey.SetValue("ChirpSimpleCoffeeScriptFile", Settings.ChirpSimpleCoffeeScriptFile);
-                regKey.SetValue("ChirpWhiteSpaceCoffeeScriptFile", Settings.ChirpWhiteSpaceCoffeeScriptFile);
-                regKey.SetValue("ChirpYUICoffeeScriptFile", Settings.ChirpYUICoffeeScriptFile);
-                regKey.SetValue("ChirpGcCoffeeScriptFile", Settings.ChirpGctCoffeeScriptFile);
-                regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", Settings.ChirpMSAjaxCoffeeScriptFile);
-                regKey.SetValue("ChirpUglifyCoffeeScriptFile", Settings.ChirpUglifyCoffeeScriptFile);
-                regKey.SetValue("CoffeeScriptBatFilePath", Settings.CoffeeScriptBatFilePath);
+                regKey.SetValue("ChirpSimpleCoffeeScriptFile", this.ChirpSimpleCoffeeScriptFile);
+                regKey.SetValue("ChirpWhiteSpaceCoffeeScriptFile", this.ChirpWhiteSpaceCoffeeScriptFile);
+                regKey.SetValue("ChirpYUICoffeeScriptFile", this.ChirpYUICoffeeScriptFile);
+                regKey.SetValue("ChirpGcCoffeeScriptFile", this.ChirpGctCoffeeScriptFile);
+                regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", this.ChirpMSAjaxCoffeeScriptFile);
+                regKey.SetValue("ChirpUglifyCoffeeScriptFile", this.ChirpUglifyCoffeeScriptFile);
+                regKey.SetValue("CoffeeScriptBatFilePath", this.CoffeeScriptBatFilePath);
 
-                regKey.SetValue("OutputExtensionCSS", Settings.outputExtensionCSS);
-                regKey.SetValue("OutputExtensionJS", Settings.outputExtensionJS);
+                regKey.SetValue("OutputExtensionCSS", this.outputExtensionCSS);
+                regKey.SetValue("OutputExtensionJS", this.outputExtensionJS);
 
-                regKey.SetValue("T4RunAsBuild", Settings.T4RunAsBuild.ToString());
-                regKey.SetValue("T4RunAsBuildTemplate", Settings.T4RunAsBuildTemplate.ToString());
+                regKey.SetValue("T4RunAsBuild", this.T4RunAsBuild.ToString());
+                regKey.SetValue("T4RunAsBuildTemplate", this.T4RunAsBuildTemplate.ToString());
 
-                regKey.SetValue("SmartRunT4MVC", Settings.SmartRunT4MVC.ToString());
+                regKey.SetValue("SmartRunT4MVC", this.SmartRunT4MVC.ToString());
 
-                regKey.SetValue("GoogleClosureJavaPath", Settings.GoogleClosureJavaPath);
-                regKey.SetValue("GoogleClosureOffline", Settings.GoogleClosureOffline);
+                regKey.SetValue("GoogleClosureJavaPath", this.GoogleClosureJavaPath);
+                regKey.SetValue("GoogleClosureOffline", this.GoogleClosureOffline);
 
-                regKey.SetValue("RunJSHint", Settings.RunJSHint);
-                regKey.SetValue("RunCSSLint", Settings.RunCSSLint);
-                regKey.SetValue("showDetailLog", Settings.showDetailLog);
+                regKey.SetValue("RunJSHint", this.RunJSHint);
+                regKey.SetValue("RunCSSLint", this.RunCSSLint);
+                regKey.SetValue("showDetailLog", this.showDetailLog);
 
-                using (var regKeyJsHint = Registry.CurrentUser.OpenSubKey(RegWDSJsHint, true) ?? Registry.CurrentUser.CreateSubKey(RegWDSJsHint))
-                {
-                    PropertyInfo[] propertyInfos;
-                    propertyInfos = typeof(UglifyCS.JSHint.options).GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
-                    {
-                        regKeyJsHint.SetValue(propertyInfo.Name, propertyInfo.GetValue(Settings.JsHintOptions, null));
-                    }
-                }
+                SaveOptionsInRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint.options), this.JsHintOptions);
+                SaveOptionsInRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint.options), this.CssLintOptions);
 
                 LoadExtensions();
 
@@ -498,13 +413,235 @@ namespace Zippy.Chirp
         }
         #endregion
 
-        private static void LoadExtensions()
+        /// <summary>
+        /// Loads options page settings from registry.
+        /// </summary>
+        private void LoadSettingFromRegistry()
         {
-            AllExtensions = new[]
+            RegistryKey regKey = null;
+            try
             {
-                 Settings.ChirpConfigFile, Settings.ChirpCssFile, Settings.ChirpGctJsFile, Settings.ChirpHybridCssFile, Settings.ChirpHybridLessFile, Settings.ChirpJsFile, Settings.ChirpLessFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpMichaelAshLessFile,
-                 Settings.ChirpMSAjaxCssFile, Settings.ChirpMSAjaxJsFile, Settings.ChirpMSAjaxLessFile, Settings.ChirpPartialViewFile, Settings.ChirpSimpleJsFile, Settings.ChirpViewFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpYUIJsFile,
-                 Settings.ChirpSimpleCoffeeScriptFile, Settings.ChirpWhiteSpaceCoffeeScriptFile, Settings.ChirpYUICoffeeScriptFile, Settings.ChirpMSAjaxCoffeeScriptFile, Settings.ChirpGctCoffeeScriptFile, Settings.ChirpCoffeeScriptFile,
+                regKey = Registry.CurrentUser.OpenSubKey(RegWDS, false);
+                if (regKey != null)
+                {
+                    this.ChirpJsFile = Convert.ToString(regKey.GetValue("ChirpJsFile", ".chirp.js"));
+                    this.ChirpSimpleJsFile = Convert.ToString(regKey.GetValue("ChirpSimpleJsFile", ".simple.js"));
+                    this.ChirpWhiteSpaceJsFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceJsFile", ".whitespace.js"));
+                    this.ChirpYUIJsFile = Convert.ToString(regKey.GetValue("ChirpYUIJsFile", ".yui.js"));
+                    this.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
+                    this.ChirpMSAjaxJsFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxJsFile", ".msajax.js"));
+                    this.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
+                    this.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybrid.less"));
+                    this.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
+                    this.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
+                    this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
+
+                    this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
+                    this.ChirpSimpleCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpSimpleCoffeeScriptFile", ".simple.coffee"));
+                    this.ChirpWhiteSpaceCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceCoffeeScriptFile", ".whitespace.coffee"));
+                    this.ChirpYUICoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpYUICoffeeScriptFile", ".yui.coffee"));
+                    this.ChirpGctCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpGcCoffeeScriptFile", ".gct.coffee"));
+                    this.ChirpMSAjaxCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCoffeeScriptFile", ".msajax.coffee"));
+                    this.ChirpUglifyCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpUglifyCoffeeScriptFile", ".uglify.coffee"));
+                    this.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty));
+
+                    // Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
+                    this.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
+                    this.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybrid.css"));
+                    this.ChirpMichaelAshCssFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshCssFile", ".michaelash.css"));
+                    this.ChirpMSAjaxCssFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCssFile", ".msajax.css"));
+                    this.ChirpConfigFile = Convert.ToString(regKey.GetValue("ChirpConfigFile", ".chirp.config"));
+                    this.DefaultCssMinifier = Convert.ToString(regKey.GetValue("DefaultCssMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
+                    this.DefaultJavaScriptMinifier = Convert.ToString(regKey.GetValue("DefaultJavaScriptMinifier", string.Empty)).ToEnum(Xml.MinifyType.yui);
+
+                    this.OutputExtensionCSS = Convert.ToString(regKey.GetValue("OutputExtensionCSS", ".min.css"));
+                    this.OutputExtensionJS = Convert.ToString(regKey.GetValue("OutputExtensionJS", ".min.js"));
+
+                    this.T4RunAsBuild = Convert.ToBoolean(regKey.GetValue("T4RunAsBuild", false));
+                    this.T4RunAsBuildTemplate = Convert.ToString(regKey.GetValue("T4RunAsBuildTemplate", "T4MVC.tt,NHibernateMapping.tt"));
+                    this.SmartRunT4MVC = Convert.ToBoolean(regKey.GetValue("SmartRunT4MVC", false));
+
+                    this.GoogleClosureJavaPath = Convert.ToString(regKey.GetValue("GoogleClosureJavaPath", string.Empty));
+                    this.GoogleClosureOffline = Convert.ToBoolean(regKey.GetValue("GoogleClosureOffline", false));
+
+                    this.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
+                    this.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
+                    this.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
+                }
+                LoadJsHintOptions();
+                LoadCssLintOptions();
+
+                LoadExtensions();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Chirpy - failed to load registry: " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Chirpy - failed to load registry: " + ex.Message);
+            }
+            finally
+            {
+                if (regKey != null)
+                {
+                    regKey.Close();
+                }
+            }
+        }
+
+   
+
+        /// <summary>
+        /// set setting from list
+        /// </summary>
+        private void SetSettings(IEnumerable<KeyValuePair<string, string>> settings)
+        {
+            foreach (var kvp in settings)
+            {
+                var thisType = typeof(Settings);
+                System.Reflection.PropertyInfo prop = thisType.GetProperty(kvp.Key);
+                if (prop == null) continue;
+                if (prop.PropertyType == typeof(string))
+                {
+                    prop.SetValue(this, kvp.Value, null);
+                }
+                else if (prop.PropertyType == typeof(bool))
+                {
+                    prop.SetValue(this, Convert.ToBoolean(kvp.Value), null);
+                }
+                else if (prop.PropertyType == typeof(int))
+                {
+                    prop.SetValue(this, Convert.ToInt16(kvp.Value), null);
+                }
+            }
+        }
+
+        private IDictionary<string, string> CalculateSettingsForDirectory(string directoryPath, IDictionary<string, string> initialSettings, string configFile)
+        {
+            foreach (var file in Directory.GetFiles(directoryPath, "*" + configFile, SearchOption.TopDirectoryOnly))
+            {
+                // Process the file
+                // /root/Settings/key
+
+                try
+                {
+                    //var xdoc = new System.Xml.XPath.XPathDocument(file).CreateNavigator();
+                    var xdoc = System.Xml.Linq.XDocument.Load(file);
+                    System.Xml.Linq.XNamespace c = "urn:ChirpyConfig";
+                    var settings = xdoc.Element(c + "root").Element(c + "Settings");
+                    if (settings != null)
+                        foreach (var setting in settings.Elements(c + "Setting"))
+                            if (!initialSettings.ContainsKey(setting.Attribute("key").Value))
+                                initialSettings.Add(setting.Attribute("key").Value,
+                                                    setting.Attribute("value").Value);
+                }
+                catch (System.IO.IOException) { } // Ignore locked files, etc.
+            }
+            var parent = System.IO.Directory.GetParent(directoryPath);
+            if (parent != null)
+                this.CalculateSettingsForDirectory(parent.FullName, initialSettings, configFile);
+            return initialSettings;
+        }
+
+        private void LoadJsHintOptions()
+        {
+
+            if (this.JsHintOptions == null)
+            {
+                this.JsHintOptions = new UglifyCS.JSHint.options();
+
+                // default setting
+                this.JsHintOptions.devel = true;
+                this.JsHintOptions.curly = true;
+                this.JsHintOptions.undef = true;
+
+                LoadOptionsFromRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint), this.JsHintOptions);
+            }
+        }
+
+        private void LoadCssLintOptions()
+        {
+
+            if (this.CssLintOptions == null)
+            {
+                this.CssLintOptions = new UglifyCS.CSSLint.options();
+
+                // default setting
+
+                LoadOptionsFromRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint), this.CssLintOptions);
+            }
+        }
+
+        private void LoadOptionsFromRegistry(string regKey, Type objectType, object objectToSave)
+        {
+            RegistryKey regKeyOptions = null;
+            try
+            {
+                regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, false);
+                if (regKeyOptions != null)
+                {
+                    PropertyInfo[] propertyInfos;
+                    propertyInfos = objectType.GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        try
+                        {
+                            if (propertyInfo.PropertyType == typeof(bool))
+                            {
+                                bool tempValue = false;
+                                if (bool.TryParse(regKeyOptions.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                {
+                                    propertyInfo.SetValue(objectToSave, tempValue, null);
+                                }
+                            }
+                            else if (propertyInfo.PropertyType == typeof(string))
+                            {
+                                propertyInfo.SetValue(objectToSave, regKeyOptions.GetValue(propertyInfo.Name), null);
+                            }
+                            else if (propertyInfo.PropertyType == typeof(int))
+                            {
+                                propertyInfo.SetValue(objectToSave,Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Chrip - failed to load: " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
+            }
+            finally
+            {
+                if (regKeyOptions != null)
+                {
+                    regKeyOptions.Close();
+                }
+            }
+        }
+
+        private void SaveOptionsInRegistry(string regKey,Type objectType, object objectToSave)
+        {
+            using (var regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, true) ?? Registry.CurrentUser.CreateSubKey(regKey))
+            {
+                PropertyInfo[] propertyInfos;
+                propertyInfos = objectType.GetProperties();
+                foreach (PropertyInfo propertyInfo in propertyInfos)
+                {
+                    regKeyOptions.SetValue(propertyInfo.Name, propertyInfo.GetValue(objectToSave, null));
+                }
+            }
+        }
+
+        private  void LoadExtensions()
+        {
+            this.AllExtensions = new[]
+            {
+                 this.ChirpConfigFile, this.ChirpCssFile, this.ChirpGctJsFile, this.ChirpHybridCssFile, this.ChirpHybridLessFile, this.ChirpJsFile, this.ChirpLessFile, this.ChirpMichaelAshCssFile, this.ChirpMichaelAshLessFile,
+                 this.ChirpMSAjaxCssFile, this.ChirpMSAjaxJsFile, this.ChirpMSAjaxLessFile, this.ChirpPartialViewFile, this.ChirpSimpleJsFile, this.ChirpViewFile, this.ChirpWhiteSpaceJsFile, this.ChirpYUIJsFile,
+                 this.ChirpSimpleCoffeeScriptFile, this.ChirpWhiteSpaceCoffeeScriptFile, this.ChirpYUICoffeeScriptFile, this.ChirpMSAjaxCoffeeScriptFile, this.ChirpGctCoffeeScriptFile, this.ChirpCoffeeScriptFile,
                 ".debug.js", ".debug.css"
             };
         }

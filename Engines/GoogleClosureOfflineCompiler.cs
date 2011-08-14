@@ -26,7 +26,7 @@ namespace Zippy.Chirp
             string output = string.Empty;
             try
             {
-                using (var process = Process.Start(Settings.GoogleClosureJavaPath, toCall))
+                using (var process = Process.Start(Settings.Instance(fileName).GoogleClosureJavaPath, toCall))
                 {
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

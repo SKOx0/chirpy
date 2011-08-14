@@ -28,8 +28,9 @@ namespace Zippy.Chirp
             {
                 return string.Empty;
             }
+            var settings = Settings.Instance(fullFileName);
 
-            if (!string.IsNullOrEmpty(Settings.GoogleClosureJavaPath) && Settings.GoogleClosureOffline)
+            if (!string.IsNullOrEmpty(settings.GoogleClosureJavaPath) && settings.GoogleClosureOffline)
             {
                 return GoogleClosureOfflineCompiler.Compress(
                     fullFileName, compressMode, onError, customArgument);

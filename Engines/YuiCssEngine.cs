@@ -8,8 +8,8 @@ namespace Zippy.Chirp.Engines
     {
         public YuiCssEngine()
         {
-            Extensions = new[] { Settings.ChirpHybridCssFile, Settings.ChirpMichaelAshCssFile, Settings.ChirpCssFile };
-            OutputExtension = Settings.OutputExtensionCSS;
+            Extensions = new[] { this.Settings.ChirpHybridCssFile, this.Settings.ChirpMichaelAshCssFile, this.Settings.ChirpCssFile };
+            OutputExtension = this.Settings.OutputExtensionCSS;
         }
 
         public static string Minify(string text, MinifyType mode)
@@ -28,8 +28,9 @@ namespace Zippy.Chirp.Engines
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            var mode = fullFileName.EndsWith(Settings.ChirpHybridCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiHybrid
-                : fullFileName.EndsWith(Settings.ChirpMichaelAshCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiMARE
+            this.Settings = Settings.Instance(fullFileName);
+            var mode = fullFileName.EndsWith(this.Settings.ChirpHybridCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiHybrid
+                : fullFileName.EndsWith(this.Settings.ChirpMichaelAshCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiMARE
                 : MinifyType.yui;
 
             return Minify(text, mode);

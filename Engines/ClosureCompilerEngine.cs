@@ -9,8 +9,8 @@ namespace Zippy.Chirp.Engines
         #region "constructor"
         public ClosureCompilerEngine()
         {
-            Extensions = new[] { Settings.ChirpSimpleJsFile, Settings.ChirpWhiteSpaceJsFile, Settings.ChirpGctJsFile, Settings.ChirpJsFile };
-            OutputExtension = Settings.OutputExtensionJS;
+            Extensions = new[] { this.Settings.ChirpSimpleJsFile, this.Settings.ChirpWhiteSpaceJsFile, this.Settings.ChirpGctJsFile, this.Settings.ChirpJsFile };
+            OutputExtension = this.Settings.OutputExtensionJS;
         }
         #endregion
 
@@ -41,8 +41,9 @@ namespace Zippy.Chirp.Engines
 
         public override string Transform(string fullFileName, string text, ProjectItem projectItem)
         {
-            var mode = fullFileName.EndsWith(Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS
-                  : fullFileName.EndsWith(Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
+            this.Settings = Settings.Instance(fullFileName);
+            var mode = fullFileName.EndsWith(this.Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS
+                  : fullFileName.EndsWith(this.Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
                   : ClosureCompilerCompressMode.WHITESPACE_ONLY;
 
             return Minify(fullFileName, text, projectItem, mode, string.Empty);

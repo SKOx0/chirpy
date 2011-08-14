@@ -214,13 +214,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_17C573C79AEE444AB0A12992A8CD7079"
+        "OwnerKey" = "8:_EA4C389929CE1E34A24110837E053E3A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -232,13 +226,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5D1367F6CC3508CC459FE1103FB5BFDC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_40AAE6EFB2A9C4E3CA833459F189B94C"
+        "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -250,19 +238,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3410AB3AC7D49B1BBA06E00E4B6F2FF7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_007411CFBE8F6BF2E3F19787805F7001"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5634B887A4A996201D658E602053B798"
+        "OwnerKey" = "8:_8E8015372399E1FD9278328EB5690E69"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -274,19 +250,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8E8015372399E1FD9278328EB5690E69"
+        "OwnerKey" = "8:_5D1367F6CC3508CC459FE1103FB5BFDC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EA4C389929CE1E34A24110837E053E3A"
+        "OwnerKey" = "8:_5634B887A4A996201D658E602053B798"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_40AAE6EFB2A9C4E3CA833459F189B94C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3410AB3AC7D49B1BBA06E00E4B6F2FF7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_17C573C79AEE444AB0A12992A8CD7079"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_007411CFBE8F6BF2E3F19787805F7001"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -946,7 +946,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Zippy.Setup.VS10"
         "ProductCode" = "8:{6BA236C5-36E1-44EE-9A27-FFE79F46CC7D}"
-        "PackageCode" = "8:{90C456D8-2F7D-4F4F-AD40-D85550ADFACB}"
+        "PackageCode" = "8:{559B12D0-31D0-4FAC-9584-7B19E138F929}"
         "UpgradeCode" = "8:{B5E3C873-DDBC-4198-8643-B13E821E3A2E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

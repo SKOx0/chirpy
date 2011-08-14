@@ -7,6 +7,57 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
   <xs:element name="root">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Settings">
+          <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="Setting">
+                <xs:complexType>
+                  <xs:attribute name="key" use="required" type="xs:string" />
+                  <!-- Possible keys and their defaults (copied from Settings.cs) 
+                  ChirpJsFile = ".chirp.js";
+                  ChirpSimpleJsFile = ".simple.js";
+                  ChirpWhiteSpaceJsFile = ".whitespace.js";
+                  ChirpYuiJsFile = ".yui.js";
+                  ChirpGctJsFile = ".gct.js";
+                  ChirpMsAjaxJsFile = ".msajax.js";
+                  ChirpPartialViewFile = ".chirp.ascx";
+                  ChirpViewFile = ".chirp.aspx";
+                  ChirpRazorCsViewFile = ".chirp.cshtml";
+                  ChirpRazorVbViewFile = ".chirp.vbhtml";
+                  ChirpLessFile = ".chirp.less";
+                  ChirpMsAjaxLessFile = ".msajax.less";
+                  ChirpHybridLessFile = ".hybrid.less";
+                  ChirpMichaelAshLessFile = ".michaelash.less";
+                  ChirpUglifyJsFile = ".uglify.js";
+                  ChirpCoffeeScriptFile = ".chirp.coffee";
+                  ChirpSimpleCoffeeScriptFile = ".simple.coffee";
+                  ChirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
+                  ChirpYuiCoffeeScriptFile = ".yui.coffee";
+                  ChirpGctCoffeeScriptFile = ".gct.coffee";
+                  ChirpMsAjaxCoffeeScriptFile = ".msajax.coffee";
+                  ChirpUglifyCoffeeScriptFile = ".uglify.coffee";
+                  CoffeeScriptBatFilePath = string.Empty;
+                  ChirpCssFile = ".chirp.css";
+                  ChirpMsAjaxCssFile = ".msajax.css";
+                  ChirpHybridCssFile = ".hybrid.css";
+                  ChirpMichaelAshCssFile = ".michaelash.css";
+                  ChirpConfigFile = ".chirp.config";
+                  DefaultCssMinifier = MinifyType.yui;
+                  DefaultJavaScriptMinifier = MinifyType.yui;
+                  T4RunAsBuild = false;
+                  T4RunAsBuildTemplate = string.Empty;
+                  SmartRunT4Mvc = false;
+                  RunJsHint = true;
+                  ShowDetailLog = true;
+                  GoogleClosureJavaPath = string.Empty;
+                  GoogleClosureOffline = false;
+                  -->
+                  <xs:attribute name="value" use="required" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="FileGroup">
           <xs:complexType>
             <xs:sequence>

@@ -46,7 +46,8 @@ namespace Zippy.Chirp.Engines
 
         public override int Handles(string filename)
         {
-            return Settings.SmartRunT4MVC
+            this.Settings = Settings.Instance(filename);
+            return this.Settings.SmartRunT4MVC
                 && (this.IsMVCStandardViewScriptOrContentFile(filename) || this.IsMVCStandardControllerFile(filename)) ? 1 : 0;
         }
 
