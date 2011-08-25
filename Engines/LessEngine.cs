@@ -42,7 +42,7 @@ namespace Zippy.Chirp.Engines
                     try
                     {
                         // The built in static method doesn't throw error messages
-                        css = LessParser.Parse(text, fullFileName).ToCSS();
+                        css = LessParser.Parse(text, fullFileName).AppendCSS();
                     }
                     catch (Exception e)
                     {
