@@ -40,11 +40,11 @@ namespace Zippy.Chirp.Xml
 			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
 			this.Debug = ((string)xElement.Attribute("Debug")).ToBool(false);
 
-			var fileDescriptors = xElement.XPathSelectElements(@"*[name() = 'File' or name() = 'Folder']");
 			var files = new List<FileXml>();
-			foreach (var fileDescriptor in fileDescriptors)
+
+			foreach (var fileDescriptor in xElement.Elements())
 			{
-				if (fileDescriptor.Name.LocalName == "File")
+				if (fileDescriptor.Name.LocalName == "File" || fileDescriptor.Name.LocalName == "Raw")
 				{
 					var file = new FileXml(fileDescriptor, basePath);
 

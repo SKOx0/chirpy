@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0862A5C538342483CCA9061079F1B82B"
+        "OwnerKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
         "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
         "MsmSig" = "8:_UNDEFINED"
@@ -135,12 +141,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8AD6A3268E027E0E93A8DA36C4DF115F"
-        "OwnerKey" = "8:_0F5503E70878D4C2E6B028DA4EB477E2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_8E8015372399E1FD9278328EB5690E69"
         "OwnerKey" = "8:_17C573C79AEE444AB0A12992A8CD7079"
         "MsmSig" = "8:_UNDEFINED"
@@ -183,14 +183,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BCBBA6EA8A8BF83588D6F97848C75385"
-        "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
+        "MsmKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
+        "OwnerKey" = "8:_17C573C79AEE444AB0A12992A8CD7079"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
-        "OwnerKey" = "8:_17C573C79AEE444AB0A12992A8CD7079"
+        "MsmKey" = "8:_CC4F951BD2120A1F410D8A15228C334D"
+        "OwnerKey" = "8:_BDB5816885DD3E4F5C0CB1BF91A1E462"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -404,6 +404,26 @@
                 }
             "SourcePath" = "8:Microsoft.MSXML.dll"
             "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0862A5C538342483CCA9061079F1B82B"
+            {
+            "SourcePath" = "8:dte80a.olb"
+            "TargetName" = "8:dte80a.olb"
             "Tag" = "8:"
             "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
             "Condition" = "8:"
@@ -708,26 +728,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AD6A3268E027E0E93A8DA36C4DF115F"
-            {
-            "SourcePath" = "8:dte80a.olb"
-            "TargetName" = "8:dte80a.olb"
-            "Tag" = "8:"
-            "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8E8015372399E1FD9278328EB5690E69"
             {
             "AssemblyRegister" = "3:1"
@@ -790,10 +790,21 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BCBBA6EA8A8BF83588D6F97848C75385"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BDB5816885DD3E4F5C0CB1BF91A1E462"
             {
-            "SourcePath" = "8:dte80.olb"
-            "TargetName" = "8:dte80.olb"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:TRUE"
+            "AssemblyAsmDisplayName" = "8:EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_BDB5816885DD3E4F5C0CB1BF91A1E462"
+                    {
+                    "Name" = "8:EnvDTE80.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EnvDTE80.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
             "Condition" = "8:"
@@ -810,21 +821,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BDB5816885DD3E4F5C0CB1BF91A1E462"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CC4F951BD2120A1F410D8A15228C334D"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_BDB5816885DD3E4F5C0CB1BF91A1E462"
-                    {
-                    "Name" = "8:EnvDTE80.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:EnvDTE80.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:dte80.olb"
+            "TargetName" = "8:dte80.olb"
             "Tag" = "8:"
             "Folder" = "8:_A9F0EE31D930459999E46466DE357FDF"
             "Condition" = "8:"
@@ -946,7 +946,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Zippy.Setup.VS10"
         "ProductCode" = "8:{6BA236C5-36E1-44EE-9A27-FFE79F46CC7D}"
-        "PackageCode" = "8:{559B12D0-31D0-4FAC-9584-7B19E138F929}"
+        "PackageCode" = "8:{19ADE204-DB20-43C4-9DAB-999F28A9C1DD}"
         "UpgradeCode" = "8:{B5E3C873-DDBC-4198-8643-B13E821E3A2E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

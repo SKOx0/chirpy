@@ -267,13 +267,13 @@ namespace Zippy.Chirp
             set { this.allExtensions = value; }
         }
 
-        public UglifyCS.JSHint.options JsHintOptions
+        public JavaScript.JSHint.options JsHintOptions
         {
             get;
             set;
         }
 
-        public UglifyCS.CSSLint.options CssLintOptions
+        public JavaScript.CSSLint.options CssLintOptions
         {
             get;
             set;
@@ -402,8 +402,8 @@ namespace Zippy.Chirp
                 regKey.SetValue("RunCSSLint", this.RunCSSLint);
                 regKey.SetValue("showDetailLog", this.showDetailLog);
 
-                this.SaveOptionsInRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint.options), this.JsHintOptions);
-                this.SaveOptionsInRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint.options), this.CssLintOptions);
+                this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
+                this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
 
                 this.LoadExtensions();
 
@@ -563,14 +563,14 @@ namespace Zippy.Chirp
         {
             if (this.JsHintOptions == null)
             {
-                this.JsHintOptions = new UglifyCS.JSHint.options();
+                this.JsHintOptions = new JavaScript.JSHint.options();
 
                 // default setting
                 this.JsHintOptions.devel = true;
                 this.JsHintOptions.curly = true;
                 this.JsHintOptions.undef = true;
 
-                this.LoadOptionsFromRegistry(RegWDSJsHint, typeof(UglifyCS.JSHint), this.JsHintOptions);
+                this.LoadOptionsFromRegistry(RegWDSJsHint, this.JsHintOptions);
             }
         }
 
@@ -578,9 +578,13 @@ namespace Zippy.Chirp
         {
             if (this.CssLintOptions == null)
             {
-                this.CssLintOptions = new UglifyCS.CSSLint.options();
-                this.LoadOptionsFromRegistry(RegWDSCssLint, typeof(UglifyCS.CSSLint), this.CssLintOptions);
+                this.CssLintOptions = new JavaScript.CSSLint.options();
+                this.LoadOptionsFromRegistry(RegWDSCssLint, this.CssLintOptions);
             }
+        }
+
+        private void LoadOptionsFromRegistry<T>(string regKey, T objectToSave) {
+            LoadOptionsFromRegistry(regKey, typeof(T), objectToSave);
         }
 
         private void LoadOptionsFromRegistry(string regKey, Type objectType, object objectToSave)
@@ -633,6 +637,10 @@ namespace Zippy.Chirp
                     regKeyOptions.Close();
                 }
             }
+        }
+
+        private void SaveOptionsInRegistry<T>(string regKey,T objectToSave) {
+            SaveOptionsInRegistry(regKey, typeof(T), objectToSave);
         }
 
         private void SaveOptionsInRegistry(string regKey, Type objectType, object objectToSave)

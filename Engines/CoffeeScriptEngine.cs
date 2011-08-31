@@ -6,7 +6,7 @@ namespace Zippy.Chirp.Engines
 {
     public class CoffeeScriptEngine : TransformEngine
     {
-        private static UglifyCS.CoffeeScript coffee;
+        private static JavaScript.CoffeeScript coffee;
         private static Regex regexError = new Regex(@"Error\:\s*(.*?)\s+on\s+line\s+([0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled); // "Error: unclosed { on line 1"
 
         public CoffeeScriptEngine()
@@ -19,11 +19,11 @@ namespace Zippy.Chirp.Engines
         {
             if (coffee == null)
             {
-                lock (UglifyCS.Extensibility.Instance)
+                lock (JavaScript.Extensibility.Instance)
                 {
                     if (coffee == null)
                     {
-                        coffee = new UglifyCS.CoffeeScript();
+                        coffee = new JavaScript.CoffeeScript();
                     }
                 }
             }

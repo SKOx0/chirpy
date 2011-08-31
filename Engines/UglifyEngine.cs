@@ -4,7 +4,7 @@ namespace Zippy.Chirp.Engines
 {
     public class CSSLintEngine : ActionEngine 
     {
-        private static UglifyCS.CSSLint lint;
+        private static JavaScript.CSSLint lint;
 
         public override int Handles(string fullFileName) 
         {
@@ -22,11 +22,11 @@ namespace Zippy.Chirp.Engines
         {
             if (lint == null) 
             {
-                lock (UglifyCS.Extensibility.Instance) 
+                lock (JavaScript.Extensibility.Instance) 
                 {
                     if (lint == null) 
                     {
-                        lint = new UglifyCS.CSSLint();
+                        lint = new JavaScript.CSSLint();
                     }
                 }
             }
@@ -39,8 +39,8 @@ namespace Zippy.Chirp.Engines
                 foreach (var item in results.messages) 
                 {
                     TaskList.Instance.Add(projectItem.ContainingProject,
-                        item.type == UglifyCS.CSSLint.Message.types.error ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Error
-                            : item.type == UglifyCS.CSSLint.Message.types.warning ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning
+                        item.type == JavaScript.CSSLint.Message.types.error ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Error
+                            : item.type == JavaScript.CSSLint.Message.types.warning ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning
                             : Microsoft.VisualStudio.Shell.TaskErrorCategory.Message,
                         fullFileName, item.line, item.col, item.message);
                 }
@@ -55,7 +55,7 @@ namespace Zippy.Chirp.Engines
 
     public class JSHintEngine : ActionEngine
     {
-        private static UglifyCS.JSHint hint;
+        private static JavaScript.JSHint hint;
 
         public override int Handles(string fullFileName)
         {
@@ -74,11 +74,11 @@ namespace Zippy.Chirp.Engines
 
             if (JSHintEngine.hint == null)
             {
-                lock (UglifyCS.Extensibility.Instance)
+                lock (JavaScript.Extensibility.Instance)
                 {
                     if (JSHintEngine.hint == null)
                     {
-                        JSHintEngine.hint = new UglifyCS.JSHint();
+                        JSHintEngine.hint = new JavaScript.JSHint();
                     }
                 }
             }
@@ -107,8 +107,8 @@ namespace Zippy.Chirp.Engines
 
     public class UglifyEngine : JsEngine
     {
-        private static UglifyCS.Uglify uglify = new UglifyCS.Uglify();
-        private static UglifyCS.Beautify beautify = new UglifyCS.Beautify();
+        private static JavaScript.Uglify uglify = new JavaScript.Uglify();
+        private static JavaScript.Beautify beautify = new JavaScript.Beautify();
 
         public UglifyEngine()
         {
@@ -120,11 +120,11 @@ namespace Zippy.Chirp.Engines
         {
             if (UglifyEngine.uglify == null)
             {
-                lock (UglifyCS.Extensibility.Instance)
+                lock (JavaScript.Extensibility.Instance)
                 {
                     if (UglifyEngine.uglify == null)
                     {
-                        UglifyEngine.uglify = new UglifyCS.Uglify();
+                        UglifyEngine.uglify = new JavaScript.Uglify();
                     }
                 }
             }
@@ -144,11 +144,11 @@ namespace Zippy.Chirp.Engines
         {
             if (UglifyEngine.beautify == null)
             {
-                lock (UglifyCS.Extensibility.Instance)
+                lock (JavaScript.Extensibility.Instance)
                 {
                     if (UglifyEngine.beautify == null)
                     {
-                        UglifyEngine.beautify = new UglifyCS.Beautify();
+                        UglifyEngine.beautify = new JavaScript.Beautify();
                     }
                 }
             }
