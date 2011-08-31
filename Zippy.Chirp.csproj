@@ -28,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <IncrementalBuild>false</IncrementalBuild>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,16 +56,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="dotless.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+    <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\dotless.1.2.0.0\lib\dotless.Core.dll</HintPath>
+      <HintPath>packages\dotless.1.2.1.0\lib\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EcmaScript.NET.modified, Version=0.1.1.0, Culture=neutral, PublicKeyToken=7d53ba4f537753a5, processorArchitecture=MSIL">
       <HintPath>packages\YUICompressor.NET.1.5.0.0\lib\NET35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\UglifyCS.1.0.4.3\lib\Jurassic.dll</HintPath>
+      <HintPath>packages\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -82,9 +83,6 @@
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="UglifyCS">
-      <HintPath>packages\UglifyCS.1.0.4.3\lib\UglifyCS.dll</HintPath>
     </Reference>
     <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -174,7 +172,19 @@
     <Compile Include="Engines\YuiJsEngine.cs" />
     <Compile Include="Engines\GoogleClosureCompilerErrorException.cs" />
     <Compile Include="Engines\GoogleClosureCompiler.cs" />
+    <Compile Include="JavaScript\Beautify.cs" />
+    <Compile Include="JavaScript\CoffeeScript.cs" />
+    <Compile Include="JavaScript\CSSLint.cs" />
+    <Compile Include="JavaScript\Environment.cs" />
+    <Compile Include="JavaScript\Extensibility.cs" />
+    <Compile Include="JavaScript\JsHint.cs" />
+    <Compile Include="JavaScript\Uglify.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TaskList.cs" />
@@ -226,9 +236,7 @@
       <Isolated>False</Isolated>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ConfigurationScreen\CoffeeScript.resx">
       <DependentUpon>CoffeeScript.cs</DependentUpon>
@@ -260,6 +268,10 @@
       <DependentUpon>T4Template.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -270,6 +282,18 @@
     <None Include="Xml\Chirpy.Config.xss">
       <DependentUpon>Chirpy.Config.xsd</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JavaScript\Scripts\beautify.js" />
+    <Content Include="JavaScript\Scripts\browser.js" />
+    <Content Include="JavaScript\Scripts\coffee-script.js" />
+    <Content Include="JavaScript\Scripts\csslint.js" />
+    <Content Include="JavaScript\Scripts\env.js" />
+    <Content Include="JavaScript\Scripts\jshint.js" />
+    <Content Include="JavaScript\Scripts\parse-js.js" />
+    <Content Include="JavaScript\Scripts\process.js" />
+    <Content Include="JavaScript\Scripts\squeeze-more.js" />
+    <Content Include="JavaScript\Scripts\uglify-js.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
