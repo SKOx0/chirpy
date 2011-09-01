@@ -183,6 +183,20 @@ button, input.button {position:relative;top:0.25em;}");
         }
 
         [TestMethod]
+        public void TestUglify() {
+
+            using (var engine = new Uglify()) {
+                for (var i = 0; i < 10; i++) {
+                    string code = "\"use strict\"; if (test == 0) { alert(1); }";
+                    string minid = engine.squeeze_it(code);
+
+                    minid.Length.Should().Be.InRange(1, code.Length - 1);
+                }
+            }
+
+        }
+
+        [TestMethod]
         public void CanRunMultipleTimes_JSHINT() {
             for (var j = 0; j < 10; j++)
                 using (var engine = new JSHint()) {
