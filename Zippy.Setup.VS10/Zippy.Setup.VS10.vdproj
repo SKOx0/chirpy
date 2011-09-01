@@ -946,7 +946,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Zippy.Setup.VS10"
         "ProductCode" = "8:{6BA236C5-36E1-44EE-9A27-FFE79F46CC7D}"
-        "PackageCode" = "8:{19ADE204-DB20-43C4-9DAB-999F28A9C1DD}"
+        "PackageCode" = "8:{E55C5FDB-E1B8-453E-8A6E-F93ABB6D0598}"
         "UpgradeCode" = "8:{B5E3C873-DDBC-4198-8643-B13E821E3A2E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

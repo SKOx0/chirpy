@@ -23,7 +23,9 @@ namespace Zippy.Chirp.Xml
 				throw new Exception("Pattern attribute required on Folder element");
 			}
 
-			this.Minify = ((string)xElement.Attribute("Minify")).TryToBool();
+            this.Find = (string)xElement.Attribute("Find");
+            this.Replace = (string)xElement.Attribute("Replace");
+            this.Minify = ((string)xElement.Attribute("Minify")).TryToBool();
 			this.Deep = ((string)xElement.Attribute("Deep")).ToBool(true);
 			this.MinifyWith = ((string)xElement.Attribute("MinifyWith")).ToEnum(MinifyType.Unspecified);
 			this.FileXmlList = new List<FileXml>();
@@ -77,7 +79,9 @@ namespace Zippy.Chirp.Xml
 				{
 					Minify = this.Minify,
 					Path = filePath,
-					MinifyWith = this.MinifyWith
+					MinifyWith = this.MinifyWith,
+                    Find = this.Find,
+                    Replace = this.Replace
 				});
 			}
 		}
@@ -91,6 +95,10 @@ namespace Zippy.Chirp.Xml
 
 		public MinifyType MinifyWith { get; set; }
 
-		public IList<FileXml> FileXmlList { get; set; }
+        public IList<FileXml> FileXmlList { get; set; }
+
+        public string Find { get; set; }
+        
+        public string Replace { get; set; }
 	}
 }

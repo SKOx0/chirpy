@@ -120,6 +120,7 @@ namespace Zippy.Chirp.Engines {
                     }
 
                     string output = productionFileText.ToString();
+                    output = Utilities.ProcessText(output, fileGroup.Find, fileGroup.Replace);
 
                     if (fileGroup.Minify == FileGroupXml.MinifyActions.True) {
                         output = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
