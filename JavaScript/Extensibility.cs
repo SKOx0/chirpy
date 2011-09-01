@@ -40,7 +40,13 @@ namespace Zippy.Chirp.JavaScript {
             return GetContents(new Uri(uri, file));
         }
 
-        public virtual void Download(Uri url, string file) {
+        public virtual void Download(Uri url, ref string file) {
+            if (file == null) {
+                if (url.Scheme == "http" || url.Scheme == "https") {
+                    file = new Uri(LocalStorage, makePathSafe(url.ToString())).LocalPath;
+                }
+            }
+
             var exists = System.IO.File.Exists(file);
             var maxage = TimeSpan.FromHours(1);
             var date = !exists ? DateTime.MinValue : System.IO.File.GetLastWriteTimeUtc(file);
@@ -78,10 +84,9 @@ namespace Zippy.Chirp.JavaScript {
         }
 
         public virtual string GetContents(Uri uri) {
-            string file;
+            string file = null;
             if (uri.Scheme == "http" || uri.Scheme == "https") {
-                file = new Uri(LocalStorage, makePathSafe(uri.ToString())).LocalPath;
-                Download(uri, file);
+                Download(uri, ref file);
             } else file = uri.LocalPath;
 
             if (!System.IO.File.Exists(file)) {

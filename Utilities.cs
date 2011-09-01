@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
 using EnvDTE80;
+using System.Text.RegularExpressions;
 
 namespace Zippy.Chirp
 {
@@ -10,6 +11,7 @@ namespace Zippy.Chirp
     {
         private const char ENUM_SEPERATOR_CHARACTER = ',';
         private static Dictionary<Enum, string> descriptions = new Dictionary<Enum, string>();
+        private static Regex rxIsRegex = new Regex("^/(.*?)/([a-z]*)$", RegexOptions.Compiled);
         
         public static void Dispose<T>(ref T obj) where T : class, IDisposable
         {
@@ -25,6 +27,20 @@ namespace Zippy.Chirp
             }
 
             obj = null;
+        }
+
+        public static string ProcessText(string input, string find, string replace) {
+            if (find.IsNullOrEmpty()) return input;
+
+            var match = rxIsRegex.Match(find);
+            if (match.Success) {
+                var options = RegexOptions.Compiled | RegexOptions.Singleline;
+                if (match.Groups[2].Value.Contains("i"))
+                    options |= RegexOptions.IgnoreCase;
+                return Regex.Replace(input, match.Groups[1].Value, replace ?? string.Empty, options);
+            }
+
+            return input.Replace(find, replace ?? string.Empty);
         }
 
         public static void Clear(this System.Text.StringBuilder str) {
