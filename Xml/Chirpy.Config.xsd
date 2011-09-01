@@ -80,7 +80,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                 <xs:element name="Folder" minOccurs="0" maxOccurs="unbounded">
                   <xs:complexType>
                     <xs:attribute name="Pattern" use="required" type="xs:string" />
-                    <xs:attribute name="Minify" type="xs:boolean" />
+                    <xs:attribute name="Minify" type="MinifyAction" />
                     <xs:attribute name="Deep" type="xs:boolean" />
                     <xs:attribute name="Find" type="xs:string" />
                     <xs:attribute name="Replace" type="xs:string" />
@@ -90,7 +90,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
             </xs:sequence>
             <xs:attribute name="Name" type="xs:string" />
             <xs:attribute name="Path" type="xs:string" />
-            <xs:attribute name="Minify" type="xs:boolean" />
+            <xs:attribute name="Minify" type="MinifyAction" />
             <xs:attribute name="Debug" type="xs:boolean" />
             <xs:attribute name="Find" type="xs:string" />
             <xs:attribute name="Replace" type="xs:string" />
