@@ -30,9 +30,10 @@ namespace Zippy.Chirp.Engines
                     }
                 }
             }
-  
+
+            this.Settings = Settings.Instance(fullFileName);
             var code = System.IO.File.ReadAllText(fullFileName);
-            var results = lint.CSSLINT(code);
+            var results = lint.CSSLINT(code, this.Settings.CssLintOptions);
 
             if (results != null && results.messages != null && results.messages.Length > 0) 
             {

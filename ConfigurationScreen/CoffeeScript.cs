@@ -17,7 +17,8 @@ namespace Zippy.Chirp.ConfigurationScreen
             txtChirpWhiteSpaceJsFile.Text = this.Settings.ChirpWhiteSpaceCoffeeScriptFile;
             txtChirpYUIJsFile.Text = this.Settings.ChirpYUICoffeeScriptFile;
             txtMSAjaxJsFile.Text = this.Settings.ChirpMSAjaxCoffeeScriptFile;
-            txtPath.Text = this.Settings.CoffeeScriptBatFilePath;
+
+            propertyGridOptions.SelectedObject = this.Settings.CoffeeScriptOptions;
         }
 
         public override void OnOK()
@@ -27,13 +28,8 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.ChirpWhiteSpaceCoffeeScriptFile = txtChirpWhiteSpaceJsFile.Text;
             this.Settings.ChirpYUICoffeeScriptFile = txtChirpYUIJsFile.Text;
             this.Settings.ChirpMSAjaxCoffeeScriptFile = txtMSAjaxJsFile.Text;
-            this.Settings.CoffeeScriptBatFilePath = txtPath.Text;
             this.Settings.Save();
         }
 
-        private void Download_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/alisey/CoffeeScript-Compiler-for-Windows");
-        }
     }
 }

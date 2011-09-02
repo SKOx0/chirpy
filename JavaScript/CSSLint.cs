@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Linq;
 using Jurassic.Library;
+using System.ComponentModel;
 
 namespace Zippy.Chirp.JavaScript {
     public class CSSLint : Environment {
-        public class options {
+        public class options
+        {
             /// <summary>
             /// to allow IE6 star hack as valid
             /// </summary>
+            [Description("Allow IE6 star hack as valid"), Category("Options")]
             public bool starHack { get; set; }
 
             /// <summary>
             /// to interpret leading underscores as IE6-7 targeting for known properties
             /// </summary>
+            [Description("Interpret leading underscores as IE6-7 targeting for known properties"), Category("Options")]
             public bool underscoreHack { get; set; }
 
             /// <summary>
             /// to indicate that IE &lt; 8 filters should be accepted and not throw syntax errors
             /// </summary>
+            [Description("Indicate that IE &lt; 8 filters should be accepted and not throw syntax errors"), Category("Options")]
             public bool ieFilters { get; set; }
         }
 

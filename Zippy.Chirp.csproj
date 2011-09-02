@@ -109,6 +109,12 @@
     <Compile Include="ConfigurationScreen\CoffeeScript.Designer.cs">
       <DependentUpon>CoffeeScript.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationScreen\CssLint.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\CssLint.Designer.cs">
+      <DependentUpon>CssLint.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationScreen\GoogleClosure.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -248,6 +254,9 @@
     <EmbeddedResource Include="ConfigurationScreen\Config.resx">
       <DependentUpon>Config.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\CssLint.resx">
+      <DependentUpon>CssLint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\GoogleClosure.resx">
       <DependentUpon>GoogleClosure.cs</DependentUpon>

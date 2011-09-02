@@ -1,8 +1,11 @@
 ﻿
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 namespace Zippy.Chirp.JavaScript {
     public class CoffeeScript : Environment {
-        public class options {
+        public class options
+        {
+            [Description("Compile the JavaScript without the top-level function safety wrapper"), Category("Options")]
             public bool bare { get; set; }
         }
 
