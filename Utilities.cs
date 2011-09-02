@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using EnvDTE;
 using EnvDTE80;
-using System.Text.RegularExpressions;
 
-namespace Zippy.Chirp
-{
-    public static class Utilities
-    {
+namespace Zippy.Chirp {
+    public static class Utilities {
         private const char ENUM_SEPERATOR_CHARACTER = ',';
         private static Dictionary<Enum, string> descriptions = new Dictionary<Enum, string>();
         private static Regex rxIsRegex = new Regex("^/(.*?)/([a-z]*)$", RegexOptions.Compiled);
-        
-        public static void Dispose<T>(ref T obj) where T : class, IDisposable
-        {
-            try
-            {
-                if (obj != null) 
-                {
-                    obj.Dispose(); 
+
+        public static void Dispose<T>(ref T obj) where T : class, IDisposable {
+            try {
+                if (obj != null) {
+                    obj.Dispose();
                 }
-            }
-            catch
-            { 
+            } catch {
             }
 
             obj = null;
         }
 
+
+        private static Regex rxNormalizeLineEndings = new Regex(@"\r\n|\n\r|\n|\r", RegexOptions.Compiled);
         public static string ProcessText(string input, string find, string replace) {
+            input = rxNormalizeLineEndings.Replace(input, "\r\n");
             if (find.IsNullOrEmpty()) return input;
 
             var match = rxIsRegex.Match(find);
@@ -54,26 +50,19 @@ namespace Zippy.Chirp
         /// </summary>
         /// <param name="e">enum type</param>
         /// <returns>Description attribute</returns>    
-        public static string Description(this Enum e)
-        {
-            lock (Utilities.descriptions)
-            {
-                if (!Utilities.descriptions.ContainsKey(e))
-                {
+        public static string Description(this Enum e) {
+            lock (Utilities.descriptions) {
+                if (!Utilities.descriptions.ContainsKey(e)) {
                     var entries = e.ToString().Split(ENUM_SEPERATOR_CHARACTER);
                     string[] desc = new string[entries.Length];
                     Type type = e.GetType();
-                    for (int i = 0; i <= entries.Length - 1; i++)
-                    {
+                    for (int i = 0; i <= entries.Length - 1; i++) {
                         var fieldinfo = type.GetField(entries[i].Trim());
-                        if (fieldinfo != null)
-                        {
+                        if (fieldinfo != null) {
                             var attr = fieldinfo.GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                                 .FirstOrDefault() as System.ComponentModel.DescriptionAttribute;
                             desc[i] = attr != null ? attr.Description : entries[i].Trim().Replace("_", " ");
-                        }
-                        else
-                        {
+                        } else {
                             desc[i] = entries[i].Trim().Replace("_", " ");
                         }
                     }
@@ -85,15 +74,11 @@ namespace Zippy.Chirp
             }
         }
 
-        public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName)
-        {
-            foreach (Project project in app.Solution.Projects)
-            {
-                foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively())
-                {
-                    if (projectItem.get_FileNames(1) == fileName)
-                    {
-                        return projectItem; 
+        public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName) {
+            foreach (Project project in app.Solution.Projects) {
+                foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively()) {
+                    if (projectItem.get_FileNames(1) == fileName) {
+                        return projectItem;
                     }
                 }
             }
@@ -101,50 +86,35 @@ namespace Zippy.Chirp
             return null;
         }
 
-        public static bool IsFolder(this ProjectItem item)
-        {
+        public static bool IsFolder(this ProjectItem item) {
             return item.Kind == Constants.vsProjectItemKindPhysicalFolder;
         }
 
-        public static bool IsSolutionFolder(this ProjectItem item)
-        {
+        public static bool IsSolutionFolder(this ProjectItem item) {
             return item.SubProject != null;
         }
 
-        public static IEnumerable<ProjectItem> ProcessFolderProjectItemsRecursively(this ProjectItems projectItems)
-        {
-            if (projectItems != null)
-            {
-                foreach (ProjectItem projectItem in projectItems)
-                {
-                    if (projectItem.IsFolder() && projectItem.ProjectItems != null)
-                    {
-                        foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems))
-                        {
+        public static IEnumerable<ProjectItem> ProcessFolderProjectItemsRecursively(this ProjectItems projectItems) {
+            if (projectItems != null) {
+                foreach (ProjectItem projectItem in projectItems) {
+                    if (projectItem.IsFolder() && projectItem.ProjectItems != null) {
+                        foreach (ProjectItem folderProjectItem in ProcessFolderProjectItemsRecursively(projectItem.ProjectItems)) {
                             yield return folderProjectItem;
                         }
-                    }
-                    else if (projectItem.IsSolutionFolder())
-                    {
-                        foreach (ProjectItem solutionProjectItem in ProcessFolderProjectItemsRecursively(projectItem.SubProject.ProjectItems))
-                        {
+                    } else if (projectItem.IsSolutionFolder()) {
+                        foreach (ProjectItem solutionProjectItem in ProcessFolderProjectItemsRecursively(projectItem.SubProject.ProjectItems)) {
                             yield return solutionProjectItem;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         yield return projectItem;
                     }
                 }
             }
         }
 
-        public static IEnumerable<ProjectItem> GetAll(this ProjectItems projectItems)
-        {
-            foreach (ProjectItem projectItem in projectItems)
-            {
-                foreach (ProjectItem subItem in GetAll(projectItem.ProjectItems))
-                {
+        public static IEnumerable<ProjectItem> GetAll(this ProjectItems projectItems) {
+            foreach (ProjectItem projectItem in projectItems) {
+                foreach (ProjectItem subItem in GetAll(projectItem.ProjectItems)) {
                     yield return subItem;
                 }
 
@@ -152,14 +122,10 @@ namespace Zippy.Chirp
             }
         }
 
-        public static ProjectItem GetParent(this ProjectItem projectItem)
-        {
-            if (projectItem.Collection == null)
-            {
+        public static ProjectItem GetParent(this ProjectItem projectItem) {
+            if (projectItem.Collection == null) {
                 return null;
-            }
-            else
-            {
+            } else {
                 return projectItem.Collection.Parent as ProjectItem;
             }
         }
@@ -170,16 +136,14 @@ namespace Zippy.Chirp
         /// <param name="fullFileName">full file name</param>
         /// <param name="extensions">file extension</param>
         /// <returns>Base filename "C:\fakepath\test"</returns>
-        public static string GetBaseFileName(string fullFileName, params string[] extensions)
-        {
+        public static string GetBaseFileName(string fullFileName, params string[] extensions) {
             var settings = Settings.Instance(fullFileName);
             extensions = extensions == null ? settings.AllExtensions : extensions.Union(settings.AllExtensions).ToArray();
 
             var fileExt = extensions.Where(x => fullFileName.EndsWith(x, StringComparison.InvariantCultureIgnoreCase)).OrderByDescending(x => x.Length).FirstOrDefault()
                 ?? System.IO.Path.GetExtension(fullFileName);
 
-            if (!string.IsNullOrEmpty(fileExt))
-            {
+            if (!string.IsNullOrEmpty(fileExt)) {
                 fullFileName = fullFileName.Substring(0, fullFileName.Length - fileExt.Length);
             }
 
