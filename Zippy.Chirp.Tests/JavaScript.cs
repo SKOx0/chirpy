@@ -40,10 +40,13 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestCoffeeScript() {
-            var code = "alert 'hello!'";
+            var code = "/*CoffeeScript: bare: true */\r\nalert 'hello!'";
+
             using (var coffee = new CoffeeScript())
                 code = coffee.compile(code);
+
             code.Should().Contain("alert('hello!')");
+            code.Should().Not.Contain("function");
         }
 
         [TestMethod]

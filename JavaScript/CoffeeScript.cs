@@ -1,8 +1,9 @@
 ﻿
+using System.Text.RegularExpressions;
 namespace Zippy.Chirp.JavaScript {
     public class CoffeeScript : Environment {
         public class options {
-            public bool nowrap { get; set; }
+            public bool bare { get; set; }
         }
 
         protected override void OnInit() {
@@ -10,10 +11,19 @@ namespace Zippy.Chirp.JavaScript {
             RunFile("coffee-script");
         }
 
+        private static Regex rxDetectOptions = new Regex(@"/\*\s*CoffeeScript\:\s*(.*?)\*/", RegexOptions.Compiled);
         public string compile(string source, options options = null) {
+            var js = "jscode = CoffeeScript.compile(jscode, options);";
+            var moptions = rxDetectOptions.Match(source);
+            if (moptions.Success) {
+                js = "var options = { " + moptions.Groups[1].Value + "}; " + js;
+                source = source.Remove(moptions.Index, moptions.Length);
+            } else {
+                this["options"] = options;
+            }
+
             this["jscode"] = source;
-            this["options"] = options;
-            Run("jscode = CoffeeScript.compile(jscode, options)");
+            Run(js);
             return (string)this["jscode"];
         }
     }
