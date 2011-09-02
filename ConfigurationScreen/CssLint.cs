@@ -1,22 +1,22 @@
 ﻿
 namespace Zippy.Chirp.ConfigurationScreen
 {
-    public partial class JSHint : BaseConfigurationControl
+    public partial class CssLint : BaseConfigurationControl
     {
-        public JSHint()
+        public CssLint()
         {
             InitializeComponent();
         }
 
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            chkJSHint.Checked = this.Settings.RunJSHint;
-            propertyGridOptions.SelectedObject = this.Settings.JsHintOptions;
+            chkCSSLint.Checked = this.Settings.RunCSSLint;
+            propertyGridOptions.SelectedObject = this.Settings.CssLintOptions;
         }
 
         public override void OnOK()
         {
-            this.Settings.RunJSHint = chkJSHint.Checked;
+            this.Settings.RunCSSLint = chkCSSLint.Checked;
             this.Settings.Save();
         }
     }

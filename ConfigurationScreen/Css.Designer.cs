@@ -31,7 +31,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtOutputExtension = new System.Windows.Forms.TextBox();
-            this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.txtMSAjaxCssFile = new System.Windows.Forms.TextBox();
@@ -50,7 +49,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.txtOutputExtension);
-            this.groupBox3.Controls.Add(this.chkCSSLint);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.txtMSAjaxCssFile);
@@ -82,16 +80,6 @@
             this.txtOutputExtension.Size = new System.Drawing.Size(128, 20);
             this.txtOutputExtension.TabIndex = 28;
             this.txtOutputExtension.Text = ".MSAjax.css";
-            // 
-            // chkCSSLint
-            // 
-            this.chkCSSLint.AutoSize = true;
-            this.chkCSSLint.Location = new System.Drawing.Point(184, 141);
-            this.chkCSSLint.Name = "chkCSSLint";
-            this.chkCSSLint.Size = new System.Drawing.Size(92, 17);
-            this.chkCSSLint.TabIndex = 26;
-            this.chkCSSLint.Text = "Run CSS Hint";
-            this.chkCSSLint.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -186,7 +174,6 @@
         private System.Windows.Forms.TextBox txtChirpCssFile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMSAjaxCssFile;
-        private System.Windows.Forms.CheckBox chkCSSLint;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtOutputExtension;
     }

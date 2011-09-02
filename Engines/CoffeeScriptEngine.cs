@@ -31,7 +31,8 @@ namespace Zippy.Chirp.Engines
             string error = null;
             try
             {
-                return coffee.compile(text);
+               Settings settings = Settings.Instance(fullFileName);
+               return coffee.compile(text, settings.CoffeeScriptOptions);
             }
             catch (Exception e)
             {

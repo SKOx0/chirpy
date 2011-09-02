@@ -1,6 +1,6 @@
 ﻿namespace Zippy.Chirp.ConfigurationScreen
 {
-    partial class JSHint
+    partial class CssLint
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,35 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkJSHint = new System.Windows.Forms.CheckBox();
+            this.chkCSSLint = new System.Windows.Forms.CheckBox();
             this.propertyGridOptions = new System.Windows.Forms.PropertyGrid();
             this.SuspendLayout();
             // 
-            // chkJSHint
+            // chkCSSLint
             // 
-            this.chkJSHint.AutoSize = true;
-            this.chkJSHint.Location = new System.Drawing.Point(3, 12);
-            this.chkJSHint.Name = "chkJSHint";
-            this.chkJSHint.Size = new System.Drawing.Size(83, 17);
-            this.chkJSHint.TabIndex = 26;
-            this.chkJSHint.Text = "Run JS Hint";
-            this.chkJSHint.UseVisualStyleBackColor = true;
+            this.chkCSSLint.AutoSize = true;
+            this.chkCSSLint.Location = new System.Drawing.Point(3, 12);
+            this.chkCSSLint.Name = "chkCSSLint";
+            this.chkCSSLint.Size = new System.Drawing.Size(92, 17);
+            this.chkCSSLint.TabIndex = 27;
+            this.chkCSSLint.Text = "Run CSS Hint";
+            this.chkCSSLint.UseVisualStyleBackColor = true;
             // 
             // propertyGridOptions
             // 
             this.propertyGridOptions.Location = new System.Drawing.Point(3, 35);
             this.propertyGridOptions.Name = "propertyGridOptions";
             this.propertyGridOptions.Size = new System.Drawing.Size(378, 249);
-            this.propertyGridOptions.TabIndex = 29;
+            this.propertyGridOptions.TabIndex = 30;
             // 
-            // JSHint
+            // CssLint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.Controls.Add(this.propertyGridOptions);
-            this.Controls.Add(this.chkJSHint);
-            this.Name = "JSHint";
+            this.Controls.Add(this.chkCSSLint);
+            this.Name = "CssLint";
             this.Size = new System.Drawing.Size(387, 291);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -65,7 +64,7 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkJSHint;
+        private System.Windows.Forms.CheckBox chkCSSLint;
         private System.Windows.Forms.PropertyGrid propertyGridOptions;
     }
 }

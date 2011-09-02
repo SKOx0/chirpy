@@ -16,6 +16,7 @@ namespace Zippy.Chirp
         private const string RegWDS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp";
         private const string RegWDSJsHint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\JSHint";
         private const string RegWDSCssLint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\CSSLint";
+        private const string RegWDSCoffeeScript = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\CoffeeScript";
         private string chirpJsFile = ".chirp.js";
         private string chirpSimpleJsFile = ".simple.js";
         private string chirpWhiteSpaceJsFile = ".whitespace.js";
@@ -38,7 +39,6 @@ namespace Zippy.Chirp
         private string chirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
         private string chirpYUICoffeeScriptFile = ".yui.coffee";
         private string chirpGctCoffeeScriptFile = ".gct.coffee";
-        private string coffeeScriptBatFilePath = string.Empty;
         private string chirpCssFile = ".chirp.css";
         private string chirpMSAjaxCssFile = ".msajax.css";
         private string chirpHybridCssFile = ".hybrid.css";
@@ -213,12 +213,6 @@ namespace Zippy.Chirp
             set { this.chirpUglifyCoffeeScriptFile = value; }
         }
 
-        public string CoffeeScriptBatFilePath
-        {
-            get { return this.coffeeScriptBatFilePath; }
-            set { this.coffeeScriptBatFilePath = value; }
-        }
-
         public string ChirpCssFile
         {
             get { return this.chirpCssFile; }
@@ -274,6 +268,12 @@ namespace Zippy.Chirp
         }
 
         public JavaScript.CSSLint.options CssLintOptions
+        {
+            get;
+            set;
+        }
+
+        public JavaScript.CoffeeScript.options CoffeeScriptOptions
         {
             get;
             set;
@@ -385,8 +385,7 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpGcCoffeeScriptFile", this.ChirpGctCoffeeScriptFile);
                 regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", this.ChirpMSAjaxCoffeeScriptFile);
                 regKey.SetValue("ChirpUglifyCoffeeScriptFile", this.ChirpUglifyCoffeeScriptFile);
-                regKey.SetValue("CoffeeScriptBatFilePath", this.CoffeeScriptBatFilePath);
-
+              
                 regKey.SetValue("OutputExtensionCSS", this.outputExtensionCSS);
                 regKey.SetValue("OutputExtensionJS", this.outputExtensionJS);
 
@@ -404,6 +403,8 @@ namespace Zippy.Chirp
 
                 this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
                 this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
+                this.SaveOptionsInRegistry(RegWDSCoffeeScript, this.CoffeeScriptOptions);
+                
 
                 this.LoadExtensions();
 
@@ -445,8 +446,7 @@ namespace Zippy.Chirp
                     this.ChirpGctCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpGcCoffeeScriptFile", ".gct.coffee"));
                     this.ChirpMSAjaxCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCoffeeScriptFile", ".msajax.coffee"));
                     this.ChirpUglifyCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpUglifyCoffeeScriptFile", ".uglify.coffee"));
-                    this.CoffeeScriptBatFilePath = Convert.ToString(regKey.GetValue("CoffeeScriptBatFilePath", string.Empty));
-
+                   
                     // Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     this.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     this.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybrid.css"));
@@ -473,6 +473,7 @@ namespace Zippy.Chirp
 
                 this.LoadJsHintOptions();
                 this.LoadCssLintOptions();
+                this.LoadCoffeeScriptOptions();
 
                 this.LoadExtensions();
             }
@@ -571,6 +572,15 @@ namespace Zippy.Chirp
                 this.JsHintOptions.undef = true;
 
                 this.LoadOptionsFromRegistry(RegWDSJsHint, this.JsHintOptions);
+            }
+        }
+
+        private void LoadCoffeeScriptOptions()
+        {
+            if (this.CoffeeScriptOptions == null)
+            {
+                this.CoffeeScriptOptions = new JavaScript.CoffeeScript.options();
+                this.LoadOptionsFromRegistry(RegWDSCoffeeScript, this.CoffeeScriptOptions);
             }
         }
 
