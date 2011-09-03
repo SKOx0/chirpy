@@ -5,7 +5,7 @@ namespace Zippy.Chirp.ConfigurationScreen
 {
     public class BaseConfigurationControl : UserControl, EnvDTE.IDTToolsOptionsPage
     {
-        private Settings settings = new Settings();
+        private Settings settings = Settings.Instance();
 
         public Settings Settings
         {

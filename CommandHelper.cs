@@ -125,12 +125,13 @@ namespace Zippy.Chirp
                 catch (ArgumentException exArg)
                 {
                     // Thrown if command already exist.
-                    System.Windows.Forms.MessageBox.Show("AddCommand=" + exArg.ToString());
+                    Debug.WriteLine(exArg.Message, "ChirpyPopupAddIn.AddCommand");
+                    //System.Windows.Forms.MessageBox.Show("AddCommand=" + exArg.ToString());
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message, "ChirpyPopupAddIn.AddCommand");
-                    System.Windows.Forms.MessageBox.Show("AddCommand=" + ex.ToString());
+                    //System.Windows.Forms.MessageBox.Show("AddCommand=" + ex.ToString());
                 } // try
 
                 if ((szKey != null) && (szKey != ""))

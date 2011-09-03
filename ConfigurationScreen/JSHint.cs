@@ -69,5 +69,10 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.RunJSHint = this.chkJSHint.Checked;
             this.Settings.Save();
         }
+
+        private void linkLabelModeInfo_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.jshint.com/");
+        }
     }
 }

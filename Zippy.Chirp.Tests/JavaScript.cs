@@ -131,6 +131,63 @@ button, input.button {position:relative;top:0.25em;}");
         }
 
         [TestMethod]
+        public void TestCSSLintWithOptionIdsTrue()
+        {
+            CSSLint.options options = new CSSLint.options();
+            options.Ids = true;
+
+            using (var csslint = new CSSLint())
+            {
+                var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
+
+                Console.Write(result);
+
+                Assert.AreEqual(1,result.messages.Length);
+                result.messages[0].message.Should().Contain("Don't use IDs in selectors.");
+                
+            }
+
+        }
+
+        [TestMethod]
+        public void TestCSSLintWithOptionIdsTwoTimeCall()
+        {
+            CSSLint.options options = new CSSLint.options();
+            options.Ids = true;
+
+            using (var csslint = new CSSLint())
+            {
+                var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
+
+                Assert.AreEqual(result.messages.Length, 1);
+                Assert.AreEqual("Don't use IDs in selectors.", result.messages[0].message);
+
+                options.Ids = false;
+
+                var resultTimeTwo = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
+                Assert.AreEqual(0, resultTimeTwo.messages.Length);
+            }
+
+        }
+
+        [TestMethod]
+        public void TestCSSLintWithOptionIdsFalse()
+        {
+            CSSLint.options options = new CSSLint.options();
+            options.Ids = false;
+
+            using (var csslint = new CSSLint())
+            {
+                var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
+
+                Console.Write(result);
+
+                Assert.AreEqual(0, result.messages.Length);
+            }
+
+        }
+
+        [TestMethod]
         public void TestJSHintOK() {
             string code = "function test(){ }";
             JSHint.result[] result;
