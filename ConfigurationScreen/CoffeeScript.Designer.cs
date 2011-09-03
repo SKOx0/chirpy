@@ -38,7 +38,11 @@
             this.txtChirpWhiteSpaceJsFile = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChirpYUIJsFile = new System.Windows.Forms.TextBox();
-            this.propertyGridOptions = new System.Windows.Forms.PropertyGrid();
+            this.gbSetting = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.chkBare = new System.Windows.Forms.CheckBox();
+            this.gbSetting.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label5
@@ -127,19 +131,45 @@
             this.txtChirpYUIJsFile.TabIndex = 7;
             this.txtChirpYUIJsFile.Text = ".yui.js";
             // 
-            // propertyGridOptions
+            // gbSetting
             // 
-            this.propertyGridOptions.Location = new System.Drawing.Point(6, 133);
-            this.propertyGridOptions.Name = "propertyGridOptions";
-            this.propertyGridOptions.Size = new System.Drawing.Size(378, 155);
-            this.propertyGridOptions.TabIndex = 30;
+            this.gbSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSetting.Controls.Add(this.panel1);
+            this.gbSetting.Location = new System.Drawing.Point(3, 133);
+            this.gbSetting.Name = "gbSetting";
+            this.gbSetting.Size = new System.Drawing.Size(381, 155);
+            this.gbSetting.TabIndex = 29;
+            this.gbSetting.TabStop = false;
+            this.gbSetting.Text = "Options";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.chkBare);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(375, 136);
+            this.panel1.TabIndex = 29;
+            // 
+            // chkBare
+            // 
+            this.chkBare.AutoSize = true;
+            this.chkBare.Location = new System.Drawing.Point(3, 3);
+            this.chkBare.Name = "chkBare";
+            this.chkBare.Size = new System.Drawing.Size(345, 17);
+            this.chkBare.TabIndex = 0;
+            this.chkBare.Text = "Compile the JavaScript without the top-level function safety wrapper";
+            this.chkBare.UseVisualStyleBackColor = true;
             // 
             // CoffeeScript
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.gbSetting);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.propertyGridOptions);
             this.Controls.Add(this.txtMSAjaxJsFile);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtChirpJsFile);
@@ -151,6 +181,9 @@
             this.Controls.Add(this.label3);
             this.Name = "CoffeeScript";
             this.Size = new System.Drawing.Size(387, 291);
+            this.gbSetting.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,7 +201,9 @@
         private System.Windows.Forms.TextBox txtChirpWhiteSpaceJsFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtChirpYUIJsFile;
-        private System.Windows.Forms.PropertyGrid propertyGridOptions;
+        private System.Windows.Forms.GroupBox gbSetting;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox chkBare;
 
     }
 }
