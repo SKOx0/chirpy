@@ -18,7 +18,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             txtChirpYUIJsFile.Text = this.Settings.ChirpYUICoffeeScriptFile;
             txtMSAjaxJsFile.Text = this.Settings.ChirpMSAjaxCoffeeScriptFile;
 
-            propertyGridOptions.SelectedObject = this.Settings.CoffeeScriptOptions;
+            chkBare.Checked = this.Settings.CoffeeScriptOptions.bare;
         }
 
         public override void OnOK()
@@ -28,6 +28,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.ChirpWhiteSpaceCoffeeScriptFile = txtChirpWhiteSpaceJsFile.Text;
             this.Settings.ChirpYUICoffeeScriptFile = txtChirpYUIJsFile.Text;
             this.Settings.ChirpMSAjaxCoffeeScriptFile = txtMSAjaxJsFile.Text;
+
+            this.Settings.CoffeeScriptOptions.bare = chkBare.Checked;
+
             this.Settings.Save();
         }
 
