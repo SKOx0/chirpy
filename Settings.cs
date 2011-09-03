@@ -342,6 +342,20 @@ namespace Zippy.Chirp
 
         #region Public Methods
 
+        private static Settings instance;
+
+        /// <summary>
+        /// Instance settings class (for save screen)
+        /// </summary>
+        /// <param name="fullFileName">Full file name</param>
+        /// <returns>Instance settings class by full file name</returns>
+        public static Settings Instance()
+        {
+            if (instance == null)
+                instance = new Settings();
+            return instance;
+        }
+
         /// <summary>
         /// Instance settings class
         /// </summary>
@@ -359,7 +373,7 @@ namespace Zippy.Chirp
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(RegWDS, true) ?? Registry.CurrentUser.CreateSubKey(RegWDS))
             {
-                regKey.SetValue("ChirpCssFile", this.ChirpCssFile);
+                 regKey.SetValue("ChirpCssFile", this.ChirpCssFile);
                 regKey.SetValue("ChirpHybridCssFile", this.ChirpHybridCssFile);
                 regKey.SetValue("ChirpMichaelAshCssFile", this.ChirpMichaelAshCssFile);
                 regKey.SetValue("ChirpMSAjaxCssFile", this.ChirpMSAjaxCssFile);
@@ -404,8 +418,8 @@ namespace Zippy.Chirp
                 this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
                 this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
                 this.SaveOptionsInRegistry(RegWDSCoffeeScript, this.CoffeeScriptOptions);
-                
 
+               
                 this.LoadExtensions();
 
                 if (Saved != null)
@@ -655,14 +669,26 @@ namespace Zippy.Chirp
 
         private void SaveOptionsInRegistry(string regKey, Type objectType, object objectToSave)
         {
-            using (var regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, true) ?? Registry.CurrentUser.CreateSubKey(regKey))
+            try
             {
-                PropertyInfo[] propertyInfos;
-                propertyInfos = objectType.GetProperties();
-                foreach (PropertyInfo propertyInfo in propertyInfos)
+                using (var regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, true) ?? Registry.CurrentUser.CreateSubKey(regKey))
                 {
-                    regKeyOptions.SetValue(propertyInfo.Name, propertyInfo.GetValue(objectToSave, null));
+                    PropertyInfo[] propertyInfos;
+                    propertyInfos = objectType.GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        object setValue = propertyInfo.GetValue(objectToSave, null);
+                        if (setValue != null)
+                        {
+                            regKeyOptions.SetValue(propertyInfo.Name, setValue);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            { 
+                Debug.WriteLine("Chrip - failed to save: " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Chrip - failed to save: " + ex.Message);
             }
         }
 

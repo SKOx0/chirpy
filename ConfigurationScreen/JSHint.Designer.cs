@@ -57,6 +57,7 @@
             this.chkDebug = new System.Windows.Forms.CheckBox();
             this.chkEqnull = new System.Windows.Forms.CheckBox();
             this.chkEqeqeq = new System.Windows.Forms.CheckBox();
+            this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
             this.gbSetting.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMaxerr)).BeginInit();
@@ -381,11 +382,23 @@
             this.chkEqeqeq.Text = "Require that you use === and !== for all comparisons";
             this.chkEqeqeq.UseVisualStyleBackColor = true;
             // 
+            // linkLabelModeInfo
+            // 
+            this.linkLabelModeInfo.AutoSize = true;
+            this.linkLabelModeInfo.Location = new System.Drawing.Point(287, 12);
+            this.linkLabelModeInfo.Name = "linkLabelModeInfo";
+            this.linkLabelModeInfo.Size = new System.Drawing.Size(85, 13);
+            this.linkLabelModeInfo.TabIndex = 30;
+            this.linkLabelModeInfo.TabStop = true;
+            this.linkLabelModeInfo.Text = "More information";
+            this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
+            // 
             // JSHint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.linkLabelModeInfo);
             this.Controls.Add(this.gbSetting);
             this.Controls.Add(this.chkJSHint);
             this.Name = "JSHint";
@@ -431,5 +444,6 @@
         private System.Windows.Forms.CheckBox chkDebug;
         private System.Windows.Forms.CheckBox chkEqnull;
         private System.Windows.Forms.CheckBox chkEqeqeq;
+        private System.Windows.Forms.LinkLabel linkLabelModeInfo;
     }
 }
