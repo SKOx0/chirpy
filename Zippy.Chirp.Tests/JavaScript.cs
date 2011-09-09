@@ -99,6 +99,27 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestCSSLint() {
+          /*  Settings settings = new Settings();
+            settings.CssLintOptions.AdjoiningClasses = true;
+            settings.CssLintOptions.BoxModel=true;
+            settings.CssLintOptions.CompatibleVendorPrefixes = true;
+            settings.CssLintOptions.DisplayPropertyGrouping = true;
+            settings.CssLintOptions.DuplicateProperties = true;
+            settings.CssLintOptions.EmptyRules = true;
+            settings.CssLintOptions.Floats = true;
+            settings.CssLintOptions.FontFaces = true;
+            settings.CssLintOptions.FontSizes = true;
+            settings.CssLintOptions.Gradients = true;
+            settings.CssLintOptions.Ids = true;
+            settings.CssLintOptions.Import = true;
+            settings.CssLintOptions.Important = true;
+            settings.CssLintOptions.QualifiedHeadings = true;
+            settings.CssLintOptions.RegexSelectors = true;
+            settings.CssLintOptions.UniqueHeadings = true;
+            settings.CssLintOptions.VendorPrefix = true;
+            settings.CssLintOptions.ZeroUnits = true;
+            settings.Save();*/
+
             using (var csslint = new CSSLint()) {
                 var result = csslint.CSSLINT(@"body {text-align:center;}
 .container {text-align:left;}

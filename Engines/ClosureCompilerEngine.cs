@@ -42,10 +42,20 @@ namespace Zippy.Chirp.Engines
         public override string Transform(string fullFileName, string text, ProjectItem projectItem)
         {
             this.Settings = Settings.Instance(fullFileName);
-            var mode = fullFileName.EndsWith(this.Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS
-                  : fullFileName.EndsWith(this.Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase) ? ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS
-                  : ClosureCompilerCompressMode.WHITESPACE_ONLY;
-
+            var mode = ClosureCompilerCompressMode.WHITESPACE_ONLY;
+            if(fullFileName.EndsWith(this.Settings.ChirpGctJsFile, StringComparison.OrdinalIgnoreCase))
+            { 
+                mode=ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS;
+            }
+            else if(fullFileName.EndsWith(this.Settings.ChirpJsFile, StringComparison.OrdinalIgnoreCase))
+            { 
+                mode=ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS;
+            }
+            else if(fullFileName.EndsWith(this.Settings.ChirpSimpleJsFile, StringComparison.OrdinalIgnoreCase))
+            {
+                mode=ClosureCompilerCompressMode.SIMPLE_OPTIMIZATIONS;
+            }
+                  
             return Minify(fullFileName, text, projectItem, mode, string.Empty);
         }
     }
