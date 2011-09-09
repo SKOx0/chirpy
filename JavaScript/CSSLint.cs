@@ -150,95 +150,103 @@ namespace Zippy.Chirp.JavaScript {
 
         public result CSSLINT(string source, options options = null) {
             this["text"] = source;
-            string OptionsVarName = "options";
 
-            // https://github.com/stubbornella/csslint/issues/150
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("var " + OptionsVarName + " = {};");
             if (options != null)
             {
-                if (options.AdjoiningClasses)
+                string OptionsVarName = "options";
+
+                // https://github.com/stubbornella/csslint/issues/150
+                stringBuilder.AppendLine("var " + OptionsVarName + " = {};");
+                if (options != null)
                 {
-                    stringBuilder.AppendLine(OptionsVarName + "['adjoining-classes']=true;");
+                    if (options.AdjoiningClasses)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['adjoining-classes']=true;");
+                    }
+                    if (options.EmptyRules)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['empty-rules']=true;");
+                    }
+                    if (options.DisplayPropertyGrouping)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['display-property-grouping']=true;");
+                    }
+                    if (options.Floats)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['floats']=true;");
+                    }
+                    if (options.FontFaces)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['font-faces']=true;");
+                    }
+                    if (options.FontSizes)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
+                    }
+                    if (options.FontSizes)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
+                    }
+                    if (options.Ids)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['ids']=true;");
+                    }
+                    if (options.QualifiedHeadings)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['qualified-headings']=true;");
+                    }
+                    if (options.UniqueHeadings)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['unique-headings']=true;");
+                    }
+                    if (options.ZeroUnits)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['zero-units']=true;");
+                    }
+                    if (options.VendorPrefix)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['vendor-prefix']=true;");
+                    }
+                    if (options.Gradients)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['gradients']=true;");
+                    }
+                    if (options.RegexSelectors)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['regex-selectors']=true;");
+                    }
+                    if (options.BoxModel)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['box-model']=true;");
+                    }
+
+                    if (options.Import)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['import']=true;");
+                    }
+                    if (options.Important)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['important']=true;");
+                    }
+                    if (options.CompatibleVendorPrefixes)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['compatible-vendor-prefixes']=true;");
+                    }
+                    if (options.DuplicateProperties)
+                    {
+                        stringBuilder.AppendLine(OptionsVarName + "['duplicate-properties']=true;");
+                    }
+
                 }
-                if (options.EmptyRules)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['empty-rules']=true;");
-                }
-                if (options.DisplayPropertyGrouping)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['display-property-grouping']=true;");
-                }
-                if (options.Floats)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['floats']=true;");
-                }
-                if (options.FontFaces)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['font-faces']=true;");
-                }
-                if (options.FontSizes)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
-                }
-                if (options.FontSizes)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
-                }
-                if (options.Ids)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['ids']=true;");
+
+                this[OptionsVarName] = stringBuilder.ToString();
+                stringBuilder.AppendLine(@"var result = CSSLint.verify(text, " + OptionsVarName + ");");
             }
-                if (options.QualifiedHeadings)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['qualified-headings']=true;");
-                }
-                if (options.UniqueHeadings)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['unique-headings']=true;");
-                }
-                if (options.ZeroUnits)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['zero-units']=true;");
-                }
-                if (options.VendorPrefix)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['vendor-prefix']=true;");
-                }
-                if (options.Gradients)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['gradients']=true;");
-                }
-                if (options.RegexSelectors)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['regex-selectors']=true;");
-                }
-                if (options.BoxModel)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['box-model']=true;");
-                }
-
-                if (options.Import)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['import']=true;");
-                }
-                if (options.Important)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['important']=true;");
-                }
-                if (options.CompatibleVendorPrefixes)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['compatible-vendor-prefixes']=true;");
-                }
-                if (options.DuplicateProperties)
-                {
-                    stringBuilder.AppendLine(OptionsVarName + "['duplicate-properties']=true;");
-                }
-
+            else
+            {
+                stringBuilder.AppendLine(@"var result = CSSLint.verify(text);");
             }
-
-            this[OptionsVarName] = stringBuilder.ToString();
-           stringBuilder.AppendLine(@"var result = CSSLint.verify(text, " + OptionsVarName + ");");
            Run(stringBuilder.ToString());
 
             var result = (ObjectInstance)this["result"];

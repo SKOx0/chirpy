@@ -6,6 +6,7 @@ using EnvDTE;
 using EnvDTE80;
 using Extensibility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Zippy.Chirp.Engines;
 
 namespace Zippy.Chirp.Tests {
     /// <summary>
@@ -119,13 +120,40 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestJsHintEngine() {
+            Settings settings = new Settings();
+            settings.JsHintOptions.bitwise = true;
+            settings.JsHintOptions.boss = true;
+            settings.JsHintOptions.curly = true;
+            settings.JsHintOptions.debug = true;
+            settings.JsHintOptions.devel = true;
+            settings.JsHintOptions.eqeqeq = true;
+            settings.JsHintOptions.evil = true;
+            settings.JsHintOptions.forin = true;
+            settings.JsHintOptions.immed = true;
+            settings.JsHintOptions.laxbreak = true;
+            settings.JsHintOptions.maxerr = 25;
+            settings.JsHintOptions.newcapp = true;
+            settings.JsHintOptions.noarg = true;
+            settings.JsHintOptions.noempty = true;
+            settings.JsHintOptions.nomen = true;
+            settings.JsHintOptions.nonew = true;
+            settings.JsHintOptions.novar = true;
+            settings.JsHintOptions.passfail = true;
+            settings.JsHintOptions.plusplus = true;
+            settings.JsHintOptions.regex = true;
+            settings.JsHintOptions.strict = true;
+            settings.JsHintOptions.sub = true;
+            settings.JsHintOptions.undef = true;
+            settings.JsHintOptions.white = true;
+            settings.Save();
+
             string code = "if(test) {\r\n\t eval('test'); }";
             var filename = System.IO.Path.GetTempFileName();
             try {
                 System.IO.File.WriteAllText(filename, code);
                 using (var jshint = new Zippy.Chirp.Engines.JSHintEngine()) {
                     jshint.Run(filename, GetProjectItem(filename));
-                    Assert.AreEqual(1, TaskList.Instance.Errors.Count());
+                    Assert.AreNotEqual(0, TaskList.Instance.Errors.Count());
                 }
             } finally {
                 System.IO.File.Delete(filename);
@@ -207,15 +235,54 @@ namespace Zippy.Chirp.Tests {
         }
 
         [TestMethod]
-        public void TestClosureCompilerAdvancedJsEngine() {
-            string code = "if(test) {\r\n\t alert('test'); }";
+        public void TestClosureCompilerAdvancedOfflineJsEngine() {
+            Settings settings = new Settings();
+            settings.GoogleClosureOffline = true;
+            settings.Save();
+
+            string code = "function hello(name) {alert('Hello, ' + name);}hello('New user');";
             //create file for googleClosureCompilerOffline
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
 
 
             code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS,string.Empty);
-            Assert.IsTrue(code == "test&&alert(\"test\");" || code == "test&&alert(\"test\");\r\n");
+            Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n");
+        }
+
+        [TestMethod]
+        public void TestClosureCompilerAdvancedOnlineJsEngine()
+        {
+            Settings settings = new Settings();
+            settings.GoogleClosureOffline = false;
+            settings.Save();
+
+            string code = "function hello(name) {alert('Hello, ' + name);}hello('New user');";
+            //create file for googleClosureCompilerOffline
+            string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
+            System.IO.File.WriteAllText(TempFilePath, code);
+
+
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS, string.Empty);
+            Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n" || code == "alert(\"Hello, New user\");");
+        }
+
+        [TestMethod]
+        public void TestClosureCompilerAdvancedOnlineDetectFileName()
+        {
+            Settings settings = new Settings();
+            settings.GoogleClosureOffline = false;
+            settings.ChirpJsFile = ".chirp.js";
+            settings.Save();
+
+            string code = "function hello(name) {alert('Hello, ' + name);}hello('New user');";
+            //create file for googleClosureCompilerOffline
+            string TempFilePath = System.Environment.CurrentDirectory + "\\test.chirp.js";
+            System.IO.File.WriteAllText(TempFilePath, code);
+
+            ClosureCompilerEngine closureCompilerEngine=new ClosureCompilerEngine();
+            code = closureCompilerEngine.Transform(TempFilePath,code,GetProjectItem(TempFilePath));
+            Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n" || code == "alert(\"Hello, New user\");");
         }
 
         [TestMethod]
