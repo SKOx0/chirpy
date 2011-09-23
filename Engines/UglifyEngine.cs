@@ -45,8 +45,6 @@ namespace Zippy.Chirp.Engines {
     }
 
     public class JSHintEngine : ActionEngine {
-        private static JavaScript.JSHint hint;
-
         public override int Handles(string fullFileName) {
             this.Settings = Settings.Instance(fullFileName);
             if (this.Settings.RunJSHint && fullFileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
@@ -59,17 +57,9 @@ namespace Zippy.Chirp.Engines {
 
         public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem) {
 
-            if (JSHintEngine.hint == null) {
-                lock (JavaScript.Extensibility.Instance) {
-                    if (JSHintEngine.hint == null) {
-                        JSHintEngine.hint = new JavaScript.JSHint();
-                    }
-                }
-            }
-
             var code = System.IO.File.ReadAllText(fullFileName);
 
-            var results = JSHintEngine.hint.JSHINT(code, this.Settings.JsHintOptions);
+            var results = JSHint.JSHINT(code, this.Settings.JsHintOptions);
 
             if (results != null) {
                 foreach (var item in results) {
@@ -80,9 +70,6 @@ namespace Zippy.Chirp.Engines {
             }
         }
 
-        public override void Dispose() {
-            Utilities.Dispose(ref JSHintEngine.hint);
-        }
     }
 
     public class UglifyEngine : JsEngine {
