@@ -10,6 +10,18 @@ namespace Zippy.Chirp
     {
         private static Dictionary<Type, Dictionary<string, IConvertible>> enums = new Dictionary<Type, Dictionary<string, IConvertible>>();
 
+        public static Uri ToUri(this string input, Uri @base = null) {
+            Uri result;
+            if (@base != null) {
+                if (Uri.TryCreate(@base, input, out result)) {
+                    return result;
+                }
+            } else if (Uri.TryCreate(input, UriKind.Absolute, out result)) {
+                return result;
+            }
+            return null;
+        }
+
         public static bool Is(this string a, string b)
         {
             return string.Equals(a, b, StringComparison.InvariantCultureIgnoreCase);

@@ -52,8 +52,7 @@ namespace Zippy.Chirp.Tests {
         [TestMethod]
         public void CanMinifyJQuery() {
             string minid, code = Zippy.Chirp.JavaScript.Extensibility.Instance.GetContents(new Uri("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"));
-            using (var uglify = new Uglify())
-                minid = uglify.squeeze_it(code);
+            minid = Uglify.squeeze_it(code);
 
             minid.Length.Should().Be.InRange(0, code.Length - 1);
         }
@@ -62,8 +61,7 @@ namespace Zippy.Chirp.Tests {
         public void MinifyBadCode() {
             string minid, code = "----*&;lij;{lo23i41";
             try {
-                using (var uglify = new Uglify())
-                    minid = uglify.squeeze_it(code);
+                minid = Uglify.squeeze_it(code);
 
             } catch (System.Exception ex) {
 
@@ -99,26 +97,26 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestCSSLint() {
-          /*  Settings settings = new Settings();
-            settings.CssLintOptions.AdjoiningClasses = true;
-            settings.CssLintOptions.BoxModel=true;
-            settings.CssLintOptions.CompatibleVendorPrefixes = true;
-            settings.CssLintOptions.DisplayPropertyGrouping = true;
-            settings.CssLintOptions.DuplicateProperties = true;
-            settings.CssLintOptions.EmptyRules = true;
-            settings.CssLintOptions.Floats = true;
-            settings.CssLintOptions.FontFaces = true;
-            settings.CssLintOptions.FontSizes = true;
-            settings.CssLintOptions.Gradients = true;
-            settings.CssLintOptions.Ids = true;
-            settings.CssLintOptions.Import = true;
-            settings.CssLintOptions.Important = true;
-            settings.CssLintOptions.QualifiedHeadings = true;
-            settings.CssLintOptions.RegexSelectors = true;
-            settings.CssLintOptions.UniqueHeadings = true;
-            settings.CssLintOptions.VendorPrefix = true;
-            settings.CssLintOptions.ZeroUnits = true;
-            settings.Save();*/
+            /*  Settings settings = new Settings();
+              settings.CssLintOptions.AdjoiningClasses = true;
+              settings.CssLintOptions.BoxModel=true;
+              settings.CssLintOptions.CompatibleVendorPrefixes = true;
+              settings.CssLintOptions.DisplayPropertyGrouping = true;
+              settings.CssLintOptions.DuplicateProperties = true;
+              settings.CssLintOptions.EmptyRules = true;
+              settings.CssLintOptions.Floats = true;
+              settings.CssLintOptions.FontFaces = true;
+              settings.CssLintOptions.FontSizes = true;
+              settings.CssLintOptions.Gradients = true;
+              settings.CssLintOptions.Ids = true;
+              settings.CssLintOptions.Import = true;
+              settings.CssLintOptions.Important = true;
+              settings.CssLintOptions.QualifiedHeadings = true;
+              settings.CssLintOptions.RegexSelectors = true;
+              settings.CssLintOptions.UniqueHeadings = true;
+              settings.CssLintOptions.VendorPrefix = true;
+              settings.CssLintOptions.ZeroUnits = true;
+              settings.Save();*/
 
             using (var csslint = new CSSLint()) {
                 var result = csslint.CSSLINT(@"body {text-align:center;}
@@ -152,32 +150,28 @@ button, input.button {position:relative;top:0.25em;}");
         }
 
         [TestMethod]
-        public void TestCSSLintWithOptionIdsTrue()
-        {
+        public void TestCSSLintWithOptionIdsTrue() {
             CSSLint.options options = new CSSLint.options();
             options.Ids = true;
 
-            using (var csslint = new CSSLint())
-            {
+            using (var csslint = new CSSLint()) {
                 var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
 
                 Console.Write(result);
 
-                Assert.AreEqual(1,result.messages.Length);
+                Assert.AreEqual(1, result.messages.Length);
                 result.messages[0].message.Should().Contain("Don't use IDs in selectors.");
-                
+
             }
 
         }
 
         [TestMethod]
-        public void TestCSSLintWithOptionIdsTwoTimeCall()
-        {
+        public void TestCSSLintWithOptionIdsTwoTimeCall() {
             CSSLint.options options = new CSSLint.options();
             options.Ids = true;
 
-            using (var csslint = new CSSLint())
-            {
+            using (var csslint = new CSSLint()) {
                 var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
 
                 Assert.AreEqual(result.messages.Length, 1);
@@ -192,13 +186,11 @@ button, input.button {position:relative;top:0.25em;}");
         }
 
         [TestMethod]
-        public void TestCSSLintWithOptionIdsFalse()
-        {
+        public void TestCSSLintWithOptionIdsFalse() {
             CSSLint.options options = new CSSLint.options();
             options.Ids = false;
 
-            using (var csslint = new CSSLint())
-            {
+            using (var csslint = new CSSLint()) {
                 var result = csslint.CSSLINT("#fieldset {padding-top:0;}", options);
 
                 Console.Write(result);
@@ -245,18 +237,16 @@ button, input.button {position:relative;top:0.25em;}");
                 var times = new List<long>();
                 var stopwatch = new System.Diagnostics.Stopwatch();
 
-                using (var engine = new Uglify()) {
-                    for (var i = 0; i < 10; i++) {
-                        stopwatch.Start();
+                for (var i = 0; i < 10; i++) {
+                    stopwatch.Start();
 
-                        string code = "if(test==0){alert(1);}";
-                        string minid = engine.squeeze_it(code);
+                    string code = "if(test==0){alert(1);}";
+                    string minid = Uglify.squeeze_it(code);
 
-                        minid.Length.Should().Be.InRange(1, code.Length - 1);
-                        stopwatch.Stop();
-                        times.Add(stopwatch.ElapsedMilliseconds);
-                        stopwatch.Reset();
-                    }
+                    minid.Length.Should().Be.InRange(1, code.Length - 1);
+                    stopwatch.Stop();
+                    times.Add(stopwatch.ElapsedMilliseconds);
+                    stopwatch.Reset();
                 }
 
                 Console.WriteLine(string.Join(", ", times));
@@ -266,13 +256,11 @@ button, input.button {position:relative;top:0.25em;}");
         [TestMethod]
         public void TestUglify() {
 
-            using (var engine = new Uglify()) {
-                for (var i = 0; i < 10; i++) {
-                    string code = "\"use strict\"; if (test == 0) { alert(1); }";
-                    string minid = engine.squeeze_it(code);
+            for (var i = 0; i < 10; i++) {
+                string code = "\"use strict\"; if (test == 0) { alert(1); }";
+                string minid = Uglify.squeeze_it(code);
 
-                    minid.Length.Should().Be.InRange(1, code.Length - 1);
-                }
+                minid.Length.Should().Be.InRange(1, code.Length - 1);
             }
 
         }

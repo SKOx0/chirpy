@@ -183,6 +183,7 @@
     <Compile Include="JavaScript\CSSLint.cs" />
     <Compile Include="JavaScript\Environment.cs" />
     <Compile Include="JavaScript\Extensibility.cs" />
+    <Compile Include="JavaScript\JavaScript.cs" />
     <Compile Include="JavaScript\JsHint.cs" />
     <Compile Include="JavaScript\Uglify.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
