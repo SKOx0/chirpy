@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace Zippy.Chirp.JavaScript {
-    public class JSHint : Environment {
-        public class options
-        {
+    public class JSHint : JavaScript {
+        public JSHint(string code, object data)
+            : base(code, data, new Requirement {
+                Path = "https://raw.github.com/jshint/jshint/master/jshint.js",
+                PostSource = "exports.JSHINT = window.JSHINT = JSHINT;"
+            }) { }
+
+        [ComVisible(true)]
+        public class options {
             [Description("Prohibit the use of bitwise operators"), Category("Options")]
             public bool bitwise { get; set; }
 
@@ -95,42 +100,40 @@ namespace Zippy.Chirp.JavaScript {
         //    else return null;
         //}
 
-        private static T get<T>(Jurassic.Library.ObjectInstance dic, string name, T defaultValue) {
-            var value = dic.GetPropertyValue(name);
-            T ret = defaultValue;
-            try {
-                if (defaultValue is string) ret = (T)(object)Convert.ToString(value);
-                else ret = (T)Convert.ChangeType(value, typeof(T));
-            } catch { }
-            return ret;
+        private List<result> _Results = new List<result>();
+        public void AddResult(int line, int character, string reason, string evidence, string raw) {
+            _Results.Add(new result { line = line, character = character, reason = reason, evidence = evidence, raw = raw });
         }
 
-        protected override void OnInit() {
-            RunFile("jshint");
-        }
-
-        public result[] JSHINT(string source, options options = null) {
-            this["jscode"] = source;
-            this["options"] = options;
-            Run(@"var result = JSHINT(jscode, options), errors = JSHINT.errors;");
-
-            if (!(bool)this["result"]) {
-                var errors = ((Jurassic.Library.ArrayInstance)this["errors"])
-                    .ElementValues
-                    .OfType<Jurassic.Library.ObjectInstance>();
-                var results = new List<result>();
-                foreach (var result in errors) {
-                    if (result == null) continue;
-                    results.Add(new result {
-                        character = get(result, "character", 0),
-                        line = get(result, "line", 0),
-                        reason = get(result, "reason", string.Empty),
-                        evidence = get(result, "evidence", string.Empty),
-                        raw = get(result, "raw", string.Empty),
-                    });
+        public static result[] JSHINT(string source, options options = null) {
+            var data = new Dictionary<string, object> {
+                {"source", source},
+                {"options", options},
+            };
+            var optionCode = "";
+            if (options != null) {
+                foreach (var prop in typeof(options).GetProperties()) {
+                    optionCode += "\r\n\t'" + prop.Name + "': options0['" + prop.Name + "'],";
                 }
-                return results.ToArray();
-            } else return null;
+            }
+            var ie = new JSHint(@"
+                    var options0 = external.Get('options'), options1 = {
+                        " + optionCode.TrimEnd(',') + @"
+                    }, result = JSHINT(external.Get('source'), options1), 
+                       errors = JSHINT.errors;
+                    external.Set('result', result);
+                    external.Set('errors', errors.length);
+                    if (!result) {
+                        for (var i = 0; i < errors.length; i++) {
+                            external.AddResult(errors[i].line || 0, errors[i].character || 0, errors[i].reason || '', errors[i].evidence || '', errors[i].raw || '');
+                        }
+                    }
+                ", data);
+            ie.Execute();
+            var result = ie.Get("result") as bool?;
+
+            if (result ?? ie._Results.Count == 0) return null;
+            return ie._Results.ToArray();
         }
     }
 }

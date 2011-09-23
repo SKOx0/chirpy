@@ -87,8 +87,7 @@ namespace Zippy.Chirp.Tests {
         public void TestJSHintEvalIsEvil() {
             string code = "function test(){ eval(''); }";
             JSHint.result[] result;
-            using (var hint = new JSHint())
-                result = hint.JSHINT(code);
+            result = JSHint.JSHINT(code);
 
             result.Should().Not.Be.Null();
             result.Length.Should().Be.InRange(1, 9999);
@@ -204,8 +203,7 @@ button, input.button {position:relative;top:0.25em;}");
         public void TestJSHintOK() {
             string code = "function test(){ }";
             JSHint.result[] result;
-            using (var hint = new JSHint())
-                result = hint.JSHINT(code);
+            result = JSHint.JSHINT(code);
 
             result.Should().Be.Null();
         }
@@ -214,8 +212,7 @@ button, input.button {position:relative;top:0.25em;}");
         public void TestJSHintOptions() {
             string code = "function test(){ if(true) return (/./).test(''); }";
             JSHint.result[] result;
-            using (var hint = new JSHint())
-                result = hint.JSHINT(code, new JSHint.options { regex = true, curly = true });
+            result = JSHint.JSHINT(code, new JSHint.options { regex = true, curly = true });
             result.Should().Not.Be.Null();
             result.Length.Should().Be.InRange(1, 9999);
             result[0].reason.Should().Contain("Expected '{'");
@@ -268,11 +265,9 @@ button, input.button {position:relative;top:0.25em;}");
         [TestMethod]
         public void CanRunMultipleTimes_JSHINT() {
             for (var j = 0; j < 10; j++)
-                using (var engine = new JSHint()) {
-                    for (var i = 0; i < 10; i++) {
-                        string code = "if(test==0){alert(1);}";
-                        engine.JSHINT(code);
-                    }
+                for (var i = 0; i < 10; i++) {
+                    string code = "if(test==0){alert(1);}";
+                    JSHint.JSHINT(code);
                 }
         }
 

@@ -248,7 +248,7 @@ namespace Zippy.Chirp.Engines
 
                 if (detailLog)
                 {
-                    this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- " + fullFileName + "\r\n");
+                    this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- starting " + fullFileName + "\r\n");
                 }
 
                 try
@@ -259,6 +259,11 @@ namespace Zippy.Chirp.Engines
                 {
                     System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", errorThrow.Message));
                     this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
+                }
+
+                if (detailLog) 
+                {
+                    this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- finished " + fullFileName + "\r\n");
                 }
 
                 if (TaskList.Instance.HasErrors(fullFileName))

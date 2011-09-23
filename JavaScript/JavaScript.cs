@@ -1,22 +1,35 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Zippy.Chirp.JavaScript {
 
     [ComVisible(true)]
     public class JavaScript {
+        public class Requirement {
+            public string PreSource { get; set; }
+            public string PostSource { get; set; }
+            public string Path { get; set; }
+        }
+
         public JavaScript() {
             Data = new Dictionary<string, object>();
-            Requirements = new List<string>();
+            Requirements = new List<Requirement>();
         }
 
         public JavaScript(string code, object data, params string[] requirements)
+            : this(code, data, requirements.Select(x => new Requirement { Path = x }).ToArray()) { }
+
+        public JavaScript(string code, object data, params Requirement[] requirements)
             : this() {
             Code = code;
             if (data != null) {
                 if (data is string) {
-                    Requirements.Add(data as string);
+                    Requirements.Add(new Requirement { Path = data as string });
+
+                } else if (data is Requirement) {
+                    Requirements.Add(data as Requirement);
 
                 } else if (data is IDictionary<string, object>) {
                     Data = data as IDictionary<string, object>;
@@ -36,7 +49,7 @@ namespace Zippy.Chirp.JavaScript {
         }
 
         private System.Threading.AutoResetEvent _Event = new System.Threading.AutoResetEvent(false);
-        public List<string> Requirements { get; set; }
+        public List<Requirement> Requirements { get; set; }
         public string Code { get; set; }
 
         public IDictionary<string, object> Data { get; set; }
@@ -111,14 +124,16 @@ namespace Zippy.Chirp.JavaScript {
 
             if (Requirements != null)
                 foreach (var req in Requirements) {
-                    if (req.IsNullOrEmpty()) continue;
-                    var script = req;
+                    if (req == null || req.Path.IsNullOrEmpty()) continue;
+                    var script = req.Path;
 
-                    if (req.Contains("://") || ((script.Contains(":\\") || script.StartsWith("\\\\")) && System.IO.File.Exists(script))) {
-                        script = "require(\"" + script.Replace("\\", @"\\") + "\");";
+                    if (script.Contains("://") || ((script.Contains(":\\") || script.StartsWith("\\\\")) && System.IO.File.Exists(script))) {
+                        requirements += "require(\"" + script.Replace("\\", @"\\") + "\", \""
+                            + (req.PreSource ?? string.Empty).Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r") + "\", \""
+                            + (req.PostSource ?? string.Empty).Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r") + "\");";
+                    } else {
+                        requirements += req.PreSource + ";\r\n" + script + ";\r\n" + req.PostSource;
                     }
-
-                    requirements += script + "\r\n";
                 }
 
             var html = @"<!DOCTYPE html><html>
@@ -144,13 +159,13 @@ namespace Zippy.Chirp.JavaScript {
                             }
                         };
                         
-                        function require(path){
+                        function require(path, presource, postsource){
                             var key = external.GetFullUri(path, bases.length == 0 ? null : bases[bases.length-1]);
 
                             if(!required[key]){
                                 required[key]  = {};
                                 var code = external.Download(key),
-                                    func = new Function('exports', code);
+                                    func = new Function('exports', (presource||'') + ';\r\n' + code+ ';\r\n' + (postsource ||''));
 
                                 bases.push(key);
                                 func(required[key]);
@@ -161,7 +176,6 @@ namespace Zippy.Chirp.JavaScript {
 
                         try {
                             " + requirements + @"
-
                             " + Code + @" 
                         } catch(x){
                             external.AddMessage(x.line || 0, x.col || 0, 2, x.message);
