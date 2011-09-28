@@ -141,7 +141,7 @@ namespace Zippy.Chirp.Engines {
                 }
 
                 if (projectItem != null) {
-                    this.ReloadConfigFileDependencies(projectItem);
+                    this.ReloadFileDependencies(projectItem);
                 }
             }
         }
@@ -153,7 +153,7 @@ namespace Zippy.Chirp.Engines {
         /// if a config file changes...this rebuild all of this....
         /// </summary>
         /// <param name="projectItem">project Item</param>
-        internal void ReloadConfigFileDependencies(ProjectItem projectItem) {
+        internal void ReloadFileDependencies(ProjectItem projectItem) {
             string configFileName = projectItem.get_FileNames(1);
 
             // remove all current dependencies for this config file...
@@ -164,14 +164,24 @@ namespace Zippy.Chirp.Engines {
                 }
             }
 
-            var fileGroups = this.LoadConfigFileGroups(configFileName);
-            foreach (var fileGroup in fileGroups) {
-                foreach (var file in fileGroup.Files) {
-                    if (!this.dependentFiles.ContainsKey(file.Path)) {
-                        this.dependentFiles.Add(file.Path, new List<string> { configFileName });
-                    } else {
-                        this.dependentFiles[file.Path].Add(configFileName);
-                    }
+            IEnumerable<string> dependents;
+            if (configFileName.EndsWith(".less", StringComparison.InvariantCultureIgnoreCase)) {
+                var root = System.IO.Path.GetDirectoryName(projectItem.ContainingProject.FullName);
+                var text = System.IO.File.ReadAllText(configFileName);
+                var imports = LessEngine.FindDependencies(configFileName, text, root);
+                dependents = imports.Where(x => x.IsFile).Select(x => x.LocalPath);
+
+            } else {
+                var fileGroups = this.LoadConfigFileGroups(configFileName);
+                dependents = fileGroups.SelectMany(x => x.Files).Select(x => x.Path);
+
+            }
+
+            foreach (var file in dependents) {
+                if (!this.dependentFiles.ContainsKey(file)) {
+                    this.dependentFiles.Add(file, new List<string> { configFileName });
+                } else {
+                    this.dependentFiles[file].Add(configFileName);
                 }
             }
         }

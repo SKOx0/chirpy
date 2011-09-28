@@ -246,13 +246,12 @@ namespace Zippy.Chirp.Tests {
             System.IO.File.WriteAllText(TempFilePath, code);
 
 
-            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS,string.Empty);
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS, string.Empty);
             Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n");
         }
 
         [TestMethod]
-        public void TestClosureCompilerAdvancedOnlineJsEngine()
-        {
+        public void TestClosureCompilerAdvancedOnlineJsEngine() {
             Settings settings = new Settings();
             settings.GoogleClosureOffline = false;
             settings.Save();
@@ -268,8 +267,7 @@ namespace Zippy.Chirp.Tests {
         }
 
         [TestMethod]
-        public void TestClosureCompilerAdvancedOnlineDetectFileName()
-        {
+        public void TestClosureCompilerAdvancedOnlineDetectFileName() {
             Settings settings = new Settings();
             settings.GoogleClosureOffline = false;
             settings.ChirpJsFile = ".chirp.js";
@@ -280,8 +278,8 @@ namespace Zippy.Chirp.Tests {
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.chirp.js";
             System.IO.File.WriteAllText(TempFilePath, code);
 
-            ClosureCompilerEngine closureCompilerEngine=new ClosureCompilerEngine();
-            code = closureCompilerEngine.Transform(TempFilePath,code,GetProjectItem(TempFilePath));
+            ClosureCompilerEngine closureCompilerEngine = new ClosureCompilerEngine();
+            code = closureCompilerEngine.Transform(TempFilePath, code, GetProjectItem(TempFilePath));
             Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n" || code == "alert(\"Hello, New user\");");
         }
 
@@ -304,7 +302,7 @@ namespace Zippy.Chirp.Tests {
             string TempFilePath = System.Environment.CurrentDirectory + "\\test.js";
             System.IO.File.WriteAllText(TempFilePath, code);
 
-            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.WHITESPACE_ONLY,string.Empty );
+            code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.WHITESPACE_ONLY, string.Empty);
             Assert.IsTrue(code == "if(test)alert(\"test\");" || code == "if(test)alert(\"test\");\r\n");
         }
 
@@ -323,6 +321,31 @@ namespace Zippy.Chirp.Tests {
         #endregion
 
         #endregion
+
+        [TestMethod]
+        public void TestLess() {
+            string code = "@x:1px; #test { border: solid @x #000; }";
+
+            //string code = "@import 'test';";
+        }
+
+        [TestMethod]
+        public void TestLessDependencies() {
+            var code = @"
+                    @import url(test/1);
+                    @import url('..\test\2');
+                    @import url(""/test/3"");
+                    @import '../test/4';
+                    @import ""./test/5"";              
+                ";
+
+            var imports = LessEngine.FindDependencies("C:\\test\\temp\\0.less", code, "C:\\test\\");
+            Assert.AreEqual(@"C:\test\temp\test\1.less".ToUri(), imports.ElementAtOrDefault(0));
+            Assert.AreEqual(@"C:\test\test\2.less".ToUri(), imports.ElementAtOrDefault(1));
+            Assert.AreEqual(@"C:\test\test\3.less".ToUri(), imports.ElementAtOrDefault(2));
+            Assert.AreEqual(@"C:\test\test\4.less".ToUri(), imports.ElementAtOrDefault(3));
+            Assert.AreEqual(@"C:\test\temp\test\5.less".ToUri(), imports.ElementAtOrDefault(4));
+        }
 
         [TestMethod]
         public void TestLessEngine() {

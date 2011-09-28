@@ -73,7 +73,6 @@ namespace Zippy.Chirp.Engines {
     }
 
     public class UglifyEngine : JsEngine {
-        private static JavaScript.Beautify beautify = new JavaScript.Beautify();
 
         public UglifyEngine() {
             Extensions = new[] { this.Settings.ChirpUglifyJsFile };
@@ -97,24 +96,12 @@ namespace Zippy.Chirp.Engines {
         }
 
         public static string Beautify(string text) {
-            if (UglifyEngine.beautify == null) {
-                lock (JavaScript.Extensibility.Instance) {
-                    if (UglifyEngine.beautify == null) {
-                        UglifyEngine.beautify = new JavaScript.Beautify();
-                    }
-                }
-            }
-
-            return UglifyEngine.beautify.js_beautify(text);
+            return JavaScript.Beautify.js_beautify(text);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
             return Minify(fullFileName, text, projectItem);
         }
 
-        public override void Dispose() {
-            //Utilities.Dispose(ref UglifyEngine.uglify);
-            Utilities.Dispose(ref UglifyEngine.beautify);
-        }
     }
 }

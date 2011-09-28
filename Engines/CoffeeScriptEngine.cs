@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Zippy.Chirp.Xml;
+using Zippy.Chirp.JavaScript;
 
 namespace Zippy.Chirp.Engines
 {
     public class CoffeeScriptEngine : TransformEngine
     {
-        private static JavaScript.CoffeeScript coffee;
         private static Regex regexError = new Regex(@"Error\:\s*(.*?)\s+on\s+line\s+([0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled); // "Error: unclosed { on line 1"
 
         public CoffeeScriptEngine()
@@ -17,22 +17,11 @@ namespace Zippy.Chirp.Engines
 
         public static string TransformToJs(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            if (coffee == null)
-            {
-                lock (JavaScript.Extensibility.Instance)
-                {
-                    if (coffee == null)
-                    {
-                        coffee = new JavaScript.CoffeeScript();
-                    }
-                }
-            }
-
             string error = null;
             try
             {
                Settings settings = Settings.Instance(fullFileName);
-               return coffee.compile(text, settings.CoffeeScriptOptions);
+               return CoffeeScript.compile(text, settings.CoffeeScriptOptions);
             }
             catch (Exception e)
             {
@@ -54,11 +43,6 @@ namespace Zippy.Chirp.Engines
 
                 return null;
             }
-        }
-
-        public override void Dispose()
-        {
-            Utilities.Dispose(ref coffee);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)

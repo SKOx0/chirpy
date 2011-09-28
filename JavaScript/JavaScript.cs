@@ -24,6 +24,8 @@ namespace Zippy.Chirp.JavaScript {
         public JavaScript(string code, object data, params Requirement[] requirements)
             : this() {
             Code = code;
+            AutoFinish = true;
+
             if (data != null) {
                 if (data is string) {
                     Requirements.Add(new Requirement { Path = data as string });
@@ -47,10 +49,16 @@ namespace Zippy.Chirp.JavaScript {
             js.Execute();
             return js;
         }
+        public static JavaScript Execute(string code, object data, params Requirement[] requirements) {
+            var js = new JavaScript(code, data, requirements);
+            js.Execute();
+            return js;
+        }
 
         private System.Threading.AutoResetEvent _Event = new System.Threading.AutoResetEvent(false);
         public List<Requirement> Requirements { get; set; }
         public string Code { get; set; }
+        public bool AutoFinish { get; set; }
 
         public IDictionary<string, object> Data { get; set; }
 
@@ -139,7 +147,7 @@ namespace Zippy.Chirp.JavaScript {
             var html = @"<!DOCTYPE html><html>
                 <head><meta http-equiv=""X-UA-Compatible"" content=""IE=edge,chrome=1"" /></head>
                 <body><script>
-                        var required = {}, bases = [], module = window;
+                        var module = window;
                         window.onerror = function(msg, file, line){
                             external.AddMessage(line, 0, 2, file + ': ' + msg);
                             external.Finished();
@@ -158,37 +166,41 @@ namespace Zippy.Chirp.JavaScript {
                                 external.AddMessage(0, 0, 1, msg + '');
                             }
                         };
-                        
-                        function require(path, presource, postsource){
-                            var key = external.GetFullUri(path, bases.length == 0 ? null : bases[bases.length-1]);
 
-                            if(!required[key]){
-                                required[key]  = {};
-                                var code = external.Download(key),
-                                    func = new Function('exports', (presource||'') + ';\r\n' + code+ ';\r\n' + (postsource ||''));
+                        window.require = (function(){
+                            var required = {}, bases = [];
+                            return function (path, presource, postsource){
+                                    var key = external.GetFullUri(path, bases.length == 0 ? null : bases[bases.length-1]);
 
-                                bases.push(key);
-                                func(required[key]);
-                                bases.pop();
-                            }
-                            return required[key];
-                        }
+                                    if(!required[key]){
+                                        required[key]  = {};
+                                        var code = external.Download(key),
+                                            func = new Function('exports', (presource||'') + ';\r\n' + code+ ';\r\n' + (postsource ||''));
+
+                                        bases.push(key);
+                                        func(required[key]);
+                                        bases.pop();
+                                    }
+                                    return required[key];
+                            };  
+                        })();
 
                         try {
                             " + requirements + @"
                             " + Code + @" 
+                            " + (AutoFinish ? "external.Finished();" : null) + @"
                         } catch(x){
-                            external.AddMessage(x.line || 0, x.col || 0, 2, x.message);
+                            external.AddMessage(x.line || 0, x.col || x.column || 0, 2, x.message);
+                            external.Finished();
                         }
-                        external.Finished();
-            
+
                     </script>
                 </body></html>";
 
             using (var ie = new System.Windows.Forms.WebBrowser()) {
                 ie.ObjectForScripting = this;
                 ie.DocumentText = html;
-                ie.ScriptErrorsSuppressed = true;
+                // ie.ScriptErrorsSuppressed = true;
 
                 while (!_Event.WaitOne(100)) {
                     System.Windows.Forms.Application.DoEvents();

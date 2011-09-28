@@ -2,6 +2,7 @@
 
 namespace Zippy.Chirp.JavaScript {
     public class Extensibility {
+        private static object locker = new object();
         private static Extensibility _Instance = new Extensibility();
         public static Extensibility Instance {
             get { return _Instance; }
@@ -47,7 +48,18 @@ namespace Zippy.Chirp.JavaScript {
                 }
             }
 
+            Download(url, file, false);
+        }
+
+        private void Download(Uri url, string file, bool now) {
             var exists = System.IO.File.Exists(file);
+            if (exists && !now) {
+                System.Threading.ThreadPool.QueueUserWorkItem(_ => {
+                    Download(url, file, true);
+                });
+                return;
+            }
+
             var maxage = TimeSpan.FromHours(1);
             var date = !exists ? DateTime.MinValue : System.IO.File.GetLastWriteTimeUtc(file);
             if (!exists || date.Add(maxage) < DateTime.UtcNow) {
@@ -59,15 +71,16 @@ namespace Zippy.Chirp.JavaScript {
                 using (var resp = GetResponse(req)) {
                     if (resp == null) return;
                     if (resp.StatusCode == System.Net.HttpStatusCode.OK) {
-                        using (var stream = resp.GetResponseStream())
-                        using (var filestream = new System.IO.FileStream(file, System.IO.FileMode.Create)) {
-                            byte[] data = new byte[8096];
-                            int read = 1;
-                            while (read > 0) {
-                                read = stream.Read(data, 0, data.Length);
-                                filestream.Write(data, 0, read);
+                        lock (locker)
+                            using (var stream = resp.GetResponseStream())
+                            using (var filestream = new System.IO.FileStream(file, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite)) {
+                                byte[] data = new byte[8096];
+                                int read = 1;
+                                while (read > 0) {
+                                    read = stream.Read(data, 0, data.Length);
+                                    filestream.Write(data, 0, read);
+                                }
                             }
-                        }
 
                     } else if (exists) {
                         if (resp.StatusCode == System.Net.HttpStatusCode.NotModified) {
@@ -107,9 +120,6 @@ namespace Zippy.Chirp.JavaScript {
 
 
         public virtual Uri GetBaseLocation(Zippy.Chirp.JavaScript.Environment environment) {
-            if (environment is JSHint) return new Uri("http://jshint.com/jshint.js");
-            if (environment is CoffeeScript) return new Uri("http://jashkenas.github.com/coffee-script/extras/coffe-script.js");
-            if (environment is Beautify) return new Uri("http://jsbeautifier.org/beautify.js");
             if (environment is CSSLint) return new Uri("http://csslint.net/js/csslint.js");
             return null;
         }
