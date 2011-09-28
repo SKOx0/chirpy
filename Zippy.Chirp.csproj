@@ -185,6 +185,7 @@
     <Compile Include="JavaScript\Extensibility.cs" />
     <Compile Include="JavaScript\JavaScript.cs" />
     <Compile Include="JavaScript\JsHint.cs" />
+    <Compile Include="JavaScript\LessJS.cs" />
     <Compile Include="JavaScript\Uglify.cs" />
     <Compile Include="Manager\VSProjectItemManager.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

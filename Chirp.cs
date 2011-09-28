@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
@@ -40,6 +38,7 @@ namespace Zippy.Chirp {
         private OutputWindowPane lazyOutputWindowPane;
         private EngineManager engineManager;
         public const string COMMANDNAMESPACE = "Zippy.Chirp.Chirp";
+        private bool dependenciesIndexed = false;
 
         internal EngineManager EngineManager {
             get {
@@ -179,7 +178,7 @@ namespace Zippy.Chirp {
             this.eventsOnCommand = this.events.CommandEvents;
 
             this.eventsOnCommand.BeforeExecute += new _dispCommandEvents_BeforeExecuteEventHandler(this.CommandEvents_BeforeExecute);
-            this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(this.SolutionEvents_Opened);
+            //this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(this.SolutionEvents_Opened);
             this.eventsOnSolution.ProjectRemoved += new _dispSolutionEvents_ProjectRemovedEventHandler(this.SolutionEvents_ProjectRemoved);
             this.eventsOnSolution.AfterClosing += new _dispSolutionEvents_AfterClosingEventHandler(this.EventsOnSolution_AfterClosing);
             this.eventsOnProjectItems.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(this.ProjectItemsEvents_ItemRenamed);
@@ -380,16 +379,16 @@ namespace Zippy.Chirp {
             }
         }
 
-        private void SolutionEvents_Opened() {
+        private void IndexDependencies() {
             try {
                 foreach (Project project in this.App.Solution.Projects) {
                     var projectItems = project.ProjectItems.ProcessFolderProjectItemsRecursively();
                     if (projectItems != null) {
                         var configs = projectItems
-                            .Where(x => ConfigEngine.Handles(x.Name) > 0);
+                            .Where(x => ConfigEngine.Handles(x.Name) > 0 || LessEngine.Handles(x.Name) > 0);
 
                         foreach (ProjectItem config in configs) {
-                            EngineManager.Enqueue(config);
+                            ConfigEngine.ReloadFileDependencies(config);
                         }
                     }
                 }
@@ -399,6 +398,11 @@ namespace Zippy.Chirp {
         }
 
         private void ProjectItemsEvents_ItemAdded(ProjectItem projectItem) {
+            if (!dependenciesIndexed) {
+                IndexDependencies();
+                dependenciesIndexed = true;
+            }
+
             try {
                 EngineManager.Enqueue(projectItem);
             } catch (Exception e) {

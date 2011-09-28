@@ -42,8 +42,7 @@ namespace Zippy.Chirp.Tests {
         public void TestCoffeeScript() {
             var code = "/*CoffeeScript: bare: true */\r\nalert 'hello!'";
 
-            using (var coffee = new CoffeeScript())
-                code = coffee.compile(code);
+            code = CoffeeScript.compile(code);
 
             code.Should().Contain("alert('hello!')");
             code.Should().Not.Contain("function");
@@ -73,8 +72,7 @@ namespace Zippy.Chirp.Tests {
         public void BeautifyBadCode() {
             string minid, code = "----*&;lij;{lo23i41";
             try {
-                using (var beautify = new Beautify())
-                    minid = beautify.js_beautify(code);
+                minid = Beautify.js_beautify(code);
 
             } catch (System.Exception ex) {
 
@@ -92,6 +90,13 @@ namespace Zippy.Chirp.Tests {
             result.Should().Not.Be.Null();
             result.Length.Should().Be.InRange(1, 9999);
             result[0].reason.Should().Contain("eval is evil");
+        }
+
+        [TestMethod]
+        public void TestLess() {
+            string code = ".class { width: 1 + 1 }";
+            var result = Less.render(code);
+            Assert.AreEqual(result, ".class {\n  width: 2;\n}\n");
         }
 
         [TestMethod]
@@ -221,8 +226,7 @@ button, input.button {position:relative;top:0.25em;}");
         [TestMethod]
         public void CanBeautify() {
             string minid, code = "if(test==0){alert(1);}";
-            using (var beautify = new Beautify())
-                minid = beautify.js_beautify(code);
+            minid = Beautify.js_beautify(code);
 
             minid.Length.Should().Be.InRange(code.Length, int.MaxValue);
         }
