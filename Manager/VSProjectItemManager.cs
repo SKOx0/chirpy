@@ -65,6 +65,15 @@ namespace Zippy.Chirp.Manager
 
         public void SaveFile(string filename, object content)
         {
+            var exists = System.IO.File.Exists(filename);
+            if (exists)
+            {
+                bool isReadOnly = ((File.GetAttributes(filename) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
+                if (isReadOnly)
+                {
+                    File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+                }
+            }
             if (content is string || content == null)
             {
                 System.IO.File.WriteAllText(filename, (string)content, System.Text.Encoding.UTF8);
