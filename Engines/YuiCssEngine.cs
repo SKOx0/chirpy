@@ -23,7 +23,7 @@ namespace Zippy.Chirp.Engines
                : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
                : CssCompressionType.StockYuiCompressor;
 
-            return CssCompressor.Compress(text, 0, cssmode);
+            return CssCompressor.Compress(text, 0, cssmode,true);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
