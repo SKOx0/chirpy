@@ -63,7 +63,7 @@ namespace Console.Chirp
             foreach (var directory in Directory.GetDirectories(findPath, "*", SearchOption.AllDirectories))
             {
                 var settings = new Settings(directory);
-                foreach (string filename in Directory.GetFiles(findPath, "*" + new Settings(directory).ChirpConfigFile, SearchOption.TopDirectoryOnly))
+                foreach (string filename in Directory.GetFiles(directory, "*" + new Settings(directory).ChirpConfigFile, SearchOption.TopDirectoryOnly))
                 {
                     try
                     {
