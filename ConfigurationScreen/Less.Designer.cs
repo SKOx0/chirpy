@@ -38,11 +38,13 @@
             this.txtMichaelAshLessFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpLessFile = new System.Windows.Forms.TextBox();
+            this.chkCompress = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkCompress);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.txtMSAjaxLessFile);
@@ -53,7 +55,7 @@
             this.groupBox3.Controls.Add(this.txtChirpLessFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(320, 128);
+            this.groupBox3.Size = new System.Drawing.Size(320, 149);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "LESS";
@@ -126,13 +128,23 @@
             this.txtChirpLessFile.TabIndex = 11;
             this.txtChirpLessFile.Text = ".chirp.less";
             // 
+            // chkCompress
+            // 
+            this.chkCompress.AutoSize = true;
+            this.chkCompress.Location = new System.Drawing.Point(9, 126);
+            this.chkCompress.Name = "chkCompress";
+            this.chkCompress.Size = new System.Drawing.Size(72, 17);
+            this.chkCompress.TabIndex = 20;
+            this.chkCompress.Text = "Compress";
+            this.chkCompress.UseVisualStyleBackColor = true;
+            // 
             // Less
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox3);
             this.Name = "Less";
-            this.Size = new System.Drawing.Size(339, 141);
+            this.Size = new System.Drawing.Size(339, 166);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -150,5 +162,6 @@
         private System.Windows.Forms.TextBox txtMichaelAshLessFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtChirpLessFile;
+        private System.Windows.Forms.CheckBox chkCompress;
     }
 }

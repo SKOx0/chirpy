@@ -53,6 +53,7 @@ namespace Zippy.Chirp
         private string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
         private string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
         private string chirpConfigFile = ".chirp.config";
+        private bool dotLessCompress = true;
         private bool showDetailLog = true;
         private string[] allExtensions;
         private Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
@@ -255,6 +256,12 @@ namespace Zippy.Chirp
             set { this.defaultJavaScriptMinifier = value; }
         }
 
+        public bool DotLessCompress
+        {
+            get { return this.dotLessCompress; }
+            set { this.dotLessCompress = value; }
+        }
+
         public string[] AllExtensions
         {
             get { return this.allExtensions; }
@@ -414,6 +421,7 @@ namespace Zippy.Chirp
                 regKey.SetValue("RunJSHint", this.RunJSHint);
                 regKey.SetValue("RunCSSLint", this.RunCSSLint);
                 regKey.SetValue("showDetailLog", this.showDetailLog);
+                regKey.SetValue("DotLessCompress", this.DotLessCompress);
 
                 this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
                 this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
@@ -483,6 +491,7 @@ namespace Zippy.Chirp
                     this.RunJSHint = Convert.ToBoolean(regKey.GetValue("RunJSHint", true));
                     this.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
                     this.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
+                    this.DotLessCompress = Convert.ToBoolean(regKey.GetValue("DotLessCompress", true));
                 }
 
                 this.LoadJsHintOptions();
