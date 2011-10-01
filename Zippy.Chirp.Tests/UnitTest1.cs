@@ -77,9 +77,24 @@ namespace Zippy.Chirp.Tests {
         #endregion
 
         #region "Test CSS"
+        private void YuiCssDefaultSetting()
+        {
+            Settings setting = Settings.Instance();
+            setting.YuiCssSettings.ColumnWidth = 0;
+            setting.YuiCssSettings.RemoveComments = true;
+            setting.Save();
+        }
+
+        private void MsCssDefaultSetting()
+        {
+            Settings setting = Settings.Instance();
+            setting.Save();
+        }
 
         [TestMethod]
         public void TestYuiCssEngine() {
+            this.YuiCssDefaultSetting();
+
             string code = "#test {\r\n\t color  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.YuiCssEngine>("c:\\test.css", code);
 
@@ -88,6 +103,8 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestYuiMARECssEngine() {
+            this.YuiCssDefaultSetting();
+
             string code = "#test {\r\n\t color  : #ffffff; }";
             string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiMARE);
 
@@ -96,6 +113,8 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestYuiHybridCssEngine() {
+            this.YuiCssDefaultSetting();
+
             string code = "#test {\r\n\t color  : #ffffff; }";
             string output = Engines.YuiCssEngine.Minify(code, Zippy.Chirp.Xml.MinifyType.yuiHybrid);
 
@@ -108,6 +127,7 @@ namespace Zippy.Chirp.Tests {
         /// </summary>
         [TestMethod]
         public void TestMsCssEngine() {
+            this.MsCssDefaultSetting();
             string code = "#test {\r\n\t color  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.MsCssEngine>("c:\\test.css", code);
 
@@ -116,6 +136,21 @@ namespace Zippy.Chirp.Tests {
         #endregion
 
         #region "Test JS"
+        private void YuiJsDefaultSetting()
+        {
+            Settings setting = Settings.Instance();
+            setting.YuiJsSettings.DisableOptimizations = false;
+            setting.YuiJsSettings.IsObfuscateJavascript = false;
+            setting.YuiJsSettings.LineBreakPosition = 0;
+            setting.YuiJsSettings.PreserveAllSemiColons = false;
+            setting.Save();
+        }
+
+        private void MsJsDefaultSetting()
+        {
+            Settings setting = Settings.Instance();
+            setting.Save();
+        }
         #region "MsAjax"
 
         [TestMethod]
@@ -162,6 +197,7 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestUglifyJsEngine() {
+            this.YuiJsDefaultSetting();
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.UglifyEngine>("c:\\test.js", code);
 
@@ -170,6 +206,7 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestMsJsEngine() {
+            this.MsJsDefaultSetting();
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
 
@@ -178,6 +215,7 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestMsJsEngineThrowTaskListErrorOnJsError() {
+            this.MsJsDefaultSetting();
             TaskList.Instance.RemoveAll();
             string code = "if(test){;";
             code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
@@ -190,14 +228,16 @@ namespace Zippy.Chirp.Tests {
 
         [TestMethod]
         public void TestYuiJsEngine() {
+            this.YuiJsDefaultSetting();
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
 
-            Assert.AreEqual(code, "if(test){alert(\"test\")};");
+            Assert.IsTrue(code == "if(test){alert(\"test\")};" || code == "if(test){alert(\"test\")\n};");
         }
 
         [TestMethod]
         public void TestYuiJsEngineThrowTaskListErrorOnJsError() {
+            this.YuiJsDefaultSetting();
             TaskList.Instance.RemoveAll();
             string code = "if(test  }";
             code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
@@ -351,12 +391,29 @@ namespace Zippy.Chirp.Tests {
         public void TestLessEngine() {
             string code = "@x:1px; #test { border: solid @x #000; }";
             code = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", code);
-            Assert.AreEqual(code, "#test {\n  border: solid 1px black;\n}\n");
+            Assert.IsTrue(code == "#test {\n  border: solid 1px black;\n}\n" || code == "#test{border:solid 1px #000;}");
 
             TaskList.Instance.RemoveAll();
             code = "#test {\r\n\t color/**/  : red; }";
             code = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", code);
             Assert.AreEqual(TaskList.Instance.Errors.Count(), 1);
+        }
+
+        [TestMethod]
+        public void TestLessEngineCompress()
+        {
+            Settings settings = Settings.Instance();
+            settings.DotLessCompress = true;
+            settings.Save();
+            string codeOriginal = "@x:1px; #test {\n  border: solid @x #000;\n }\n\n\n";
+            string codeResult = string.Empty;
+            codeResult = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", codeOriginal);
+            Assert.IsTrue(codeResult == "#test{border:solid 1px #000;}");
+
+            settings.DotLessCompress = false;
+            settings.Save();
+            codeResult = TestEngine<Zippy.Chirp.Engines.LessEngine>("c:\\test.css", codeOriginal);
+            Assert.IsTrue(codeResult == "#test {\n  border: solid 1px black;\n}\n");
         }
 
 
