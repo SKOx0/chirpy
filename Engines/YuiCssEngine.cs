@@ -14,6 +14,12 @@ namespace Zippy.Chirp.Engines
 
         public static string Minify(string text, MinifyType mode)
         {
+            Settings settings = Settings.Instance();
+            return Minify(text, mode, settings.YuiCssSettings);
+        }
+
+        public static string Minify(string text, MinifyType mode,Yui.CssSettings cssOptions)
+        {
             if (string.IsNullOrEmpty(text))
             {
                 return text; 
@@ -23,7 +29,7 @@ namespace Zippy.Chirp.Engines
                : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
                : CssCompressionType.StockYuiCompressor;
 
-            return CssCompressor.Compress(text, 0, cssmode,true);
+            return CssCompressor.Compress(text, cssOptions.ColumnWidth, cssmode, cssOptions.RemoveComments);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
@@ -33,7 +39,7 @@ namespace Zippy.Chirp.Engines
                 : fullFileName.EndsWith(this.Settings.ChirpMichaelAshCssFile, StringComparison.InvariantCultureIgnoreCase) ? MinifyType.yuiMARE
                 : MinifyType.yui;
 
-            return Minify(text, mode);
+            return Minify(text, mode, this.Settings.YuiCssSettings);
         }
     }
 }

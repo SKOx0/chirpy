@@ -13,8 +13,14 @@ namespace Zippy.Chirp.Engines
 
         public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
+            Settings settings = Settings.Instance(fullFileName);
+            return Minify(fullFileName, text, projectItem, settings.MsCssSettings);
+        }
+
+        public static string Minify(string fullFileName, string text, EnvDTE.ProjectItem projectItem,CssSettings cssSettings)
+        {
             Minifier minifier = new Minifier();
-            string miniCss = minifier.MinifyStyleSheet(text);
+            string miniCss = minifier.MinifyStyleSheet(text, cssSettings);
 
             foreach (var err in minifier.Errors)
             {
@@ -45,7 +51,7 @@ namespace Zippy.Chirp.Engines
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            return Minify(fullFileName, text, projectItem);
+            return Minify(fullFileName, text, projectItem,this.Settings.MsCssSettings);
         }
     }
 }

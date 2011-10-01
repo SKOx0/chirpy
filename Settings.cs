@@ -17,6 +17,10 @@ namespace Zippy.Chirp
         private const string RegWDSJsHint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\JSHint";
         private const string RegWDSCssLint = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\CSSLint";
         private const string RegWDSCoffeeScript = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\CoffeeScript";
+        private const string RegWDSMsJs = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\MsJs";
+        private const string RegWDSMsCSS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\MsCss";
+        private const string RegWDSYuiJs = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\YuiJs";
+        private const string RegWDSYuiCSS = @"SOFTWARE\Microsoft\VisualStudio\10.0\Chirp\YuiCss";
         private string chirpJsFile = ".chirp.js";
         private string chirpSimpleJsFile = ".simple.js";
         private string chirpWhiteSpaceJsFile = ".whitespace.js";
@@ -286,6 +290,30 @@ namespace Zippy.Chirp
             set;
         }
 
+        public Microsoft.Ajax.Utilities.CodeSettings MsJsSettings 
+        { 
+            get; 
+            set; 
+        }
+
+        public Microsoft.Ajax.Utilities.CssSettings MsCssSettings
+        {
+            get;
+            set;
+        }
+
+        public Yui.CssSettings YuiCssSettings 
+        {
+            get;
+            set; 
+        }
+
+        public Yui.JsSettings YuiJsSettings
+        {
+            get;
+            set;
+        }
+
         public bool T4RunAsBuild
         {
             get { return this.t4RunAsBuild; }
@@ -426,7 +454,10 @@ namespace Zippy.Chirp
                 this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
                 this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
                 this.SaveOptionsInRegistry(RegWDSCoffeeScript, this.CoffeeScriptOptions);
-
+                this.SaveOptionsInRegistry(RegWDSMsCSS, this.MsCssSettings);
+                this.SaveOptionsInRegistry(RegWDSMsJs, this.MsJsSettings);
+                this.SaveOptionsInRegistry(RegWDSYuiCSS, this.YuiCssSettings);
+                this.SaveOptionsInRegistry(RegWDSYuiJs, this.YuiJsSettings);
                
                 this.LoadExtensions();
 
@@ -497,7 +528,10 @@ namespace Zippy.Chirp
                 this.LoadJsHintOptions();
                 this.LoadCssLintOptions();
                 this.LoadCoffeeScriptOptions();
-
+                this.LoadMsJsOptions();
+                this.LoadMsCssOptions();
+                this.LoadYuiJsOptions();
+                this.LoadYuiCssOptions();
                 this.LoadExtensions();
             }
             catch (Exception ex)
@@ -616,6 +650,42 @@ namespace Zippy.Chirp
             }
         }
 
+        private void LoadMsCssOptions()
+        {
+            if (this.MsCssSettings == null)
+            {
+                this.MsCssSettings = new Microsoft.Ajax.Utilities.CssSettings();
+                this.LoadOptionsFromRegistry(RegWDSMsCSS, this.MsCssSettings);
+            }
+        }
+
+        private void LoadMsJsOptions()
+        {
+            if (this.MsJsSettings == null)
+            {
+                this.MsJsSettings = new Microsoft.Ajax.Utilities.CodeSettings();
+                this.LoadOptionsFromRegistry(RegWDSMsJs, this.MsJsSettings);
+            }
+        }
+
+        private void LoadYuiCssOptions()
+        {
+            if (this.YuiCssSettings == null)
+            {
+                this.YuiCssSettings = new Yui.CssSettings();
+                this.LoadOptionsFromRegistry(RegWDSYuiCSS, this.YuiCssSettings);
+            }
+        }
+
+        private void LoadYuiJsOptions()
+        {
+            if (this.YuiJsSettings == null)
+            {
+                this.YuiJsSettings = new Yui.JsSettings();
+                this.LoadOptionsFromRegistry(RegWDSYuiJs, this.YuiJsSettings);
+            }
+        }
+
         private void LoadOptionsFromRegistry<T>(string regKey, T objectToSave) {
             LoadOptionsFromRegistry(regKey, typeof(T), objectToSave);
         }
@@ -634,26 +704,29 @@ namespace Zippy.Chirp
                     {
                         try
                         {
-                            if (propertyInfo.PropertyType == typeof(bool))
+                            if (propertyInfo.CanWrite)
                             {
-                                bool tempValue = false;
-                                if (bool.TryParse(regKeyOptions.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                if (propertyInfo.PropertyType == typeof(bool))
                                 {
-                                    propertyInfo.SetValue(objectToSave, tempValue, null);
+                                    bool tempValue = false;
+                                    if (bool.TryParse(regKeyOptions.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                    {
+                                        propertyInfo.SetValue(objectToSave, tempValue, null);
+                                    }
                                 }
-                            }
-                            else if (propertyInfo.PropertyType == typeof(string))
-                            {
-                                propertyInfo.SetValue(objectToSave, regKeyOptions.GetValue(propertyInfo.Name), null);
-                            }
-                            else if (propertyInfo.PropertyType == typeof(int))
-                            {
-                                propertyInfo.SetValue(objectToSave, Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                                else if (propertyInfo.PropertyType == typeof(string))
+                                {
+                                    propertyInfo.SetValue(objectToSave, regKeyOptions.GetValue(propertyInfo.Name), null);
+                                }
+                                else if (propertyInfo.PropertyType == typeof(int))
+                                {
+                                    propertyInfo.SetValue(objectToSave, Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                                }
                             }
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
+                            //System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
                         }
                     }
                 }
@@ -661,7 +734,7 @@ namespace Zippy.Chirp
             catch (Exception ex)
             {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
-                System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
+                //System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
             }
             finally
             {
@@ -711,5 +784,7 @@ namespace Zippy.Chirp
                 ".debug.js", ".debug.css"
             };
         }
+
+      
     }
 }
