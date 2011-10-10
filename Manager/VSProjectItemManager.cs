@@ -38,7 +38,18 @@ namespace Zippy.Chirp.Manager
                     fileNamePrefix = this.GetFileNamePrefix(projectItem.Name);
                 }
 
-                this.fullFileNamePrefix = Path.GetDirectoryName(projectItem.get_FileNames(0)) + @"\" + fileNamePrefix;
+                if (projectItem.FileCount > 0)
+                {
+                    try
+                    {
+                        this.fullFileNamePrefix = Path.GetDirectoryName(projectItem.get_FileNames(0)) + @"\" + fileNamePrefix;
+                    }
+                    catch (System.ArgumentException)
+                    {
+                        //vs.Php raise exception
+                    }
+
+                }
             }
         }
         #endregion
@@ -100,10 +111,19 @@ namespace Zippy.Chirp.Manager
             {
                 foreach (ProjectItem item in this.projectItem.ProjectItems)
                 {
-                    if (!this.filesAdded.ContainsKey(item.get_FileNames(0)))
+                    try
                     {
-                        item.Delete();
+                        if (!this.filesAdded.ContainsKey(item.get_FileNames(0)))
+                        {
+                            item.Delete();
+                        }
                     }
+                    catch (System.ArgumentException)
+                    {
+                       //vs.Php throw exception
+                    }
+
+                   
                 }
             }
 
@@ -151,24 +171,32 @@ namespace Zippy.Chirp.Manager
                         // visual studio 2010 (web site projet)
                         for (short i = 0; i <= this.projectItem.FileCount; i++)
                         {
-                            fullFileName = this.projectItem.FileNames[i];
-
-                            // File is already added to the projectItem
-                            this.filesCreated.Add(fullFileName);
-
-                            if (!this.CompareFile(fullFileName, file.Value))
+                            try
                             {
-                                // Content was different
-                                this.CheckoutFileIfRequired(fullFileName);
-                                this.SaveFile(file.Key, file.Value);
+                                fullFileName = this.projectItem.FileNames[i];
+
+                                // File is already added to the projectItem
+                                this.filesCreated.Add(fullFileName);
+
+                                if (!this.CompareFile(fullFileName, file.Value))
+                                {
+                                    // Content was different
+                                    this.CheckoutFileIfRequired(fullFileName);
+                                    this.SaveFile(file.Key, file.Value);
+                                }
+                                else
+                                {
+                                    /* File exists but is not added to the projectItem
+                                     For a security reason dont overwrite - instead let the user know
+                                     MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");*/
+                                    TaskList.Instance.Add(this.projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, fullFileName, 1, 1, "Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");
+                                }
                             }
-                            else
+                            catch (System.ArgumentException)
                             {
-                                /* File exists but is not added to the projectItem
-                                 For a security reason dont overwrite - instead let the user know
-                                 MessageBox.Show("Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");*/
-                                TaskList.Instance.Add(this.projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, fullFileName, 1, 1, "Was not able to create file: " + fullFileName + "\nA file with the same name already exists.");
+                               //Vs.Php throw error
                             }
+                           
                         }
                     }
                 }

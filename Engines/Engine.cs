@@ -212,13 +212,14 @@ namespace Zippy.Chirp.Engines
         public override void Enqueue(ProjectItem projectItem)
         {
             var parent = projectItem.GetParent();
-            if (parent != null && !parent.IsFolder() && this.IsTransformed(parent.get_FileNames(1)))
+            if (parent != null && !parent.IsFolder() && this.IsTransformed(parent.FileName()))
             {
                 return;
             }
 
-            var file = projectItem.get_FileNames(1);
-            if (!Any(i => i.get_FileNames(1).Is(file)))
+            var file = projectItem.FileName();
+
+            if (!Any(i => i.FileName().Is(file)))
             {
                 base.Enqueue(projectItem);
             }
@@ -226,7 +227,9 @@ namespace Zippy.Chirp.Engines
 
         protected override void Process(ProjectItem projectItem)
         {
-            var fullFileName = projectItem.get_FileNames(1);
+            var fullFileName = projectItem.FileName();
+            
+
             var detailLog =  Settings.Instance(fullFileName).ShowDetailLog;
             TaskList.Instance.Remove(fullFileName);
 
@@ -284,7 +287,7 @@ namespace Zippy.Chirp.Engines
 
             if (projectItem != null)
             {
-                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.get_FileNames(1), 1, 1, ex.ToString());
+                TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, projectItem.FileName(), 1, 1, ex.ToString());
             }
             else
             {
