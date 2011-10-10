@@ -32,7 +32,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public void CheckForConfigRefresh(ProjectItem projectItem) {
-            string fullFileName = projectItem.get_FileNames(1);
+            string fullFileName = projectItem.FileName();
 
             if (this.dependentFiles.ContainsKey(fullFileName)) {
                 foreach (string configFile in this.dependentFiles[fullFileName]
@@ -154,7 +154,7 @@ namespace Zippy.Chirp.Engines {
         /// </summary>
         /// <param name="projectItem">project Item</param>
         internal void ReloadFileDependencies(ProjectItem projectItem) {
-            string configFileName = projectItem.get_FileNames(1);
+            string configFileName = projectItem.FileName();
 
             // remove all current dependencies for this config file...
             foreach (string key in this.dependentFiles.Keys.ToArray()) {

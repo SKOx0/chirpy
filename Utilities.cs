@@ -77,7 +77,7 @@ namespace Zippy.Chirp {
         public static ProjectItem LocateProjectItemForFileName(this DTE2 app, string fileName) {
             foreach (Project project in app.Solution.Projects) {
                 foreach (ProjectItem projectItem in project.ProjectItems.ProcessFolderProjectItemsRecursively()) {
-                    if (projectItem.get_FileNames(1) == fileName) {
+                    if (projectItem.FileName() == fileName) {
                         return projectItem;
                     }
                 }
@@ -88,6 +88,20 @@ namespace Zippy.Chirp {
 
         public static bool IsFolder(this ProjectItem item) {
             return item.Kind == Constants.vsProjectItemKindPhysicalFolder;
+        }
+
+        public static string FileName(this ProjectItem item)
+        {
+            try
+             {
+                //regular project
+                return item.get_FileNames(1);
+            }
+            catch (Exception)
+            {
+                //VS.Php
+                return item.get_FileNames(0);
+            }
         }
 
         public static bool IsSolutionFolder(this ProjectItem item) {

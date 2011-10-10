@@ -241,11 +241,11 @@ namespace Zippy.Chirp {
                 if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER) {
                     status = vsCommandStatus.vsCommandStatusInvisible;
                     ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                    if (EngineManager.IsHandledWithoutHint(projectItem.get_FileNames(1))) {
+                    if (EngineManager.IsHandledWithoutHint(projectItem.FileName())) {
                         status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
                     } else {
 
-                        string path = projectItem.get_FileNames(1);
+                        string path = projectItem.FileName();
                         if (this.IsLessFile(path) || this.IsCoffeeScriptFile(path) || this.IsCssFile(path) || this.IsJsFile(path)) {
                             status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
                         }
@@ -255,7 +255,7 @@ namespace Zippy.Chirp {
             if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_JSHINT) {
                 status = vsCommandStatus.vsCommandStatusInvisible;
                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                string path = projectItem.get_FileNames(1);
+                string path = projectItem.FileName();
                 if (this.IsJsFile(path)) {
                     status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
                 }
@@ -263,7 +263,7 @@ namespace Zippy.Chirp {
             if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_CSSLINT) {
                 status = vsCommandStatus.vsCommandStatusInvisible;
                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                string path = projectItem.get_FileNames(1);
+                string path = projectItem.FileName();
                 if (this.IsCssFile(path)) {
                     status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
                 }
@@ -287,10 +287,10 @@ namespace Zippy.Chirp {
                         if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER) {
                             try {
                                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                                if (EngineManager.IsHandledWithoutHint(projectItem.get_FileNames(1))) {
+                                if (EngineManager.IsHandledWithoutHint(projectItem.FileName())) {
                                     this.ProjectItemsEvents_ItemAdded(projectItem);
                                 } else {
-                                    string path = projectItem.get_FileNames(1);
+                                    string path = projectItem.FileName();
                                     string code = System.IO.File.ReadAllText(path);
                                     var settings = Settings.Instance(path);
                                     string outputExtension = settings.OutputExtensionJS;
@@ -318,7 +318,7 @@ namespace Zippy.Chirp {
                         } else if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_JSHINT) {
                             try {
                                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                                string path = projectItem.get_FileNames(1);
+                                string path = projectItem.FileName();
                                 JSHintEngine.Run(path, projectItem);
                             } catch (Exception e) {
                                 this.OutputWindowWriteText(e.ToString());
@@ -326,7 +326,7 @@ namespace Zippy.Chirp {
                         } else if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_CSSLINT) {
                             try {
                                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                                string path = projectItem.get_FileNames(1);
+                                string path = projectItem.FileName();
                                 CSSLintEngine.Run(path, projectItem);
                             } catch (Exception e) {
                                 this.OutputWindowWriteText(e.ToString());
@@ -411,7 +411,8 @@ namespace Zippy.Chirp {
         }
 
         private void ProjectItemsEvents_ItemRenamed(ProjectItem projectItem, string oldFileName) {
-            if (EngineManager.IsTransformed(projectItem.get_FileNames(1))) {
+            if (EngineManager.IsTransformed(projectItem.FileName()))
+            {
                 // Now a chirp file
                 this.ProjectItemsEvents_ItemAdded(projectItem);
             } else if (EngineManager.IsTransformed(oldFileName)) {
@@ -425,7 +426,7 @@ namespace Zippy.Chirp {
         }
 
         private void ProjectItemsEvents_ItemRemoved(ProjectItem projectItem) {
-            string fileName = projectItem.get_FileNames(1);
+            string fileName = projectItem.FileName();
             this.tasks.Remove(fileName);
 
             if (T4Engine.Handles(fileName) > 0) {
