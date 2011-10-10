@@ -127,6 +127,30 @@
     <Compile Include="ConfigurationScreen\JSHint.Designer.cs">
       <DependentUpon>JSHint.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationScreen\MsCss.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\MsCss.Designer.cs">
+      <DependentUpon>MsCss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\MsJs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\MsJs.Designer.cs">
+      <DependentUpon>MsJs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\YuiCss.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\YuiCss.Designer.cs">
+      <DependentUpon>YuiCss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationScreen\YuiJs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\YuiJs.Designer.cs">
+      <DependentUpon>YuiJs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Engines\ClosureCompilerCompressMode.cs" />
     <Compile Include="ConfigurationScreen\Css.cs">
       <SubType>UserControl</SubType>
@@ -201,6 +225,8 @@
     <Compile Include="Xml\FileXml.cs" />
     <Compile Include="Xml\FolderXml.cs" />
     <Compile Include="Xml\MinifyType.cs" />
+    <Compile Include="Yui\CssSettings.cs" />
+    <Compile Include="Yui\JsSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -275,9 +301,21 @@
       <DependentUpon>Less.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\MsCss.resx">
+      <DependentUpon>MsCss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\MsJs.resx">
+      <DependentUpon>MsJs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\T4Template.resx">
       <DependentUpon>T4Template.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\YuiCss.resx">
+      <DependentUpon>YuiCss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\YuiJs.resx">
+      <DependentUpon>YuiJs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
