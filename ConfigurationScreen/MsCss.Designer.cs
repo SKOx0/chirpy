@@ -30,7 +30,7 @@
         {
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.txtSeverity = new System.Windows.Forms.NumericUpDown();
+            this.txtLineBreakThreshold = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.txtIndentSpaces = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,9 +43,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.chkAllowEmbeddedAspNetBlocks = new System.Windows.Forms.CheckBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
+            this.cboOutputMode = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSeverity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIndentSpaces)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,7 +67,9 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.txtSeverity);
+            this.panel1.Controls.Add(this.cboOutputMode);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.txtLineBreakThreshold);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.txtIndentSpaces);
             this.panel1.Controls.Add(this.label3);
@@ -83,13 +87,13 @@
             this.panel1.Size = new System.Drawing.Size(375, 241);
             this.panel1.TabIndex = 29;
             // 
-            // txtSeverity
+            // txtLineBreakThreshold
             // 
-            this.txtSeverity.Location = new System.Drawing.Point(83, 171);
-            this.txtSeverity.Name = "txtSeverity";
-            this.txtSeverity.Size = new System.Drawing.Size(42, 20);
-            this.txtSeverity.TabIndex = 29;
-            this.txtSeverity.Value = new decimal(new int[] {
+            this.txtLineBreakThreshold.Location = new System.Drawing.Point(106, 151);
+            this.txtLineBreakThreshold.Name = "txtLineBreakThreshold";
+            this.txtLineBreakThreshold.Size = new System.Drawing.Size(42, 20);
+            this.txtLineBreakThreshold.TabIndex = 29;
+            this.txtLineBreakThreshold.Value = new decimal(new int[] {
             50,
             0,
             0,
@@ -98,15 +102,15 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(0, 173);
+            this.label4.Location = new System.Drawing.Point(0, 153);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 13);
+            this.label4.Size = new System.Drawing.Size(103, 13);
             this.label4.TabIndex = 28;
-            this.label4.Text = "Severity";
+            this.label4.Text = "Line break threshold";
             // 
             // txtIndentSpaces
             // 
-            this.txtIndentSpaces.Location = new System.Drawing.Point(83, 125);
+            this.txtIndentSpaces.Location = new System.Drawing.Point(106, 125);
             this.txtIndentSpaces.Name = "txtIndentSpaces";
             this.txtIndentSpaces.Size = new System.Drawing.Size(42, 20);
             this.txtIndentSpaces.TabIndex = 27;
@@ -138,7 +142,7 @@
             // chkMinifyExpressions
             // 
             this.chkMinifyExpressions.AutoSize = true;
-            this.chkMinifyExpressions.Location = new System.Drawing.Point(5, 151);
+            this.chkMinifyExpressions.Location = new System.Drawing.Point(5, 173);
             this.chkMinifyExpressions.Name = "chkMinifyExpressions";
             this.chkMinifyExpressions.Size = new System.Drawing.Size(111, 17);
             this.chkMinifyExpressions.TabIndex = 6;
@@ -159,7 +163,7 @@
             // 
             this.cboCommentMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCommentMode.FormattingEnabled = true;
-            this.cboCommentMode.Location = new System.Drawing.Point(83, 52);
+            this.cboCommentMode.Location = new System.Drawing.Point(106, 52);
             this.cboCommentMode.Name = "cboCommentMode";
             this.cboCommentMode.Size = new System.Drawing.Size(121, 21);
             this.cboCommentMode.TabIndex = 4;
@@ -177,7 +181,7 @@
             // 
             this.cboColorNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboColorNames.FormattingEnabled = true;
-            this.cboColorNames.Location = new System.Drawing.Point(83, 25);
+            this.cboColorNames.Location = new System.Drawing.Point(106, 25);
             this.cboColorNames.Name = "cboColorNames";
             this.cboColorNames.Size = new System.Drawing.Size(121, 21);
             this.cboColorNames.TabIndex = 2;
@@ -212,6 +216,27 @@
             this.linkLabelModeInfo.Text = "More information";
             this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
             // 
+            // cboOutputMode
+            // 
+            this.cboOutputMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOutputMode.FormattingEnabled = true;
+            this.cboOutputMode.Items.AddRange(new object[] {
+            "MultipleLines",
+            "SingleLine"});
+            this.cboOutputMode.Location = new System.Drawing.Point(106, 196);
+            this.cboOutputMode.Name = "cboOutputMode";
+            this.cboOutputMode.Size = new System.Drawing.Size(121, 21);
+            this.cboOutputMode.TabIndex = 31;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(0, 199);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "OutputMode";
+            // 
             // MsCss
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,7 +248,7 @@
             this.gbSetting.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSeverity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIndentSpaces)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -245,7 +270,9 @@
         private System.Windows.Forms.CheckBox chkExpandOutput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown txtIndentSpaces;
-        private System.Windows.Forms.NumericUpDown txtSeverity;
+        private System.Windows.Forms.NumericUpDown txtLineBreakThreshold;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cboOutputMode;
+        private System.Windows.Forms.Label label5;
     }
 }

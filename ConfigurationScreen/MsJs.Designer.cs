@@ -30,6 +30,10 @@
         {
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtLineBreakThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chkStrictMode = new System.Windows.Forms.CheckBox();
+            this.chkTermSemicolons = new System.Windows.Forms.CheckBox();
             this.chkRemoveFunctionExpressionNames = new System.Windows.Forms.CheckBox();
             this.chkMinifyCode = new System.Windows.Forms.CheckBox();
             this.chkManualRenamesProperties = new System.Windows.Forms.CheckBox();
@@ -54,6 +58,7 @@
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtIndentSize)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,6 +78,10 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.txtLineBreakThreshold);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.chkStrictMode);
+            this.panel1.Controls.Add(this.chkTermSemicolons);
             this.panel1.Controls.Add(this.chkRemoveFunctionExpressionNames);
             this.panel1.Controls.Add(this.chkMinifyCode);
             this.panel1.Controls.Add(this.chkManualRenamesProperties);
@@ -100,10 +109,51 @@
             this.panel1.Size = new System.Drawing.Size(375, 241);
             this.panel1.TabIndex = 29;
             // 
+            // txtLineBreakThreshold
+            // 
+            this.txtLineBreakThreshold.Location = new System.Drawing.Point(110, 190);
+            this.txtLineBreakThreshold.Name = "txtLineBreakThreshold";
+            this.txtLineBreakThreshold.Size = new System.Drawing.Size(42, 20);
+            this.txtLineBreakThreshold.TabIndex = 48;
+            this.txtLineBreakThreshold.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 192);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.TabIndex = 47;
+            this.label5.Text = "Line break threshold";
+            // 
+            // chkStrictMode
+            // 
+            this.chkStrictMode.AutoSize = true;
+            this.chkStrictMode.Location = new System.Drawing.Point(0, 456);
+            this.chkStrictMode.Name = "chkStrictMode";
+            this.chkStrictMode.Size = new System.Drawing.Size(77, 17);
+            this.chkStrictMode.TabIndex = 46;
+            this.chkStrictMode.Text = "StrictMode";
+            this.chkStrictMode.UseVisualStyleBackColor = true;
+            // 
+            // chkTermSemicolons
+            // 
+            this.chkTermSemicolons.AutoSize = true;
+            this.chkTermSemicolons.Location = new System.Drawing.Point(-3, 433);
+            this.chkTermSemicolons.Name = "chkTermSemicolons";
+            this.chkTermSemicolons.Size = new System.Drawing.Size(107, 17);
+            this.chkTermSemicolons.TabIndex = 45;
+            this.chkTermSemicolons.Text = "Term Semicolons";
+            this.chkTermSemicolons.UseVisualStyleBackColor = true;
+            // 
             // chkRemoveFunctionExpressionNames
             // 
             this.chkRemoveFunctionExpressionNames.AutoSize = true;
-            this.chkRemoveFunctionExpressionNames.Location = new System.Drawing.Point(0, 364);
+            this.chkRemoveFunctionExpressionNames.Location = new System.Drawing.Point(0, 387);
             this.chkRemoveFunctionExpressionNames.Name = "chkRemoveFunctionExpressionNames";
             this.chkRemoveFunctionExpressionNames.Size = new System.Drawing.Size(194, 17);
             this.chkRemoveFunctionExpressionNames.TabIndex = 44;
@@ -113,7 +163,7 @@
             // chkMinifyCode
             // 
             this.chkMinifyCode.AutoSize = true;
-            this.chkMinifyCode.Location = new System.Drawing.Point(0, 268);
+            this.chkMinifyCode.Location = new System.Drawing.Point(0, 291);
             this.chkMinifyCode.Name = "chkMinifyCode";
             this.chkMinifyCode.Size = new System.Drawing.Size(80, 17);
             this.chkMinifyCode.TabIndex = 43;
@@ -123,7 +173,7 @@
             // chkManualRenamesProperties
             // 
             this.chkManualRenamesProperties.AutoSize = true;
-            this.chkManualRenamesProperties.Location = new System.Drawing.Point(0, 245);
+            this.chkManualRenamesProperties.Location = new System.Drawing.Point(0, 268);
             this.chkManualRenamesProperties.Name = "chkManualRenamesProperties";
             this.chkManualRenamesProperties.Size = new System.Drawing.Size(153, 17);
             this.chkManualRenamesProperties.TabIndex = 42;
@@ -133,7 +183,7 @@
             // chkPreserveFunctionNames
             // 
             this.chkPreserveFunctionNames.AutoSize = true;
-            this.chkPreserveFunctionNames.Location = new System.Drawing.Point(0, 318);
+            this.chkPreserveFunctionNames.Location = new System.Drawing.Point(0, 341);
             this.chkPreserveFunctionNames.Name = "chkPreserveFunctionNames";
             this.chkPreserveFunctionNames.Size = new System.Drawing.Size(143, 17);
             this.chkPreserveFunctionNames.TabIndex = 41;
@@ -183,7 +233,7 @@
             // chkStripDebugStatements
             // 
             this.chkStripDebugStatements.AutoSize = true;
-            this.chkStripDebugStatements.Location = new System.Drawing.Point(0, 341);
+            this.chkStripDebugStatements.Location = new System.Drawing.Point(0, 364);
             this.chkStripDebugStatements.Name = "chkStripDebugStatements";
             this.chkStripDebugStatements.Size = new System.Drawing.Size(181, 17);
             this.chkStripDebugStatements.TabIndex = 36;
@@ -193,7 +243,7 @@
             // chkRemoveUnneededCode
             // 
             this.chkRemoveUnneededCode.AutoSize = true;
-            this.chkRemoveUnneededCode.Location = new System.Drawing.Point(0, 387);
+            this.chkRemoveUnneededCode.Location = new System.Drawing.Point(0, 410);
             this.chkRemoveUnneededCode.Name = "chkRemoveUnneededCode";
             this.chkRemoveUnneededCode.Size = new System.Drawing.Size(144, 17);
             this.chkRemoveUnneededCode.TabIndex = 35;
@@ -207,7 +257,7 @@
             this.cboOutputMode.Items.AddRange(new object[] {
             "MultipleLines",
             "SingleLine"});
-            this.cboOutputMode.Location = new System.Drawing.Point(84, 291);
+            this.cboOutputMode.Location = new System.Drawing.Point(84, 314);
             this.cboOutputMode.Name = "cboOutputMode";
             this.cboOutputMode.Size = new System.Drawing.Size(121, 21);
             this.cboOutputMode.TabIndex = 34;
@@ -215,7 +265,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 294);
+            this.label4.Location = new System.Drawing.Point(3, 317);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 33;
@@ -224,7 +274,7 @@
             // chkMacSafariQuirks
             // 
             this.chkMacSafariQuirks.AutoSize = true;
-            this.chkMacSafariQuirks.Location = new System.Drawing.Point(0, 222);
+            this.chkMacSafariQuirks.Location = new System.Drawing.Point(0, 245);
             this.chkMacSafariQuirks.Name = "chkMacSafariQuirks";
             this.chkMacSafariQuirks.Size = new System.Drawing.Size(110, 17);
             this.chkMacSafariQuirks.TabIndex = 32;
@@ -239,7 +289,7 @@
             "CrunchAll",
             "KeepAll",
             "KeepLocalizationVars"});
-            this.cboLocalRenaming.Location = new System.Drawing.Point(84, 195);
+            this.cboLocalRenaming.Location = new System.Drawing.Point(84, 218);
             this.cboLocalRenaming.Name = "cboLocalRenaming";
             this.cboLocalRenaming.Size = new System.Drawing.Size(121, 21);
             this.cboLocalRenaming.TabIndex = 31;
@@ -247,7 +297,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 198);
+            this.label3.Location = new System.Drawing.Point(3, 221);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 30;
@@ -278,7 +328,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 171);
+            this.label1.Location = new System.Drawing.Point(4, 168);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 27;
@@ -286,7 +336,7 @@
             // 
             // TxtIndentSize
             // 
-            this.TxtIndentSize.Location = new System.Drawing.Point(84, 169);
+            this.TxtIndentSize.Location = new System.Drawing.Point(109, 164);
             this.TxtIndentSize.Name = "TxtIndentSize";
             this.TxtIndentSize.Size = new System.Drawing.Size(42, 20);
             this.TxtIndentSize.TabIndex = 26;
@@ -338,6 +388,7 @@
             this.gbSetting.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtIndentSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -370,5 +421,9 @@
         private System.Windows.Forms.CheckBox chkManualRenamesProperties;
         private System.Windows.Forms.CheckBox chkPreserveFunctionNames;
         private System.Windows.Forms.CheckBox chkRemoveFunctionExpressionNames;
+        private System.Windows.Forms.CheckBox chkTermSemicolons;
+        private System.Windows.Forms.CheckBox chkStrictMode;
+        private System.Windows.Forms.NumericUpDown txtLineBreakThreshold;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -52,9 +52,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin, Version=4.13.4076.28499, Culture=neutral, PublicKeyToken=24297a69a7eae424, processorArchitecture=MSIL">
+    <Reference Include="AjaxMin, Version=4.37.4345.34101, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
+      <HintPath>packages\AjaxMin.4.37.4345.34101\lib\net20\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

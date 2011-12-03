@@ -6,17 +6,20 @@ namespace Zippy.Chirp.ConfigurationScreen
         public MsCss()
         {
             InitializeComponent();
+            this.cboColorNames.DataSource = System.Enum.GetNames(typeof(Microsoft.Ajax.Utilities.CssColor));
+            this.cboCommentMode.DataSource = System.Enum.GetNames(typeof(Microsoft.Ajax.Utilities.CssComment));
+            this.cboOutputMode.DataSource = System.Enum.GetNames(typeof(Microsoft.Ajax.Utilities.OutputMode));
+
         }
 
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
             this.chkAllowEmbeddedAspNetBlocks.Checked = this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks;
-            cboColorNames.SelectedItem = this.Settings.MsCssSettings.ColorNames;
-            cboCommentMode.SelectedItem = this.Settings.MsCssSettings.CommentMode;
-            this.chkExpandOutput.Checked = this.Settings.MsCssSettings.ExpandOutput;
-            this.txtIndentSpaces.Value = this.Settings.MsCssSettings.IndentSpaces;
+            this.cboColorNames.SelectedItem = this.Settings.MsCssSettings.ColorNames;
+            this.cboCommentMode.SelectedItem = this.Settings.MsCssSettings.CommentMode;
+            this.cboOutputMode.SelectedItem = this.Settings.MsCssSettings.OutputMode;
             this.chkMinifyExpressions.Checked = this.Settings.MsCssSettings.MinifyExpressions;
-            this.txtSeverity.Value = this.Settings.MsCssSettings.Severity;
+            this.txtLineBreakThreshold.Value = this.Settings.MsCssSettings.LineBreakThreshold;
             this.chkTermSemicolons.Checked = this.Settings.MsCssSettings.TermSemicolons;
         }
 
@@ -25,13 +28,14 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks = this.chkAllowEmbeddedAspNetBlocks.Checked;
             this.Settings.MsCssSettings.ColorNames = (Microsoft.Ajax.Utilities.CssColor)cboColorNames.SelectedItem;
             this.Settings.MsCssSettings.CommentMode = (Microsoft.Ajax.Utilities.CssComment)cboCommentMode.SelectedItem;
-            this.Settings.MsCssSettings.ExpandOutput = this.chkExpandOutput.Checked;
-            this.Settings.MsCssSettings.IndentSpaces = (int)this.txtIndentSpaces.Value;
+            this.cboOutputMode.SelectedItem = (Microsoft.Ajax.Utilities.OutputMode)this.Settings.MsCssSettings.OutputMode;
             this.Settings.MsCssSettings.MinifyExpressions = this.chkMinifyExpressions.Checked;
-            this.Settings.MsCssSettings.Severity = (int)this.txtSeverity.Value;
+            this.Settings.MsCssSettings.LineBreakThreshold = (int)this.txtLineBreakThreshold.Value;
             this.Settings.MsCssSettings.TermSemicolons = this.chkTermSemicolons.Checked;
             this.Settings.Save();
         }
+        
+
 
         private void linkLabelModeInfo_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {

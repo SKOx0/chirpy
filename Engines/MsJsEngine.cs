@@ -23,27 +23,15 @@ namespace Zippy.Chirp.Engines
             
              string mini = minifier.MinifyJavaScript(text,codeSettings);
 
-            foreach (var err in minifier.Errors)
+            foreach (var err in minifier.ErrorList)
             {
-                int line = 0;
-                int column = 0;
-
-                // todo : use regex
-                int indexBegin = err.IndexOf("(");
-                int indexEnd = err.IndexOf(",");
-                int.TryParse(err.Substring(indexBegin + 1, (indexEnd - indexBegin) - 1), out line);
-
-                indexBegin = indexEnd;
-                indexEnd = err.IndexOf("-");
-                int.TryParse(err.Substring(indexBegin + 1, (indexEnd - indexBegin) - 1), out column);
-
-                if (TaskList.Instance == null)
+               if (TaskList.Instance == null)
                 {
-                    Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, line.ToString(), column.ToString(), err));
+                    Console.WriteLine(string.Format("{0}({1},{2}){3}", fullFileName, err.StartLine, err.StartColumn, err.Message));
                 }
                 else
                 {
-                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, line, column, err);
+                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, err.StartLine, err.StartColumn, err.Message);
                 }
             }
 
