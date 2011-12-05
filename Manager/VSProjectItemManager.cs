@@ -79,11 +79,7 @@ namespace Zippy.Chirp.Manager
             var exists = System.IO.File.Exists(filename);
             if (exists)
             {
-                bool isReadOnly = ((File.GetAttributes(filename) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
-                if (isReadOnly)
-                {
-                    File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
-                }
+                Utilities.MakeWritable(filename);
             }
             if (content is string || content == null)
             {

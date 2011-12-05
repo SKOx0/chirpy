@@ -26,16 +26,17 @@ namespace Zippy.Chirp.Engines
                 foreach (string t4Template in t4List)
                 {
                     ProjectItem projectItem = app.Solution.FindProjectItem(t4Template.Trim());
+                    if (projectItem == null) continue;
 
-                    if (projectItem != null)
+                    string filename = projectItem.FileName();
+                    Utilities.MakeWritable(filename);
+
+                    if (!projectItem.IsOpen)
                     {
-                        if (!projectItem.IsOpen)
-                        {
-                            projectItem.Open();
-                        }
-
-                        projectItem.Save();
+                        projectItem.Open();
                     }
+
+                    projectItem.Save();
                 }
             }
             catch (Exception ex)
