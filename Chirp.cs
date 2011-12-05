@@ -178,7 +178,7 @@ namespace Zippy.Chirp {
             this.eventsOnCommand = this.events.CommandEvents;
 
             this.eventsOnCommand.BeforeExecute += new _dispCommandEvents_BeforeExecuteEventHandler(this.CommandEvents_BeforeExecute);
-            //this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(this.SolutionEvents_Opened);
+            this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(eventsOnSolution_Opened);
             this.eventsOnSolution.ProjectRemoved += new _dispSolutionEvents_ProjectRemovedEventHandler(this.SolutionEvents_ProjectRemoved);
             this.eventsOnSolution.AfterClosing += new _dispSolutionEvents_AfterClosingEventHandler(this.EventsOnSolution_AfterClosing);
             this.eventsOnProjectItems.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(this.ProjectItemsEvents_ItemRenamed);
@@ -200,6 +200,10 @@ namespace Zippy.Chirp {
             if (new Settings().ShowDetailLog) {
                 this.OutputWindowWriteText("Ready");
             }
+        }
+
+        void eventsOnSolution_Opened() {
+          dependenciesIndexed = false;
         }
 
         #region Unused IDTExtensibility2 methods
