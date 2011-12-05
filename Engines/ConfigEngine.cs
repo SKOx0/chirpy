@@ -66,6 +66,7 @@ namespace Zippy.Chirp.Engines {
                     productionFileText.Clear();
 
                     bool isJS = this.IsJsFile(fileGroup.GetName);
+                    bool isCSS = this.IsCssFile(fileGroup.GetName);
 
                     string fullPath = directory + @"\" + fileGroup.Name;
                     if (!string.IsNullOrEmpty(fileGroup.Path)) {
@@ -127,7 +128,7 @@ namespace Zippy.Chirp.Engines {
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
                     }
 
-                    manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : ".css"), output);
+                    manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : isCSS ? ".css" : System.IO.Path.GetExtension(fullPath)), output);
 
                     if (fileGroup.Minify == FileGroupXml.MinifyActions.Both) {
                         if (TaskList.Instance != null) {
