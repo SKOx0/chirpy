@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using EnvDTE;
 using EnvDTE80;
+using System.IO;
 
 namespace Zippy.Chirp {
     public static class Utilities {
@@ -22,6 +23,12 @@ namespace Zippy.Chirp {
             obj = null;
         }
 
+        public static void MakeWritable(string filename) {
+            var attrs = File.GetAttributes(filename);
+            if ((attrs & FileAttributes.ReadOnly) == FileAttributes.ReadOnly) {
+                File.SetAttributes(filename, attrs & ~FileAttributes.ReadOnly);
+            }
+        }
 
         private static Regex rxNormalizeLineEndings = new Regex(@"\r\n|\n\r|\n|\r", RegexOptions.Compiled);
         public static string ProcessText(string input, string find, string replace) {
