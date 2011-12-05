@@ -17,9 +17,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.chkAllowEmbeddedAspNetBlocks.Checked = this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks;
             this.cboColorNames.SelectedItem = this.Settings.MsCssSettings.ColorNames;
             this.cboCommentMode.SelectedItem = this.Settings.MsCssSettings.CommentMode;
-            this.cboOutputMode.SelectedItem = this.Settings.MsCssSettings.OutputMode;
+            //this.cboOutputMode.SelectedItem = this.Settings.MsCssSettings.OutputMode;
             this.chkMinifyExpressions.Checked = this.Settings.MsCssSettings.MinifyExpressions;
-            this.txtLineBreakThreshold.Value = this.Settings.MsCssSettings.LineBreakThreshold;
+            //this.txtLineBreakThreshold.Value = this.Settings.MsCssSettings.LineBreakThreshold;
             this.chkTermSemicolons.Checked = this.Settings.MsCssSettings.TermSemicolons;
         }
 
@@ -28,9 +28,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks = this.chkAllowEmbeddedAspNetBlocks.Checked;
             this.Settings.MsCssSettings.ColorNames = (Microsoft.Ajax.Utilities.CssColor)cboColorNames.SelectedItem;
             this.Settings.MsCssSettings.CommentMode = (Microsoft.Ajax.Utilities.CssComment)cboCommentMode.SelectedItem;
-            this.cboOutputMode.SelectedItem = (Microsoft.Ajax.Utilities.OutputMode)this.Settings.MsCssSettings.OutputMode;
+            //this.cboOutputMode.SelectedItem = (Microsoft.Ajax.Utilities.OutputMode)this.Settings.MsCssSettings.OutputMode;
             this.Settings.MsCssSettings.MinifyExpressions = this.chkMinifyExpressions.Checked;
-            this.Settings.MsCssSettings.LineBreakThreshold = (int)this.txtLineBreakThreshold.Value;
+            //this.Settings.MsCssSettings.LineBreakThreshold = (int)this.txtLineBreakThreshold.Value;
             this.Settings.MsCssSettings.TermSemicolons = this.chkTermSemicolons.Checked;
             this.Settings.Save();
         }

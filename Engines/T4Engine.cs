@@ -2,6 +2,7 @@
 using System;
 using EnvDTE;
 using EnvDTE80;
+using VSLangProj;
 
 namespace Zippy.Chirp.Engines
 {
@@ -27,16 +28,8 @@ namespace Zippy.Chirp.Engines
                 {
                     ProjectItem projectItem = app.Solution.FindProjectItem(t4Template.Trim());
                     if (projectItem == null) continue;
-
-                    string filename = projectItem.FileName();
-                    Utilities.MakeWritable(filename);
-
-                    if (!projectItem.IsOpen)
-                    {
-                        projectItem.Open();
-                    }
-
-                    projectItem.Save();
+                    VSProjectItem vsItem = projectItem.Object as VSProjectItem;
+                    vsItem.RunCustomTool();
                 }
             }
             catch (Exception ex)

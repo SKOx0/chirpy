@@ -27,13 +27,13 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.cboEvalTreatment.SelectedItem = this.Settings.MsJsSettings.EvalTreatment;
             this.TxtIndentSize.Value = this.Settings.MsJsSettings.IndentSize;
             this.cboLocalRenaming.SelectedItem = this.Settings.MsJsSettings.LocalRenaming;
-            this.txtLineBreakThreshold.Value = this.Settings.MsJsSettings.LineBreakThreshold;
+            //this.txtLineBreakThreshold.Value = this.Settings.MsJsSettings.LineBreakThreshold;
             this.chkMacSafariQuirks.Checked = this.Settings.MsJsSettings.MacSafariQuirks;
             this.cboOutputMode.SelectedItem = this.Settings.MsJsSettings.OutputMode;
             this.chkRemoveUnneededCode.Checked = this.Settings.MsJsSettings.RemoveUnneededCode;
             this.chkStripDebugStatements.Checked = this.Settings.MsJsSettings.StripDebugStatements;
-            this.chkStrictMode.Checked = this.Settings.MsJsSettings.StrictMode;
-            this.chkTermSemicolons.Checked = this.Settings.MsJsSettings.TermSemicolons;
+            //this.chkStrictMode.Checked = this.Settings.MsJsSettings.StrictMode;
+            //this.chkTermSemicolons.Checked = this.Settings.MsJsSettings.TermSemicolons;
         }
 
         public override void OnOK()
@@ -51,13 +51,13 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsJsSettings.EvalTreatment = (Microsoft.Ajax.Utilities.EvalTreatment)this.cboEvalTreatment.SelectedItem;
             this.Settings.MsJsSettings.IndentSize = (int)TxtIndentSize.Value;
             this.Settings.MsJsSettings.LocalRenaming = (Microsoft.Ajax.Utilities.LocalRenaming)this.cboLocalRenaming.SelectedItem;
-            this.Settings.MsJsSettings.LineBreakThreshold=(int)this.txtLineBreakThreshold.Value;
+            //this.Settings.MsJsSettings.LineBreakThreshold=(int)this.txtLineBreakThreshold.Value;
             this.Settings.MsJsSettings.MacSafariQuirks = this.chkMacSafariQuirks.Checked;
             this.Settings.MsJsSettings.OutputMode = (Microsoft.Ajax.Utilities.OutputMode)this.cboOutputMode.SelectedItem;
             this.Settings.MsJsSettings.RemoveUnneededCode = this.chkRemoveUnneededCode.Checked;
             this.Settings.MsJsSettings.StripDebugStatements = this.chkStripDebugStatements.Checked;
-            this.Settings.MsJsSettings.StrictMode = this.chkStrictMode.Checked;
-            this.Settings.MsJsSettings.TermSemicolons = this.chkTermSemicolons.Checked;
+            //this.Settings.MsJsSettings.StrictMode = this.chkStrictMode.Checked;
+            //this.Settings.MsJsSettings.TermSemicolons = this.chkTermSemicolons.Checked;
             this.Settings.Save();
         }
 
