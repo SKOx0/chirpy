@@ -22,7 +22,7 @@ namespace Zippy.Chirp.Engines
             Minifier minifier = new Minifier();
             string miniCss = minifier.MinifyStyleSheet(text, cssSettings);
 
-            foreach (var err in minifier.Errors)
+            foreach (var err in minifier.ErrorList)
             {
                
                 if (TaskList.Instance == null)
@@ -31,7 +31,7 @@ namespace Zippy.Chirp.Engines
                 }
                 else
                 {
-                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, 1, 1, err);
+                    TaskList.Instance.Add(projectItem.ContainingProject, Microsoft.VisualStudio.Shell.TaskErrorCategory.Error, fullFileName, err.StartLine, err.StartColumn, err.Message);
 
                 }
             }
