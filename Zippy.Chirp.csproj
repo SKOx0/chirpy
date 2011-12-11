@@ -66,8 +66,8 @@
       <HintPath>packages\YUICompressor.NET.1.6.0.2\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Jurassic.dll</HintPath>
+    <Reference Include="Jurassic">
+      <HintPath>packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
