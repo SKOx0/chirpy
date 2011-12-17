@@ -41,6 +41,7 @@
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkBare = new System.Windows.Forms.CheckBox();
+            this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +49,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 110);
+            this.label5.Location = new System.Drawing.Point(5, 149);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(115, 13);
             this.label5.TabIndex = 20;
@@ -56,7 +57,7 @@
             // 
             // txtMSAjaxJsFile
             // 
-            this.txtMSAjaxJsFile.Location = new System.Drawing.Point(183, 107);
+            this.txtMSAjaxJsFile.Location = new System.Drawing.Point(183, 146);
             this.txtMSAjaxJsFile.Name = "txtMSAjaxJsFile";
             this.txtMSAjaxJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtMSAjaxJsFile.TabIndex = 21;
@@ -65,7 +66,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 6);
+            this.label1.Location = new System.Drawing.Point(2, 45);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(149, 13);
             this.label1.TabIndex = 0;
@@ -73,7 +74,7 @@
             // 
             // txtChirpJsFile
             // 
-            this.txtChirpJsFile.Location = new System.Drawing.Point(183, 3);
+            this.txtChirpJsFile.Location = new System.Drawing.Point(183, 42);
             this.txtChirpJsFile.Name = "txtChirpJsFile";
             this.txtChirpJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpJsFile.TabIndex = 1;
@@ -83,7 +84,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 32);
+            this.label2.Location = new System.Drawing.Point(2, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 13);
             this.label2.TabIndex = 2;
@@ -91,7 +92,7 @@
             // 
             // txtChirpSimpleJsFile
             // 
-            this.txtChirpSimpleJsFile.Location = new System.Drawing.Point(183, 29);
+            this.txtChirpSimpleJsFile.Location = new System.Drawing.Point(183, 68);
             this.txtChirpSimpleJsFile.Name = "txtChirpSimpleJsFile";
             this.txtChirpSimpleJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpSimpleJsFile.TabIndex = 3;
@@ -100,7 +101,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2, 58);
+            this.label3.Location = new System.Drawing.Point(2, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(179, 13);
             this.label3.TabIndex = 4;
@@ -108,7 +109,7 @@
             // 
             // txtChirpWhiteSpaceJsFile
             // 
-            this.txtChirpWhiteSpaceJsFile.Location = new System.Drawing.Point(183, 55);
+            this.txtChirpWhiteSpaceJsFile.Location = new System.Drawing.Point(183, 94);
             this.txtChirpWhiteSpaceJsFile.Name = "txtChirpWhiteSpaceJsFile";
             this.txtChirpWhiteSpaceJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpWhiteSpaceJsFile.TabIndex = 5;
@@ -117,7 +118,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(2, 84);
+            this.label4.Location = new System.Drawing.Point(2, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 13);
             this.label4.TabIndex = 6;
@@ -125,7 +126,7 @@
             // 
             // txtChirpYUIJsFile
             // 
-            this.txtChirpYUIJsFile.Location = new System.Drawing.Point(183, 81);
+            this.txtChirpYUIJsFile.Location = new System.Drawing.Point(183, 120);
             this.txtChirpYUIJsFile.Name = "txtChirpYUIJsFile";
             this.txtChirpYUIJsFile.Size = new System.Drawing.Size(128, 20);
             this.txtChirpYUIJsFile.TabIndex = 7;
@@ -137,9 +138,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSetting.Controls.Add(this.panel1);
-            this.gbSetting.Location = new System.Drawing.Point(3, 133);
+            this.gbSetting.Location = new System.Drawing.Point(3, 179);
             this.gbSetting.Name = "gbSetting";
-            this.gbSetting.Size = new System.Drawing.Size(381, 155);
+            this.gbSetting.Size = new System.Drawing.Size(381, 71);
             this.gbSetting.TabIndex = 29;
             this.gbSetting.TabStop = false;
             this.gbSetting.Text = "Options";
@@ -151,7 +152,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(375, 136);
+            this.panel1.Size = new System.Drawing.Size(375, 52);
             this.panel1.TabIndex = 29;
             // 
             // chkBare
@@ -164,10 +165,22 @@
             this.chkBare.Text = "Compile the JavaScript without the top-level function safety wrapper";
             this.chkBare.UseVisualStyleBackColor = true;
             // 
+            // linkLabelModeInfo
+            // 
+            this.linkLabelModeInfo.AutoSize = true;
+            this.linkLabelModeInfo.Location = new System.Drawing.Point(287, 12);
+            this.linkLabelModeInfo.Name = "linkLabelModeInfo";
+            this.linkLabelModeInfo.Size = new System.Drawing.Size(85, 13);
+            this.linkLabelModeInfo.TabIndex = 34;
+            this.linkLabelModeInfo.TabStop = true;
+            this.linkLabelModeInfo.Text = "More information";
+            this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
+            // 
             // CoffeeScript
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.linkLabelModeInfo);
             this.Controls.Add(this.gbSetting);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtMSAjaxJsFile);
@@ -180,7 +193,7 @@
             this.Controls.Add(this.txtChirpWhiteSpaceJsFile);
             this.Controls.Add(this.label3);
             this.Name = "CoffeeScript";
-            this.Size = new System.Drawing.Size(387, 291);
+            this.Size = new System.Drawing.Size(387, 253);
             this.gbSetting.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -204,6 +217,7 @@
         private System.Windows.Forms.GroupBox gbSetting;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chkBare;
+        private System.Windows.Forms.LinkLabel linkLabelModeInfo;
 
     }
 }
