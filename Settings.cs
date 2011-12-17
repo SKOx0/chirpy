@@ -40,6 +40,14 @@ namespace Zippy.Chirp
         private string chirpCoffeeScriptFile = ".chirp.coffee";
         private string chirpUglifyJsFile = ".uglify.js";
         private string chirpSimpleCoffeeScriptFile = ".simple.coffee";
+        private string chirpScssFile = ".chirp.scss";
+        private string chirpMSAjaxScssFile = ".msajax.scss";
+        private string chirpMichaelAshScssFile = ".michaelash.scss";
+        private string chirpHybridScssFile = ".hybrid.scss";
+        private string chirpSassFile = ".chirp.sass";
+        private string chirpMSAjaxSassFile = ".msajax.sass";
+        private string chirpMichaelAshSassFile = ".michaelash.sass";
+        private string chirpHybridSassFile = ".hybrid.sass";
         private string chirpWhiteSpaceCoffeeScriptFile = ".whitespace.coffee";
         private string chirpYUICoffeeScriptFile = ".yui.coffee";
         private string chirpGctCoffeeScriptFile = ".gct.coffee";
@@ -102,6 +110,54 @@ namespace Zippy.Chirp
         {
             get { return this.chirpWhiteSpaceJsFile; }
             set { this.chirpWhiteSpaceJsFile = value; }
+        }
+
+        public string ChirpSassFile 
+        {
+            get { return this.chirpSassFile; }
+            set { this.chirpSassFile = value; }
+        }
+
+        public string ChirpMSAjaxSassFile
+        {
+            get { return this.chirpMSAjaxSassFile; }
+            set { this.chirpMSAjaxSassFile = value; }
+        }
+
+        public string ChirpHybridSassFile
+        {
+            get { return this.chirpHybridSassFile; }
+            set { this.chirpHybridSassFile = value; }
+        }
+
+        public string ChirpMichaelAshSassFile
+        {
+            get { return this.chirpMichaelAshSassFile; }
+            set { this.chirpMichaelAshSassFile = value; }
+        }
+
+        public string ChirpScssFile 
+        {
+            get { return this.chirpScssFile; }
+            set { this.chirpScssFile = value; }
+        }
+
+        public string ChirpMSAjaxScssFile
+        {
+            get { return this.chirpMSAjaxScssFile; }
+            set { this.chirpMSAjaxScssFile = value; }
+        }
+
+        public string ChirpHybridScssFile
+        {
+            get { return this.chirpHybridScssFile; }
+            set { this.chirpHybridScssFile = value; }
+        }
+
+        public string ChirpMichaelAshScssFile
+        {
+            get { return this.chirpMichaelAshScssFile; }
+            set { this.chirpMichaelAshScssFile = value; }
         }
 
         public string ChirpYUIJsFile
@@ -378,6 +434,7 @@ namespace Zippy.Chirp
         #region Public Methods
 
         private static Settings instance;
+       
 
         /// <summary>
         /// Instance settings class (for save screen)
@@ -417,6 +474,18 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpHybridLessFile", this.ChirpHybridLessFile);
                 regKey.SetValue("ChirpMichaelAshLessFile", this.ChirpMichaelAshLessFile);
                 regKey.SetValue("ChirpMSAjaxLessFile", this.ChirpMSAjaxLessFile);
+
+                regKey.SetValue("chirpSassFile", this.chirpSassFile);
+                regKey.SetValue("chirpMSAjaxSassFile", this.chirpMSAjaxSassFile);
+                regKey.SetValue("chirpMichaelAshSassFile", this.chirpMichaelAshSassFile);
+                regKey.SetValue("chirpHybridSassFile", this.chirpHybridSassFile);
+
+                regKey.SetValue("chirpScssFile", this.chirpScssFile);
+                regKey.SetValue("chirpMSAjaxScssFile", this.chirpMSAjaxScssFile);
+                regKey.SetValue("chirpMichaelAshScssFile", this.chirpMichaelAshScssFile);
+                regKey.SetValue("chirpHybridScssFile", this.chirpHybridScssFile);
+                
+
                 regKey.SetValue("ChirpSimpleJsFile", this.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", this.ChirpWhiteSpaceJsFile);
                 regKey.SetValue("ChirpYUIJsFile", this.ChirpYUIJsFile);
@@ -493,6 +562,16 @@ namespace Zippy.Chirp
                     this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
 
                     this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
+                    this.chirpSassFile = Convert.ToString(regKey.GetValue("chirpSassFile", ".chirp.sass"));
+                    this.chirpMSAjaxSassFile = Convert.ToString(regKey.GetValue("chirpMSAjaxSassFile", ".msajax.sass"));
+                    this.chirpMichaelAshSassFile = Convert.ToString(regKey.GetValue("chirpMichaelAshSassFile", ".michaelash.sass"));
+                    this.chirpHybridSassFile = Convert.ToString(regKey.GetValue("chirpHybridSassFile", ".hybrid.sass"));
+
+                    this.chirpScssFile = Convert.ToString(regKey.GetValue("chirpSassFile", ".chirp.scss"));
+                    this.chirpMSAjaxScssFile = Convert.ToString(regKey.GetValue("chirpMSAjaxScssFile", ".msajax.scss"));
+                    this.chirpMichaelAshScssFile = Convert.ToString(regKey.GetValue("chirpMichaelAshScssFile", ".michaelash.scss"));
+                    this.chirpHybridScssFile = Convert.ToString(regKey.GetValue("chirpHybridScssFile", ".hybrid.scss"));
+
                     this.ChirpSimpleCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpSimpleCoffeeScriptFile", ".simple.coffee"));
                     this.ChirpWhiteSpaceCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceCoffeeScriptFile", ".whitespace.coffee"));
                     this.ChirpYUICoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpYUICoffeeScriptFile", ".yui.coffee"));
@@ -781,6 +860,8 @@ namespace Zippy.Chirp
                  this.ChirpConfigFile, this.ChirpCssFile, this.ChirpGctJsFile, this.ChirpHybridCssFile, this.ChirpHybridLessFile, this.ChirpJsFile, this.ChirpLessFile, this.ChirpMichaelAshCssFile, this.ChirpMichaelAshLessFile,
                  this.ChirpMSAjaxCssFile, this.ChirpMSAjaxJsFile, this.ChirpMSAjaxLessFile, this.ChirpPartialViewFile, this.ChirpSimpleJsFile, this.ChirpViewFile, this.ChirpWhiteSpaceJsFile, this.ChirpYUIJsFile,
                  this.ChirpSimpleCoffeeScriptFile, this.ChirpWhiteSpaceCoffeeScriptFile, this.ChirpYUICoffeeScriptFile, this.ChirpMSAjaxCoffeeScriptFile, this.ChirpGctCoffeeScriptFile, this.ChirpCoffeeScriptFile,
+                 this.chirpSassFile,this.ChirpMSAjaxSassFile,this.chirpMichaelAshSassFile,this.chirpHybridSassFile,
+                 this.chirpScssFile,this.ChirpMSAjaxScssFile,this.chirpMichaelAshScssFile,this.chirpHybridScssFile,
                 ".debug.js", ".debug.css"
             };
         }

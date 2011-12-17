@@ -25,6 +25,8 @@ namespace Zippy.Chirp {
         private const string RegularCssFile = ".css";
         private const string RegularJsFile = ".js";
         private const string RegularCoffeeScriptFile = ".coffee";
+        private const string RegularSassFile = ".sass";
+        private const string RegularScssFile = ".scss";
         private const string RegularLessFile = ".less";
         private static string[] buildCommands = new[] { "Build.BuildSelection", "Build.BuildSolution", "ClassViewContextMenus.ClassViewProject.Build" };
         private Events2 events;
@@ -76,8 +78,16 @@ namespace Zippy.Chirp {
 
         internal CSSLintEngine CSSLintEngine { get; set; }
 
+        internal SassEngine SassEngine { get; set; }
+
         public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom) {
-            Settings.Saved += this.LoadActions;
+            try {
+                Settings.Saved += this.LoadActions;
+            }catch(Exception ex)
+            {
+                this.OutputWindowWriteText("Error in commandBars: " + ex.ToString());
+                MessageBox.Show(ex.ToString());
+            }
 
             this.instance = addInInst as AddIn;
             this.App = application as DTE2;
@@ -141,6 +151,7 @@ namespace Zippy.Chirp {
             this.engineManager.Add(UglifyEngine = new UglifyEngine());
             this.engineManager.Add(JSHintEngine = new JSHintEngine());
             this.engineManager.Add(CSSLintEngine = new CSSLintEngine());
+            this.engineManager.Add(SassEngine = new SassEngine());
         }
 
         /// <summary>
@@ -188,7 +199,13 @@ namespace Zippy.Chirp {
 
             this.tasks = new TaskList(this.App);
 
-            this.LoadActions();
+             try {
+                this.LoadActions();
+             }
+             catch (Exception ex)
+             {
+                 this.OutputWindowWriteText("Error in load action: " + ex.ToString());
+             }
 
             try {
                 this.TreatLessAsCss(false);
@@ -291,28 +308,43 @@ namespace Zippy.Chirp {
                         if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER) {
                             try {
                                 ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
-                                if (EngineManager.IsHandledWithoutHint(projectItem.FileName())) {
+                                if (EngineManager.IsHandledWithoutHint(projectItem.FileName()))
+                                {
                                     this.ProjectItemsEvents_ItemAdded(projectItem);
-                                } else {
+                                }
+                                else
+                                {
                                     string path = projectItem.FileName();
                                     string code = System.IO.File.ReadAllText(path);
                                     var settings = Settings.Instance(path);
                                     string outputExtension = settings.OutputExtensionJS;
-                                    if (this.IsLessFile(path)) {
+                                    if (this.IsLessFile(path))
+                                    {
                                         code = LessEngine.TransformToCss(path, code, projectItem);
                                         outputExtension = settings.OutputExtensionCSS;
-                                    } else if (this.IsCoffeeScriptFile(path)) {
+                                    }
+                                    else if (this.IsCoffeeScriptFile(path))
+                                    {
                                         code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
+                                        outputExtension = settings.OutputExtensionJS;
+                                    }
+                                    else if (this.IsSassFile(path))
+                                    {
+                                        code = SassEngine.TransformToCss(path, code, projectItem);
                                         outputExtension = settings.OutputExtensionCSS;
                                     }
-                                    if (this.IsCssFile(path)) {
+                                    else if (this.IsCssFile(path))
+                                    {
                                         code = CssEngine.Minify(path, code, projectItem, Xml.MinifyType.Unspecified);
                                         outputExtension = settings.OutputExtensionCSS;
-                                    } else if (this.IsJsFile(path)) {
+                                    }
+                                    else if (this.IsJsFile(path))
+                                    {
                                         code = JsEngine.Minify(path, code, projectItem, Xml.MinifyType.Unspecified, string.Empty);
                                         outputExtension = settings.OutputExtensionJS;
                                     }
-                                    using (var manager = new Manager.VSProjectItemManager(this.App, projectItem)) {
+                                    using (var manager = new Manager.VSProjectItemManager(this.App, projectItem))
+                                    {
                                         manager.AddFileByFileName(Utilities.GetBaseFileName(path) + outputExtension, code);
                                     }
                                 }
@@ -464,6 +496,12 @@ namespace Zippy.Chirp {
         private bool IsJsFile(string fileName) {
             return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
         }
+
+        private bool IsSassFile(string fileName)
+        {
+            return (fileName.EndsWith(RegularSassFile, StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(RegularScssFile, StringComparison.OrdinalIgnoreCase));
+        }
+        
 
         #region Less
 
