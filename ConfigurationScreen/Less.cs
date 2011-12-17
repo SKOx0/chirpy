@@ -29,5 +29,10 @@ namespace Zippy.Chirp.ConfigurationScreen
 
             this.Settings.Save();
         }
+
+        private void linkLabelModeInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.dotlesscss.org/");
+        }
     }
 }

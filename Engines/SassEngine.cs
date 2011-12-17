@@ -5,6 +5,9 @@ using Zippy.Chirp.Xml;
 
 namespace Zippy.Chirp.Engines
 {
+    /// <summary>
+    /// Engine for Sass and scss
+    /// </summary>
     public class SassEngine : TransformEngine
     {
         public SassEngine()
@@ -15,9 +18,15 @@ namespace Zippy.Chirp.Engines
 
         public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
-            var fixture = new SassCompiler();
-            return fixture.Compile(fullFileName);
+            string output = string.Empty;
+            using (var fixture = new SassCompiler())
+            {
+                output = fixture.Compile(fullFileName);
+            }
+
+            return output;
         }
+
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)
         {
             string result = TransformToCss(fullFileName, text, projectItem);
@@ -38,7 +47,7 @@ namespace Zippy.Chirp.Engines
             base.Process(manager, fullFileName, projectItem, baseFileName, outputText);
 
             var mode = this.GetMinifyType(fullFileName);
-            string mini = CssEngine.Minify(fullFileName,outputText,projectItem,mode);
+            string mini = CssEngine.Minify(fullFileName, outputText, projectItem, mode);
             manager.AddFileByFileName(baseFileName + this.Settings.OutputExtensionCSS, mini);
         }
 
