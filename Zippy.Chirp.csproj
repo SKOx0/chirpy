@@ -135,6 +135,12 @@
     <Compile Include="ConfigurationScreen\CoffeeScript.Designer.cs">
       <DependentUpon>CoffeeScript.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationScreen\About.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationScreen\Sass.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -307,6 +313,10 @@
   <ItemGroup>
     <EmbeddedResource Include="ConfigurationScreen\CoffeeScript.resx">
       <DependentUpon>CoffeeScript.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\Sass.resx">
       <DependentUpon>Sass.cs</DependentUpon>

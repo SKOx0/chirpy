@@ -89,5 +89,10 @@ namespace Zippy.Chirp.ConfigurationScreen
 
             return false;
         }
+
+        private void linkLabelModeInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://code.google.com/closure/compiler/docs/overview.html");
+        }
     }
 }
