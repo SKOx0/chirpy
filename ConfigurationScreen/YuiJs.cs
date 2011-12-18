@@ -20,7 +20,7 @@ namespace Zippy.Chirp.ConfigurationScreen
         public override void OnOK()
         {
             this.Settings.YuiJsSettings.DisableOptimizations = chkDisableOptimizations.Checked;
-            chkIsObfuscateJavascript.Checked = this.Settings.YuiJsSettings.IsObfuscateJavascript;
+            this.Settings.YuiJsSettings.IsObfuscateJavascript = chkIsObfuscateJavascript.Checked;
             this.Settings.YuiJsSettings.LineBreakPosition = (int)txtLineBreakPosition.Value;
             this.Settings.YuiJsSettings.PreserveAllSemiColons = chkPreserveAllSemiColons.Checked;
             this.Settings.Save();

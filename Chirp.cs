@@ -82,7 +82,7 @@ namespace Zippy.Chirp {
 
         public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom) {
             try {
-                Settings.Saved += this.LoadActions;
+                Settings.Saved += this.SettingsSaved;
             }catch(Exception ex)
             {
                 this.OutputWindowWriteText("Error in commandBars: " + ex.ToString());
@@ -130,6 +130,11 @@ namespace Zippy.Chirp {
                 this.OutputWindowWriteText("Error in commandBars: " + ex.ToString());
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void SettingsSaved()
+        {
+            LoadActions();
         }
 
         public void LoadActions() {

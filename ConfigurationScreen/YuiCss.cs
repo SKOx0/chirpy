@@ -11,14 +11,14 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-            txtColumnWidth.Value = Settings.YuiCssSettings.ColumnWidth;
-            chkRemoveComments.Checked = Settings.YuiCssSettings.RemoveComments;
+            txtColumnWidth.Value = this.Settings.YuiCssSettings.ColumnWidth;
+            chkRemoveComments.Checked = this.Settings.YuiCssSettings.RemoveComments;
         }
 
         public override void OnOK()
         {
-            Settings.YuiCssSettings.ColumnWidth = (int)txtColumnWidth.Value;
-            Settings.YuiCssSettings.RemoveComments = chkRemoveComments.Checked;
+            this.Settings.YuiCssSettings.ColumnWidth = (int)txtColumnWidth.Value;
+            this.Settings.YuiCssSettings.RemoveComments = chkRemoveComments.Checked;
             this.Settings.Save();
         }
 

@@ -534,6 +534,10 @@ namespace Zippy.Chirp
                 {
                     Saved();
                 }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Saved=null");
+                }
             }
         }
         #endregion
@@ -562,12 +566,13 @@ namespace Zippy.Chirp
                     this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
 
                     this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
+
                     this.chirpSassFile = Convert.ToString(regKey.GetValue("chirpSassFile", ".chirp.sass"));
                     this.chirpMSAjaxSassFile = Convert.ToString(regKey.GetValue("chirpMSAjaxSassFile", ".msajax.sass"));
                     this.chirpMichaelAshSassFile = Convert.ToString(regKey.GetValue("chirpMichaelAshSassFile", ".michaelash.sass"));
                     this.chirpHybridSassFile = Convert.ToString(regKey.GetValue("chirpHybridSassFile", ".hybrid.sass"));
 
-                    this.chirpScssFile = Convert.ToString(regKey.GetValue("chirpSassFile", ".chirp.scss"));
+                    this.chirpScssFile = Convert.ToString(regKey.GetValue("chirpScssFile", ".chirp.scss"));
                     this.chirpMSAjaxScssFile = Convert.ToString(regKey.GetValue("chirpMSAjaxScssFile", ".msajax.scss"));
                     this.chirpMichaelAshScssFile = Convert.ToString(regKey.GetValue("chirpMichaelAshScssFile", ".michaelash.scss"));
                     this.chirpHybridScssFile = Convert.ToString(regKey.GetValue("chirpHybridScssFile", ".hybrid.scss"));
@@ -805,7 +810,7 @@ namespace Zippy.Chirp
                         }
                         catch (Exception ex)
                         {
-                            //System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
+                            System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
                         }
                     }
                 }
@@ -813,7 +818,7 @@ namespace Zippy.Chirp
             catch (Exception ex)
             {
                 Debug.WriteLine("Chrip - failed to load: " + ex.Message);
-                //System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
+                System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + ex.Message);
             }
             finally
             {
