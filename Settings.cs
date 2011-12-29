@@ -657,7 +657,7 @@ namespace Zippy.Chirp
                 }
                 else if (prop.PropertyType == typeof(int))
                 {
-                    prop.SetValue(this, Convert.ToInt16(kvp.Value), null);
+                    prop.SetValue(this, Convert.ToInt32(kvp.Value), null);
                 }
             }
         }
