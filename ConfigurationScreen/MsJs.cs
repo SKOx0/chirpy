@@ -33,8 +33,10 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.cboOutputMode.SelectedItem = this.Settings.MsJsSettings.OutputMode;
             this.chkRemoveUnneededCode.Checked = this.Settings.MsJsSettings.RemoveUnneededCode;
             this.chkStripDebugStatements.Checked = this.Settings.MsJsSettings.StripDebugStatements;
-           this.chkStrictMode.Checked = this.Settings.MsJsSettings.StrictMode;
+            this.chkStrictMode.Checked = this.Settings.MsJsSettings.StrictMode;
             this.chkTermSemicolons.Checked = this.Settings.MsJsSettings.TermSemicolons;
+            this.chkPreserveImportantComments.Checked = this.Settings.MsJsSettings.PreserveImportantComments;
+
         }
 
         public override void OnOK()
@@ -60,6 +62,8 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsJsSettings.StripDebugStatements = this.chkStripDebugStatements.Checked;
             this.Settings.MsJsSettings.StrictMode = this.chkStrictMode.Checked;
             this.Settings.MsJsSettings.TermSemicolons = this.chkTermSemicolons.Checked;
+            this.Settings.MsJsSettings.PreserveImportantComments = this.chkPreserveImportantComments.Checked;
+
             this.Settings.Save();
         }
 
