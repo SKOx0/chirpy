@@ -112,11 +112,21 @@
             // txtLineBreakThreshold
             // 
             this.txtLineBreakThreshold.Location = new System.Drawing.Point(110, 190);
+            this.txtLineBreakThreshold.Maximum = new decimal(new int[] {
+            2147482647,
+            0,
+            0,
+            0});
+            this.txtLineBreakThreshold.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.txtLineBreakThreshold.Name = "txtLineBreakThreshold";
-            this.txtLineBreakThreshold.Size = new System.Drawing.Size(42, 20);
+            this.txtLineBreakThreshold.Size = new System.Drawing.Size(95, 20);
             this.txtLineBreakThreshold.TabIndex = 48;
             this.txtLineBreakThreshold.Value = new decimal(new int[] {
-            50,
+            2147482647,
             0,
             0,
             0});
@@ -337,11 +347,21 @@
             // TxtIndentSize
             // 
             this.TxtIndentSize.Location = new System.Drawing.Point(109, 164);
+            this.TxtIndentSize.Maximum = new decimal(new int[] {
+            2147482647,
+            0,
+            0,
+            0});
+            this.TxtIndentSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.TxtIndentSize.Name = "TxtIndentSize";
-            this.TxtIndentSize.Size = new System.Drawing.Size(42, 20);
+            this.TxtIndentSize.Size = new System.Drawing.Size(96, 20);
             this.TxtIndentSize.TabIndex = 26;
             this.TxtIndentSize.Value = new decimal(new int[] {
-            50,
+            4,
             0,
             0,
             0});

@@ -30,6 +30,8 @@
         {
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cboOutputMode = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtLineBreakThreshold = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.txtIndentSpaces = new System.Windows.Forms.NumericUpDown();
@@ -43,8 +45,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.chkAllowEmbeddedAspNetBlocks = new System.Windows.Forms.CheckBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
-            this.cboOutputMode = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).BeginInit();
@@ -87,14 +87,45 @@
             this.panel1.Size = new System.Drawing.Size(375, 241);
             this.panel1.TabIndex = 29;
             // 
+            // cboOutputMode
+            // 
+            this.cboOutputMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOutputMode.FormattingEnabled = true;
+            this.cboOutputMode.Items.AddRange(new object[] {
+            "MultipleLines",
+            "SingleLine"});
+            this.cboOutputMode.Location = new System.Drawing.Point(106, 196);
+            this.cboOutputMode.Name = "cboOutputMode";
+            this.cboOutputMode.Size = new System.Drawing.Size(121, 21);
+            this.cboOutputMode.TabIndex = 31;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(0, 199);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "OutputMode";
+            // 
             // txtLineBreakThreshold
             // 
             this.txtLineBreakThreshold.Location = new System.Drawing.Point(106, 151);
+            this.txtLineBreakThreshold.Maximum = new decimal(new int[] {
+            2147482647,
+            0,
+            0,
+            0});
+            this.txtLineBreakThreshold.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.txtLineBreakThreshold.Name = "txtLineBreakThreshold";
-            this.txtLineBreakThreshold.Size = new System.Drawing.Size(42, 20);
+            this.txtLineBreakThreshold.Size = new System.Drawing.Size(91, 20);
             this.txtLineBreakThreshold.TabIndex = 29;
             this.txtLineBreakThreshold.Value = new decimal(new int[] {
-            50,
+            2147482647,
             0,
             0,
             0});
@@ -111,11 +142,21 @@
             // txtIndentSpaces
             // 
             this.txtIndentSpaces.Location = new System.Drawing.Point(106, 125);
+            this.txtIndentSpaces.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.txtIndentSpaces.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.txtIndentSpaces.Name = "txtIndentSpaces";
-            this.txtIndentSpaces.Size = new System.Drawing.Size(42, 20);
+            this.txtIndentSpaces.Size = new System.Drawing.Size(91, 20);
             this.txtIndentSpaces.TabIndex = 27;
             this.txtIndentSpaces.Value = new decimal(new int[] {
-            50,
+            4,
             0,
             0,
             0});
@@ -215,27 +256,6 @@
             this.linkLabelModeInfo.TabStop = true;
             this.linkLabelModeInfo.Text = "More information";
             this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
-            // 
-            // cboOutputMode
-            // 
-            this.cboOutputMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboOutputMode.FormattingEnabled = true;
-            this.cboOutputMode.Items.AddRange(new object[] {
-            "MultipleLines",
-            "SingleLine"});
-            this.cboOutputMode.Location = new System.Drawing.Point(106, 196);
-            this.cboOutputMode.Name = "cboOutputMode";
-            this.cboOutputMode.Size = new System.Drawing.Size(121, 21);
-            this.cboOutputMode.TabIndex = 31;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(0, 199);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 13);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "OutputMode";
             // 
             // MsCss
             // 
