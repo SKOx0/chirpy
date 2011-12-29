@@ -30,6 +30,8 @@
         {
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkReorderScopeDeclarations = new System.Windows.Forms.CheckBox();
+            this.chkPreserveImportantComments = new System.Windows.Forms.CheckBox();
             this.txtLineBreakThreshold = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.chkStrictMode = new System.Windows.Forms.CheckBox();
@@ -56,7 +58,6 @@
             this.chkCombineDuplicateLiterals = new System.Windows.Forms.CheckBox();
             this.chkCollapseToLiteral = new System.Windows.Forms.CheckBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
-            this.chkPreserveImportantComments = new System.Windows.Forms.CheckBox();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakThreshold)).BeginInit();
@@ -71,7 +72,7 @@
             this.gbSetting.Controls.Add(this.panel1);
             this.gbSetting.Location = new System.Drawing.Point(3, 28);
             this.gbSetting.Name = "gbSetting";
-            this.gbSetting.Size = new System.Drawing.Size(381, 538);
+            this.gbSetting.Size = new System.Drawing.Size(381, 260);
             this.gbSetting.TabIndex = 30;
             this.gbSetting.TabStop = false;
             this.gbSetting.Text = "Options";
@@ -79,6 +80,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.chkReorderScopeDeclarations);
             this.panel1.Controls.Add(this.chkPreserveImportantComments);
             this.panel1.Controls.Add(this.txtLineBreakThreshold);
             this.panel1.Controls.Add(this.label5);
@@ -108,8 +110,28 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(375, 519);
+            this.panel1.Size = new System.Drawing.Size(375, 241);
             this.panel1.TabIndex = 0;
+            // 
+            // chkReorderScopeDeclarations
+            // 
+            this.chkReorderScopeDeclarations.AutoSize = true;
+            this.chkReorderScopeDeclarations.Location = new System.Drawing.Point(0, 451);
+            this.chkReorderScopeDeclarations.Name = "chkReorderScopeDeclarations";
+            this.chkReorderScopeDeclarations.Size = new System.Drawing.Size(156, 17);
+            this.chkReorderScopeDeclarations.TabIndex = 28;
+            this.chkReorderScopeDeclarations.Text = "Reorder scope declarations";
+            this.chkReorderScopeDeclarations.UseVisualStyleBackColor = true;
+            // 
+            // chkPreserveImportantComments
+            // 
+            this.chkPreserveImportantComments.AutoSize = true;
+            this.chkPreserveImportantComments.Location = new System.Drawing.Point(0, 360);
+            this.chkPreserveImportantComments.Name = "chkPreserveImportantComments";
+            this.chkPreserveImportantComments.Size = new System.Drawing.Size(165, 17);
+            this.chkPreserveImportantComments.TabIndex = 19;
+            this.chkPreserveImportantComments.Text = "Preserve important comments";
+            this.chkPreserveImportantComments.UseVisualStyleBackColor = true;
             // 
             // txtLineBreakThreshold
             // 
@@ -145,7 +167,7 @@
             // chkStrictMode
             // 
             this.chkStrictMode.AutoSize = true;
-            this.chkStrictMode.Location = new System.Drawing.Point(0, 475);
+            this.chkStrictMode.Location = new System.Drawing.Point(0, 496);
             this.chkStrictMode.Name = "chkStrictMode";
             this.chkStrictMode.Size = new System.Drawing.Size(77, 17);
             this.chkStrictMode.TabIndex = 24;
@@ -155,7 +177,7 @@
             // chkTermSemicolons
             // 
             this.chkTermSemicolons.AutoSize = true;
-            this.chkTermSemicolons.Location = new System.Drawing.Point(0, 452);
+            this.chkTermSemicolons.Location = new System.Drawing.Point(0, 473);
             this.chkTermSemicolons.Name = "chkTermSemicolons";
             this.chkTermSemicolons.Size = new System.Drawing.Size(107, 17);
             this.chkTermSemicolons.TabIndex = 23;
@@ -399,16 +421,6 @@
             this.linkLabelModeInfo.Text = "More information";
             this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
             // 
-            // chkPreserveImportantComments
-            // 
-            this.chkPreserveImportantComments.AutoSize = true;
-            this.chkPreserveImportantComments.Location = new System.Drawing.Point(0, 360);
-            this.chkPreserveImportantComments.Name = "chkPreserveImportantComments";
-            this.chkPreserveImportantComments.Size = new System.Drawing.Size(165, 17);
-            this.chkPreserveImportantComments.TabIndex = 19;
-            this.chkPreserveImportantComments.Text = "Preserve important comments";
-            this.chkPreserveImportantComments.UseVisualStyleBackColor = true;
-            // 
             // MsJs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -416,7 +428,7 @@
             this.Controls.Add(this.linkLabelModeInfo);
             this.Controls.Add(this.gbSetting);
             this.Name = "MsJs";
-            this.Size = new System.Drawing.Size(387, 569);
+            this.Size = new System.Drawing.Size(387, 291);
             this.gbSetting.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -458,5 +470,6 @@
         private System.Windows.Forms.NumericUpDown txtLineBreakThreshold;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkPreserveImportantComments;
+        private System.Windows.Forms.CheckBox chkReorderScopeDeclarations;
     }
 }
