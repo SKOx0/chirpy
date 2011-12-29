@@ -36,6 +36,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.chkStrictMode.Checked = this.Settings.MsJsSettings.StrictMode;
             this.chkTermSemicolons.Checked = this.Settings.MsJsSettings.TermSemicolons;
             this.chkPreserveImportantComments.Checked = this.Settings.MsJsSettings.PreserveImportantComments;
+            this.chkReorderScopeDeclarations.Checked=this.Settings.MsJsSettings.ReorderScopeDeclarations;
 
         }
 
@@ -63,6 +64,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsJsSettings.StrictMode = this.chkStrictMode.Checked;
             this.Settings.MsJsSettings.TermSemicolons = this.chkTermSemicolons.Checked;
             this.Settings.MsJsSettings.PreserveImportantComments = this.chkPreserveImportantComments.Checked;
+            this.Settings.MsJsSettings.ReorderScopeDeclarations=this.chkReorderScopeDeclarations.Checked;
 
             this.Settings.Save();
         }
@@ -71,5 +73,6 @@ namespace Zippy.Chirp.ConfigurationScreen
         {
             System.Diagnostics.Process.Start("http://www.asp.net/ajaxlibrary/AjaxMinDLL.ashx");
         }
+
     }
 }
