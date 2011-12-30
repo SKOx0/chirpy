@@ -804,7 +804,7 @@ namespace Zippy.Chirp
                                 }
                                 else if (propertyInfo.PropertyType == typeof(int))
                                 {
-                                    propertyInfo.SetValue(objectToSave, Convert.ToInt16(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                                    propertyInfo.SetValue(objectToSave, Convert.ToInt32(regKeyOptions.GetValue(propertyInfo.Name)), null);
                                 }
                             }
                         }
