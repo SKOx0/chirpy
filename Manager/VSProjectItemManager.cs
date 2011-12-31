@@ -366,7 +366,7 @@ namespace Zippy.Chirp.Manager
         {
             string prefix = Path.GetFileNameWithoutExtension(fileName);
 
-            if (prefix.Length < 1)
+            if (prefix==null || prefix.Length < 1)
             {
                 throw new Exception("Cannot get filename prefix");
             }

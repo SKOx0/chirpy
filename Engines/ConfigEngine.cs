@@ -56,7 +56,8 @@ namespace Zippy.Chirp.Engines {
             return fullFileName.EndsWith(this.Settings.ChirpConfigFile, StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
         }
 
-        public override void Run(string fullFileName, ProjectItem projectItem) {
+        public override void Run(string fullFileName, ProjectItem projectItem)
+        {
             var fileGroups = this.LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
             var productionFileText = new StringBuilder();
