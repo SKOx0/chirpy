@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace Zippy.Chirp
 {
@@ -653,11 +654,20 @@ namespace Zippy.Chirp
                 }
                 else if (prop.PropertyType == typeof(bool))
                 {
-                    prop.SetValue(this, Convert.ToBoolean(kvp.Value), null);
+                    bool result = false;
+                    if (bool.TryParse(kvp.Value, out result))
+                    {
+                        prop.SetValue(this, result, null);
+                    }
                 }
                 else if (prop.PropertyType == typeof(int))
                 {
-                    prop.SetValue(this, Convert.ToInt32(kvp.Value), null);
+                    Int32 result = 1;
+                    if (Int32.TryParse(kvp.Value, out result))
+                    {
+                        prop.SetValue(this, result, null);
+                    }
+
                 }
             }
         }
@@ -680,14 +690,29 @@ namespace Zippy.Chirp
                     }
 
                     var settings = xRoot.Element(c + "Settings");
+                    if (settings == null)
+                    {
+                        settings = xRoot.Element("Settings");
+                    }
+
                     if (settings != null)
                     {
-                        foreach (var setting in settings.Elements(c + "Setting"))
+
+                        List<XElement> listSetting = new List<XElement>();
+                        listSetting.AddRange(settings.Elements(c + "Setting"));
+                        listSetting.AddRange(settings.Elements("Setting"));
+
+                        foreach (var setting in listSetting)
                         {
-                            if (!initialSettings.ContainsKey(setting.Attribute("key").Value))
+                            var keyElement=setting.Attribute("key");
+                            if (keyElement != null && !initialSettings.ContainsKey(keyElement.Value))
                             {
-                                initialSettings.Add(setting.Attribute("key").Value,
-                                                    setting.Attribute("value").Value);
+                                var valueElement = setting.Attribute("value");
+                                if (valueElement != null)
+                                {
+                                    initialSettings.Add(keyElement.Value,
+                                                        valueElement.Value);
+                                }
                             }
                         }
                     }
