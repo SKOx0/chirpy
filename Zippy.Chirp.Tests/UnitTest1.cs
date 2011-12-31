@@ -81,6 +81,103 @@ namespace Zippy.Chirp.Tests {
 		#endregion
 
 		[TestMethod]
+		public void TestLoadSettingFromConfig()
+		{
+			Settings setting = Settings.Instance();
+			setting.ChirpConfigFile = ".chirp.config";
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "<root><Settings><Setting key=\"ChirpSimpleJsFile\" value=\"testyy.js\"></Setting></Settings></root>";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.ChirpSimpleJsFile == "testyy.js");
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
+		public void TestLoadSettingFromConfig_KeyBadName()
+		{
+			Settings setting = Settings.Instance();
+			setting.ChirpConfigFile = ".chirp.config";
+			setting.ChirpSimpleJsFile = ".simple.js";
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "<root><Settings><Setting keyss=\"ChirpSimpleJsFile\" value=\"testyy.js\"></Setting></Settings></root>";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.ChirpSimpleJsFile == ".simple.js");
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
+		public void TestLoadSettingFromConfig_ValueBadName()
+		{
+			Settings setting = Settings.Instance();
+			setting.ChirpConfigFile = ".chirp.config";
+			setting.ChirpSimpleJsFile = ".simple.js";
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "<root><Settings><Setting key=\"ChirpSimpleJsFile\" valuess=\"testyy.js\"></Setting></Settings></root>";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.ChirpSimpleJsFile == ".simple.js");
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
+		public void TestLoadSettingFromConfig_ValueBadType()
+		{
+			Settings setting = Settings.Instance();
+			setting.T4RunAsBuild = true;
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "<root><Settings><Setting key=\"T4RunAsBuild\" value=\"testyy.js\"></Setting></Settings></root>";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.T4RunAsBuild == true);
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
+		public void TestLoadSettingFromConfig_SetValueBool()
+		{
+			Settings setting = Settings.Instance();
+			setting.T4RunAsBuild = true;
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "<root><Settings><Setting key=\"T4RunAsBuild\" value=\"false\"></Setting></Settings></root>";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.T4RunAsBuild == false);
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
 		public void TestConfigFileWithoutXmlNs()
 		{
 			File.WriteAllText("c:\\test.js", "alert('test');");
