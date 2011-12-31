@@ -228,13 +228,27 @@ namespace Zippy.Chirp.Engines
         protected override void Process(ProjectItem projectItem)
         {
             var fullFileName = projectItem.FileName();
-            
 
-            var detailLog =  Settings.Instance(fullFileName).ShowDetailLog;
-            TaskList.Instance.Remove(fullFileName);
+            bool detailLog = false;
+            List<ActionEngine> actions = null;
+            try
+            {
+                detailLog = Settings.Instance(fullFileName).ShowDetailLog;
+                TaskList.Instance.Remove(fullFileName);
 
-            var actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
-                .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action);
+                actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
+                    .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action).ToList();
+            }
+            catch (System.Exception errorThrow)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Error: {0}. See output window for details.", errorThrow.Message));
+                this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
+            }
+
+            if (detailLog)
+            {
+                this.chirp.OutputWindowPane.OutputString("Action found " + actions.Count().ToString() + " -- " + fullFileName + "\r\n");
+            }
 
             bool transformed = false;
             foreach (var action in actions)
@@ -264,7 +278,7 @@ namespace Zippy.Chirp.Engines
                     this.chirp.OutputWindowPane.OutputString(string.Format("Error: {0}\r\n", errorThrow));
                 }
 
-                if (detailLog) 
+                if (detailLog)
                 {
                     this.chirp.OutputWindowPane.OutputString(action.GetType().Name + " -- finished " + fullFileName + "\r\n");
                 }

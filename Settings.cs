@@ -673,7 +673,13 @@ namespace Zippy.Chirp
                     // var xdoc = new System.Xml.XPath.XPathDocument(file).CreateNavigator();
                     var xdoc = System.Xml.Linq.XDocument.Load(file);
                     System.Xml.Linq.XNamespace c = "urn:ChirpyConfig";
-                    var settings = xdoc.Element(c + "root").Element(c + "Settings");
+                    var xRoot=xdoc.Element(c + "root");
+                    if (xRoot == null)
+                    {
+                        xRoot = xdoc.Element("root");
+                    }
+
+                    var settings = xRoot.Element(c + "Settings");
                     if (settings != null)
                     {
                         foreach (var setting in settings.Elements(c + "Setting"))
