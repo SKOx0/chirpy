@@ -148,7 +148,8 @@ namespace Zippy.Chirp.JavaScript {
             RunFile("csslint");
         }
 
-        public result CSSLINT(string source, options options = null) {
+        public result CSSLINT(string source, options options = null)
+        {
             this["text"] = source;
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -241,26 +242,38 @@ namespace Zippy.Chirp.JavaScript {
                 }
 
                 this[OptionsVarName] = stringBuilder.ToString();
-                stringBuilder.AppendLine(@"var result = CSSLint.verify(text, " + OptionsVarName + ");");
+                stringBuilder.AppendLine("var result ; if (typeof CSSLint != \"undefined\") {result = CSSLint.verify(text, " + OptionsVarName + ");}");
             }
             else
             {
-                stringBuilder.AppendLine(@"var result = CSSLint.verify(text);");
+                stringBuilder.AppendLine("var result ;  if (typeof CSSLint  !=  \"undefined\") {result = CSSLint.verify(text);}");
             }
-           Run(stringBuilder.ToString());
+            Run(stringBuilder.ToString());
 
-            var result = (ObjectInstance)this["result"];
+            try
+            {
+                var result = (ObjectInstance)this["result"];
 
-            return new result {
-                messages = ((ArrayInstance)result.GetPropertyValue("messages"))
-                   .ElementValues.OfType<ObjectInstance>().Select(x => new Message {
-                       col = get(x, "col", 0),
-                       line = get(x, "line", 0),
-                       evidence = get(x, "evidence", string.Empty),
-                       message = get(x, "message", string.Empty),
-                       type = (Message.types)System.Enum.Parse(typeof(Message.types), get(x, "type", string.Empty))
-                   }).ToArray()
-            };
+                return new result
+                {
+                    messages = ((ArrayInstance)result.GetPropertyValue("messages"))
+                       .ElementValues.OfType<ObjectInstance>().Select(x => new Message
+                       {
+                           col = get(x, "col", 0),
+                           line = get(x, "line", 0),
+                           evidence = get(x, "evidence", string.Empty),
+                           message = get(x, "message", string.Empty),
+                           type = (Message.types)System.Enum.Parse(typeof(Message.types), get(x, "type", string.Empty))
+                       }).ToArray()
+                };
+            }
+            catch (InvalidCastException eErrorCast)
+            {
+
+                //don't throw error (undefined result)
+                return new result();
+            }
+
         }
     }
 }

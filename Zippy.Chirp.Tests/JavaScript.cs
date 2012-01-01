@@ -190,6 +190,19 @@ button, input.button {position:relative;top:0.25em;}");
         }
 
         [TestMethod]
+        public void TestCSSLintManyTimeCall()
+        {
+            using (var csslint = new CSSLint())
+            {
+                for (int i = 0; i <= 300; i++)
+                {
+                    var result = csslint.CSSLINT("body {padding-top:0;}");
+                    Assert.AreEqual(0, result.messages.Length);
+                }
+            }
+        }
+
+        [TestMethod]
         public void TestCSSLintWithOptionIdsFalse() {
             CSSLint.options options = new CSSLint.options();
             options.Ids = false;
