@@ -683,7 +683,7 @@ namespace Zippy.Chirp
                     // var xdoc = new System.Xml.XPath.XPathDocument(file).CreateNavigator();
                     var xdoc = System.Xml.Linq.XDocument.Load(file);
                     System.Xml.Linq.XNamespace c = "urn:ChirpyConfig";
-                    var xRoot=xdoc.Element(c + "root");
+                    var xRoot = xdoc.Element(c + "root");
                     if (xRoot == null)
                     {
                         xRoot = xdoc.Element("root");
@@ -704,7 +704,7 @@ namespace Zippy.Chirp
 
                         foreach (var setting in listSetting)
                         {
-                            var keyElement=setting.Attribute("key");
+                            var keyElement = setting.Attribute("key");
                             if (keyElement != null && !initialSettings.ContainsKey(keyElement.Value))
                             {
                                 var valueElement = setting.Attribute("value");
@@ -715,6 +715,13 @@ namespace Zippy.Chirp
                                 }
                             }
                         }
+                    }
+                }
+                catch (System.Xml.XmlException eError)
+                {
+                    if (!eError.Message.Contains("Root element not found") && !eError.Message.Contains("Root element is missing"))
+                    {
+                        throw eError;
                     }
                 }
                 catch (System.IO.IOException)

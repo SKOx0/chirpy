@@ -81,6 +81,26 @@ namespace Zippy.Chirp.Tests {
 		#endregion
 
 		[TestMethod]
+		public void TestLoadSettingFromEmptyConfig()
+		{
+			Settings setting = Settings.Instance();
+			setting.ChirpConfigFile = ".chirp.config";
+			setting.Save();
+
+			File.WriteAllText("c:\\test.js", "alert('test');");
+
+			string configFileName = "c:\\test.chirp.config";
+			string xmlTest = "";
+			File.WriteAllText(configFileName, xmlTest);
+
+			Settings settingFromPath = Settings.Instance("c:\\test.js");
+
+			Assert.IsTrue(settingFromPath.ChirpConfigFile == ".chirp.config");
+			File.Delete(configFileName);
+			File.Delete("c:\\test.js");
+		}
+
+		[TestMethod]
 		public void TestLoadSettingFromConfig()
 		{
 			Settings setting = Settings.Instance();
