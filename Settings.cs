@@ -30,6 +30,9 @@ namespace Zippy.Chirp
         private string chirpMSAjaxJsFile = ".msajax.js";
         private string outputExtensionJS = ".min.js";
         private string chirpDeanEdwardsPackerFile = ".deanpack.js";
+        private bool chirpDeanEdwardsPackerFastDecode = true;
+        private bool chirpDeanEdwardsPackerSpecialChars = true;
+        private Dean.Edwards.ECMAScriptPacker.PackerEncoding chirpDeanEdwardsPackerEncoding = Dean.Edwards.ECMAScriptPacker.PackerEncoding.None;
         private string outputExtensionCSS = ".min.css";
         private string chirpPartialViewFile = ".chirp.ascx";
         private string chirpMichaelAshLessFile = ".michaelash.less";
@@ -100,6 +103,24 @@ namespace Zippy.Chirp
         {
             get { return this.chirpDeanEdwardsPackerFile; }
             set { this.chirpDeanEdwardsPackerFile = value; }
+        }
+
+        public bool  ChirpDeanEdwardsPackerFastDecode
+        {
+            get { return this.chirpDeanEdwardsPackerFastDecode; }
+            set { this.chirpDeanEdwardsPackerFastDecode = value; }
+        }
+
+        public bool ChirpDeanEdwardsPackerSpecialChars
+        {
+            get { return this.chirpDeanEdwardsPackerSpecialChars; }
+            set { this.chirpDeanEdwardsPackerSpecialChars = value; }
+        }
+
+        public Dean.Edwards.ECMAScriptPacker.PackerEncoding ChirpDeanEdwardsPackerEncoding
+        {
+            get { return this.chirpDeanEdwardsPackerEncoding; }
+            set { this.chirpDeanEdwardsPackerEncoding = value; }
         }
 
         public string ChirpJsFile
@@ -493,6 +514,9 @@ namespace Zippy.Chirp
                 regKey.SetValue("chirpMichaelAshScssFile", this.chirpMichaelAshScssFile);
                 regKey.SetValue("chirpHybridScssFile", this.chirpHybridScssFile);
 
+                regKey.SetValue("ChirpDeanEdwardsPackerEncoding", this.ChirpDeanEdwardsPackerEncoding.ToString());
+                regKey.SetValue("ChirpDeanEdwardsPackerFastDecode", this.ChirpDeanEdwardsPackerFastDecode);
+                regKey.SetValue("ChirpDeanEdwardsPackerSpecialChars", this.ChirpDeanEdwardsPackerSpecialChars);
                 regKey.SetValue("ChirpDeanEdwardsPackerFile", this.chirpDeanEdwardsPackerFile);
 
                 regKey.SetValue("ChirpSimpleJsFile", this.ChirpSimpleJsFile);
@@ -543,10 +567,6 @@ namespace Zippy.Chirp
                 {
                     Saved();
                 }
-                else
-                {
-                    System.Windows.Forms.MessageBox.Show("Saved=null");
-                }
             }
         }
         #endregion
@@ -575,6 +595,9 @@ namespace Zippy.Chirp
                     this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
 
                     this.ChirpDeanEdwardsPackerFile = Convert.ToString(regKey.GetValue("ChirpDeanEdwardsPackerFile", ".deanpack.js"));
+                    this.ChirpDeanEdwardsPackerEncoding =(Dean.Edwards.ECMAScriptPacker.PackerEncoding)System.Enum.Parse(typeof(Dean.Edwards.ECMAScriptPacker.PackerEncoding),regKey.GetValue("ChirpDeanEdwardsPackerEncoding", Dean.Edwards.ECMAScriptPacker.PackerEncoding.Normal).ToString());
+                    this.ChirpDeanEdwardsPackerFastDecode = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerFastDecode", true));
+                    this.ChirpDeanEdwardsPackerSpecialChars = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerSpecialChars", true));
 
 
                     this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
