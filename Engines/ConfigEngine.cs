@@ -206,7 +206,7 @@ namespace Zippy.Chirp.Engines {
 
         private IList<FileGroupXml> LoadConfigFileGroups(string configFileName) {
             try {
-                XDocument doc = XDocument.Load(configFileName);
+                 XDocument doc = XDocument.Load(configFileName);
 
                 string appRoot = string.Format("{0}\\", Path.GetDirectoryName(configFileName));
 
