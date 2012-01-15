@@ -84,9 +84,25 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript.cs" />
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="Engines\ClosureCompilerEngineTest.cs" />
+    <Compile Include="Engines\CoffeeScriptEngineTest.cs" />
+    <Compile Include="Engines\ConfigEngineTest.cs" />
+    <Compile Include="Engines\DeanEdwardsPackerEngineTest.cs" />
+    <Compile Include="Engines\JsHintEngineTest.cs" />
+    <Compile Include="Engines\LessEngineTest.cs" />
+    <Compile Include="Engines\MsCssEngineTest.cs" />
+    <Compile Include="Engines\MsJsEngineTest.cs" />
+    <Compile Include="JavaScript\BeautifyTest.cs" />
+    <Compile Include="JavaScript\CSSLintTest.cs" />
+    <Compile Include="JavaScript\JsHintTest.cs" />
+    <Compile Include="JavaScript\UglifyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Engines\SassEngineTest.cs" />
+    <Compile Include="Engines\UglifyJsEngineTest.cs" />
+    <Compile Include="Engines\ViewEngineTest.cs" />
+    <Compile Include="Engines\YuiCssEngineTest.cs" />
+    <Compile Include="Engines\YuiJsEngineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zippy.Chirp.csproj">

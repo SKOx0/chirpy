@@ -17,6 +17,7 @@ namespace Console.Chirp
 
             List<TransformEngine> listTrasformEngine = new List<TransformEngine>();
 
+            listTrasformEngine.Add(new DeanEdwardsPackerEngine());
             listTrasformEngine.Add(new YuiCssEngine());
             listTrasformEngine.Add(new YuiJsEngine());
             listTrasformEngine.Add(new ClosureCompilerEngine());

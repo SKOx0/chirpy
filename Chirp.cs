@@ -56,6 +56,8 @@ namespace Zippy.Chirp {
 
         internal YuiCssEngine YuiCssEngine { get; set; }
 
+        internal DeanEdwardsPackerEngine DeanEdwardsPackerEngine { get; set; } 
+
         internal ClosureCompilerEngine ClosureCompilerEngine { get; set; }
 
         internal MsCssEngine MsCssEngine { get; set; }
@@ -145,6 +147,7 @@ namespace Zippy.Chirp {
             this.engineManager.Clear();
             this.engineManager.Add(YuiCssEngine = new YuiCssEngine());
             this.engineManager.Add(YuiJsEngine = new YuiJsEngine());
+            this.engineManager.Add(DeanEdwardsPackerEngine = new DeanEdwardsPackerEngine());
             this.engineManager.Add(ClosureCompilerEngine = new ClosureCompilerEngine());
             this.engineManager.Add(LessEngine = new LessEngine());
             this.engineManager.Add(MsJsEngine = new MsJsEngine());

@@ -29,6 +29,7 @@ namespace Zippy.Chirp
         private string chirpGctJsFile = ".gct.js";
         private string chirpMSAjaxJsFile = ".msajax.js";
         private string outputExtensionJS = ".min.js";
+        private string chirpDeanEdwardsPackerFile = ".deanpack.js";
         private string outputExtensionCSS = ".min.css";
         private string chirpPartialViewFile = ".chirp.ascx";
         private string chirpMichaelAshLessFile = ".michaelash.less";
@@ -94,6 +95,12 @@ namespace Zippy.Chirp
         public static event Action Saved;
 
         #region Properties
+
+        public string ChirpDeanEdwardsPackerFile
+        {
+            get { return this.chirpDeanEdwardsPackerFile; }
+            set { this.chirpDeanEdwardsPackerFile = value; }
+        }
 
         public string ChirpJsFile
         {
@@ -485,7 +492,8 @@ namespace Zippy.Chirp
                 regKey.SetValue("chirpMSAjaxScssFile", this.chirpMSAjaxScssFile);
                 regKey.SetValue("chirpMichaelAshScssFile", this.chirpMichaelAshScssFile);
                 regKey.SetValue("chirpHybridScssFile", this.chirpHybridScssFile);
-                
+
+                regKey.SetValue("ChirpDeanEdwardsPackerFile", this.chirpDeanEdwardsPackerFile);
 
                 regKey.SetValue("ChirpSimpleJsFile", this.ChirpSimpleJsFile);
                 regKey.SetValue("ChirpWhiteSpaceJsFile", this.ChirpWhiteSpaceJsFile);
@@ -565,6 +573,9 @@ namespace Zippy.Chirp
                     this.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
                     this.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));
                     this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
+
+                    this.ChirpDeanEdwardsPackerFile = Convert.ToString(regKey.GetValue("ChirpDeanEdwardsPackerFile", ".deanpack.js"));
+
 
                     this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
 
@@ -905,6 +916,7 @@ namespace Zippy.Chirp
                  this.ChirpSimpleCoffeeScriptFile, this.ChirpWhiteSpaceCoffeeScriptFile, this.ChirpYUICoffeeScriptFile, this.ChirpMSAjaxCoffeeScriptFile, this.ChirpGctCoffeeScriptFile, this.ChirpCoffeeScriptFile,
                  this.chirpSassFile,this.ChirpMSAjaxSassFile,this.chirpMichaelAshSassFile,this.chirpHybridSassFile,
                  this.chirpScssFile,this.ChirpMSAjaxScssFile,this.chirpMichaelAshScssFile,this.chirpHybridScssFile,
+                 this.chirpDeanEdwardsPackerFile,
                 ".debug.js", ".debug.css"
             };
         }

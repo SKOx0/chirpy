@@ -17,6 +17,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.txtMSAjaxJsFile.Text = this.Settings.ChirpMSAjaxJsFile;
             this.txtUglifyJsFile.Text = this.Settings.ChirpUglifyJsFile;
             this.txtOutputExtension.Text = this.Settings.OutputExtensionJS;
+            this.txtDeanEdwardsPacker.Text = this.Settings.ChirpDeanEdwardsPackerFile;
         }
 
         public override void OnOK()
@@ -28,7 +29,9 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.ChirpMSAjaxJsFile = this.txtMSAjaxJsFile.Text;
             this.Settings.ChirpUglifyJsFile = this.txtUglifyJsFile.Text;
             this.Settings.OutputExtensionJS = this.txtOutputExtension.Text;
+            this.Settings.ChirpDeanEdwardsPackerFile=this.txtDeanEdwardsPacker.Text;
             this.Settings.Save();
         }
+
     }
 }
