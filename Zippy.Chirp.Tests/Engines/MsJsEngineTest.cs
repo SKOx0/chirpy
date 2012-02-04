@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Zippy.Chirp.Tests.Engines
 {
     [TestClass]
-    public class MsJsEngineTest : BaseTest 
+    public class MsJsEngineTest : BaseTest
     {
         private void MsJsDefaultSetting()
         {
@@ -19,7 +19,7 @@ namespace Zippy.Chirp.Tests.Engines
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.MsJsEngine>("c:\\test.js", code);
 
-            Assert.AreEqual(code, "test&&alert(\"test\")");
+            Assert.IsTrue(code.Equals("test&&alert(\"test\")") || code.Equals("test&&alert(\"test\");"));
         }
 
         [TestMethod]

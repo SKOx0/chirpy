@@ -216,7 +216,10 @@ namespace Zippy.Chirp {
              }
 
             try {
-                this.TreatLessAsCss(false);
+                if (new Settings().LessSyntaxHighlighting)
+                {
+                    this.TreatLessAsCss(false);
+                }
             } catch (Exception ex) {
                 this.OutputWindowWriteText("Error in TreatLessAsCss: " + ex.ToString());
             }

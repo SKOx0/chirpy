@@ -41,6 +41,7 @@ namespace Zippy.Chirp
         private string chirpRazorVBViewFile = ".chirp.vbhtml";
         private string chirpMSAjaxLessFile = ".msajax.less";
         private string chirpLessFile = ".chirp.less";
+        private bool lessSyntaxHighlighting = true;
         private string chirpHybridLessFile = ".hybrid.less";
         private string chirpCoffeeScriptFile = ".chirp.coffee";
         private string chirpUglifyJsFile = ".uglify.js";
@@ -235,6 +236,12 @@ namespace Zippy.Chirp
         {
             get { return this.chirpLessFile; }
             set { this.chirpLessFile = value; }
+        }
+
+        public bool LessSyntaxHighlighting 
+        {
+            get { return this.lessSyntaxHighlighting; }
+            set { this.lessSyntaxHighlighting = value; }
         }
 
         public string ChirpMSAjaxLessFile
@@ -500,6 +507,8 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpMSAjaxCssFile", this.ChirpMSAjaxCssFile);
                 regKey.SetValue("ChirpJsFile", this.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", this.ChirpLessFile);
+                regKey.SetValue("LessSyntaxHighlighting", this.LessSyntaxHighlighting);
+                
                 regKey.SetValue("ChirpHybridLessFile", this.ChirpHybridLessFile);
                 regKey.SetValue("ChirpMichaelAshLessFile", this.ChirpMichaelAshLessFile);
                 regKey.SetValue("ChirpMSAjaxLessFile", this.ChirpMSAjaxLessFile);
@@ -589,6 +598,8 @@ namespace Zippy.Chirp
                     this.ChirpGctJsFile = Convert.ToString(regKey.GetValue("ChirpGcJsFile", ".gct.js"));
                     this.ChirpMSAjaxJsFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxJsFile", ".msajax.js"));
                     this.ChirpLessFile = Convert.ToString(regKey.GetValue("ChirpLessFile", ".chirp.less"));
+                    this.LessSyntaxHighlighting = Convert.ToBoolean(regKey.GetValue("LessSyntaxHighlighting", true));
+
                     this.ChirpHybridLessFile = Convert.ToString(regKey.GetValue("ChirpHybridLessFile", ".hybrid.less"));
                     this.ChirpMichaelAshLessFile = Convert.ToString(regKey.GetValue("ChirpMichaelAshLessFile", ".michaelash.less"));
                     this.ChirpMSAjaxLessFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxLessFile", ".msajax.less"));

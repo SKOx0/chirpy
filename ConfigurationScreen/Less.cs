@@ -17,6 +17,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             txtHybridLessFile.Text = this.Settings.ChirpHybridLessFile;
             txtMSAjaxLessFile.Text = this.Settings.ChirpMSAjaxLessFile;
             chkCompress.Checked = this.Settings.DotLessCompress;
+            chkSyntaxHighlight.Checked = this.Settings.LessSyntaxHighlighting;
         }
 
         public override void OnOK()
@@ -26,7 +27,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.ChirpHybridLessFile = txtHybridLessFile.Text;
             this.Settings.ChirpMSAjaxLessFile = txtMSAjaxLessFile.Text;
             this.Settings.DotLessCompress = chkCompress.Checked;
-
+            this.Settings.LessSyntaxHighlighting=chkSyntaxHighlight.Checked;
             this.Settings.Save();
         }
 
