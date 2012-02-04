@@ -11,15 +11,14 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
-
             this.cboColorNames.DataSource = System.Enum.GetNames(typeof(CssColor));
             this.cboCommentMode.DataSource = System.Enum.GetNames(typeof(CssComment));
             this.cboOutputMode.DataSource = System.Enum.GetNames(typeof(OutputMode));
 
             this.chkAllowEmbeddedAspNetBlocks.Checked = this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks;
-            this.cboColorNames.SelectedItem = this.Settings.MsCssSettings.ColorNames;
-            this.cboCommentMode.SelectedItem = this.Settings.MsCssSettings.CommentMode;
-            this.cboOutputMode.SelectedItem = this.Settings.MsCssSettings.OutputMode;
+            this.cboColorNames.Text = this.Settings.MsCssSettings.ColorNames.ToString();
+            this.cboCommentMode.Text = this.Settings.MsCssSettings.CommentMode.ToString();
+            this.cboOutputMode.Text = this.Settings.MsCssSettings.OutputMode.ToString();
             this.chkMinifyExpressions.Checked = this.Settings.MsCssSettings.MinifyExpressions;
             this.txtLineBreakThreshold.Value = this.Settings.MsCssSettings.LineBreakThreshold;
             this.chkTermSemicolons.Checked = this.Settings.MsCssSettings.TermSemicolons;
@@ -27,12 +26,10 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         public override void OnOK()
         {
-
             this.Settings.MsCssSettings.AllowEmbeddedAspNetBlocks = this.chkAllowEmbeddedAspNetBlocks.Checked;
-            this.Settings.MsCssSettings.ColorNames = (CssColor)System.Enum.Parse(typeof(CssColor), cboColorNames.SelectedItem.ToString());
-            this.Settings.MsCssSettings.CommentMode = (CssComment)System.Enum.Parse(typeof(CssComment), cboCommentMode.SelectedItem.ToString());
-
-            this.Settings.MsCssSettings.OutputMode = (OutputMode)System.Enum.Parse(typeof(OutputMode), this.cboOutputMode.SelectedItem.ToString());
+            this.Settings.MsCssSettings.ColorNames = this.cboColorNames.Text.ToEnum(CssColor.Strict);
+            this.Settings.MsCssSettings.CommentMode = this.cboCommentMode.Text.ToEnum(CssComment.Important);
+            this.Settings.MsCssSettings.OutputMode = this.cboOutputMode.Text.ToEnum(OutputMode.SingleLine);
             this.Settings.MsCssSettings.MinifyExpressions = this.chkMinifyExpressions.Checked;
             this.Settings.MsCssSettings.LineBreakThreshold = (int)this.txtLineBreakThreshold.Value;
             this.Settings.MsCssSettings.TermSemicolons = this.chkTermSemicolons.Checked;
