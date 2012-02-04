@@ -56,6 +56,11 @@ namespace Zippy.Chirp
             return (input ?? string.Empty).IndexOf(other, comparison) > -1;
         }
 
+        public static T ToEnum<T>(this string input) where T : struct, IConvertible
+        {
+            return ToEnum<T>(input, default(T));
+        }
+
         public static T ToEnum<T>(this string input, T defaultValue) where T : struct, IConvertible
         {
             input = input ?? string.Empty;

@@ -889,6 +889,11 @@ namespace Zippy.Chirp
                                 {
                                     propertyInfo.SetValue(objectToSave, Convert.ToInt32(regKeyOptions.GetValue(propertyInfo.Name)), null);
                                 }
+                                else if (propertyInfo.PropertyType.IsEnum)
+                                {
+                                    var enumObject = System.Enum.Parse(propertyInfo.PropertyType, regKeyOptions.GetValue(propertyInfo.Name).ToString());
+                                    propertyInfo.SetValue(objectToSave, enumObject, null);
+                                }
                             }
                         }
                         catch (Exception ex)
