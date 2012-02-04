@@ -69,13 +69,15 @@ namespace Zippy.Chirp.Engines {
 
     public static string TransformToCss(string fullFileName, string text, EnvDTE.ProjectItem projectItem) {
       string css = null;
+      Settings settings = Settings.Instance(fullFileName);
 
       lock (LessParser)
         using (new EnvironmentDirectory(fullFileName)) {
           try {
             // The built in static method doesn't throw error messages
-            css = LessParser.Parse(text, fullFileName).AppendCSS();
-
+              dotless.Core.Parser.Infrastructure.Env env=new dotless.Core.Parser.Infrastructure.Env();
+              env.Compress = settings.DotLessCompress;
+              css = LessParser.Parse(text, fullFileName).ToCSS(env);
           } catch (Exception e) {
             int line = 1, column = 1;
             var description = e.Message.Trim();

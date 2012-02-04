@@ -40,11 +40,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpLessFile = new System.Windows.Forms.TextBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
+            this.chkSyntaxHighlight = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkSyntaxHighlight);
             this.groupBox3.Controls.Add(this.chkCompress);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label10);
@@ -56,7 +58,7 @@
             this.groupBox3.Controls.Add(this.txtChirpLessFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 34);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(381, 149);
+            this.groupBox3.Size = new System.Drawing.Size(381, 185);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "LESS";
@@ -150,6 +152,16 @@
             this.linkLabelModeInfo.Text = "More information";
             this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
             // 
+            // chkSyntaxHighlight
+            // 
+            this.chkSyntaxHighlight.AutoSize = true;
+            this.chkSyntaxHighlight.Location = new System.Drawing.Point(9, 149);
+            this.chkSyntaxHighlight.Name = "chkSyntaxHighlight";
+            this.chkSyntaxHighlight.Size = new System.Drawing.Size(192, 17);
+            this.chkSyntaxHighlight.TabIndex = 21;
+            this.chkSyntaxHighlight.Text = "Syntax highlighting (requires restart)";
+            this.chkSyntaxHighlight.UseVisualStyleBackColor = true;
+            // 
             // Less
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,7 +169,7 @@
             this.Controls.Add(this.linkLabelModeInfo);
             this.Controls.Add(this.groupBox3);
             this.Name = "Less";
-            this.Size = new System.Drawing.Size(387, 205);
+            this.Size = new System.Drawing.Size(387, 222);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -178,5 +190,6 @@
         private System.Windows.Forms.TextBox txtChirpLessFile;
         private System.Windows.Forms.CheckBox chkCompress;
         private System.Windows.Forms.LinkLabel linkLabelModeInfo;
+        private System.Windows.Forms.CheckBox chkSyntaxHighlight;
     }
 }

@@ -26,7 +26,7 @@ namespace Zippy.Chirp.Tests.Engines
             string code = "if(test) {\r\n\t alert('test'); }";
             code = TestEngine<Zippy.Chirp.Engines.UglifyEngine>("c:\\test.js", code);
 
-            Assert.AreEqual(code, "test&&alert(\"test\")");
+            Assert.IsTrue(code.Equals("test&&alert(\"test\")") || code.Equals("test&&alert(\"test\");"));
         }
 
         [TestMethod]
