@@ -13,6 +13,8 @@ namespace Zippy.Chirp.Engines {
         private const string RegularJsFile = ".js";
         private const string RegularCoffeeScriptFile = ".coffee";
         private const string RegularLessFile = ".less";
+        private const string RegularSassFile = ".sass";
+        private const string RegularScssFile = ".scss";
         private Dictionary<string, List<string>> dependentFiles =
        new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -58,45 +60,55 @@ namespace Zippy.Chirp.Engines {
 
         public override void Run(string fullFileName, ProjectItem projectItem)
         {
+
             var fileGroups = this.LoadConfigFileGroups(fullFileName);
             string directory = Path.GetDirectoryName(fullFileName);
             var productionFileText = new StringBuilder();
 
-            using (var manager = new Manager.VSProjectItemManager(this.Chirp != null ? this.Chirp.App : null, projectItem)) {
-                foreach (var fileGroup in fileGroups) {
+            using (var manager = new Manager.VSProjectItemManager(this.Chirp != null ? this.Chirp.App : null, projectItem))
+            {
+                foreach (var fileGroup in fileGroups)
+                {
                     productionFileText.Clear();
 
                     bool isJS = this.IsJsFile(fileGroup.GetName);
                     bool isCSS = this.IsCssFile(fileGroup.GetName);
 
                     string fullPath = directory + @"\" + fileGroup.Name;
-                    if (!string.IsNullOrEmpty(fileGroup.Path)) {
+                    if (!string.IsNullOrEmpty(fileGroup.Path))
+                    {
                         fullPath = fileGroup.Path;
                     }
                     string fullPathMin = Utilities.GetBaseFileName(fullPath) + (isJS ? this.Settings.OutputExtensionJS : this.Settings.OutputExtensionCSS);
-                    if (TaskList.Instance != null) {
+                    if (TaskList.Instance != null)
+                    {
                         TaskList.Instance.Remove(fullPath);
                         TaskList.Instance.Remove(fullPathMin);
                     }
 
-                    if (ImageSprite.IsImage(fileGroup.GetName)) {
+                    if (ImageSprite.IsImage(fileGroup.GetName))
+                    {
                         var img = ImageSprite.Build(fileGroup, fullPath);
                         manager.AddFileByFileName(fullPath, img);
                         continue;
                     }
 
-                    foreach (var file in fileGroup.Files) {
+                    foreach (var file in fileGroup.Files)
+                    {
                         var path = file.Path;
                         string code = file.GetCode();
                         string customArg = file.CustomArgument;
 
-                        if ((this.IsLessFile(path) || this.IsCoffeeScriptFile(path) || file.Minify == true) && TaskList.Instance != null) {
+                        if ((this.IsLessFile(path) || this.IsSassFile(path) || this.IsCoffeeScriptFile(path) || file.Minify == true) && TaskList.Instance != null)
+                        {
                             TaskList.Instance.Remove(path);
                         }
 
-                        if (fileGroup.Debug) {
+                        if (fileGroup.Debug)
+                        {
                             var debugCode = "\r\n/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
-                                .F(new {
+                                .F(new
+                                {
                                     Minify = file.Minify.GetValueOrDefault(),
                                     FilePath = path,
                                     Code = isJS ? UglifyEngine.Beautify(code) : code,
@@ -105,16 +117,27 @@ namespace Zippy.Chirp.Engines {
                             productionFileText.AppendLine(debugCode);
                         }
 
-                        if (this.IsLessFile(path)) {
+                        if (this.IsLessFile(path))
+                        {
                             code = LessEngine.TransformToCss(path, code, projectItem);
-                        } else if (this.IsCoffeeScriptFile(path)) {
+                        }
+                        else if (this.IsCoffeeScriptFile(path))
+                        {
                             code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
                         }
+                        else if (this.IsSassFile(path))
+                        {
+                            code = SassEngine.TransformToCss(path, code, projectItem);
+                        }
 
-                        if (file.Minify == true) {
-                            if (this.IsCssFile(path)) {
+                        if (file.Minify == true)
+                        {
+                            if (this.IsCssFile(path))
+                            {
                                 code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
-                            } else if (this.IsJsFile(path)) {
+                            }
+                            else if (this.IsJsFile(path))
+                            {
                                 code = JsEngine.Minify(path, code, projectItem, file.MinifyWith, customArg);
                             }
                         }
@@ -124,15 +147,18 @@ namespace Zippy.Chirp.Engines {
                     string output = productionFileText.ToString();
                     output = Utilities.ProcessText(output, fileGroup.Find, fileGroup.Replace);
 
-                    if (fileGroup.Minify == FileGroupXml.MinifyActions.True) {
+                    if (fileGroup.Minify == FileGroupXml.MinifyActions.True)
+                    {
                         output = isJS ? JsEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith)
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
                     }
 
                     manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : isCSS ? ".css" : System.IO.Path.GetExtension(fullPath)), output);
 
-                    if (fileGroup.Minify == FileGroupXml.MinifyActions.Both) {
-                        if (TaskList.Instance != null) {
+                    if (fileGroup.Minify == FileGroupXml.MinifyActions.Both)
+                    {
+                        if (TaskList.Instance != null)
+                        {
                             TaskList.Instance.Remove(fullPathMin);
                         }
 
@@ -140,12 +166,15 @@ namespace Zippy.Chirp.Engines {
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
                         manager.AddFileByFileName(fullPathMin, output);
                     }
+
                 }
 
-                if (projectItem != null) {
+                if (projectItem != null)
+                {
                     this.ReloadFileDependencies(projectItem);
                 }
             }
+
         }
 
         /// <summary>
@@ -202,6 +231,10 @@ namespace Zippy.Chirp.Engines {
 
         private bool IsJsFile(string fileName) {
             return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsSassFile(string fileName) {
+            return fileName.EndsWith(RegularSassFile, StringComparison.OrdinalIgnoreCase) || fileName.EndsWith(RegularScssFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private IList<FileGroupXml> LoadConfigFileGroups(string configFileName) {
