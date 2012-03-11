@@ -539,6 +539,7 @@ namespace Zippy.Chirp
 
                 regKey.SetValue("ChirpUglifyJsFile", this.ChirpUglifyJsFile);
 
+                regKey.SetValue("ChirpCoffeeScriptFile", this.ChirpCoffeeScriptFile);
                 regKey.SetValue("ChirpSimpleCoffeeScriptFile", this.ChirpSimpleCoffeeScriptFile);
                 regKey.SetValue("ChirpWhiteSpaceCoffeeScriptFile", this.ChirpWhiteSpaceCoffeeScriptFile);
                 regKey.SetValue("ChirpYUICoffeeScriptFile", this.ChirpYUICoffeeScriptFile);
@@ -610,9 +611,6 @@ namespace Zippy.Chirp
                     this.ChirpDeanEdwardsPackerFastDecode = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerFastDecode", true));
                     this.ChirpDeanEdwardsPackerSpecialChars = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerSpecialChars", true));
 
-
-                    this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
-
                     this.chirpSassFile = Convert.ToString(regKey.GetValue("chirpSassFile", ".chirp.sass"));
                     this.chirpMSAjaxSassFile = Convert.ToString(regKey.GetValue("chirpMSAjaxSassFile", ".msajax.sass"));
                     this.chirpMichaelAshSassFile = Convert.ToString(regKey.GetValue("chirpMichaelAshSassFile", ".michaelash.sass"));
@@ -623,6 +621,7 @@ namespace Zippy.Chirp
                     this.chirpMichaelAshScssFile = Convert.ToString(regKey.GetValue("chirpMichaelAshScssFile", ".michaelash.scss"));
                     this.chirpHybridScssFile = Convert.ToString(regKey.GetValue("chirpHybridScssFile", ".hybrid.scss"));
 
+                    this.ChirpCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpCoffeeScriptFile", ".chirp.coffee"));
                     this.ChirpSimpleCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpSimpleCoffeeScriptFile", ".simple.coffee"));
                     this.ChirpWhiteSpaceCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpWhiteSpaceCoffeeScriptFile", ".whitespace.coffee"));
                     this.ChirpYUICoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpYUICoffeeScriptFile", ".yui.coffee"));
