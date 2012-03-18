@@ -196,7 +196,8 @@ namespace Zippy.Chirp.Engines {
             }
 
             IEnumerable<string> dependents;
-            if (configFileName.EndsWith(".less", StringComparison.InvariantCultureIgnoreCase)) {
+            if (IsLessFile(configFileName))
+            {
                 var root = System.IO.Path.GetDirectoryName(projectItem.ContainingProject.FullName);
                 var text = System.IO.File.ReadAllText(configFileName);
                 var imports = LessEngine.FindDependencies(configFileName, text, root);
