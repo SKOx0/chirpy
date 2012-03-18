@@ -216,16 +216,17 @@ namespace Zippy.Chirp {
              }
 
             try {
-                if (new Settings().LessSyntaxHighlighting)
+                if (Settings.Instance().LessSyntaxHighlighting)
                 {
-                    this.TreatLessAsCss(false);
+                    this.TreatLessAsCss(true);
                 }
             } catch (Exception ex) {
                 this.OutputWindowWriteText("Error in TreatLessAsCss: " + ex.ToString());
             }
 
             // ensures the output window is lazy loaded so the multiple threads don't compete for and end up creating several
-            if (new Settings().ShowDetailLog) {
+            if (Settings.Instance().ShowDetailLog)
+            {
                 this.OutputWindowWriteText("Ready");
             }
         }
