@@ -219,7 +219,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         private bool IsLessFile(string fileName) {
-            return fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase);
+            return (fileName.EndsWith(RegularLessFile, StringComparison.OrdinalIgnoreCase)|| Settings.AllLessExtensions.Any(x=>fileName.EndsWith(x,StringComparison.OrdinalIgnoreCase)));
         }
 
         private bool IsCoffeeScriptFile(string fileName) {

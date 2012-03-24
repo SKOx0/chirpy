@@ -74,6 +74,7 @@ namespace Zippy.Chirp
         private bool dotLessCompress = true;
         private bool showDetailLog = true;
         private string[] allExtensions;
+        private string[] allLessExtensions;
         private Xml.MinifyType defaultCssMinifier = Xml.MinifyType.yui;
         private Xml.MinifyType defaultJavaScriptMinifier = Xml.MinifyType.yui;
         #endregion
@@ -106,7 +107,7 @@ namespace Zippy.Chirp
             set { this.chirpDeanEdwardsPackerFile = value; }
         }
 
-        public bool  ChirpDeanEdwardsPackerFastDecode
+        public bool ChirpDeanEdwardsPackerFastDecode
         {
             get { return this.chirpDeanEdwardsPackerFastDecode; }
             set { this.chirpDeanEdwardsPackerFastDecode = value; }
@@ -142,7 +143,7 @@ namespace Zippy.Chirp
             set { this.chirpWhiteSpaceJsFile = value; }
         }
 
-        public string ChirpSassFile 
+        public string ChirpSassFile
         {
             get { return this.chirpSassFile; }
             set { this.chirpSassFile = value; }
@@ -166,7 +167,7 @@ namespace Zippy.Chirp
             set { this.chirpMichaelAshSassFile = value; }
         }
 
-        public string ChirpScssFile 
+        public string ChirpScssFile
         {
             get { return this.chirpScssFile; }
             set { this.chirpScssFile = value; }
@@ -238,7 +239,7 @@ namespace Zippy.Chirp
             set { this.chirpLessFile = value; }
         }
 
-        public bool LessSyntaxHighlighting 
+        public bool LessSyntaxHighlighting
         {
             get { return this.lessSyntaxHighlighting; }
             set { this.lessSyntaxHighlighting = value; }
@@ -358,6 +359,12 @@ namespace Zippy.Chirp
             set { this.dotLessCompress = value; }
         }
 
+        public string[] AllLessExtensions
+        {
+            get { return this.allLessExtensions; }
+            set { this.allLessExtensions = value; }
+        }
+
         public string[] AllExtensions
         {
             get { return this.allExtensions; }
@@ -382,10 +389,10 @@ namespace Zippy.Chirp
             set;
         }
 
-        public Microsoft.Ajax.Utilities.CodeSettings MsJsSettings 
-        { 
-            get; 
-            set; 
+        public Microsoft.Ajax.Utilities.CodeSettings MsJsSettings
+        {
+            get;
+            set;
         }
 
         public Microsoft.Ajax.Utilities.CssSettings MsCssSettings
@@ -394,10 +401,10 @@ namespace Zippy.Chirp
             set;
         }
 
-        public Yui.CssSettings YuiCssSettings 
+        public Yui.CssSettings YuiCssSettings
         {
             get;
-            set; 
+            set;
         }
 
         public Yui.JsSettings YuiJsSettings
@@ -470,7 +477,7 @@ namespace Zippy.Chirp
         #region Public Methods
 
         private static Settings instance;
-       
+
 
         /// <summary>
         /// Instance settings class (for save screen)
@@ -501,14 +508,14 @@ namespace Zippy.Chirp
         {
             using (var regKey = Registry.CurrentUser.OpenSubKey(RegWDS, true) ?? Registry.CurrentUser.CreateSubKey(RegWDS))
             {
-                 regKey.SetValue("ChirpCssFile", this.ChirpCssFile);
+                regKey.SetValue("ChirpCssFile", this.ChirpCssFile);
                 regKey.SetValue("ChirpHybridCssFile", this.ChirpHybridCssFile);
                 regKey.SetValue("ChirpMichaelAshCssFile", this.ChirpMichaelAshCssFile);
                 regKey.SetValue("ChirpMSAjaxCssFile", this.ChirpMSAjaxCssFile);
                 regKey.SetValue("ChirpJsFile", this.ChirpJsFile);
                 regKey.SetValue("ChirpLessFile", this.ChirpLessFile);
                 regKey.SetValue("LessSyntaxHighlighting", this.LessSyntaxHighlighting);
-                
+
                 regKey.SetValue("ChirpHybridLessFile", this.ChirpHybridLessFile);
                 regKey.SetValue("ChirpMichaelAshLessFile", this.ChirpMichaelAshLessFile);
                 regKey.SetValue("ChirpMSAjaxLessFile", this.ChirpMSAjaxLessFile);
@@ -546,7 +553,7 @@ namespace Zippy.Chirp
                 regKey.SetValue("ChirpGcCoffeeScriptFile", this.ChirpGctCoffeeScriptFile);
                 regKey.SetValue("ChirpMSAjaxCoffeeScriptFile", this.ChirpMSAjaxCoffeeScriptFile);
                 regKey.SetValue("ChirpUglifyCoffeeScriptFile", this.ChirpUglifyCoffeeScriptFile);
-              
+
                 regKey.SetValue("OutputExtensionCSS", this.outputExtensionCSS);
                 regKey.SetValue("OutputExtensionJS", this.outputExtensionJS);
 
@@ -570,7 +577,7 @@ namespace Zippy.Chirp
                 this.SaveOptionsInRegistry(RegWDSMsJs, this.MsJsSettings);
                 this.SaveOptionsInRegistry(RegWDSYuiCSS, this.YuiCssSettings);
                 this.SaveOptionsInRegistry(RegWDSYuiJs, this.YuiJsSettings);
-               
+
                 this.LoadExtensions();
 
                 if (Saved != null)
@@ -607,7 +614,7 @@ namespace Zippy.Chirp
                     this.ChirpUglifyJsFile = Convert.ToString(regKey.GetValue("ChirpUglifyJsFile", ".uglify.js"));
 
                     this.ChirpDeanEdwardsPackerFile = Convert.ToString(regKey.GetValue("ChirpDeanEdwardsPackerFile", ".deanpack.js"));
-                    this.ChirpDeanEdwardsPackerEncoding =(Dean.Edwards.ECMAScriptPacker.PackerEncoding)System.Enum.Parse(typeof(Dean.Edwards.ECMAScriptPacker.PackerEncoding),regKey.GetValue("ChirpDeanEdwardsPackerEncoding", Dean.Edwards.ECMAScriptPacker.PackerEncoding.Normal).ToString());
+                    this.ChirpDeanEdwardsPackerEncoding = (Dean.Edwards.ECMAScriptPacker.PackerEncoding)System.Enum.Parse(typeof(Dean.Edwards.ECMAScriptPacker.PackerEncoding), regKey.GetValue("ChirpDeanEdwardsPackerEncoding", Dean.Edwards.ECMAScriptPacker.PackerEncoding.Normal).ToString());
                     this.ChirpDeanEdwardsPackerFastDecode = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerFastDecode", true));
                     this.ChirpDeanEdwardsPackerSpecialChars = Convert.ToBoolean(regKey.GetValue("ChirpDeanEdwardsPackerSpecialChars", true));
 
@@ -628,7 +635,7 @@ namespace Zippy.Chirp
                     this.ChirpGctCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpGcCoffeeScriptFile", ".gct.coffee"));
                     this.ChirpMSAjaxCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpMSAjaxCoffeeScriptFile", ".msajax.coffee"));
                     this.ChirpUglifyCoffeeScriptFile = Convert.ToString(regKey.GetValue("ChirpUglifyCoffeeScriptFile", ".uglify.coffee"));
-                   
+
                     // Settings.ChirpLessCssFile = Convert.ToString(regKey.GetValue("ChirpLessCssFile", ".chirp.less.css"));
                     this.ChirpCssFile = Convert.ToString(regKey.GetValue("ChirpCssFile", ".chirp.css"));
                     this.ChirpHybridCssFile = Convert.ToString(regKey.GetValue("ChirpHybridCssFile", ".hybrid.css"));
@@ -852,7 +859,8 @@ namespace Zippy.Chirp
             }
         }
 
-        private void LoadOptionsFromRegistry<T>(string regKey, T objectToSave) {
+        private void LoadOptionsFromRegistry<T>(string regKey, T objectToSave)
+        {
             LoadOptionsFromRegistry(regKey, typeof(T), objectToSave);
         }
 
@@ -916,7 +924,8 @@ namespace Zippy.Chirp
             }
         }
 
-        private void SaveOptionsInRegistry<T>(string regKey,T objectToSave) {
+        private void SaveOptionsInRegistry<T>(string regKey, T objectToSave)
+        {
             SaveOptionsInRegistry(regKey, typeof(T), objectToSave);
         }
 
@@ -939,7 +948,7 @@ namespace Zippy.Chirp
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 Debug.WriteLine("Chrip - failed to save: " + ex.Message);
                 System.Windows.Forms.MessageBox.Show("Chrip - failed to save: " + ex.Message);
             }
@@ -957,8 +966,13 @@ namespace Zippy.Chirp
                  this.chirpDeanEdwardsPackerFile,
                 ".debug.js", ".debug.css"
             };
+
+            this.AllLessExtensions = new[]
+            {
+            this.ChirpHybridLessFile,this.ChirpLessFile,this.ChirpMichaelAshLessFile,this.ChirpMSAjaxLessFile
+            };
+
         }
 
-      
     }
 }
