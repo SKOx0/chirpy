@@ -9,7 +9,7 @@ namespace Zippy.Chirp.Tests
 {
 	public abstract class BaseTest
 	{
-			Zippy.Chirp.Chirp chirp;
+			internal Zippy.Chirp.Chirp chirp;
 
 		DTE2 app;
 		TaskList tasks;
