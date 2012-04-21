@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zippy.Chirp.Engines;
 using Zippy.Chirp.JavaScript;
+using System.IO;
 
 namespace Zippy.Chirp.Tests.Engines
 {
@@ -35,6 +36,27 @@ namespace Zippy.Chirp.Tests.Engines
 			Assert.AreEqual(@"C:\test\test\4.less".ToUri(), imports.ElementAtOrDefault(3));
 			Assert.AreEqual(@"C:\test\temp\test\5.less".ToUri(), imports.ElementAtOrDefault(4));
 		}
+
+//        [TestMethod]
+//        public void TestLessDependenciesConfigEngine()
+//        {
+//            //workitem:122
+//            var code = @"
+//					@import url(test/1);
+//					@import url('..\test\2');
+//					@import url(""/test/3"");
+//					@import '../test/4';
+//					@import ""./test/5"";              
+//				";
+
+//            string filePath = @"c:\test.less";
+//            File.WriteAllText(filePath, code);
+//            var projectItem = base.GetProjectItem(filePath);
+
+//            ConfigEngine config = new ConfigEngine();
+//            config.ReloadFileDependencies(projectItem);
+//            File.Delete(filePath);
+//        }
 
 		[TestMethod]
 		public void TestLessEngine()

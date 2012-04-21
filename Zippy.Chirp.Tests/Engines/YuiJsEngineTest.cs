@@ -27,6 +27,23 @@ namespace Zippy.Chirp.Tests.Engines
         }
 
         [TestMethod]
+        public void TestYuiJsEngineSingleineOutput()
+        {
+            Settings setting = Settings.Instance();
+            setting.YuiJsSettings.DisableOptimizations = false;
+            setting.YuiJsSettings.IsObfuscateJavascript = true;
+            setting.YuiJsSettings.PreserveAllSemiColons = true;
+            setting.YuiJsSettings.LineBreakPosition = 0;
+            setting.Save();
+
+            string code = "function test(){\n var a=1; \n var b=2; \n } \n";
+            code = TestEngine<Zippy.Chirp.Engines.YuiJsEngine>("c:\\test.js", code);
+
+            Assert.IsTrue(code == "function test(){var c=1;var d=2;}");
+            Assert.AreEqual(TaskList.Instance.Errors.Count(), 0);
+        }
+
+        [TestMethod]
         public void TestYuiJsEngineThrowTaskListErrorOnJsError()
         {
             this.YuiJsDefaultSetting();
