@@ -154,5 +154,25 @@ namespace Zippy.Chirp.Tests.Engines
             File.Delete("c:\\test.js");
             File.Delete("c:\\scripts.combined.js");
         }
+
+        [TestMethod]
+        public void TestConfigFileGenerateFileWithDebugInName()
+        {
+            //workitem:134
+
+            File.WriteAllText("c:\\test.js", "alert('test');");
+            string configFileName = "c:\\test.xml";
+            string xmlTest = "<root><FileGroup Name=\"podPlayers.debug.js\"><File Path=\"test.js\" Minify=\"false\" /></FileGroup><FileGroup Name=\"podPlayers.min.js\"><File Path=\"test.js\" Minify=\"true\" /></FileGroup></root>";
+            File.WriteAllText(configFileName, xmlTest);
+
+            TestActionEngine<Zippy.Chirp.Engines.ConfigEngine>(configFileName, xmlTest);
+
+            Assert.IsTrue(File.Exists("c:\\podPlayers.debug.js"), "File group debug don't work");
+            Assert.IsTrue(File.Exists("c:\\podPlayers.min.js"), "File group min don't work");
+            File.Delete(configFileName);
+            File.Delete("c:\\test.js");
+            File.Delete("c:\\podPlayers.debug.js");
+            File.Delete("c:\\podPlayers.min.js");
+        }
     }
 }

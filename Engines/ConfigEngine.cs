@@ -153,7 +153,8 @@ namespace Zippy.Chirp.Engines {
                             : CssEngine.Minify(fullPath, output, projectItem, fileGroup.MinifyWith);
                     }
 
-                    manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : isCSS ? ".css" : System.IO.Path.GetExtension(fullPath)), output);
+                    //manager.AddFileByFileName(Utilities.GetBaseFileName(fullPath) + (isJS ? ".js" : isCSS ? ".css" : System.IO.Path.GetExtension(fullPath)), output);
+                    manager.AddFileByFileName(fullPath, output);
 
                     if (fileGroup.Minify == FileGroupXml.MinifyActions.Both)
                     {
