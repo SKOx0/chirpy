@@ -24,15 +24,15 @@ namespace Zippy.Chirp.ConfigurationScreen
                 this.TxtMaxerr.Value = this.Settings.JsHintOptions.maxerr.Value;
             }
 
-            this.chkNewcap.Checked = this.Settings.JsHintOptions.newcapp;
+            this.chkNewcap.Checked = this.Settings.JsHintOptions.newcap;
             this.chkNoArg.Checked = this.Settings.JsHintOptions.noarg;
             this.chkNoEmpty.Checked = this.Settings.JsHintOptions.noempty;
             this.chkNomen.Checked = this.Settings.JsHintOptions.nomen;
             this.chkNoNew.Checked = this.Settings.JsHintOptions.nonew;
-            this.chkNoVar.Checked = this.Settings.JsHintOptions.novar;
+            this.chkNoVar.Checked = this.Settings.JsHintOptions.onevar;
             this.chkPassfail.Checked = this.Settings.JsHintOptions.passfail;
             this.chkPlusPlus.Checked = this.Settings.JsHintOptions.plusplus;
-            this.chkRegex.Checked = this.Settings.JsHintOptions.regex;
+            this.chkRegex.Checked = this.Settings.JsHintOptions.regexp;
             this.chkStrict.Checked = this.Settings.JsHintOptions.strict;
             this.chkSub.Checked = this.Settings.JsHintOptions.sub;
             this.chkUndef.Checked = this.Settings.JsHintOptions.undef;
@@ -53,15 +53,15 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.JsHintOptions.immed = this.chkImmed.Checked;
             this.Settings.JsHintOptions.laxbreak = this.chkLaxbreak.Checked;
             this.Settings.JsHintOptions.maxerr = (int)this.TxtMaxerr.Value;
-            this.Settings.JsHintOptions.newcapp = this.chkNewcap.Checked;
+            this.Settings.JsHintOptions.newcap = this.chkNewcap.Checked;
             this.Settings.JsHintOptions.noarg = this.chkNoArg.Checked;
             this.Settings.JsHintOptions.noempty = this.chkNoEmpty.Checked;
             this.Settings.JsHintOptions.nomen = this.chkNomen.Checked;
             this.Settings.JsHintOptions.nonew = this.chkNoNew.Checked;
-            this.Settings.JsHintOptions.novar = this.chkNoVar.Checked;
+            this.Settings.JsHintOptions.onevar = this.chkNoVar.Checked;
             this.Settings.JsHintOptions.passfail = this.chkPassfail.Checked;
             this.Settings.JsHintOptions.plusplus = this.chkPlusPlus.Checked;
-            this.Settings.JsHintOptions.regex = this.chkRegex.Checked;
+            this.Settings.JsHintOptions.regexp = this.chkRegex.Checked;
             this.Settings.JsHintOptions.strict = this.chkStrict.Checked;
             this.Settings.JsHintOptions.sub = this.chkSub.Checked;
             this.Settings.JsHintOptions.undef = this.chkUndef.Checked;
