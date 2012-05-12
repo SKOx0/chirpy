@@ -34,7 +34,7 @@ namespace Zippy.Chirp.Tests.JavaScript
         {
             string code = "function test(){ if(true) return (/./).test(''); }";
             JSHint.result[] result;
-            result = JSHint.JSHINT(code, new JSHint.options { regex = true, curly = true });
+            result = JSHint.JSHINT(code, new JSHint.options { regexp = true, curly = true });
             result.Should().Not.Be.Null();
             result.Length.Should().Be.InRange(1, 9999);
             result[0].reason.Should().Contain("Expected '{'");

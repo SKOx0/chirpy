@@ -46,7 +46,7 @@ namespace Zippy.Chirp.JavaScript {
             public int? maxerr { get; set; }
 
             [Description("Require that you capitalize all constructor functions"), Category("Options")]
-            public bool newcapp { get; set; }
+            public bool newcap { get; set; }
 
             [Description("Prohibit the use of arguments.caller and arguments.callee"), Category("Options")]
             public bool noarg { get; set; }
@@ -61,7 +61,7 @@ namespace Zippy.Chirp.JavaScript {
             public bool nomen { get; set; }
 
             [Description("Allow only one var statement per function"), Category("Options")]
-            public bool novar { get; set; }
+            public bool onevar { get; set; }
 
             [Description("Stop on the first error it encounter"), Category("Options")]
             public bool passfail { get; set; }
@@ -69,8 +69,8 @@ namespace Zippy.Chirp.JavaScript {
             [Description("Prohibit the use of increment and decrement operators"), Category("Options")]
             public bool plusplus { get; set; }
 
-            [Description("Disallow . and [^...] in regular expressions"), Category("Options")]
-            public bool regex { get; set; }
+            [Description("Prohibit the use of unsafe in regular expressions"), Category("Options")]
+            public bool regexp { get; set; }
 
             [Description("Require all non-global variables be declared before they are used"), Category("Options")]
             public bool undef { get; set; }
