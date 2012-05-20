@@ -18,6 +18,21 @@ namespace Zippy.Chirp.Xml {
                     ? Types.JS : Types.CSS;
             }
 
+            this.Engine = ((string)xElement.Attribute("Engine")).ToEnum(EngineType.Unspecified);
+            if (this.Engine != EngineType.Unspecified)
+            {
+                switch (this.Engine)
+                {
+                    case EngineType.Unspecified:
+                        break;
+                    case EngineType.Less:
+                        this.Type = Types.CSS;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             if (xElement.Name.LocalName == "Raw" && path.IsNullOrEmpty()) {
                 path = "~raw." + this.Type.ToString().ToLower();
             }
@@ -59,6 +74,8 @@ namespace Zippy.Chirp.Xml {
         public bool? Minify { get; set; }
 
         public MinifyType MinifyWith { get; set; }
+
+        public EngineType Engine { get; set; }
 
         public string CustomArgument { get; set; }
 

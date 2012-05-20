@@ -174,5 +174,27 @@ namespace Zippy.Chirp.Tests.Engines
             File.Delete("c:\\podPlayers.debug.js");
             File.Delete("c:\\podPlayers.min.js");
         }
+
+        [TestMethod]
+        public void TestConfigFileEngineLess()
+        {
+             File.WriteAllText("c:\\test.css", "@brand_color: #4D926F;#header {color: @brand_color;}");
+            string configFileName = "c:\\test.xml";
+            string cssFile = "test.less.css";
+            string xmlTest = "<root><FileGroup Name=\"test.less.css\"><File Path=\"test.css\" Minify=\"false\" Engine=\"Less\" /></FileGroup></root>";
+            File.WriteAllText(configFileName, xmlTest);
+
+            TestActionEngine<Zippy.Chirp.Engines.ConfigEngine>(configFileName, xmlTest);
+
+            Assert.IsTrue(File.Exists("c:\\test.less.css"), "File group debug don't work");
+
+            string cssContent=File.ReadAllText("c:\\" + cssFile);
+            Assert.IsTrue(! cssContent.Contains("@brand_color"));
+
+            File.Delete(configFileName);
+            File.Delete("c:\\test.css");
+            File.Delete("c:\\test.less.css");
+        }
+
     }
 }

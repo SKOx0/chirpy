@@ -67,6 +67,7 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
                         <xs:attribute name="Path" use="required" type="xs:string" />
                         <xs:attribute name="Minify" type="MinifyAction" />
                         <xs:attribute name="MinifyWith" type="MinifyType" />
+                      <xs:attribute name="Engine" type="Engine" />
                         <xs:attribute name="CustomArgument" type="xs:string" />
                         <xs:attribute name="Find" type="xs:string" />
                         <xs:attribute name="Replace" type="xs:string" />
@@ -112,6 +113,11 @@ in config file add in node root xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
             <xs:enumeration value="jsBeautifier" />
         </xs:restriction>
     </xs:simpleType>
+  <xs:simpleType name="Engine">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Less" />
+    </xs:restriction>
+  </xs:simpleType>
     <xs:simpleType name="MinifyAction">
         <xs:restriction base="xs:string">
             <xs:enumeration value="true" />
