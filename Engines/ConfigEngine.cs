@@ -99,48 +99,51 @@ namespace Zippy.Chirp.Engines {
                         string code = file.GetCode();
                         string customArg = file.CustomArgument;
 
-                        if ((this.IsLessFile(path) || this.IsSassFile(path) || this.IsCoffeeScriptFile(path) || file.Minify == true) && TaskList.Instance != null)
-                        {
-                            TaskList.Instance.Remove(path);
-                        }
 
-                        if (fileGroup.Debug)
-                        {
-                            var debugCode = "\r\n/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
-                                .F(new
+                        if (((this.IsLessFile(path) || file.Engine == EngineType.Less) || this.IsSassFile(path) || this.IsCoffeeScriptFile(path) || file.Minify == true) && TaskList.Instance != null)
+                            {
+                                TaskList.Instance.Remove(path);
+                            }
+
+                            if (fileGroup.Debug)
+                            {
+                                var debugCode = "\r\n/* Chirpy Minify: {Minify}, MinifyWith: {MinifyWith}, File: {FilePath} */\r\n{Code}"
+                                    .F(new
+                                    {
+                                        Minify = file.Minify.GetValueOrDefault(),
+                                        FilePath = path,
+                                        Code = isJS ? UglifyEngine.Beautify(code) : code,
+                                        MinifyWith = file.MinifyWith.ToString()
+                                    });
+                                productionFileText.AppendLine(debugCode);
+                            }
+
+                            if (this.IsLessFile(path) || file.Engine==EngineType.Less)
+                            {
+                                code = LessEngine.TransformToCss(path, code, projectItem);
+                            }
+                            else if (this.IsCoffeeScriptFile(path))
+                            {
+                                code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
+                            }
+                            else if (this.IsSassFile(path))
+                            {
+                                code = SassEngine.TransformToCss(path, code, projectItem);
+                            }
+
+                            if (file.Minify == true)
+                            {
+                                if (this.IsCssFile(path))
                                 {
-                                    Minify = file.Minify.GetValueOrDefault(),
-                                    FilePath = path,
-                                    Code = isJS ? UglifyEngine.Beautify(code) : code,
-                                    MinifyWith = file.MinifyWith.ToString()
-                                });
-                            productionFileText.AppendLine(debugCode);
-                        }
-
-                        if (this.IsLessFile(path))
-                        {
-                            code = LessEngine.TransformToCss(path, code, projectItem);
-                        }
-                        else if (this.IsCoffeeScriptFile(path))
-                        {
-                            code = CoffeeScriptEngine.TransformToJs(path, code, projectItem);
-                        }
-                        else if (this.IsSassFile(path))
-                        {
-                            code = SassEngine.TransformToCss(path, code, projectItem);
-                        }
-
-                        if (file.Minify == true)
-                        {
-                            if (this.IsCssFile(path))
-                            {
-                                code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                    code = CssEngine.Minify(path, code, projectItem, file.MinifyWith);
+                                }
+                                else if (this.IsJsFile(path))
+                                {
+                                    code = JsEngine.Minify(path, code, projectItem, file.MinifyWith, customArg);
+                                }
                             }
-                            else if (this.IsJsFile(path))
-                            {
-                                code = JsEngine.Minify(path, code, projectItem, file.MinifyWith, customArg);
-                            }
-                        }
+                        
+
                         productionFileText.AppendLine(code);
                     }
 

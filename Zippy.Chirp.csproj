@@ -268,6 +268,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TaskList.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Xml\EngineType.cs" />
     <Compile Include="Xml\FileGroupXml.cs" />
     <Compile Include="Xml\FileXml.cs" />
     <Compile Include="Xml\FolderXml.cs" />
