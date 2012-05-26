@@ -869,43 +869,58 @@ namespace Zippy.Chirp
             RegistryKey regKeyOptions = null;
             try
             {
-                regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, false);
-                if (regKeyOptions != null)
+                if (!string.IsNullOrWhiteSpace(regKey))
                 {
-                    PropertyInfo[] propertyInfos;
-                    propertyInfos = objectType.GetProperties();
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    regKeyOptions = Registry.CurrentUser.OpenSubKey(regKey, false);
+                    if (regKeyOptions != null)
                     {
-                        try
+                        PropertyInfo[] propertyInfos;
+                        propertyInfos = objectType.GetProperties();
+                        if (propertyInfos != null)
                         {
-                            if (propertyInfo.CanWrite)
+                            foreach (PropertyInfo propertyInfo in propertyInfos)
                             {
-                                if (propertyInfo.PropertyType == typeof(bool))
+                                try
                                 {
-                                    bool tempValue = false;
-                                    if (bool.TryParse(regKeyOptions.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                    if (propertyInfo.CanWrite)
                                     {
-                                        propertyInfo.SetValue(objectToSave, tempValue, null);
+                                        if (propertyInfo.PropertyType == typeof(bool))
+                                        {
+                                            bool tempValue = false;
+                                            if (bool.TryParse(regKeyOptions.GetValue(propertyInfo.Name, false).ToString(), out tempValue))
+                                            {
+                                                propertyInfo.SetValue(objectToSave, tempValue, null);
+                                            }
+                                        }
+                                        else if (propertyInfo.PropertyType == typeof(string))
+                                        {
+                                            propertyInfo.SetValue(objectToSave, regKeyOptions.GetValue(propertyInfo.Name,string.Empty), null);
+                                        }
+                                        else if (propertyInfo.PropertyType == typeof(int))
+                                        {
+                                            if (regKeyOptions.GetValue(propertyInfo.Name) != null)
+                                            {
+                                                propertyInfo.SetValue(objectToSave, Convert.ToInt32(regKeyOptions.GetValue(propertyInfo.Name)), null);
+                                            }
+                                        }
+                                        else if (propertyInfo.PropertyType.IsEnum)
+                                        {
+                                            if (regKeyOptions.GetValue(propertyInfo.Name) != null)
+                                            {
+                                                var enumObject = System.Enum.Parse(propertyInfo.PropertyType, regKeyOptions.GetValue(propertyInfo.Name).ToString());
+                                                propertyInfo.SetValue(objectToSave, enumObject, null);
+                                            }
+                                        }
                                     }
                                 }
-                                else if (propertyInfo.PropertyType == typeof(string))
+                                catch (Exception ex)
                                 {
-                                    propertyInfo.SetValue(objectToSave, regKeyOptions.GetValue(propertyInfo.Name), null);
-                                }
-                                else if (propertyInfo.PropertyType == typeof(int))
-                                {
-                                    propertyInfo.SetValue(objectToSave, Convert.ToInt32(regKeyOptions.GetValue(propertyInfo.Name)), null);
-                                }
-                                else if (propertyInfo.PropertyType.IsEnum)
-                                {
-                                    var enumObject = System.Enum.Parse(propertyInfo.PropertyType, regKeyOptions.GetValue(propertyInfo.Name).ToString());
-                                    propertyInfo.SetValue(objectToSave, enumObject, null);
+                                    
+                                    Debug.WriteLine("Chrip - failed to load: " + ex.Message);
+                                    //Solve error Chirp - failed to load : CssType=object refernce not set .....
+                                    System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Windows.Forms.MessageBox.Show("Chrip - failed to load: " + propertyInfo.Name + "=" + ex.Message);
                         }
                     }
                 }

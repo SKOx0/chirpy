@@ -19,7 +19,7 @@ copy Zippy10.AddIn Zippy.AddIn
 rename Chirpy.zip Chirpy-VisualStudio2010.vsi
 
 REM VS 11
-del Chirpy-VisualStudio2011.vsi
+del Chirpy-VisualStudio11.vsi
 del Chirpy.zip
 del Zippy.AddIn
 copy Zippy11.AddIn Zippy.AddIn
