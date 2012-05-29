@@ -26,6 +26,16 @@ copy Zippy11.AddIn Zippy.AddIn
 7za.exe u Chirpy.zip Chirpy.dll Chirpy.vscontent Zippy.AddIn "compiler.jar" "SassAndCoffee.Core.dll" "Microsoft.Dynamic.dll" "Microsoft.Scripting.dll" "Microsoft.Scripting.Metadata.dll" "IronRuby.dll" "IronRuby.Libraries.dll" "IronRuby.Libraries.Yaml.dll"
 rename Chirpy.zip Chirpy-VisualStudio11.vsi
 
+
+REM VS v9,v10,v11
+del Chirpy-VisualStudioAll.vsi
+del Chirpy.zip
+del Zippy.AddIn
+copy Zippy10.AddIn Zippy.AddIn
+7za.exe u Chirpy.zip Chirpy.dll ChirpyAll.vscontent Zippy.AddIn Zippy11.AddIn Zippy09.AddIn "compiler.jar" "SassAndCoffee.Core.dll" "Microsoft.Dynamic.dll" "Microsoft.Scripting.dll" "Microsoft.Scripting.Metadata.dll" "IronRuby.dll" "IronRuby.Libraries.dll" "IronRuby.Libraries.Yaml.dll"
+rename Chirpy.zip Chirpy-VisualStudioAll.vsi
+
+
 REM copy file to setup project
 copy "Zippy.AddIn" "../Zippy.Setup.VS10/Zippy.AddIn"
 copy "Chirpy.dll" "../Zippy.Setup.VS10/Chirpy.dll"
