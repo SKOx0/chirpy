@@ -18,18 +18,18 @@ namespace Zippy.Chirp.Engines
             return Minify(text, mode, settings.YuiCssSettings);
         }
 
-        public static string Minify(string text, MinifyType mode,Yui.CssSettings cssOptions)
+        public static string Minify(string text, MinifyType mode, Yui.CssSettings cssOptions)
         {
             if (string.IsNullOrEmpty(text))
             {
-                return text; 
+                return text;
             }
 
-            var cssmode = mode == MinifyType.yuiHybrid ? CssCompressionType.Hybrid
-               : mode == MinifyType.yuiMARE ? CssCompressionType.MichaelAshRegexEnhancements
-               : CssCompressionType.StockYuiCompressor;
-
-            return CssCompressor.Compress(text, cssOptions.ColumnWidth, cssmode, cssOptions.RemoveComments);
+            var compressor = new CssCompressor();
+            compressor.CompressionType = CompressionType.Standard;
+            compressor.LineBreakPosition = cssOptions.ColumnWidth;
+            compressor.RemoveComments = cssOptions.RemoveComments;
+            return compressor.Compress(text);
         }
 
         public override string Transform(string fullFileName, string text, EnvDTE.ProjectItem projectItem)

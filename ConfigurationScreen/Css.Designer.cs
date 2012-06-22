@@ -39,13 +39,13 @@
             this.txtMichaelAshCssFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtChirpCssFile = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.txtOutputExtension);
@@ -59,7 +59,7 @@
             this.groupBox3.Controls.Add(this.txtChirpCssFile);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(321, 156);
+            this.groupBox3.Size = new System.Drawing.Size(362, 144);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CSS";
@@ -149,17 +149,28 @@
             this.txtChirpCssFile.TabIndex = 11;
             this.txtChirpCssFile.Text = ".chirp.css";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 160);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(361, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "MichealAshRegexEnhancements and hydrid is cut in YuiCompressor library.\r\n";
+            // 
             // Css
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
             this.Name = "Css";
-            this.Size = new System.Drawing.Size(332, 169);
+            this.Size = new System.Drawing.Size(373, 189);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -176,5 +187,6 @@
         private System.Windows.Forms.TextBox txtMSAjaxCssFile;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtOutputExtension;
+        private System.Windows.Forms.Label label3;
     }
 }

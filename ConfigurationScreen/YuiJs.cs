@@ -15,6 +15,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             chkIsObfuscateJavascript.Checked = this.Settings.YuiJsSettings.IsObfuscateJavascript;
             txtLineBreakPosition.Value = this.Settings.YuiJsSettings.LineBreakPosition;
             chkPreserveAllSemiColons.Checked = this.Settings.YuiJsSettings.PreserveAllSemiColons;
+            chkIgnoreEval.Checked = this.Settings.YuiJsSettings.IgnoreEval;
         }
 
         public override void OnOK()
@@ -23,6 +24,7 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.YuiJsSettings.IsObfuscateJavascript = chkIsObfuscateJavascript.Checked;
             this.Settings.YuiJsSettings.LineBreakPosition = (int)txtLineBreakPosition.Value;
             this.Settings.YuiJsSettings.PreserveAllSemiColons = chkPreserveAllSemiColons.Checked;
+            this.Settings.YuiJsSettings.IgnoreEval = chkIgnoreEval.Checked;
             this.Settings.Save();
         }
 

@@ -31,11 +31,12 @@
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
             this.gbSetting = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkPreserveAllSemiColons = new System.Windows.Forms.CheckBox();
+            this.chkIsObfuscateJavascript = new System.Windows.Forms.CheckBox();
             this.txtLineBreakPosition = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.chkDisableOptimizations = new System.Windows.Forms.CheckBox();
-            this.chkIsObfuscateJavascript = new System.Windows.Forms.CheckBox();
-            this.chkPreserveAllSemiColons = new System.Windows.Forms.CheckBox();
+            this.chkIgnoreEval = new System.Windows.Forms.CheckBox();
             this.gbSetting.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtLineBreakPosition)).BeginInit();
@@ -68,6 +69,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.chkIgnoreEval);
             this.panel1.Controls.Add(this.chkPreserveAllSemiColons);
             this.panel1.Controls.Add(this.chkIsObfuscateJavascript);
             this.panel1.Controls.Add(this.txtLineBreakPosition);
@@ -78,6 +80,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(378, 237);
             this.panel1.TabIndex = 29;
+            // 
+            // chkPreserveAllSemiColons
+            // 
+            this.chkPreserveAllSemiColons.AutoSize = true;
+            this.chkPreserveAllSemiColons.Location = new System.Drawing.Point(5, 74);
+            this.chkPreserveAllSemiColons.Name = "chkPreserveAllSemiColons";
+            this.chkPreserveAllSemiColons.Size = new System.Drawing.Size(136, 17);
+            this.chkPreserveAllSemiColons.TabIndex = 31;
+            this.chkPreserveAllSemiColons.Text = "Preserve all semicolons";
+            this.chkPreserveAllSemiColons.UseVisualStyleBackColor = true;
+            // 
+            // chkIsObfuscateJavascript
+            // 
+            this.chkIsObfuscateJavascript.AutoSize = true;
+            this.chkIsObfuscateJavascript.Location = new System.Drawing.Point(5, 26);
+            this.chkIsObfuscateJavascript.Name = "chkIsObfuscateJavascript";
+            this.chkIsObfuscateJavascript.Size = new System.Drawing.Size(132, 17);
+            this.chkIsObfuscateJavascript.TabIndex = 30;
+            this.chkIsObfuscateJavascript.Text = "Is obfuscate javascript";
+            this.chkIsObfuscateJavascript.UseVisualStyleBackColor = true;
             // 
             // txtLineBreakPosition
             // 
@@ -110,25 +132,15 @@
             this.chkDisableOptimizations.Text = "Disable optimizations";
             this.chkDisableOptimizations.UseVisualStyleBackColor = true;
             // 
-            // chkIsObfuscateJavascript
+            // chkIgnoreEval
             // 
-            this.chkIsObfuscateJavascript.AutoSize = true;
-            this.chkIsObfuscateJavascript.Location = new System.Drawing.Point(5, 26);
-            this.chkIsObfuscateJavascript.Name = "chkIsObfuscateJavascript";
-            this.chkIsObfuscateJavascript.Size = new System.Drawing.Size(132, 17);
-            this.chkIsObfuscateJavascript.TabIndex = 30;
-            this.chkIsObfuscateJavascript.Text = "Is obfuscate javascript";
-            this.chkIsObfuscateJavascript.UseVisualStyleBackColor = true;
-            // 
-            // chkPreserveAllSemiColons
-            // 
-            this.chkPreserveAllSemiColons.AutoSize = true;
-            this.chkPreserveAllSemiColons.Location = new System.Drawing.Point(5, 74);
-            this.chkPreserveAllSemiColons.Name = "chkPreserveAllSemiColons";
-            this.chkPreserveAllSemiColons.Size = new System.Drawing.Size(136, 17);
-            this.chkPreserveAllSemiColons.TabIndex = 31;
-            this.chkPreserveAllSemiColons.Text = "Preserve all semicolons";
-            this.chkPreserveAllSemiColons.UseVisualStyleBackColor = true;
+            this.chkIgnoreEval.AutoSize = true;
+            this.chkIgnoreEval.Location = new System.Drawing.Point(5, 97);
+            this.chkIgnoreEval.Name = "chkIgnoreEval";
+            this.chkIgnoreEval.Size = new System.Drawing.Size(79, 17);
+            this.chkIgnoreEval.TabIndex = 32;
+            this.chkIgnoreEval.Text = "Ignore eval";
+            this.chkIgnoreEval.UseVisualStyleBackColor = true;
             // 
             // YuiJs
             // 
@@ -157,5 +169,6 @@
         private System.Windows.Forms.CheckBox chkDisableOptimizations;
         private System.Windows.Forms.CheckBox chkIsObfuscateJavascript;
         private System.Windows.Forms.CheckBox chkPreserveAllSemiColons;
+        private System.Windows.Forms.CheckBox chkIgnoreEval;
     }
 }
