@@ -61,7 +61,7 @@ namespace Zippy.Chirp.Manager
 
         public void AddFileByFileName(string fileName, string content)
         {
-            this.Add(fileName, content);
+           this.Add(fileName, content);
         }
 
         public void AddFile(string fileExtension, byte[] content)
@@ -376,6 +376,7 @@ namespace Zippy.Chirp.Manager
 
         private void Add(string fileName, object content)
         {
+
             if (this.filesAdded.ContainsKey(fileName))
             {
                 this.filesAdded.Remove(fileName);

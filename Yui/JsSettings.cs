@@ -20,5 +20,7 @@ namespace Zippy.Chirp.Yui
         public bool DisableOptimizations { get; set; }
 
         public int LineBreakPosition { get; set; }
+
+        public bool IgnoreEval { get; set; }
     }
 }

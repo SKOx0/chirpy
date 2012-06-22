@@ -110,7 +110,9 @@ namespace Zippy.Chirp
                 // file too large (use YUI compressor)
                 string exceptionMessage = "file size too large for Google: " + size.ToString("#,#");
                 onError(Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning, exceptionMessage, 1, 1);
-                return "//" + exceptionMessage + Environment.NewLine + JavaScriptCompressor.Compress(js);
+
+                var compressor = new JavaScriptCompressor();
+                return "//" + exceptionMessage + Environment.NewLine + compressor.Compress(js);
             }
         }
 
