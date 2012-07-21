@@ -33,7 +33,7 @@ namespace Zippy.Chirp
             if (!string.IsNullOrEmpty(settings.GoogleClosureJavaPath) && settings.GoogleClosureOffline)
             {
                 return GoogleClosureOfflineCompiler.Compress(
-                    fullFileName, compressMode, onError, customArgument);
+                    fullFileName, js, compressMode, onError, customArgument);
             }
 
             long size = js.Length;
@@ -44,7 +44,7 @@ namespace Zippy.Chirp
                 if (xml == null)
                 {
                     return GoogleClosureOfflineCompiler.Compress(
-                    fullFileName, compressMode, onError, customArgument);
+                    fullFileName, js, compressMode, onError, customArgument);
                 }
 
                 // valid have server error
