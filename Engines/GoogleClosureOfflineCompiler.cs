@@ -13,6 +13,30 @@ namespace Zippy.Chirp
             return Compress(fileName, compressMode, onError, null, customArgument);
         }
 
+        public static string Compress(string fileName, string js, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError, string customArgument)
+        {
+            // Create temp file with JS content.
+            string tempFile = fileName + ".tmp.js";
+            using (var file = System.IO.File.CreateText(tempFile))
+            {
+                file.Write(js);
+            }
+
+            try
+            {
+                return Compress(tempFile, compressMode, onError, null, customArgument);
+            }
+            finally
+            {
+                // Delete temp file.
+                try
+                {
+                    System.IO.File.Delete(tempFile);
+                }
+                catch { }
+            }
+        }
+
         public static string Compress(string fileName, ClosureCompilerCompressMode compressMode, Action<Microsoft.VisualStudio.Shell.TaskErrorCategory, string, int, int> onError, IList<string> referencePathsOrUrls, string customArgument)
         {
             if (!File.Exists(fileName))
