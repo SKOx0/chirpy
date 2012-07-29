@@ -53,5 +53,101 @@ namespace Zippy.Chirp.Tests.Engines
             }
         }
 
+        [TestMethod]
+        public void TestJsHintEngineJQueryTrue()
+        {
+            Settings settings = new Settings();
+            settings.JsHintOptions.jquery = true;
+            settings.Save();
+
+            string code = @"jQuery('test').val('ff');";
+            var filename = System.IO.Path.GetTempFileName();
+            try
+            {
+                System.IO.File.WriteAllText(filename, code);
+                using (var jshint = new Zippy.Chirp.Engines.JSHintEngine())
+                {
+                    jshint.Run(filename, GetProjectItem(filename));
+                    Assert.AreEqual(0, TaskList.Instance.Errors.Count());
+                }
+            }
+            finally
+            {
+                System.IO.File.Delete(filename);
+            }
+        }
+
+        [TestMethod]
+        public void TestJsHintEngineJQueryFalse()
+        {
+            Settings settings = new Settings();
+            settings.JsHintOptions.jquery = false;
+            settings.Save();
+
+            string code = @"jQuery('test').val('ff');";
+            var filename = System.IO.Path.GetTempFileName();
+            try
+            {
+                System.IO.File.WriteAllText(filename, code);
+                using (var jshint = new Zippy.Chirp.Engines.JSHintEngine())
+                {
+                    jshint.Run(filename, GetProjectItem(filename));
+                    Assert.AreNotEqual(0, TaskList.Instance.Errors.Count());
+                }
+            }
+            finally
+            {
+                System.IO.File.Delete(filename);
+            }
+        }
+
+        [TestMethod]
+        public void TestJsHintEngineBrowserTrue()
+        {
+            Settings settings = new Settings();
+            settings.JsHintOptions.browser = true;
+            settings.Save();
+
+            string code = "var reader = new FileReader();";
+            var filename = System.IO.Path.GetTempFileName();
+            try
+            {
+                System.IO.File.WriteAllText(filename, code);
+                using (var jshint = new Zippy.Chirp.Engines.JSHintEngine())
+                {
+                    jshint.Run(filename, GetProjectItem(filename));
+                    Assert.AreEqual(0, TaskList.Instance.Errors.Count());
+                }
+            }
+            finally
+            {
+                System.IO.File.Delete(filename);
+            }
+        }
+
+        [TestMethod]
+        public void TestJsHintEngineBrowserFalse()
+        {
+            Settings settings = new Settings();
+            settings.JsHintOptions.browser = false;
+            settings.Save();
+
+            string code = "var reader = new FileReader();";
+            var filename = System.IO.Path.GetTempFileName();
+            try
+            {
+                System.IO.File.WriteAllText(filename, code);
+                using (var jshint = new Zippy.Chirp.Engines.JSHintEngine())
+                {
+                    jshint.Run(filename, GetProjectItem(filename));
+                    Assert.AreNotEqual(0, TaskList.Instance.Errors.Count());
+                }
+            }
+            finally
+            {
+                System.IO.File.Delete(filename);
+            }
+        }
+
     }
 }

@@ -83,6 +83,16 @@ namespace Zippy.Chirp.JavaScript {
 
             [Description("Check your code against strict whitespace rules"), Category("Options")]
             public bool white { get; set; }
+
+            [Description("This option defines globals exposed by the jQuery JavaScript library."), Category("Environments")]
+            public bool jquery { get; set; }
+
+            [Description("This option defines globals exposed by modern browsers: all the way from good ol' document and navigator to the HTML5 FileReader and other new developments in the browser world."), Category("Environments")]
+            public bool browser { get; set; }
+
+
+            [Description("This option defines globals available when your code is running inside of the Node runtime environment. Node.js is a server-side JavaScript environment that uses an asynchronous event-driven model."), Category("Environments")]
+            public bool node { get; set; }
         }
 
         public class result {

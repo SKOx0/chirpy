@@ -58,9 +58,16 @@
             this.chkEqnull = new System.Windows.Forms.CheckBox();
             this.chkEqeqeq = new System.Windows.Forms.CheckBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkNodeJS = new System.Windows.Forms.CheckBox();
+            this.chkJQuery = new System.Windows.Forms.CheckBox();
+            this.chkBrowser = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.gbSetting.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMaxerr)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkJSHint
@@ -75,21 +82,17 @@
             // 
             // gbSetting
             // 
-            this.gbSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSetting.Controls.Add(this.panel2);
-            this.gbSetting.Location = new System.Drawing.Point(3, 35);
+            this.gbSetting.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbSetting.Location = new System.Drawing.Point(0, 0);
             this.gbSetting.Name = "gbSetting";
-            this.gbSetting.Size = new System.Drawing.Size(381, 252);
+            this.gbSetting.Size = new System.Drawing.Size(363, 571);
             this.gbSetting.TabIndex = 27;
             this.gbSetting.TabStop = false;
             this.gbSetting.Text = "Options";
             // 
             // panel2
             // 
-            this.panel2.AutoScroll = true;
-            this.panel2.AutoSize = true;
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.TxtMaxerr);
             this.panel2.Controls.Add(this.chkWhite);
@@ -119,7 +122,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 16);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(375, 233);
+            this.panel2.Size = new System.Drawing.Size(357, 552);
             this.panel2.TabIndex = 29;
             // 
             // label1
@@ -393,21 +396,79 @@
             this.linkLabelModeInfo.Text = "More information";
             this.linkLabelModeInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelModeInfo_LinkClicked);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkNodeJS);
+            this.groupBox1.Controls.Add(this.chkJQuery);
+            this.groupBox1.Controls.Add(this.chkBrowser);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 571);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(363, 91);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Environments";
+            // 
+            // chkNodeJS
+            // 
+            this.chkNodeJS.AutoSize = true;
+            this.chkNodeJS.Location = new System.Drawing.Point(3, 65);
+            this.chkNodeJS.Name = "chkNodeJS";
+            this.chkNodeJS.Size = new System.Drawing.Size(64, 17);
+            this.chkNodeJS.TabIndex = 24;
+            this.chkNodeJS.Text = "NodeJS";
+            this.chkNodeJS.UseVisualStyleBackColor = true;
+            // 
+            // chkJQuery
+            // 
+            this.chkJQuery.AutoSize = true;
+            this.chkJQuery.Location = new System.Drawing.Point(3, 42);
+            this.chkJQuery.Name = "chkJQuery";
+            this.chkJQuery.Size = new System.Drawing.Size(56, 17);
+            this.chkJQuery.TabIndex = 23;
+            this.chkJQuery.Text = "jQuery";
+            this.chkJQuery.UseVisualStyleBackColor = true;
+            // 
+            // chkBrowser
+            // 
+            this.chkBrowser.AutoSize = true;
+            this.chkBrowser.Location = new System.Drawing.Point(3, 19);
+            this.chkBrowser.Name = "chkBrowser";
+            this.chkBrowser.Size = new System.Drawing.Size(64, 17);
+            this.chkBrowser.TabIndex = 22;
+            this.chkBrowser.Text = "Browser";
+            this.chkBrowser.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.gbSetting);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Location = new System.Drawing.Point(3, 35);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(380, 242);
+            this.panel1.TabIndex = 32;
+            // 
             // JSHint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.linkLabelModeInfo);
-            this.Controls.Add(this.gbSetting);
             this.Controls.Add(this.chkJSHint);
             this.Name = "JSHint";
             this.Size = new System.Drawing.Size(387, 291);
             this.gbSetting.ResumeLayout(false);
-            this.gbSetting.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMaxerr)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -445,5 +506,10 @@
         private System.Windows.Forms.CheckBox chkEqnull;
         private System.Windows.Forms.CheckBox chkEqeqeq;
         private System.Windows.Forms.LinkLabel linkLabelModeInfo;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox chkBrowser;
+        private System.Windows.Forms.CheckBox chkJQuery;
+        private System.Windows.Forms.CheckBox chkNodeJS;
+        private System.Windows.Forms.Panel panel1;
     }
 }

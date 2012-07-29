@@ -34,7 +34,7 @@ namespace Zippy.Chirp.Tests.Engines
 
 
             code = Zippy.Chirp.Engines.ClosureCompilerEngine.Minify(TempFilePath, code, GetProjectItem(TempFilePath), ClosureCompilerCompressMode.ADVANCED_OPTIMIZATIONS, string.Empty);
-            Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n");
+            Assert.IsTrue(code == "alert(\"Hello, New user\");\r\n" || code == "alert(\"Hello, New user\");");
         }
 
         [TestMethod]

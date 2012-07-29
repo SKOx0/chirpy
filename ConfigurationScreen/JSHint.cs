@@ -10,6 +10,10 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         public override void OnAfterCreated(EnvDTE.DTE dteObject)
         {
+            this.chkJQuery.Checked=this.Settings.JsHintOptions.jquery;
+            this.chkBrowser.Checked=this.Settings.JsHintOptions.browser;
+            this.chkNodeJS.Checked=this.Settings.JsHintOptions.node;
+
             this.chkBitwise.Checked = this.Settings.JsHintOptions.bitwise;
             this.chkBoss.Checked = this.Settings.JsHintOptions.boss;
             this.chkCurly.Checked = this.Settings.JsHintOptions.curly;
@@ -42,6 +46,9 @@ namespace Zippy.Chirp.ConfigurationScreen
 
         public override void OnOK()
         {
+            this.Settings.JsHintOptions.jquery = this.chkJQuery.Checked;
+            this.Settings.JsHintOptions.browser = this.chkBrowser.Checked;
+            this.Settings.JsHintOptions.node = this.chkNodeJS.Checked;
             this.Settings.JsHintOptions.devel = true;
             this.Settings.JsHintOptions.bitwise = this.chkBitwise.Checked;
             this.Settings.JsHintOptions.boss = this.chkBoss.Checked;
