@@ -1,5 +1,5 @@
 REM Merge assemblies
-ILMerge /out:"Chirpy.dll" "TempChirpy.dll" "EcmaScript.NET.modified.dll" "Yahoo.YUI.Compressor.dll" "dotless.Core.dll" "AjaxMin.dll" "Jurassic.dll" /targetplatform:v4,C:\Windows\Microsoft.NET\Framework\v4.0.30319
+ILMerge /out:"Chirpy.dll" "TempChirpy.dll" "EcmaScript.NET.dll" "Yahoo.YUI.Compressor.dll" "dotless.Core.dll" "AjaxMin.dll" "Jurassic.dll" /targetplatform:v4,C:\Windows\Microsoft.NET\Framework\v4.0.30319
 REM Create VSI file
 
 REM VS v9,v10,v11
