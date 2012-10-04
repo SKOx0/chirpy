@@ -55,7 +55,6 @@
             this.cboEvalTreatment = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtIndentSize = new System.Windows.Forms.NumericUpDown();
-            this.chkCombineDuplicateLiterals = new System.Windows.Forms.CheckBox();
             this.chkCollapseToLiteral = new System.Windows.Forms.CheckBox();
             this.linkLabelModeInfo = new System.Windows.Forms.LinkLabel();
             this.gbSetting.SuspendLayout();
@@ -105,7 +104,6 @@
             this.panel1.Controls.Add(this.cboEvalTreatment);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.TxtIndentSize);
-            this.panel1.Controls.Add(this.chkCombineDuplicateLiterals);
             this.panel1.Controls.Add(this.chkCollapseToLiteral);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 16);
@@ -116,7 +114,7 @@
             // chkReorderScopeDeclarations
             // 
             this.chkReorderScopeDeclarations.AutoSize = true;
-            this.chkReorderScopeDeclarations.Location = new System.Drawing.Point(0, 451);
+            this.chkReorderScopeDeclarations.Location = new System.Drawing.Point(0, 431);
             this.chkReorderScopeDeclarations.Name = "chkReorderScopeDeclarations";
             this.chkReorderScopeDeclarations.Size = new System.Drawing.Size(156, 17);
             this.chkReorderScopeDeclarations.TabIndex = 28;
@@ -126,7 +124,7 @@
             // chkPreserveImportantComments
             // 
             this.chkPreserveImportantComments.AutoSize = true;
-            this.chkPreserveImportantComments.Location = new System.Drawing.Point(0, 360);
+            this.chkPreserveImportantComments.Location = new System.Drawing.Point(0, 340);
             this.chkPreserveImportantComments.Name = "chkPreserveImportantComments";
             this.chkPreserveImportantComments.Size = new System.Drawing.Size(165, 17);
             this.chkPreserveImportantComments.TabIndex = 19;
@@ -135,7 +133,7 @@
             // 
             // txtLineBreakThreshold
             // 
-            this.txtLineBreakThreshold.Location = new System.Drawing.Point(110, 190);
+            this.txtLineBreakThreshold.Location = new System.Drawing.Point(110, 170);
             this.txtLineBreakThreshold.Maximum = new decimal(new int[] {
             2147482647,
             0,
@@ -158,7 +156,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 192);
+            this.label5.Location = new System.Drawing.Point(4, 172);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 13);
             this.label5.TabIndex = 9;
@@ -167,7 +165,7 @@
             // chkStrictMode
             // 
             this.chkStrictMode.AutoSize = true;
-            this.chkStrictMode.Location = new System.Drawing.Point(0, 496);
+            this.chkStrictMode.Location = new System.Drawing.Point(0, 476);
             this.chkStrictMode.Name = "chkStrictMode";
             this.chkStrictMode.Size = new System.Drawing.Size(77, 17);
             this.chkStrictMode.TabIndex = 24;
@@ -177,7 +175,7 @@
             // chkTermSemicolons
             // 
             this.chkTermSemicolons.AutoSize = true;
-            this.chkTermSemicolons.Location = new System.Drawing.Point(0, 473);
+            this.chkTermSemicolons.Location = new System.Drawing.Point(0, 453);
             this.chkTermSemicolons.Name = "chkTermSemicolons";
             this.chkTermSemicolons.Size = new System.Drawing.Size(107, 17);
             this.chkTermSemicolons.TabIndex = 23;
@@ -187,7 +185,7 @@
             // chkRemoveFunctionExpressionNames
             // 
             this.chkRemoveFunctionExpressionNames.AutoSize = true;
-            this.chkRemoveFunctionExpressionNames.Location = new System.Drawing.Point(0, 406);
+            this.chkRemoveFunctionExpressionNames.Location = new System.Drawing.Point(0, 386);
             this.chkRemoveFunctionExpressionNames.Name = "chkRemoveFunctionExpressionNames";
             this.chkRemoveFunctionExpressionNames.Size = new System.Drawing.Size(194, 17);
             this.chkRemoveFunctionExpressionNames.TabIndex = 21;
@@ -197,7 +195,7 @@
             // chkMinifyCode
             // 
             this.chkMinifyCode.AutoSize = true;
-            this.chkMinifyCode.Location = new System.Drawing.Point(0, 291);
+            this.chkMinifyCode.Location = new System.Drawing.Point(0, 271);
             this.chkMinifyCode.Name = "chkMinifyCode";
             this.chkMinifyCode.Size = new System.Drawing.Size(80, 17);
             this.chkMinifyCode.TabIndex = 15;
@@ -207,7 +205,7 @@
             // chkManualRenamesProperties
             // 
             this.chkManualRenamesProperties.AutoSize = true;
-            this.chkManualRenamesProperties.Location = new System.Drawing.Point(0, 268);
+            this.chkManualRenamesProperties.Location = new System.Drawing.Point(0, 248);
             this.chkManualRenamesProperties.Name = "chkManualRenamesProperties";
             this.chkManualRenamesProperties.Size = new System.Drawing.Size(153, 17);
             this.chkManualRenamesProperties.TabIndex = 14;
@@ -217,7 +215,7 @@
             // chkPreserveFunctionNames
             // 
             this.chkPreserveFunctionNames.AutoSize = true;
-            this.chkPreserveFunctionNames.Location = new System.Drawing.Point(0, 341);
+            this.chkPreserveFunctionNames.Location = new System.Drawing.Point(0, 321);
             this.chkPreserveFunctionNames.Name = "chkPreserveFunctionNames";
             this.chkPreserveFunctionNames.Size = new System.Drawing.Size(143, 17);
             this.chkPreserveFunctionNames.TabIndex = 18;
@@ -227,7 +225,7 @@
             // chkInlineSafeStrings
             // 
             this.chkInlineSafeStrings.AutoSize = true;
-            this.chkInlineSafeStrings.Location = new System.Drawing.Point(0, 141);
+            this.chkInlineSafeStrings.Location = new System.Drawing.Point(0, 121);
             this.chkInlineSafeStrings.Name = "chkInlineSafeStrings";
             this.chkInlineSafeStrings.Size = new System.Drawing.Size(107, 17);
             this.chkInlineSafeStrings.TabIndex = 7;
@@ -237,7 +235,7 @@
             // chkIgnoreConditionalCompilation
             // 
             this.chkIgnoreConditionalCompilation.AutoSize = true;
-            this.chkIgnoreConditionalCompilation.Location = new System.Drawing.Point(0, 118);
+            this.chkIgnoreConditionalCompilation.Location = new System.Drawing.Point(0, 98);
             this.chkIgnoreConditionalCompilation.Name = "chkIgnoreConditionalCompilation";
             this.chkIgnoreConditionalCompilation.Size = new System.Drawing.Size(166, 17);
             this.chkIgnoreConditionalCompilation.TabIndex = 6;
@@ -247,7 +245,7 @@
             // chkEvalLiteralExpressions
             // 
             this.chkEvalLiteralExpressions.AutoSize = true;
-            this.chkEvalLiteralExpressions.Location = new System.Drawing.Point(0, 68);
+            this.chkEvalLiteralExpressions.Location = new System.Drawing.Point(0, 48);
             this.chkEvalLiteralExpressions.Name = "chkEvalLiteralExpressions";
             this.chkEvalLiteralExpressions.Size = new System.Drawing.Size(132, 17);
             this.chkEvalLiteralExpressions.TabIndex = 3;
@@ -267,7 +265,7 @@
             // chkStripDebugStatements
             // 
             this.chkStripDebugStatements.AutoSize = true;
-            this.chkStripDebugStatements.Location = new System.Drawing.Point(0, 383);
+            this.chkStripDebugStatements.Location = new System.Drawing.Point(0, 363);
             this.chkStripDebugStatements.Name = "chkStripDebugStatements";
             this.chkStripDebugStatements.Size = new System.Drawing.Size(181, 17);
             this.chkStripDebugStatements.TabIndex = 20;
@@ -277,7 +275,7 @@
             // chkRemoveUnneededCode
             // 
             this.chkRemoveUnneededCode.AutoSize = true;
-            this.chkRemoveUnneededCode.Location = new System.Drawing.Point(0, 429);
+            this.chkRemoveUnneededCode.Location = new System.Drawing.Point(0, 409);
             this.chkRemoveUnneededCode.Name = "chkRemoveUnneededCode";
             this.chkRemoveUnneededCode.Size = new System.Drawing.Size(144, 17);
             this.chkRemoveUnneededCode.TabIndex = 22;
@@ -291,7 +289,7 @@
             this.cboOutputMode.Items.AddRange(new object[] {
             "MultipleLines",
             "SingleLine"});
-            this.cboOutputMode.Location = new System.Drawing.Point(84, 314);
+            this.cboOutputMode.Location = new System.Drawing.Point(84, 294);
             this.cboOutputMode.Name = "cboOutputMode";
             this.cboOutputMode.Size = new System.Drawing.Size(121, 21);
             this.cboOutputMode.TabIndex = 17;
@@ -299,7 +297,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 317);
+            this.label4.Location = new System.Drawing.Point(3, 297);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 16;
@@ -308,7 +306,7 @@
             // chkMacSafariQuirks
             // 
             this.chkMacSafariQuirks.AutoSize = true;
-            this.chkMacSafariQuirks.Location = new System.Drawing.Point(0, 245);
+            this.chkMacSafariQuirks.Location = new System.Drawing.Point(0, 225);
             this.chkMacSafariQuirks.Name = "chkMacSafariQuirks";
             this.chkMacSafariQuirks.Size = new System.Drawing.Size(110, 17);
             this.chkMacSafariQuirks.TabIndex = 13;
@@ -323,7 +321,7 @@
             "CrunchAll",
             "KeepAll",
             "KeepLocalizationVars"});
-            this.cboLocalRenaming.Location = new System.Drawing.Point(84, 218);
+            this.cboLocalRenaming.Location = new System.Drawing.Point(84, 198);
             this.cboLocalRenaming.Name = "cboLocalRenaming";
             this.cboLocalRenaming.Size = new System.Drawing.Size(121, 21);
             this.cboLocalRenaming.TabIndex = 12;
@@ -331,7 +329,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 221);
+            this.label3.Location = new System.Drawing.Point(3, 201);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 11;
@@ -340,7 +338,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 94);
+            this.label2.Location = new System.Drawing.Point(3, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 4;
@@ -354,7 +352,7 @@
             "Ignore",
             "MakeAllSafe",
             "MakeImmediateSafe"});
-            this.cboEvalTreatment.Location = new System.Drawing.Point(84, 91);
+            this.cboEvalTreatment.Location = new System.Drawing.Point(84, 71);
             this.cboEvalTreatment.Name = "cboEvalTreatment";
             this.cboEvalTreatment.Size = new System.Drawing.Size(121, 21);
             this.cboEvalTreatment.TabIndex = 5;
@@ -362,7 +360,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 168);
+            this.label1.Location = new System.Drawing.Point(4, 148);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 27;
@@ -370,7 +368,7 @@
             // 
             // TxtIndentSize
             // 
-            this.TxtIndentSize.Location = new System.Drawing.Point(109, 164);
+            this.TxtIndentSize.Location = new System.Drawing.Point(109, 144);
             this.TxtIndentSize.Maximum = new decimal(new int[] {
             2147482647,
             0,
@@ -389,16 +387,6 @@
             0,
             0,
             0});
-            // 
-            // chkCombineDuplicateLiterals
-            // 
-            this.chkCombineDuplicateLiterals.AutoSize = true;
-            this.chkCombineDuplicateLiterals.Location = new System.Drawing.Point(0, 45);
-            this.chkCombineDuplicateLiterals.Name = "chkCombineDuplicateLiterals";
-            this.chkCombineDuplicateLiterals.Size = new System.Drawing.Size(235, 17);
-            this.chkCombineDuplicateLiterals.TabIndex = 2;
-            this.chkCombineDuplicateLiterals.Text = "Combine duplicate literals into local variables";
-            this.chkCombineDuplicateLiterals.UseVisualStyleBackColor = true;
             // 
             // chkCollapseToLiteral
             // 
@@ -445,7 +433,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chkCollapseToLiteral;
         private System.Windows.Forms.LinkLabel linkLabelModeInfo;
-        private System.Windows.Forms.CheckBox chkCombineDuplicateLiterals;
         private System.Windows.Forms.NumericUpDown TxtIndentSize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboEvalTreatment;

@@ -46,6 +46,7 @@ namespace Zippy.Chirp.Engines
                 compressor.PreserveAllSemicolons = jsSettings.PreserveAllSemiColons;
                 compressor.DisableOptimizations = jsSettings.DisableOptimizations;
                 compressor.ErrorReporter = reporter;
+                
                 compressor.ThreadCulture = System.Globalization.CultureInfo.InvariantCulture;
                 returnScript = compressor.Compress(text);
 

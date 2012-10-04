@@ -233,8 +233,16 @@ namespace Zippy.Chirp.Engines
             List<ActionEngine> actions = null;
             try
             {
-                detailLog = Settings.Instance(fullFileName).ShowDetailLog;
-                TaskList.Instance.Remove(fullFileName);
+                Settings settings = Settings.Instance(fullFileName);
+                if (settings != null)
+                {
+                    detailLog = settings.ShowDetailLog;
+                }
+
+                if (TaskList.Instance != null)
+                {
+                    TaskList.Instance.Remove(fullFileName);
+                }
 
                 actions = this.allActions.Select(x => new { action = x, priority = x.Handles(fullFileName) })
                     .OrderByDescending(x => x.priority).Where(x => x.priority > 0).Select(x => x.action).ToList();
