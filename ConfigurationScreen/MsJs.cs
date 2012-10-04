@@ -24,7 +24,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.chkPreserveFunctionNames.Checked = this.Settings.MsJsSettings.PreserveFunctionNames;
             this.chkRemoveFunctionExpressionNames.Checked = this.Settings.MsJsSettings.RemoveFunctionExpressionNames;
             this.chkCollapseToLiteral.Checked = this.Settings.MsJsSettings.CollapseToLiteral;
-            this.chkCombineDuplicateLiterals.Checked = this.Settings.MsJsSettings.CombineDuplicateLiterals;
             this.cboEvalTreatment.Text = this.Settings.MsJsSettings.EvalTreatment.ToString();
             this.TxtIndentSize.Value = this.Settings.MsJsSettings.IndentSize;
             this.cboLocalRenaming.Text = this.Settings.MsJsSettings.LocalRenaming.ToString();
@@ -52,7 +51,6 @@ namespace Zippy.Chirp.ConfigurationScreen
             this.Settings.MsJsSettings.PreserveFunctionNames = this.chkPreserveFunctionNames.Checked;
             this.Settings.MsJsSettings.RemoveFunctionExpressionNames = this.chkRemoveFunctionExpressionNames.Checked;
             this.Settings.MsJsSettings.CollapseToLiteral = this.chkCollapseToLiteral.Checked;
-            this.Settings.MsJsSettings.CombineDuplicateLiterals = this.chkCombineDuplicateLiterals.Checked;
             this.Settings.MsJsSettings.EvalTreatment = this.cboEvalTreatment.Text.ToEnum(EvalTreatment.MakeAllSafe);
             this.Settings.MsJsSettings.IndentSize = (int)TxtIndentSize.Value;
             this.Settings.MsJsSettings.LocalRenaming = this.cboLocalRenaming.Text.ToEnum(LocalRenaming.KeepAll);
