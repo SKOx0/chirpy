@@ -3,9 +3,21 @@ using System.Linq;
 using Jurassic.Library;
 using System.ComponentModel;
 using System.Text;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
-namespace Zippy.Chirp.JavaScript {
-    public class CSSLint : Environment {
+namespace Zippy.Chirp.JavaScript
+{
+    public class CSSLint : JavaScript
+    {
+        public CSSLint(string code, object data)
+            : base(code, data, new Requirement
+            {
+                Path = "http://csslint.net/js/csslint.js",
+                PostSource = "exports.CSSLint = window.CSSLint = CSSLint;"
+            }) { }
+
+        [ComVisible(true)]
         public class options
         {
             /// <summary>
@@ -117,7 +129,8 @@ namespace Zippy.Chirp.JavaScript {
             public bool DuplicateProperties { get; set; }
         }
 
-        public class Message {
+        public class Message
+        {
             public int col { get; set; }
             public string evidence { get; set; }
             public int line { get; set; }
@@ -125,154 +138,127 @@ namespace Zippy.Chirp.JavaScript {
             public types type { get; set; }
             //public rule rule { get; set; }
 
-            public enum types {
+            public enum types
+            {
                 error, info, warning
             }
         }
 
-        public class result {
-            public Message[] messages { get; set; }
-        }
-
-        private static T get<T>(Jurassic.Library.ObjectInstance dic, string name, T defaultValue) {
-            var value = dic.GetPropertyValue(name);
-            T ret = defaultValue;
-            try {
-                if (defaultValue is string) ret = (T)(object)Convert.ToString(value);
-                else ret = (T)Convert.ChangeType(value, typeof(T));
-            } catch { }
-            return ret;
-        }
-
-        protected override void OnInit() {
-            RunFile("csslint");
-        }
-
-        public result CSSLINT(string source, options options = null)
+        private List<Message> _Results = new List<Message>();
+        public void AddResult(int line, int col, string evidence, string message, string type)
         {
-            this["text"] = source;
+            Message.types typeError = Message.types.warning;
+            Enum.TryParse<Message.types>(type, out typeError);
+            _Results.Add(new Message { col = col, evidence = evidence, line = line, message = message,type=typeError });
+        }
+
+
+
+        public static Message[] CSSLINT(string source, options options = null)
+        {
+            var data = new Dictionary<string, object> {
+                {"source", source}
+            };
 
             StringBuilder stringBuilder = new StringBuilder();
+            string OptionsVarName = "options";
+
+            // https://github.com/stubbornella/csslint/issues/150
+            stringBuilder.AppendLine("var " + OptionsVarName + " = {};");
             if (options != null)
             {
-                string OptionsVarName = "options";
-
-                // https://github.com/stubbornella/csslint/issues/150
-                stringBuilder.AppendLine("var " + OptionsVarName + " = {};");
-                if (options != null)
+                if (options.AdjoiningClasses)
                 {
-                    if (options.AdjoiningClasses)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['adjoining-classes']=true;");
-                    }
-                    if (options.EmptyRules)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['empty-rules']=true;");
-                    }
-                    if (options.DisplayPropertyGrouping)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['display-property-grouping']=true;");
-                    }
-                    if (options.Floats)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['floats']=true;");
-                    }
-                    if (options.FontFaces)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['font-faces']=true;");
-                    }
-                    if (options.FontSizes)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
-                    }
-                    if (options.FontSizes)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
-                    }
-                    if (options.Ids)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['ids']=true;");
-                    }
-                    if (options.QualifiedHeadings)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['qualified-headings']=true;");
-                    }
-                    if (options.UniqueHeadings)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['unique-headings']=true;");
-                    }
-                    if (options.ZeroUnits)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['zero-units']=true;");
-                    }
-                    if (options.VendorPrefix)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['vendor-prefix']=true;");
-                    }
-                    if (options.Gradients)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['gradients']=true;");
-                    }
-                    if (options.RegexSelectors)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['regex-selectors']=true;");
-                    }
-                    if (options.BoxModel)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['box-model']=true;");
-                    }
-
-                    if (options.Import)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['import']=true;");
-                    }
-                    if (options.Important)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['important']=true;");
-                    }
-                    if (options.CompatibleVendorPrefixes)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['compatible-vendor-prefixes']=true;");
-                    }
-                    if (options.DuplicateProperties)
-                    {
-                        stringBuilder.AppendLine(OptionsVarName + "['duplicate-properties']=true;");
-                    }
-
+                    stringBuilder.AppendLine(OptionsVarName + "['adjoining-classes']=true;");
+                }
+                if (options.EmptyRules)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['empty-rules']=true;");
+                }
+                if (options.DisplayPropertyGrouping)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['display-property-grouping']=true;");
+                }
+                if (options.Floats)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['floats']=true;");
+                }
+                if (options.FontFaces)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['font-faces']=true;");
+                }
+                if (options.FontSizes)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
+                }
+                if (options.FontSizes)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['font-sizes']=true;");
+                }
+                if (options.Ids)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['ids']=true;");
+                }
+                if (options.QualifiedHeadings)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['qualified-headings']=true;");
+                }
+                if (options.UniqueHeadings)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['unique-headings']=true;");
+                }
+                if (options.ZeroUnits)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['zero-units']=true;");
+                }
+                if (options.VendorPrefix)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['vendor-prefix']=true;");
+                }
+                if (options.Gradients)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['gradients']=true;");
+                }
+                if (options.RegexSelectors)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['regex-selectors']=true;");
+                }
+                if (options.BoxModel)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['box-model']=true;");
                 }
 
-                this[OptionsVarName] = stringBuilder.ToString();
-                stringBuilder.AppendLine("var result ; if (typeof CSSLint != \"undefined\") {result = CSSLint.verify(text, " + OptionsVarName + ");}");
-            }
-            else
-            {
-                stringBuilder.AppendLine("var result ;  if (typeof CSSLint  !=  \"undefined\") {result = CSSLint.verify(text);}");
-            }
-            Run(stringBuilder.ToString());
-
-            try
-            {
-                var result = (ObjectInstance)this["result"];
-
-                return new result
+                if (options.Import)
                 {
-                    messages = ((ArrayInstance)result.GetPropertyValue("messages"))
-                       .ElementValues.OfType<ObjectInstance>().Select(x => new Message
-                       {
-                           col = get(x, "col", 0),
-                           line = get(x, "line", 0),
-                           evidence = get(x, "evidence", string.Empty),
-                           message = get(x, "message", string.Empty),
-                           type = (Message.types)System.Enum.Parse(typeof(Message.types), get(x, "type", string.Empty))
-                       }).ToArray()
-                };
-            }
-            catch (InvalidCastException eErrorCast)
-            {
+                    stringBuilder.AppendLine(OptionsVarName + "['import']=true;");
+                }
+                if (options.Important)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['important']=true;");
+                }
+                if (options.CompatibleVendorPrefixes)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['compatible-vendor-prefixes']=true;");
+                }
+                if (options.DuplicateProperties)
+                {
+                    stringBuilder.AppendLine(OptionsVarName + "['duplicate-properties']=true;");
+                }
 
-                //don't throw error (undefined result)
-                return new result();
             }
+
+            var ie = new CSSLint(stringBuilder.ToString() + @"
+                   result = CSSLint.verify(external.Get('source'),options);
+                       errors = result.messages;
+                    external.Set('errors', errors.length);
+                        for (var i = 0; i < errors.length; i++) {
+                            external.AddResult(errors[i].line || 0,errors[i].col || 0, errors[i].evidence || '',  errors[i].message || '', errors[i].type || '');
+                        }
+                ", data);
+
+            ie.Execute();
+
+            return ie._Results.ToArray();
 
         }
     }

@@ -170,13 +170,12 @@ namespace Zippy.Chirp.JavaScript {
                         window.require = (function(){
                             var required = {}, bases = [];
                             return function (path, presource, postsource){
-                                    var key = external.GetFullUri(path, bases.length == 0 ? null : bases[bases.length-1]);
-
+                                   var key = external.GetFullUri(path, bases.length == 0 ? null : bases[bases.length-1]);
                                     if(!required[key]){
                                         required[key]  = {};
-                                        var code = external.Download(key),
-                                            func = new Function('exports', (presource||'') + ';\r\n' + code+ ';\r\n' + (postsource ||''));
-
+                                        var code = external.Download(key);
+                                        
+                                        var func = new Function('exports', (presource||'') + ';\r\n' + code+ ';\r\n' + (postsource ||''));
                                         bases.push(key);
                                         func(required[key]);
                                         bases.pop();
@@ -187,6 +186,12 @@ namespace Zippy.Chirp.JavaScript {
 
                         try {
                             " + requirements + @"
+                        } catch(x){
+                           external.AddMessage(x.line || 0, x.col || x.column || 0, 2, x.message);
+                            external.Finished();
+                        }
+
+                        try {
                             " + Code + @" 
                             " + (AutoFinish ? "external.Finished();" : null) + @"
                         } catch(x){
