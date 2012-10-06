@@ -129,7 +129,6 @@ namespace Zippy.Chirp {
                     }
                 }
             } catch (Exception ex) {
-                this.OutputWindowWriteText("Error in commandBars: " + ex.ToString());
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -139,27 +138,37 @@ namespace Zippy.Chirp {
             LoadActions();
         }
 
-        public void LoadActions() {
-            if (this.engineManager == null || this.engineManager.IsDisposed) {
-                this.engineManager = new EngineManager(this);
-            }
+        public void LoadActions()
+        {
+            try
+            {
 
-            this.engineManager.Clear();
-            this.engineManager.Add(YuiCssEngine = new YuiCssEngine());
-            this.engineManager.Add(YuiJsEngine = new YuiJsEngine());
-            this.engineManager.Add(DeanEdwardsPackerEngine = new DeanEdwardsPackerEngine());
-            this.engineManager.Add(ClosureCompilerEngine = new ClosureCompilerEngine());
-            this.engineManager.Add(LessEngine = new LessEngine());
-            this.engineManager.Add(MsJsEngine = new MsJsEngine());
-            this.engineManager.Add(MsCssEngine = new MsCssEngine());
-            this.engineManager.Add(ConfigEngine = new ConfigEngine());
-            this.engineManager.Add(ViewEngine = new ViewEngine());
-            this.engineManager.Add(T4Engine = new T4Engine());
-            this.engineManager.Add(CoffeeScriptEngine = new CoffeeScriptEngine());
-            this.engineManager.Add(UglifyEngine = new UglifyEngine());
-            this.engineManager.Add(JSHintEngine = new JSHintEngine());
-            this.engineManager.Add(CSSLintEngine = new CSSLintEngine());
-            this.engineManager.Add(SassEngine = new SassEngine());
+                if (this.engineManager == null || this.engineManager.IsDisposed)
+                {
+                    this.engineManager = new EngineManager(this);
+                }
+
+                this.engineManager.Clear();
+                this.engineManager.Add(YuiCssEngine = new YuiCssEngine());
+                this.engineManager.Add(YuiJsEngine = new YuiJsEngine());
+                this.engineManager.Add(DeanEdwardsPackerEngine = new DeanEdwardsPackerEngine());
+                this.engineManager.Add(ClosureCompilerEngine = new ClosureCompilerEngine());
+                this.engineManager.Add(LessEngine = new LessEngine());
+                this.engineManager.Add(MsJsEngine = new MsJsEngine());
+                this.engineManager.Add(MsCssEngine = new MsCssEngine());
+                this.engineManager.Add(ConfigEngine = new ConfigEngine());
+                this.engineManager.Add(ViewEngine = new ViewEngine());
+                this.engineManager.Add(T4Engine = new T4Engine());
+                this.engineManager.Add(CoffeeScriptEngine = new CoffeeScriptEngine());
+                this.engineManager.Add(UglifyEngine = new UglifyEngine());
+                this.engineManager.Add(JSHintEngine = new JSHintEngine());
+                this.engineManager.Add(CSSLintEngine = new CSSLintEngine());
+                this.engineManager.Add(SassEngine = new SassEngine());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -168,20 +177,33 @@ namespace Zippy.Chirp {
         /// <param name="disconnectMode">Describes how the Add-in is being unloaded.</param>
         /// <param name="custom">Array of parameters that are host application specific.</param>
         /// <seealso cref="IDTExtensibility2"/>
-        public void OnDisconnection(ext_DisconnectMode disconnectMode, ref Array custom) {
-            EngineManager.Dispose();
+        public void OnDisconnection(ext_DisconnectMode disconnectMode, ref Array custom)
+        {
+            try
+            {
 
-            if (disconnectMode == ext_DisconnectMode.ext_dm_UserClosed) {
-                // Delete the Commands
-                CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER);
-                CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_JSHINT);
-                CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_CSSLINT);
+                EngineManager.Dispose();
 
-                // Remove the controls from the CommandBars
-                CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_MINIFIER);
-                CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_JSHINT);
-                CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_CSSLINT);
+                if (disconnectMode == ext_DisconnectMode.ext_dm_UserClosed)
+                {
+                    // Delete the Commands
+                    CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER);
+                    CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_JSHINT);
+                    CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_CSSLINT);
+
+                    // Remove the controls from the CommandBars
+                    CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_MINIFIER);
+                    CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_JSHINT);
+                    CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_CSSLINT);
+                }
+
             }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
         }
 
         /// <summary>
@@ -189,45 +211,62 @@ namespace Zippy.Chirp {
         /// </summary>
         /// <param name="custom">Array of parameters that are host application specific.</param>
         /// <seealso cref="IDTExtensibility2"/>
-        public void OnStartupComplete(ref Array custom) {
-            this.eventsOnDocs = this.events.get_DocumentEvents();
-            this.eventsOnProjectItems = this.events.ProjectItemsEvents;
-            this.eventsOnSolution = this.events.SolutionEvents;
-            this.eventsOnBuild = this.events.BuildEvents;
-            this.eventsOnCommand = this.events.CommandEvents;
+        public void OnStartupComplete(ref Array custom)
+        {
 
-            this.eventsOnCommand.BeforeExecute += new _dispCommandEvents_BeforeExecuteEventHandler(this.CommandEvents_BeforeExecute);
-            this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(eventsOnSolution_Opened);
-            this.eventsOnSolution.ProjectRemoved += new _dispSolutionEvents_ProjectRemovedEventHandler(this.SolutionEvents_ProjectRemoved);
-            this.eventsOnSolution.AfterClosing += new _dispSolutionEvents_AfterClosingEventHandler(this.EventsOnSolution_AfterClosing);
-            this.eventsOnProjectItems.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(this.ProjectItemsEvents_ItemRenamed);
-            this.eventsOnProjectItems.ItemAdded += new _dispProjectItemsEvents_ItemAddedEventHandler(this.ProjectItemsEvents_ItemAdded);
-            this.eventsOnProjectItems.ItemRemoved += new _dispProjectItemsEvents_ItemRemovedEventHandler(this.ProjectItemsEvents_ItemRemoved);
-            this.eventsOnDocs.DocumentSaved += new _dispDocumentEvents_DocumentSavedEventHandler(this.DocumentEvents_DocumentSaved);
-
-            this.tasks = new TaskList(this.App);
-
-             try {
-                this.LoadActions();
-             }
-             catch (Exception ex)
-             {
-                 this.OutputWindowWriteText("Error in load action: " + ex.ToString());
-             }
-
-            try {
-                if (Settings.Instance().LessSyntaxHighlighting)
-                {
-                    this.TreatLessAsCss(true);
-                }
-            } catch (Exception ex) {
-                this.OutputWindowWriteText("Error in TreatLessAsCss: " + ex.ToString());
-            }
-
-            // ensures the output window is lazy loaded so the multiple threads don't compete for and end up creating several
-            if (Settings.Instance().ShowDetailLog)
+            try
             {
-                this.OutputWindowWriteText("Ready");
+
+                this.eventsOnDocs = this.events.get_DocumentEvents();
+                this.eventsOnProjectItems = this.events.ProjectItemsEvents;
+                this.eventsOnSolution = this.events.SolutionEvents;
+                this.eventsOnBuild = this.events.BuildEvents;
+                this.eventsOnCommand = this.events.CommandEvents;
+
+                this.eventsOnCommand.BeforeExecute += new _dispCommandEvents_BeforeExecuteEventHandler(this.CommandEvents_BeforeExecute);
+                this.eventsOnSolution.Opened += new _dispSolutionEvents_OpenedEventHandler(eventsOnSolution_Opened);
+                this.eventsOnSolution.ProjectRemoved += new _dispSolutionEvents_ProjectRemovedEventHandler(this.SolutionEvents_ProjectRemoved);
+                this.eventsOnSolution.AfterClosing += new _dispSolutionEvents_AfterClosingEventHandler(this.EventsOnSolution_AfterClosing);
+                this.eventsOnProjectItems.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(this.ProjectItemsEvents_ItemRenamed);
+                this.eventsOnProjectItems.ItemAdded += new _dispProjectItemsEvents_ItemAddedEventHandler(this.ProjectItemsEvents_ItemAdded);
+                this.eventsOnProjectItems.ItemRemoved += new _dispProjectItemsEvents_ItemRemovedEventHandler(this.ProjectItemsEvents_ItemRemoved);
+                this.eventsOnDocs.DocumentSaved += new _dispDocumentEvents_DocumentSavedEventHandler(this.DocumentEvents_DocumentSaved);
+
+                this.tasks = new TaskList(this.App);
+
+                try
+                {
+                    this.LoadActions();
+                }
+                catch (Exception ex)
+                {
+                    string errorMsg = "Error in load action: " + ex.ToString();
+                    this.OutputWindowWriteText(errorMsg);
+                    MessageBox.Show(errorMsg);
+                }
+
+                try
+                {
+                    if (Settings.Instance().LessSyntaxHighlighting)
+                    {
+                        this.TreatLessAsCss(true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.OutputWindowWriteText("Error in TreatLessAsCss: " + ex.ToString());
+                }
+
+                // ensures the output window is lazy loaded so the multiple threads don't compete for and end up creating several
+                if (Settings.Instance().ShowDetailLog)
+                {
+                    this.OutputWindowWriteText("Ready");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -255,10 +294,16 @@ namespace Zippy.Chirp {
         #endregion
 
         public IEnumerable<string> FindCommandBarName(DTE2 app, string menuItemName) {
-            foreach (CommandBar commandBar in (CommandBars)app.CommandBars) {
-                foreach (CommandBarControl control in commandBar.Controls) {
-                    if (control.Caption.Contains(menuItemName)) {
-                        yield return commandBar.Name;
+            if (app != null)
+            {
+                foreach (CommandBar commandBar in (CommandBars)app.CommandBars)
+                {
+                    foreach (CommandBarControl control in commandBar.Controls)
+                    {
+                        if (control.Caption.Contains(menuItemName))
+                        {
+                            yield return commandBar.Name;
+                        }
                     }
                 }
             }

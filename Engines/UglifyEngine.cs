@@ -3,8 +3,7 @@ using Zippy.Chirp.JavaScript;
 
 namespace Zippy.Chirp.Engines {
     public class CSSLintEngine : ActionEngine {
-        private static JavaScript.CSSLint lint;
-
+       
         public override int Handles(string fullFileName) {
             this.Settings = Settings.Instance(fullFileName);
             if (this.Settings.RunCSSLint && fullFileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
@@ -16,20 +15,13 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Run(string fullFileName, EnvDTE.ProjectItem projectItem) {
-            if (lint == null) {
-                lock (JavaScript.Extensibility.Instance) {
-                    if (lint == null) {
-                        lint = new JavaScript.CSSLint();
-                    }
-                }
-            }
 
             this.Settings = Settings.Instance(fullFileName);
             var code = System.IO.File.ReadAllText(fullFileName);
-            var results = lint.CSSLINT(code, this.Settings.CssLintOptions);
-
-            if (results != null && results.messages != null && results.messages.Length > 0) {
-                foreach (var item in results.messages) {
+            var results = CSSLint.CSSLINT(code, this.Settings.CssLintOptions);
+           
+            if (results != null && results != null && results.Length > 0) {
+                foreach (var item in results) {
                     TaskList.Instance.Add(projectItem.ContainingProject,
                         item.type == JavaScript.CSSLint.Message.types.error ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Error
                             : item.type == JavaScript.CSSLint.Message.types.warning ? Microsoft.VisualStudio.Shell.TaskErrorCategory.Warning
@@ -40,7 +32,7 @@ namespace Zippy.Chirp.Engines {
         }
 
         public override void Dispose() {
-            Utilities.Dispose(ref lint);
+            
         }
     }
 
