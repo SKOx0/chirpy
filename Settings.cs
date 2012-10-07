@@ -71,6 +71,8 @@ namespace Zippy.Chirp
         private string chirpMSAjaxCoffeeScriptFile = ".msajax.coffee";
         private string chirpUglifyCoffeeScriptFile = ".uglify.coffee";
         private string chirpConfigFile = ".chirp.config";
+        private string chirpTypeScriptFile = ".chirp.ts";
+        private bool typeScriptCompress = false;
         private bool dotLessCompress = true;
         private bool showDetailLog = true;
         private string[] allExtensions;
@@ -100,7 +102,7 @@ namespace Zippy.Chirp
         public static event Action Saved;
 
         #region Properties
-
+      
         public string ChirpDeanEdwardsPackerFile
         {
             get { return this.chirpDeanEdwardsPackerFile; }
@@ -135,6 +137,12 @@ namespace Zippy.Chirp
         {
             get { return this.chirpSimpleJsFile; }
             set { this.chirpSimpleJsFile = value; }
+        }
+
+        public string ChirpTypeScriptFile
+        {
+            get { return this.chirpTypeScriptFile; }
+            set { this.chirpTypeScriptFile = value; }
         }
 
         public string ChirpWhiteSpaceJsFile
@@ -359,6 +367,12 @@ namespace Zippy.Chirp
             set { this.dotLessCompress = value; }
         }
 
+        public bool TypeScriptCompress
+        {
+            get { return this.typeScriptCompress; }
+            set { this.typeScriptCompress = value; }
+        }
+
         public string[] AllLessExtensions
         {
             get { return this.allLessExtensions; }
@@ -570,6 +584,9 @@ namespace Zippy.Chirp
                 regKey.SetValue("showDetailLog", this.showDetailLog);
                 regKey.SetValue("DotLessCompress", this.DotLessCompress);
 
+                regKey.SetValue("ChirpTypeScriptFile", this.ChirpTypeScriptFile);
+                regKey.SetValue("TypeScriptCompress", this.TypeScriptCompress);
+
                 this.SaveOptionsInRegistry(RegWDSJsHint, this.JsHintOptions);
                 this.SaveOptionsInRegistry(RegWDSCssLint, this.CssLintOptions);
                 this.SaveOptionsInRegistry(RegWDSCoffeeScript, this.CoffeeScriptOptions);
@@ -659,6 +676,9 @@ namespace Zippy.Chirp
                     this.RunCSSLint = Convert.ToBoolean(regKey.GetValue("RunCSSLint", true));
                     this.ShowDetailLog = Convert.ToBoolean(regKey.GetValue("ShowDetailLog", true));
                     this.DotLessCompress = Convert.ToBoolean(regKey.GetValue("DotLessCompress", true));
+
+                    this.ChirpTypeScriptFile = Convert.ToString(regKey.GetValue("ChirpTypeScriptFile", "chirp.ts"));
+                    this.TypeScriptCompress = Convert.ToBoolean(regKey.GetValue("TypeScriptCompress", true));
                 }
 
                 this.LoadJsHintOptions();
@@ -978,6 +998,7 @@ namespace Zippy.Chirp
                  this.ChirpSimpleCoffeeScriptFile, this.ChirpWhiteSpaceCoffeeScriptFile, this.ChirpYUICoffeeScriptFile, this.ChirpMSAjaxCoffeeScriptFile, this.ChirpGctCoffeeScriptFile, this.ChirpCoffeeScriptFile,
                  this.chirpSassFile,this.ChirpMSAjaxSassFile,this.chirpMichaelAshSassFile,this.chirpHybridSassFile,
                  this.chirpScssFile,this.ChirpMSAjaxScssFile,this.chirpMichaelAshScssFile,this.chirpHybridScssFile,
+                 this.chirpTypeScriptFile,
                  this.chirpDeanEdwardsPackerFile,
                 ".debug.js", ".debug.css"
             };

@@ -22,12 +22,15 @@ namespace Zippy.Chirp {
         private const string POPUP_MENU_CAPTION_JSHINT = "Chirpy JsHint";
         private const string POPUP_MENU_NAME_CSSLINT = "ChirpyPopupCssLintAddIn";
         private const string POPUP_MENU_CAPTION_CSSLINT = "Chirpy CssLint";
+        private const string POPUP_MENU_NAME_TYPESCRIPT = "ChirpyPopupTypeScriptAddIn";
+        private const string POPUP_MENU_CAPTION_TYPESCRIPT = "Compile TypeScript";
         private const string RegularCssFile = ".css";
         private const string RegularJsFile = ".js";
         private const string RegularCoffeeScriptFile = ".coffee";
         private const string RegularSassFile = ".sass";
         private const string RegularScssFile = ".scss";
         private const string RegularLessFile = ".less";
+        private const string RegularTypeScriptFile = ".ts";
         private static string[] buildCommands = new[] { "Build.BuildSelection", "Build.BuildSolution", "ClassViewContextMenus.ClassViewProject.Build" };
         private Events2 events;
         private DocumentEvents eventsOnDocs;
@@ -80,6 +83,8 @@ namespace Zippy.Chirp {
 
         internal CSSLintEngine CSSLintEngine { get; set; }
 
+        internal TypeScriptEngine TypeScriptEngine { get; set; }
+
         internal SassEngine SassEngine { get; set; }
 
         public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom) {
@@ -100,6 +105,7 @@ namespace Zippy.Chirp {
                 Command cmdMinifier = CommandHelper.AddCommand(this.App, this.instance, POPUP_MENU_NAME_MINIFIER, 1, POPUP_MENU_CAPTION_MINIFIER, "Mashes, minifies, and validates your javascript, stylesheet, and dotless files.", string.Empty);
                 Command cmdJsHint = CommandHelper.AddCommand(this.App, this.instance, POPUP_MENU_NAME_JSHINT, 1, POPUP_MENU_CAPTION_JSHINT, "Validates your javascript", string.Empty);
                 Command cmdCssLint = CommandHelper.AddCommand(this.App, this.instance, POPUP_MENU_NAME_CSSLINT, 1, POPUP_MENU_CAPTION_CSSLINT, "Validates your stylesheet", string.Empty);
+                Command cmdTypeScript = CommandHelper.AddCommand(this.App, this.instance, POPUP_MENU_NAME_TYPESCRIPT, 1, POPUP_MENU_CAPTION_TYPESCRIPT, "Compile TypeScript", string.Empty);
                 CommandBars cmdBars = (CommandBars)this.App.CommandBars;
                 var barsNames = new List<string>();
                 // http://msdn.microsoft.com/en-us/library/ff697228.aspx
@@ -125,6 +131,17 @@ namespace Zippy.Chirp {
                     foreach (string item in barsNames) {
                         if (cmdBars[item] != null) {
                             cmdMinifier.AddControl(cmdBars[item], 1);
+                        }
+                    }
+                }
+
+                if (cmdTypeScript != null)
+                {
+                    foreach (string item in barsNames)
+                    {
+                        if (cmdBars[item] != null)
+                        {
+                            cmdTypeScript.AddControl(cmdBars[item], 1);
                         }
                     }
                 }
@@ -163,6 +180,7 @@ namespace Zippy.Chirp {
                 this.engineManager.Add(UglifyEngine = new UglifyEngine());
                 this.engineManager.Add(JSHintEngine = new JSHintEngine());
                 this.engineManager.Add(CSSLintEngine = new CSSLintEngine());
+                this.engineManager.Add(TypeScriptEngine = new TypeScriptEngine());
                 this.engineManager.Add(SassEngine = new SassEngine());
             }
             catch (Exception ex)
@@ -190,11 +208,13 @@ namespace Zippy.Chirp {
                     CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_MINIFIER);
                     CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_JSHINT);
                     CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_CSSLINT);
+                    CommandHelper.RemoveCommand(this.App, COMMANDNAMESPACE + "." + POPUP_MENU_NAME_TYPESCRIPT);
 
                     // Remove the controls from the CommandBars
                     CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_MINIFIER);
                     CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_JSHINT);
                     CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_CSSLINT);
+                    CommandHelper.RemoveCommandControl(this.App, "Item", POPUP_MENU_NAME_TYPESCRIPT);
                 }
 
             }
@@ -346,6 +366,16 @@ namespace Zippy.Chirp {
                     status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
                 }
             }
+            if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_TYPESCRIPT)
+            {
+                status = vsCommandStatus.vsCommandStatusInvisible;
+                ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
+                string path = projectItem.FileName();
+                if (this.IsTypeScriptFile(path))
+                {
+                    status = vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
+                }
+            }
         }
 
         /// <summary>Implements the Exec method of the IDTCommandTarget interface. This is called when the command is invoked.</summary>
@@ -422,6 +452,19 @@ namespace Zippy.Chirp {
                                 string path = projectItem.FileName();
                                 CSSLintEngine.Run(path, projectItem);
                             } catch (Exception e) {
+                                this.OutputWindowWriteText(e.ToString());
+                            }
+                        }
+                        else if (commandName == COMMANDNAMESPACE + "." + POPUP_MENU_NAME_TYPESCRIPT)
+                        {
+                            try
+                            {
+                                ProjectItem projectItem = this.App.SelectedItems.Item(1).ProjectItem;
+                                string path = projectItem.FileName();
+                                TypeScriptEngine.Run(path, projectItem);
+                            }
+                            catch (Exception e)
+                            {
                                 this.OutputWindowWriteText(e.ToString());
                             }
                         }
@@ -552,6 +595,11 @@ namespace Zippy.Chirp {
 
         private bool IsJsFile(string fileName) {
             return fileName.EndsWith(RegularJsFile, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsTypeScriptFile(string fileName)
+        {
+            return fileName.EndsWith(RegularTypeScriptFile, StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsSassFile(string fileName)

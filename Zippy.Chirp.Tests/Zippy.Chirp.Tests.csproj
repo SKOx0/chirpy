@@ -88,6 +88,7 @@
     <Compile Include="Engines\ClosureCompilerEngineTest.cs" />
     <Compile Include="Engines\CoffeeScriptEngineTest.cs" />
     <Compile Include="Engines\ConfigEngineTest.cs" />
+    <Compile Include="Engines\TypeScriptEngineTest.cs" />
     <Compile Include="Engines\CSSLintEngineTest.cs" />
     <Compile Include="Engines\DeanEdwardsPackerEngineTest.cs" />
     <Compile Include="Engines\JsHintEngineTest.cs" />
