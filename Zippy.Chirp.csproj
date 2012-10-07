@@ -144,6 +144,12 @@
     <Compile Include="ConfigurationScreen\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationScreen\TypeScript.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationScreen\TypeScript.Designer.cs">
+      <DependentUpon>TypeScript.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationScreen\DeanEdwardsPacker.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -233,6 +239,7 @@
     <Compile Include="Engines\ClosureCompilerEngine.cs" />
     <Compile Include="Engines\CoffeeScriptEngine.cs" />
     <Compile Include="Engines\ConfigEngine.cs" />
+    <Compile Include="Engines\TypeScriptEngine.cs" />
     <Compile Include="Engines\DeanEdwardsPackerEngine.cs" />
     <Compile Include="Engines\SassEngine.cs" />
     <Compile Include="Engines\EnvironmentDirectory.cs" />
@@ -328,6 +335,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationScreen\TypeScript.resx">
+      <DependentUpon>TypeScript.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationScreen\DeanEdwardsPacker.resx">
